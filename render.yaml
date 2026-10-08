@@ -1,0 +1,16 @@
+webServices:
+  - type: web
+    name: ihg-india-destination-weddings
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build --prefix frontend
+    startCommand: node --env-file=backend/.env.local backend/server.js
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: API_BACKEND_HOST
+        value: 0.0.0.0
+      - key: API_BACKEND_PORT
+        value: 10000
+      - key: SERVE_STATIC
+        value: "true"
