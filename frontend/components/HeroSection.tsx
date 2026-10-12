@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface HeroSlide {
   id: string;
@@ -211,22 +211,8 @@ export const HeroSection: React.FC = () => {
             })}
           </div>
 
-          {/* Carousel Arrow Controls & Pause/Play Indicator */}
+          {/* Carousel Arrow Controls */}
           <div className="flex items-center space-x-2 text-xs font-sans">
-            <div className="flex items-center space-x-1.5 text-[10px] text-neutral-400 mr-2 uppercase tracking-wider">
-              {isPaused ? (
-                <span className="inline-flex items-center space-x-1 text-neutral-300">
-                  <Pause className="w-2.5 h-2.5" />
-                  <span>Paused</span>
-                </span>
-              ) : (
-                <span className="inline-flex items-center space-x-1 text-neutral-500">
-                  <Play className="w-2.5 h-2.5 fill-current" />
-                  <span>Auto Carousel</span>
-                </span>
-              )}
-            </div>
-
             <button
               onClick={handlePrev}
               className="w-9 h-9 rounded-full border border-white/20 hover:border-white text-white/80 hover:text-white flex items-center justify-center transition-colors cursor-pointer backdrop-blur-xs bg-black/40 hover:bg-black/80"

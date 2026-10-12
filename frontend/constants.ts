@@ -870,6 +870,63 @@ export const HOTELS_DATA: HotelProperty[] = [
       }
     ],
     culinaryHighlights: ['Royal Syrian Christian and Kerala Hindu authentic menus', 'Fresh backwater seafood live griddle', 'Traditional brass lamp high-tea']
+  },
+  {
+    id: 'intercon-jaipur',
+    name: 'InterContinental Jaipur',
+    brand: 'InterContinental',
+    location: 'Jaipur, Rajasthan',
+    city: 'Jaipur',
+    region: 'Rajasthan',
+    genre: 'Royal Wedding',
+    capacityMin: 150,
+    capacityMax: 900,
+    roomsCount: 182,
+    image: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=800&q=80',
+    priceBand: 'Palatial Luxury',
+    keyHighlights: ['Pink City rampart banquets', 'Consecrated marble mandap courtyard', 'Royal vintage motorcade driveway'],
+    mandapType: 'Marble Courtyard with Mirror-Work Canopy',
+    airportDistance: '35 mins from Jaipur International Airport',
+    aboutUs: 'A pink-sandstone palatial retreat at the edge of the Pink City, combining Rajputana ceremonial halls with contemporary grand ballrooms for monumental celebrations.',
+    overview: 'Pink-sandstone palace retreat on the edge of Jaipur with Rajputana ceremonial halls and modern grand ballrooms.'
+  },
+  {
+    id: 'holiday-inn-udaipur',
+    name: 'Holiday Inn Resort Udaipur',
+    brand: 'Holiday Inn Resort',
+    location: 'Udaipur, Rajasthan',
+    city: 'Udaipur',
+    region: 'Rajasthan',
+    genre: 'Royal Wedding',
+    capacityMin: 100,
+    capacityMax: 600,
+    roomsCount: 140,
+    image: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80',
+    priceBand: 'Lakefront Heritage',
+    keyHighlights: ['Lake Pichola sunset decks', 'Gulmohar garden pheras', 'Boat-led baraat arrivals'],
+    mandapType: 'Lakeside Gulmohar Garden Mandap',
+    airportDistance: '45 mins from Maharana Pratap Airport',
+    aboutUs: 'A lakeside resort facing the City of Palaces, with sunset ceremony decks, terraced gardens, and boat-led processional arrivals on Lake Pichola.',
+    overview: 'Lakeside resort facing Udaipur’s City of Palaces with sunset decks, terraced gardens, and boat-led arrivals.'
+  },
+  {
+    id: 'crowne-plaza-kolkata',
+    name: 'Crowne Plaza Kolkata Lakeside',
+    brand: 'Crowne Plaza',
+    location: 'Kolkata, West Bengal',
+    city: 'Kolkata',
+    region: 'East India',
+    genre: 'Temple Shoreline',
+    capacityMin: 120,
+    capacityMax: 700,
+    roomsCount: 210,
+    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80',
+    priceBand: 'Urban Resort Luxury',
+    keyHighlights: ['Riverside ceremonial lawns', 'Bengali & pan-Indian dual kitchens', 'Colonial ballroom Sangeets'],
+    mandapType: 'Riverside Lawn with Colonial Pergola',
+    airportDistance: '50 mins from Netaji Subhas Chandra Bose Airport',
+    aboutUs: 'A riverside urban resort on the Hooghly with colonial-era ballrooms, expansive ceremonial lawns, and dual Bengali and pan-Indian culinary wings.',
+    overview: 'Riverside urban resort on the Hooghly with colonial ballrooms, ceremonial lawns, and dual culinary wings.'
   }
 ];
 

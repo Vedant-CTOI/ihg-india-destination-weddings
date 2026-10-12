@@ -123,7 +123,7 @@ export const EnquiryConsentFlowModal: React.FC<EnquiryConsentFlowModalProps> = (
                   className="mt-0.5 w-4 h-4 accent-black rounded cursor-pointer"
                 />
                 <span className="text-neutral-700 font-light leading-relaxed">
-                  I acknowledge and accept the processing of our celebration specifications under the <strong className="text-black font-medium">IHG Institutional Wedding Charter &amp; Privacy Protocol</strong>.
+                  I acknowledge and accept the processing of our celebration specifications under the <strong className="text-black font-medium">IHG Philosophy &amp; Privacy Protocol</strong>.
                 </span>
               </label>
             </div>

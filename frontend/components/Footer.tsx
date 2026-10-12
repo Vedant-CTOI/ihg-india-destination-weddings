@@ -58,7 +58,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToC
                       onClick={onNavigateToCharter}
                       className="hover:text-white transition-colors cursor-pointer text-left"
                     >
-                      Ceremonial Charter
+                      IHG Philosophy
                     </button>
                   </li>
                 )}
@@ -97,6 +97,45 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToC
             </div>
           </div>
 
+          {/* Sitemap — top nav titles + Home; other entries as lorem ipsum */}
+          <div className="py-8 border-b border-neutral-800">
+            <span className="text-[11px] uppercase tracking-wider text-neutral-400 font-medium block mb-4">
+              Site Map
+            </span>
+            <nav className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-8 gap-y-2 text-[11px] text-neutral-300 font-light">
+              <div className="space-y-1.5 flex flex-col items-start">
+                <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-medium">Home</span>
+                <span className="text-neutral-600">Lorem ipsum dolor</span>
+                <span className="text-neutral-600">Sit amet consectetur</span>
+              </div>
+              <div className="space-y-1.5 flex flex-col items-start">
+                <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-medium">About</span>
+                <span className="text-neutral-600">Lorem ipsum dolor</span>
+                <span className="text-neutral-600">Sit amet consectetur</span>
+              </div>
+              <div className="space-y-1.5 flex flex-col items-start">
+                <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-medium">Discover by Genre</span>
+                <span className="text-neutral-600">Lorem ipsum dolor</span>
+                <span className="text-neutral-600">Sit amet consectetur</span>
+              </div>
+              <div className="space-y-1.5 flex flex-col items-start">
+                <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-medium">Hotels</span>
+                <span className="text-neutral-600">Lorem ipsum dolor</span>
+                <span className="text-neutral-600">Sit amet consectetur</span>
+              </div>
+              <div className="space-y-1.5 flex flex-col items-start">
+                <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-medium">Real Weddings</span>
+                <span className="text-neutral-600">Lorem ipsum dolor</span>
+                <span className="text-neutral-600">Sit amet consectetur</span>
+              </div>
+              <div className="space-y-1.5 flex flex-col items-start">
+                <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-medium">IHG Philosophy</span>
+                <span className="text-neutral-600">Lorem ipsum dolor</span>
+                <span className="text-neutral-600">Sit amet consectetur</span>
+              </div>
+            </nav>
+          </div>
+
           <div className="pt-5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-500 gap-3">
             <p>© {new Date().getFullYear()} IHG Hotels &amp; Resorts India. All Rights Reserved.</p>
             <div className="flex flex-wrap items-center gap-4">
@@ -131,7 +170,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToC
                   onClick={onNavigateToCharter}
                   className="hover:text-white transition-colors cursor-pointer"
                 >
-                  Ceremonial Charter
+                  IHG Philosophy
                 </button>
               )}
             </div>

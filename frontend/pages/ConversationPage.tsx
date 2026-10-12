@@ -710,7 +710,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
             className="inline-flex items-center space-x-1.5 text-xs text-neutral-500 hover:text-black uppercase tracking-wider font-medium cursor-pointer"
           >
             <ShieldCheck className="w-4 h-4" />
-            <span>Read IHG Institutional Wedding &amp; Privacy Charter</span>
+            <span>Read IHG Philosophy</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>

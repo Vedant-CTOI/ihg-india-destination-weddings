@@ -19,7 +19,7 @@ export const PlanningCharterPage: React.FC<PlanningCharterPageProps> = ({
           <div className="flex items-center space-x-2 text-neutral-500">
             <button onClick={onNavigateBack} className="hover:text-black">Exploration</button>
             <span>/</span>
-            <span className="text-black font-medium">IHG Luxury Wedding Charter</span>
+            <span className="text-black font-medium">IHG Philosophy</span>
           </div>
 
           <button
@@ -37,10 +37,10 @@ export const PlanningCharterPage: React.FC<PlanningCharterPageProps> = ({
         <div className="max-w-3xl space-y-4">
           <div className="flex items-center space-x-2 text-[11px] uppercase tracking-widest text-neutral-500 font-semibold">
             <ShieldCheck className="w-4 h-4 text-black" />
-            <span>Standardized Operational Charter</span>
+            <span>Standardized Operational Philosophy</span>
           </div>
           <h1 className="font-serif text-4xl sm:text-5xl font-normal text-black leading-tight">
-            The IHG Luxury Wedding & Ceremonial Charter
+            The IHG Philosophy
           </h1>
           <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed">
             Our written institutional commitment to ceremonial purity, multi-generational harmony, all-weather reliability, and dignitary privacy across every IHG sanctuary in India.

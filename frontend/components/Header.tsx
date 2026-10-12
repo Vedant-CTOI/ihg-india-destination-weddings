@@ -19,10 +19,11 @@ export const Header: React.FC<HeaderProps> = ({
   const isHome = currentView.type === 'home';
 
   const navLinks = [
-    { label: 'Destinations', anchor: 'destinations' },
-    { label: 'Hotels & Palaces', anchor: 'hotels-exploration' },
+    { label: 'About', anchor: 'about' },
+    { label: 'Discover by Genre', anchor: 'destinations' },
+    { label: 'Hotels', anchor: 'hotels-exploration' },
     { label: 'Real Weddings', anchor: 'real-weddings' },
-    { label: 'Charter', isCharter: true },
+    { label: 'IHG Philosophy', isCharter: true },
   ];
 
   const handleLinkClick = (link: typeof navLinks[0]) => {

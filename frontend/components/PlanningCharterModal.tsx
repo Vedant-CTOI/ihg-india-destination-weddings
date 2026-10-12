@@ -20,7 +20,7 @@ export const PlanningCharterModal: React.FC<PlanningCharterModalProps> = ({
         className="relative bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-neutral-300 shadow-2xl"
         role="dialog"
         aria-modal="true"
-        aria-label="IHG Ceremonial & Privacy Charter"
+        aria-label="IHG Philosophy"
       >
         {/* Close Button */}
         <button
@@ -38,7 +38,7 @@ export const PlanningCharterModal: React.FC<PlanningCharterModalProps> = ({
             <span>Official Operating Protocol</span>
           </div>
           <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">
-            IHG Luxury Wedding Charter
+            IHG Philosophy
           </h2>
           <p className="text-xs text-neutral-600 font-light mt-1">
             Standardized operational, ceremonial, and privacy commitments across all flagship Indian sanctuaries.

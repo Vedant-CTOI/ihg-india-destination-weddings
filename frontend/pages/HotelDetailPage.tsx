@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { HotelProperty, InquiryFormData, UserPersona, HotelVenueSpace } from '../types';
 import { HOTELS_DATA } from '../constants';
-import { ArrowLeft, Users, BedDouble, MapPin, Check, ArrowRight, Sparkles, Plane, Utensils, Calendar, Clock, Building2, ChevronLeft, ChevronRight, Compass, X, Maximize2, ZoomIn } from 'lucide-react';
+import { ArrowLeft, Users, BedDouble, MapPin, Check, ArrowRight, Sparkles, Plane, Utensils, Calendar, Clock, Building2, ChevronLeft, ChevronRight, Compass, X, Maximize2, ZoomIn, Plus } from 'lucide-react';
+import { HotelSelectorModal } from '../components/HotelSelectorModal';
 
 interface HotelDetailPageProps {
   hotelId: string;
@@ -60,7 +61,7 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
   };
 
   return (
-    <div 
+    <div
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       className="space-y-3 group/carousel"
@@ -69,16 +70,13 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
         <div className="flex items-center space-x-2">
           <span className="text-[10px] uppercase tracking-wider font-semibold text-black flex items-center space-x-1.5">
             <span className="inline-block w-2 h-2 bg-black" />
-            <span>Automatic Venue Gallery &amp; Draft Layout</span>
+            <span>Venue Gallery &amp; Draft Layout</span>
           </span>
           <span className="text-[10px] text-neutral-400">({currentIndex + 1} of {totalSlides})</span>
         </div>
 
-        {/* Small Pause/Play & Nav Indicators */}
+        {/* Nav Indicators */}
         <div className="flex items-center space-x-2">
-          <span className="text-[10px] text-neutral-400 hidden sm:inline">
-            {isPaused ? 'Hover paused' : 'Auto rotating'}
-          </span>
           <button
             type="button"
             onClick={handlePrev}
@@ -98,97 +96,119 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
         </div>
       </div>
 
-      {/* Main Carousel Display Frame with Click-to-Preview Lightbox Trigger */}
-      <div 
-        onClick={() => onPreviewImage(currentIndex, slides)}
-        className="relative h-64 sm:h-80 rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-200 shadow-2xs cursor-pointer group/frame"
-        title="Click to preview full size in popup overlay"
-      >
-        <img
-          key={currentSlide.url}
-          src={currentSlide.url}
-          alt={`${venue.name} - ${currentSlide.caption}`}
-          className={`w-full h-full object-cover transition-all duration-700 filter grayscale contrast-115 group-hover/frame:scale-103 ${
-            currentSlide.isDraftDrawing ? 'contrast-125 brightness-95' : 'contrast-110'
-          }`}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://placehold.co/1000x600/000000/FFFFFF?text=Venue+Visual';
-          }}
-        />
+      {/* 16:9 Carousel Frame + Key Amenities to the right */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
 
-        {/* Subtle Dark Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
-
-        {/* Slide Category Badge */}
-        <div className="absolute top-3 left-3 z-10">
-          {currentSlide.isDraftDrawing ? (
-            <span className="bg-black text-white text-[9px] font-sans uppercase tracking-widest px-2.5 py-1 rounded-full font-bold border border-white/30 flex items-center space-x-1 shadow-sm">
-              <Compass className="w-3 h-3 text-neutral-300" />
-              <span>Draft Drawing Layout</span>
-            </span>
-          ) : (
-            <span className="bg-white/95 text-black text-[9px] font-sans uppercase tracking-widest px-2.5 py-1 rounded-full font-semibold shadow-xs">
-              Venue Photo Vista
-            </span>
-          )}
-        </div>
-
-        {/* Hover Click to Expand Overlay Pill */}
-        <div className="absolute top-3 right-3 z-10">
-          <span className="bg-white/90 hover:bg-white text-black text-[10px] font-sans uppercase tracking-wider px-2.5 py-1 rounded-full font-medium shadow-sm flex items-center space-x-1 transition-colors">
-            <ZoomIn className="w-3 h-3" />
-            <span>Preview Overlay</span>
-          </span>
-        </div>
-
-        {/* Bottom Slide Caption & Notes */}
-        <div className="absolute bottom-3 left-3 right-3 text-white z-10 flex items-end justify-between gap-3 pointer-events-none">
-          <div>
-            <span className="text-[10px] uppercase tracking-wider text-neutral-300 font-sans block mb-0.5">
-              {currentSlide.caption}
-            </span>
-            {currentSlide.isDraftDrawing && (
-              <p className="text-[11px] text-neutral-200 font-sans font-light leading-relaxed max-w-lg line-clamp-2">
-                {currentSlide.notes}
-              </p>
-            )}
-          </div>
-
-          <span className="text-[10px] font-mono text-neutral-400 shrink-0 bg-black/60 px-2 py-0.5 rounded">
-            0{currentIndex + 1} / 0{totalSlides}
-          </span>
-        </div>
-      </div>
-
-      {/* Thumbnails Row: Click any to view directly or launch overlay preview */}
-      <div className="grid grid-cols-4 gap-2 pt-1">
-        {slides.map((s, sIdx) => {
-          const isActive = sIdx === currentIndex;
-          return (
-            <div
-              key={sIdx}
-              onClick={(e) => {
-                e.stopPropagation();
-                setCurrentIndex(sIdx);
-              }}
-              className={`relative h-16 rounded-xl overflow-hidden border cursor-pointer group/thumb transition-all ${
-                isActive ? 'border-black ring-1 ring-black shadow-xs' : 'border-neutral-200 hover:border-neutral-400 opacity-70 hover:opacity-100'
+        {/* Carousel — locked 16:9 aspect ratio */}
+        <div className="lg:col-span-8">
+          <div
+            onClick={() => onPreviewImage(currentIndex, slides)}
+            className="relative w-full aspect-video rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-200 shadow-2xs cursor-pointer group/frame"
+            title="Click to preview full size in popup overlay"
+          >
+            <img
+              key={currentSlide.url}
+              src={currentSlide.url}
+              alt={`${venue.name} - ${currentSlide.caption}`}
+              className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 filter grayscale contrast-115 group-hover/frame:scale-103 ${
+                currentSlide.isDraftDrawing ? 'contrast-125 brightness-95' : 'contrast-110'
               }`}
-            >
-              <img
-                src={s.url}
-                alt={s.caption}
-                className="w-full h-full object-cover filter grayscale contrast-110"
-              />
-              <div className="absolute inset-0 bg-black/30 group-hover/thumb:bg-transparent transition-colors" />
-              {s.isDraftDrawing && (
-                <span className="absolute bottom-1 left-1 bg-black/80 text-white text-[8px] font-sans uppercase tracking-wider px-1 rounded">
-                  Draft
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = 'https://placehold.co/1280x720/000000/FFFFFF?text=Venue+Visual';
+              }}
+            />
+
+            {/* Subtle Dark Vignette Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
+
+            {/* Slide Category Badge */}
+            <div className="absolute top-3 left-3 z-10">
+              {currentSlide.isDraftDrawing ? (
+                <span className="bg-black text-white text-[9px] font-sans uppercase tracking-widest px-2.5 py-1 rounded-full font-bold border border-white/30 flex items-center space-x-1 shadow-sm">
+                  <Compass className="w-3 h-3 text-neutral-300" />
+                  <span>Draft Drawing Layout</span>
+                </span>
+              ) : (
+                <span className="bg-white/95 text-black text-[9px] font-sans uppercase tracking-widest px-2.5 py-1 rounded-full font-semibold shadow-xs">
+                  Venue Photo Vista
                 </span>
               )}
             </div>
-          );
-        })}
+
+            {/* Hover Click to Expand Overlay Pill */}
+            <div className="absolute top-3 right-3 z-10">
+              <span className="bg-white/90 hover:bg-white text-black text-[10px] font-sans uppercase tracking-wider px-2.5 py-1 rounded-full font-medium shadow-sm flex items-center space-x-1 transition-colors">
+                <ZoomIn className="w-3 h-3" />
+                <span>Preview Overlay</span>
+              </span>
+            </div>
+
+            {/* Bottom Slide Caption & Notes */}
+            <div className="absolute bottom-3 left-3 right-3 text-white z-10 flex items-end justify-between gap-3 pointer-events-none">
+              <div>
+                <span className="text-[10px] uppercase tracking-wider text-neutral-300 font-sans block mb-0.5">
+                  {currentSlide.caption}
+                </span>
+                {currentSlide.isDraftDrawing && (
+                  <p className="text-[11px] text-neutral-200 font-sans font-light leading-relaxed max-w-lg line-clamp-2">
+                    {currentSlide.notes}
+                  </p>
+                )}
+              </div>
+
+              <span className="text-[10px] font-mono text-neutral-400 shrink-0 bg-black/60 px-2 py-0.5 rounded">
+                0{currentIndex + 1} / 0{totalSlides}
+              </span>
+            </div>
+          </div>
+
+          {/* Thumbnails Row under the carousel */}
+          <div className="grid grid-cols-4 gap-2 pt-2">
+            {slides.map((s, sIdx) => {
+              const isActive = sIdx === currentIndex;
+              return (
+                <div
+                  key={sIdx}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentIndex(sIdx);
+                  }}
+                  className={`relative aspect-video rounded-xl overflow-hidden border cursor-pointer group/thumb transition-all ${
+                    isActive ? 'border-black ring-1 ring-black shadow-xs' : 'border-neutral-200 hover:border-neutral-400 opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  <img
+                    src={s.url}
+                    alt={s.caption}
+                    className="w-full h-full object-cover filter grayscale contrast-110"
+                  />
+                  <div className="absolute inset-0 bg-black/30 group-hover/thumb:bg-transparent transition-colors" />
+                  {s.isDraftDrawing && (
+                    <span className="absolute bottom-1 left-1 bg-black/80 text-white text-[8px] font-sans uppercase tracking-wider px-1 rounded">
+                      Draft
+                    </span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Key Amenities — right of the images */}
+        <div className="lg:col-span-4 flex flex-col">
+          <span className="text-[10px] uppercase tracking-wider text-neutral-500 font-semibold block mb-2">
+            Key Amenities &amp; Architectural Specifications:
+          </span>
+          <div className="flex-1 grid grid-cols-1 gap-2 text-xs font-sans content-start">
+            {venue.amenities.map((amenity, aIdx) => (
+              <div key={aIdx} className="flex items-start space-x-2 text-neutral-700 bg-neutral-50 p-2.5 rounded-xl border border-neutral-200/80">
+                <Check className="w-3.5 h-3.5 text-black shrink-0 mt-0.5" />
+                <span className="text-[11px] font-light leading-relaxed">{amenity}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </div>
   );
@@ -258,7 +278,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
     startDate: defaultStartDate,
     endDate: defaultEndDate,
     targetWindow: formatWindowString(defaultStartDate, defaultEndDate),
-    guestRange: 'Mid-Sized Celebration (150 – 350 guests)',
+    guestRange: '150 – 350',
     estimatedGuests: 250,
     ceremonyTraditions: ['North Indian Mandap'],
     priorityDietary: ['Dedicated Jain Kitchen'],
@@ -274,11 +294,25 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
   const [submitting, setSubmitting] = useState(false);
 
+  // Consent checkbox states (replicates landing form)
+  const [consentMandatory, setConsentMandatory] = useState<boolean>(false);
+  const [consentNewsletter, setConsentNewsletter] = useState<boolean>(false);
+  const [consentContact, setConsentContact] = useState<boolean>(false);
+
+  // Collapsible side-nav form: open on arrival, auto-collapse after landing, manually toggleable
+  const [sideFormOpen, setSideFormOpen] = useState<boolean>(true);
+  const [hotelModalOpen, setHotelModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setSideFormOpen(false), 2200);
+    return () => clearTimeout(t);
+  }, []);
+
   const guestRanges = [
-    { label: 'Intimate Gathering (50 – 150 guests)', defaultCount: 120 },
-    { label: 'Mid-Sized Celebration (150 – 350 guests)', defaultCount: 250 },
-    { label: 'Grand Destination (350 – 650 guests)', defaultCount: 450 },
-    { label: 'Monumental Royal (650 – 1,500+ guests)', defaultCount: 850 }
+    { label: '50 – 150', defaultCount: 120 },
+    { label: '150 – 350', defaultCount: 250 },
+    { label: '350 – 650', defaultCount: 450 },
+    { label: '650 – 1,500+', defaultCount: 850 }
   ];
 
   const handleRangeChange = (rangeLabel: string) => {
@@ -328,6 +362,14 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
         onNavigateToInquiry(hotel.name);
       }
     }, 500);
+  };
+
+  const handleHotelSelectionSaved = (ids: string[], names: string[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      selectedHotelIds: ids,
+      selectedHotelNames: names
+    }));
   };
 
   const activeLightboxSlide = activePreviewSlides[activePreviewIndex] || activePreviewSlides[0];
@@ -404,36 +446,385 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
         </div>
       </div>
 
-      {/* Main Two-Column Layout: Left (Property Details, About Us & Venues) + Right (Begin the Conversation Form) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          
-          {/* LEFT COLUMN: Hotel Showcase, About Us & Venues with Automatic Carousels & Draft Layouts */}
-          <div className="lg:col-span-7 space-y-14">
-            
-            {/* Quick Metrics Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-neutral-50 p-4 rounded-2xl border border-neutral-200 text-center">
+      {/* Page Content + Collapsible Side-Nav Form */}
+      <div className="relative">
+
+        {/* Collapsible Side-Nav Lead Form — absolute right rail, scrolls with the page */}
+        <div
+          className={`hidden lg:block absolute top-0 right-0 z-40 min-h-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            sideFormOpen ? 'w-[400px]' : 'w-12'
+          }`}
+        >
+          <div className="sticky top-20 bg-white border-l border-neutral-200 shadow-lg flex flex-col overflow-hidden"
+               style={{ height: sideFormOpen ? 'calc(100vh - 5rem)' : '15rem' }}>
+
+            {/* Collapse state: vertical black tab pinned to the right margin; Open state: slim close bar */}
+            {sideFormOpen ? (
+              <button
+                type="button"
+                onClick={() => setSideFormOpen(false)}
+                className="shrink-0 h-12 flex items-center justify-center border-b border-neutral-200 hover:bg-neutral-50 transition-colors cursor-pointer"
+                aria-expanded={sideFormOpen}
+                aria-label="Collapse lead form"
+                title="Collapse"
+              >
+                <span className="flex items-center space-x-1.5 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">
+                  <X className="w-3.5 h-3.5" />
+                  <span>Close Form</span>
+                </span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setSideFormOpen(true)}
+                className="w-12 shrink-0 flex-1 bg-black hover:bg-neutral-800 text-white transition-colors cursor-pointer flex items-start justify-center pt-5"
+                aria-expanded={sideFormOpen}
+                aria-label="Open enquiry form"
+                title="Open enquiry form"
+              >
+                <span className="[writing-mode:vertical-rl] rotate-180 text-[11px] uppercase tracking-[0.32em] font-medium whitespace-nowrap">
+                  Open Enquiry Form
+                </span>
+              </button>
+            )}
+
+            {/* Form body — only rendered when open */}
+            {sideFormOpen && (
+              <div className="flex-1 overflow-y-auto p-5 font-sans text-xs">
+                {/* Form Title */}
+                <div className="mb-5 pb-4 border-b border-neutral-200 space-y-1">
+                  <div className="flex items-center space-x-1.5 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">
+                    <Building2 className="w-3.5 h-3.5 text-black" />
+                    <span>Direct Property Reservation</span>
+                  </div>
+                  <h3 className="font-serif text-2xl font-normal text-black">
+                    Begin the Conversation
+                  </h3>
+                  <p className="text-[11px] text-neutral-500 font-light">
+                    Preliminary blueprint for <strong className="text-black font-medium">{hotel.name}</strong>.
+                  </p>
+                </div>
+
+                <form onSubmit={handleFormSubmit} className="space-y-4">
+
+                  {/* 1. Persona Selector */}
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Describe your persona</label>
+                    <div className="grid grid-cols-4 gap-1.5">
+                      {(['Bride', 'Groom', 'Parent', 'Wedding Planner'] as UserPersona[]).map((persona) => {
+                        const isSelected = formData.decisionRole === persona;
+                        return (
+                          <button
+                            type="button"
+                            key={persona}
+                            onClick={() => setFormData({ ...formData, decisionRole: persona })}
+                            className={`py-2 px-1 rounded-xl border text-center transition-all cursor-pointer ${
+                              isSelected
+                                ? 'border-black bg-black text-white font-medium shadow-2xs'
+                                : 'border-neutral-200 text-neutral-700 hover:border-black bg-neutral-50'
+                            }`}
+                          >
+                            <span className="block text-[11px]">{persona}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* 2. Persona Name Fields (replicates landing form) */}
+                  {formData.decisionRole === 'Bride' && (
+                    <div className="space-y-2.5">
+                      <div>
+                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Bride's Full Name *</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Meera Singhania"
+                          value={formData.primaryContactName}
+                          onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
+                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Groom / Partner's Name</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Siddharth Kapur"
+                          value={formData.partnerName || ''}
+                          onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
+                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {formData.decisionRole === 'Groom' && (
+                    <div className="space-y-2.5">
+                      <div>
+                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Groom's Full Name *</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Siddharth Kapur"
+                          value={formData.primaryContactName}
+                          onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
+                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Bride / Partner's Name</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Meera Singhania"
+                          value={formData.partnerName || ''}
+                          onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
+                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {formData.decisionRole === 'Parent' && (
+                    <div className="space-y-2.5">
+                      <div>
+                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Parent / Family Representative Name *</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Ramesh Singhania (Father of Bride)"
+                          value={formData.primaryContactName}
+                          onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
+                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Couple Being Celebrated</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Meera &amp; Siddharth"
+                          value={formData.coupleReference || ''}
+                          onChange={(e) => setFormData({ ...formData, coupleReference: e.target.value })}
+                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {formData.decisionRole === 'Wedding Planner' && (
+                    <div className="space-y-2.5">
+                      <div>
+                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Lead Wedding Planner Name *</label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Sonam Verma"
+                          value={formData.primaryContactName}
+                          onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
+                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Planning Agency / Production Firm</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Artisan Celebrations LLP"
+                          value={formData.planningAgency || ''}
+                          onChange={(e) => setFormData({ ...formData, planningAgency: e.target.value })}
+                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 3. Phone & Email */}
+                  <div className="grid grid-cols-1 gap-2.5">
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Phone / Contact Number *</label>
+                      <input
+                        type="tel"
+                        required
+                        placeholder="+91 98765 43210"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Official Email Address *</label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="name@example.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
+                      />
+                    </div>
+                  </div>
+
+                  {/* 4. Specific Hotels — overlay trigger (replicates landing form) */}
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">
+                      Specific Hotels (Select via Overlay)
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setHotelModalOpen(true)}
+                      className="w-full bg-white border border-neutral-300 hover:border-black rounded-xl p-2.5 text-left text-xs text-black flex items-center justify-between cursor-pointer transition-colors"
+                    >
+                      <span className={formData.selectedHotelIds?.length ? 'font-medium' : 'text-neutral-400 font-light'}>
+                        {formData.selectedHotelIds?.length
+                          ? `${formData.selectedHotelIds.length} propert${formData.selectedHotelIds.length > 1 ? 'ies' : 'y'} selected`
+                          : 'Choose properties'}
+                      </span>
+                      <Plus className="w-3.5 h-3.5 text-black shrink-0" />
+                    </button>
+                  </div>
+
+                  {/* 6. Guests */}
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">
+                      No of Guests
+                    </label>
+                    <select
+                      value={formData.guestRange}
+                      onChange={(e) => handleRangeChange(e.target.value)}
+                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium"
+                    >
+                      {guestRanges.map((range) => (
+                        <option key={range.label} value={range.label}>
+                          {range.label} guests
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* 7. Celebration Window */}
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">
+                      Celebration Window
+                    </label>
+                    <div className="grid grid-cols-2 gap-2.5">
+                      <input
+                        type="date"
+                        required
+                        min="2025-01-01"
+                        max="2028-12-31"
+                        value={startDate}
+                        onChange={(e) => handleStartDateChange(e.target.value)}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 text-xs text-black font-medium focus:outline-none focus:border-black cursor-pointer"
+                      />
+                      <input
+                        type="date"
+                        required
+                        min={startDate || '2025-01-01'}
+                        max="2028-12-31"
+                        value={endDate}
+                        onChange={(e) => handleEndDateChange(e.target.value)}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 text-xs text-black font-medium focus:outline-none focus:border-black cursor-pointer"
+                      />
+                    </div>
+                  </div>
+
+                  {/* 8. Consent checkboxes (replicates landing form) */}
+                  <div className="space-y-2 pt-1">
+                    <label className="flex items-start space-x-2.5 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        required
+                        checked={consentMandatory}
+                        onChange={(e) => setConsentMandatory(e.target.checked)}
+                        className="mt-0.5 w-3.5 h-3.5 shrink-0 accent-black cursor-pointer"
+                      />
+                      <span className="text-[11px] text-neutral-600 font-light leading-relaxed">
+                        I confirm that I am at least 18 years of age &amp; I agree to the General Terms and Conditions and the Privacy Policy of IHG. <span className="text-[10px] uppercase tracking-wider text-neutral-500">(Mandatory)</span>
+                      </span>
+                    </label>
+
+                    <label className="flex items-start space-x-2.5 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={consentNewsletter}
+                        onChange={(e) => setConsentNewsletter(e.target.checked)}
+                        className="mt-0.5 w-3.5 h-3.5 shrink-0 accent-black cursor-pointer"
+                      />
+                      <span className="text-[11px] text-neutral-600 font-light leading-relaxed">
+                        I wish to receive regular newsletters and updates about future news. <span className="text-[10px] uppercase tracking-wider text-neutral-500">(Optional)</span>
+                      </span>
+                    </label>
+
+                    <label className="flex items-start space-x-2.5 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={consentContact}
+                        onChange={(e) => setConsentContact(e.target.checked)}
+                        className="mt-0.5 w-3.5 h-3.5 shrink-0 accent-black cursor-pointer"
+                      />
+                      <span className="text-[11px] text-neutral-600 font-light leading-relaxed">
+                        I consent to sharing my phone number so the IHG Team can contact me via WhatsApp or email. <span className="text-[10px] uppercase tracking-wider text-neutral-500">(Optional)</span>
+                      </span>
+                    </label>
+                  </div>
+
+                  {/* Submit */}
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="w-full bg-black hover:bg-neutral-800 text-white py-3.5 rounded-xl font-medium tracking-wider uppercase text-xs transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
+                    >
+                      <span>{submitting ? "Submitting..." : `Enquire for ${hotel.name.split(' ')[0]}`}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                </form>
+
+                <div className="text-center text-[10px] text-neutral-400 mt-4 px-2">
+                  Protected by IHG Philosophy &amp; Privacy Protocol.
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Main content — dynamically spreads when the side form collapses */}
+        <div className={`transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${sideFormOpen ? 'lg:pr-[400px]' : 'lg:pr-0'}`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="space-y-14">
+
+            {/* Quick Metrics Bar — Capacity / Total Rooms / No of Venues / Setting / Transit */}
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 bg-neutral-50 p-4 rounded-2xl border border-neutral-200 text-center">
               <div>
                 <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">Capacity</span>
-                <div className="font-serif text-base font-bold text-black flex items-center justify-center space-x-1">
+                <div className="font-serif text-sm font-bold text-black flex items-center justify-center space-x-1">
                   <Users className="w-3.5 h-3.5 text-black" />
                   <span>{hotel.capacityMin}–{hotel.capacityMax}</span>
                 </div>
-                <span className="text-[10px] text-neutral-500">Day/Night Guests</span>
+                <span className="text-[10px] text-neutral-500">Guests</span>
               </div>
 
               <div>
-                <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">Accommodations</span>
-                <div className="font-serif text-base font-bold text-black flex items-center justify-center space-x-1">
+                <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">Total Rooms</span>
+                <div className="font-serif text-sm font-bold text-black flex items-center justify-center space-x-1">
                   <BedDouble className="w-3.5 h-3.5 text-black" />
-                  <span>{hotel.roomsCount} Keys</span>
+                  <span>{hotel.roomsCount}</span>
                 </div>
-                <span className="text-[10px] text-neutral-500">Suites &amp; Villas</span>
+                <span className="text-[10px] text-neutral-500">Keys, Suites &amp; Villas</span>
+              </div>
+
+              <div>
+                <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">No of Venues</span>
+                <div className="font-serif text-sm font-bold text-black flex items-center justify-center space-x-1">
+                  <Building2 className="w-3.5 h-3.5 text-black" />
+                  <span>{(hotel.curatedSpaces || []).length}</span>
+                </div>
+                <span className="text-[10px] text-neutral-500">Curated Spaces</span>
               </div>
 
               <div>
                 <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">Setting</span>
-                <div className="font-serif text-xs font-semibold text-black mt-1">
+                <div className="font-serif text-[11px] font-semibold text-black mt-1 truncate px-1">
                   {hotel.genre}
                 </div>
                 <span className="text-[10px] text-neutral-500">{hotel.city}</span>
@@ -441,10 +832,12 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
               <div>
                 <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">Transit</span>
-                <div className="font-serif text-[11px] font-semibold text-black mt-1 truncate">
-                  {hotel.airportDistance ? hotel.airportDistance.split('from')[0] : 'International Hub'}
+                <div className="font-serif text-[11px] font-semibold text-black mt-1 truncate px-1">
+                  {hotel.airportDistance ? hotel.airportDistance.split('from')[0].trim() : 'International Hub'}
                 </div>
-                <span className="text-[10px] text-neutral-500">Arrival Gate</span>
+                <span className="text-[10px] text-neutral-500 truncate block px-1">
+                  {hotel.airportDistance ? hotel.airportDistance.split('from')[1]?.trim() || 'Nearest Hub' : 'Arrival Gate'}
+                </span>
               </div>
             </div>
 
@@ -524,21 +917,6 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                       venue={venue} 
                       onPreviewImage={handleOpenPreview}
                     />
-
-                    {/* Key Amenities */}
-                    <div className="pt-2">
-                      <span className="text-[10px] uppercase tracking-wider text-neutral-500 font-semibold block mb-2">
-                        Key Amenities &amp; Architectural Specifications:
-                      </span>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-sans">
-                        {venue.amenities.map((amenity, aIdx) => (
-                          <div key={aIdx} className="flex items-start space-x-2 text-neutral-700 bg-white p-2.5 rounded-xl border border-neutral-200/80">
-                            <Check className="w-3.5 h-3.5 text-black shrink-0 mt-0.5" />
-                            <span className="text-[11px] font-light">{amenity}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
                   </div>
                 ))}
               </div>
@@ -575,208 +953,86 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               </div>
             </div>
 
-          </div>
-
-          {/* RIGHT COLUMN: Direct "Begin the Conversation" Discovery Form (5 cols on desktop, sticky on scroll) */}
-          <div className="lg:col-span-5 lg:sticky lg:top-20 space-y-4">
-            
-            <div className="bg-white rounded-3xl border border-neutral-300 p-6 sm:p-8 shadow-sm font-sans text-xs">
-              
-              {/* Form Title */}
-              <div className="mb-6 pb-4 border-b border-neutral-200 space-y-1">
-                <div className="flex items-center space-x-1.5 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">
-                  <Building2 className="w-3.5 h-3.5 text-black" />
-                  <span>Direct Property Reservation</span>
-                </div>
-                <h3 className="font-serif text-2xl font-normal text-black">
-                  Begin the Conversation
-                </h3>
-                <p className="text-[11px] text-neutral-500 font-light">
-                  Submit this preliminary blueprint directly to the assigned wedding director for <strong className="text-black font-medium">{hotel.name}</strong>.
-                </p>
-              </div>
-
-              <form onSubmit={handleFormSubmit} className="space-y-5">
-                
-                {/* 1. Persona Selector */}
-                <div>
-                  <label className="font-serif text-sm text-black font-normal block mb-1.5">
-                    Describe your persona
-                  </label>
-                  <div className="grid grid-cols-2 gap-1.5">
-                    {(['Bride', 'Groom', 'Parent', 'Wedding Planner'] as UserPersona[]).map((persona) => {
-                      const isSelected = formData.decisionRole === persona;
-                      return (
-                        <button
-                          type="button"
-                          key={persona}
-                          onClick={() => setFormData({ ...formData, decisionRole: persona })}
-                          className={`py-2 px-2.5 rounded-xl border text-center transition-all cursor-pointer ${
-                            isSelected
-                              ? 'border-black bg-black text-white font-medium shadow-2xs'
-                              : 'border-neutral-200 text-neutral-700 hover:border-black bg-neutral-50'
-                          }`}
-                        >
-                          <span className="block text-[11px]">{persona}</span>
-                        </button>
-                      );
-                    })}
+            {/* Your Dedicated Wedding Director — dummy contact card */}
+            <div className="pt-4 border-t border-neutral-200">
+              <div className="bg-black text-white p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                <div className="flex items-center space-x-4">
+                  {/* Monogram avatar */}
+                  <div className="w-14 h-14 rounded-full border border-white/40 flex items-center justify-center bg-neutral-900 shrink-0">
+                    <span className="font-serif text-lg tracking-wider">
+                      {(() => {
+                        const parts = hotel.name.replace(/^(Six Senses|Crowne Plaza|InterContinental|Holiday Inn Resort|Holiday Inn|voco)\s+/i, '').trim();
+                        const initials = parts.split(/[\s,]+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+                        return initials || 'IHG';
+                      })()}
+                    </span>
                   </div>
-                </div>
-
-                {/* 2. Contact Fields */}
-                <div className="space-y-3">
                   <div>
-                    <label className="block text-neutral-600 mb-1 font-medium">Your Name *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder={formData.decisionRole === 'Bride' ? "Bride's Name" : formData.decisionRole === 'Groom' ? "Groom's Name" : "Contact Name"}
-                      value={formData.primaryContactName}
-                      onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
-                      className="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2.5 text-xs text-black focus:outline-none focus:border-black"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    <div>
-                      <label className="block text-neutral-600 mb-1 font-medium">Phone / Contact Number *</label>
-                      <input
-                        type="tel"
-                        required
-                        placeholder="+91 98765 43210"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2.5 text-xs text-black focus:outline-none focus:border-black"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-neutral-600 mb-1 font-medium">Official Email Address *</label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="name@example.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2.5 text-xs text-black focus:outline-none focus:border-black"
-                      />
-                    </div>
+                    <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-semibold block mb-1">
+                      Your Dedicated Wedding Director & Stylist
+                    </span>
+                    <h4 className="font-serif text-xl sm:text-2xl font-normal text-white">
+                      Aisha Verma — {hotel.name}
+                    </h4>
+                    <p className="text-[11px] text-neutral-400 font-light mt-1">
+                      Curating celebrations at {hotel.name} for over a decade. Your single point of contact from first call to farewell brunch.
+                    </p>
                   </div>
                 </div>
 
-                {/* 3. Pre-locked Sanctuary Property */}
-                <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-200 space-y-1">
-                  <span className="text-[9px] uppercase tracking-wider text-neutral-400 font-semibold block">
-                    Sanctuary Selected
-                  </span>
-                  <div className="font-medium text-black text-xs flex items-center justify-between">
-                    <span>{hotel.name}</span>
-                    <span className="text-[10px] text-neutral-500 font-light">({hotel.city})</span>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-xs font-sans shrink-0">
+                  <div className="space-y-1.5">
+                    <a href="tel:+919876543210" className="flex items-center space-x-2 text-neutral-200 hover:text-white transition-colors cursor-pointer">
+                      <span className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center text-[10px]">✆</span>
+                      <span>+91 98765 43210</span>
+                    </a>
+                    <a href="mailto:aisha.verma@ihg.com" className="flex items-center space-x-2 text-neutral-200 hover:text-white transition-colors cursor-pointer">
+                      <span className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center text-[10px]">✉</span>
+                      <span>aisha.verma@ihg.com</span>
+                    </a>
+                    <div className="flex items-center space-x-2 text-neutral-400">
+                      <Clock className="w-3.5 h-3.5" />
+                      <span>Mon–Sat · 09:00–19:00 IST</span>
+                    </div>
                   </div>
-                </div>
 
-                {/* 4. Guest Count & Range */}
-                <div className="space-y-1.5">
-                  <label className="font-serif text-sm text-black font-normal block">
-                    No of Guests
-                  </label>
-                  <select
-                    value={formData.guestRange}
-                    onChange={(e) => handleRangeChange(e.target.value)}
-                    className="w-full bg-white border border-neutral-300 rounded-xl p-2 text-xs text-black cursor-pointer font-medium mb-1.5"
+                  <a
+                    href="#side-form"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSideFormOpen(true);
+                      // Bring the freshly opened side form into view
+                      setTimeout(() => {
+                        window.scrollIntoView;
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }, 520);
+                    }}
+                    className="bg-white text-black hover:bg-neutral-200 px-5 py-2.5 rounded-lg text-[11px] uppercase tracking-wider font-medium transition-colors flex items-center space-x-2 cursor-pointer"
                   >
-                    {guestRanges.map((range) => (
-                      <option key={range.label} value={range.label}>
-                        {range.label}
-                      </option>
-                    ))}
-                  </select>
-                  <input
-                    type="number"
-                    min="25"
-                    max="2000"
-                    placeholder="Approximate count"
-                    value={formData.estimatedGuests}
-                    onChange={(e) => setFormData({ ...formData, estimatedGuests: Number(e.target.value) })}
-                    className="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2 text-xs text-black"
-                  />
-                </div>
-
-                {/* 5. Date Pickers (From / To Calendar) */}
-                <div className="space-y-1.5">
-                  <label className="font-serif text-sm text-black font-normal flex items-center justify-between">
-                    <span>Celebration Dates</span>
-                    <Clock className="w-3 h-3 text-neutral-400" />
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <span className="text-[9px] text-neutral-400 block mb-0.5">From Date</span>
-                      <input
-                        type="date"
-                        required
-                        value={startDate}
-                        onChange={(e) => handleStartDateChange(e.target.value)}
-                        className="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2 text-xs text-black cursor-pointer"
-                      />
-                    </div>
-                    <div>
-                      <span className="text-[9px] text-neutral-400 block mb-0.5">To Date</span>
-                      <input
-                        type="date"
-                        required
-                        min={startDate}
-                        value={endDate}
-                        onChange={(e) => handleEndDateChange(e.target.value)}
-                        className="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2 text-xs text-black cursor-pointer"
-                      />
-                    </div>
-                  </div>
-                  <div className="text-[10px] text-neutral-500 pt-0.5">
-                    {formData.targetWindow}
-                  </div>
-                </div>
-
-                {/* 6. Notes */}
-                <div>
-                  <label className="block text-neutral-600 mb-1 font-medium">Specific Ceremonial Requests</label>
-                  <textarea
-                    rows={2}
-                    placeholder="Specific venue preferences (e.g. Venue 1 for Pheras, pure Jain kitchen)..."
-                    value={formData.notes}
-                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                    className="w-full bg-neutral-50 border border-neutral-300 rounded-xl p-2.5 text-xs text-black resize-none focus:outline-none focus:border-black"
-                  />
-                </div>
-
-                {/* Form Action Button (WhatsApp removed) */}
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="w-full bg-black hover:bg-neutral-800 text-white py-3.5 rounded-xl font-medium tracking-wider uppercase text-xs transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
-                  >
-                    <span>{submitting ? "Submitting..." : `Enquire for ${hotel.name.split(' ')[0]}`}</span>
+                    <span>Begin the Conversation</span>
                     <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                  </a>
                 </div>
-
-              </form>
-
+              </div>
             </div>
 
-            {/* Privacy note */}
-            <div className="text-center text-[10px] text-neutral-400 px-4">
-              Protected by IHG Institutional Wedding Charter &amp; Privacy Protocol.
             </div>
-
           </div>
-
         </div>
+
       </div>
+
+      {/* Hotel Selector Overlay (from side-nav form) */}
+      <HotelSelectorModal
+        isOpen={hotelModalOpen}
+        selectedHotelIds={formData.selectedHotelIds || []}
+        onClose={() => setHotelModalOpen(false)}
+        onConfirmSelection={handleHotelSelectionSaved}
+      />
 
       {/* POPUP OVERLAY FOR PREVIEWING VENUE GALLERY AND DRAFT DRAWING LAYOUT */}
       {previewModalOpen && activeLightboxSlide && (
-        <div 
+        <div
           className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 transition-opacity animate-fade-in font-sans"
           onClick={() => setPreviewModalOpen(false)}
         >

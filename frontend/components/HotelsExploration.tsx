@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { HOTELS_DATA } from '../constants';
 import { HotelProperty } from '../types';
-import { Users, BedDouble, Eye, ArrowRight, X, MapPin, Sparkles, Utensils, Check, Plane, ExternalLink } from 'lucide-react';
+import { Users, BedDouble, Eye, ArrowRight, ArrowLeft, X, MapPin, Sparkles, Utensils, Check, Plane, ExternalLink } from 'lucide-react';
 
 interface HotelsExplorationProps {
   onSelectHotel: (hotel: HotelProperty) => void;
@@ -9,9 +9,33 @@ interface HotelsExplorationProps {
 }
 
 export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHotel, onViewAll }) => {
-  // Landing section showcases top featured sanctuaries
-  const featuredHotels = HOTELS_DATA.slice(0, 3);
+  // Full portfolio in a manual swipe carousel (arrows + native touch scroll)
+  const carouselHotels = HOTELS_DATA.slice(0, 8);
   const [previewHotel, setPreviewHotel] = useState<HotelProperty | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
+  const [canScrollRight, setCanScrollRight] = useState<boolean>(true);
+
+  const updateArrows = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 8);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 8);
+  };
+
+  useEffect(() => {
+    updateArrows();
+    window.addEventListener('resize', updateArrows);
+    return () => window.removeEventListener('resize', updateArrows);
+  }, []);
+
+  const scrollByCards = (dir: 1 | -1) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>('[data-carousel-card]');
+    const step = card ? card.offsetWidth + 24 : el.clientWidth * 0.8;
+    el.scrollBy({ left: dir * step, behavior: 'smooth' });
+  };
 
   const handleOpenFullPage = (hotel: HotelProperty) => {
     setPreviewHotel(null);
@@ -29,14 +53,14 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
               Portfolio
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-black font-normal mb-1">
-              Hotels & Palaces
+              Hotels
             </h2>
             <p className="text-xs text-neutral-500 font-sans font-light">
               Architectural sanctuaries across India with consecrated havan courtyards and segregated kitchens.
             </p>
           </div>
 
-          {/* Prominent View All CTA */}
+          {/* View All CTA top right */}
           <div className="flex items-center space-x-3">
             <button
               onClick={onViewAll}
@@ -48,12 +72,44 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
           </div>
         </div>
 
-        {/* 3 Featured Hotel Cards with Dual Actions (Preview vs Full Page) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {featuredHotels.map((hotel) => (
+        {/* Carousel with arrows floating on the card-row sides */}
+        <div className="relative">
+          {/* Side arrows — floating over the edges */}
+          <button
+            onClick={() => scrollByCards(-1)}
+            disabled={!canScrollLeft}
+            className={`absolute -left-3 lg:-left-5 top-[7rem] lg:top-[9rem] z-30 w-10 h-10 rounded-full border flex items-center justify-center transition-colors shadow-md ${
+              canScrollLeft ? 'border-neutral-300 hover:border-black text-black bg-white/95 backdrop-blur-xs' : 'border-neutral-200 text-neutral-300 bg-white cursor-not-allowed'
+            }`}
+            aria-label="Previous hotels"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => scrollByCards(1)}
+            disabled={!canScrollRight}
+            className={`absolute -right-3 lg:-right-5 top-[7rem] lg:top-[9rem] z-30 w-10 h-10 rounded-full border flex items-center justify-center transition-colors shadow-md ${
+              canScrollRight ? 'border-neutral-300 hover:border-black text-black bg-white/95 backdrop-blur-xs' : 'border-neutral-200 text-neutral-300 bg-white cursor-not-allowed'
+            }`}
+            aria-label="Next hotels"
+          >
+            <ArrowRight className="w-4 h-4" />
+          </button>
+
+          {/* Full Portfolio Carousel — manual swipe, snap-aligned */}
+          <div
+            ref={scrollRef}
+            onScroll={updateArrows}
+            className="flex overflow-x-auto no-scrollbar snap-x snap-mandatory gap-6 pb-2 -mx-4 px-4 sm:mx-0 sm:px-0"
+          >
+          {carouselHotels.map((hotel) => (
             <div
               key={hotel.id}
-              className="group bg-white rounded-2xl border border-neutral-200 hover:border-black overflow-hidden transition-all duration-300 flex flex-col justify-between shadow-2xs hover:shadow-md"
+              data-carousel-card
+              className="snap-start shrink-0 w-[85%] sm:w-[46%] lg:w-[calc((100%-3rem)/4)]"
+            >
+            <div
+              className="group bg-white rounded-2xl border border-neutral-200 hover:border-black overflow-hidden transition-all duration-300 flex flex-col justify-between shadow-2xs hover:shadow-md h-full"
             >
               <div>
                 {/* Photo with Overlay (Click opens preview) */}
@@ -120,17 +176,8 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                 </div>
               </div>
 
-              {/* Dual Action Buttons: Preview & Full Hotel Page */}
-              <div className="p-5 pt-0 grid grid-cols-2 gap-2 text-xs font-sans">
-                <button
-                  type="button"
-                  onClick={() => setPreviewHotel(hotel)}
-                  className="w-full text-center border border-neutral-300 hover:border-black hover:bg-neutral-50 text-black text-[11px] uppercase tracking-wider font-medium py-2 rounded-xl transition-colors flex items-center justify-center space-x-1 cursor-pointer"
-                >
-                  <Eye className="w-3 h-3" />
-                  <span>Preview</span>
-                </button>
-
+              {/* Single Action Button: Full Hotel Page (Preview is hover-only via the image) */}
+              <div className="p-5 pt-0 text-xs font-sans">
                 <button
                   type="button"
                   onClick={() => handleOpenFullPage(hotel)}
@@ -142,7 +189,9 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
               </div>
 
             </div>
+            </div>
           ))}
+          </div>
         </div>
 
       </div>

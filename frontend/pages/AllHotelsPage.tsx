@@ -17,7 +17,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
   onNavigateToHotelDetail
 }) => {
   const [selectedCity, setSelectedCity] = useState<string>(initialCity);
-  const [selectedCapacity, setSelectedCapacity] = useState<string>('All Capacities');
+  const [selectedGenre, setSelectedGenre] = useState<string>('All Genres');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [popupHotel, setPopupHotel] = useState<HotelProperty | null>(null);
 
@@ -32,16 +32,17 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
     'Jim Corbett'
   ];
 
-  // Capacity range presets
-  const capacityRanges = [
-    { label: 'All Capacities', min: 0, max: Infinity },
-    { label: 'Intimate (Up to 200)', min: 0, max: 200 },
-    { label: 'Mid-Sized (200 – 400)', min: 200, max: 400 },
-    { label: 'Grand (400 – 700)', min: 400, max: 700 },
-    { label: 'Monumental (700+)', min: 700, max: Infinity }
+  // Genre presets (wedding genres across the portfolio)
+  const genreFilters = [
+    'All Genres',
+    'Royal Wedding',
+    'Beachside',
+    'Mountain & Wilderness',
+    'Temple Shoreline',
+    'Backwater Serenity'
   ];
 
-  // Filtered hotels list based on city, capacity range, and search query
+  // Filtered hotels list based on city, genre, and search query
   const filteredHotels = useMemo(() => {
     return HOTELS_DATA.filter((h) => {
       // 1. City filter
@@ -49,11 +50,9 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
         return false;
       }
 
-      // 2. Capacity filter
-      const range = capacityRanges.find((r) => r.label === selectedCapacity);
-      if (range && selectedCapacity !== 'All Capacities') {
-        const matchesCapacity = h.capacityMax >= range.min && h.capacityMin <= range.max;
-        if (!matchesCapacity) return false;
+      // 2. Genre filter
+      if (selectedGenre !== 'All Genres' && h.genre !== selectedGenre) {
+        return false;
       }
 
       // 3. Search query filter (matches hotel name, location, brand, or signature mandap setting)
@@ -70,7 +69,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
 
       return true;
     });
-  }, [selectedCity, selectedCapacity, searchQuery]);
+  }, [selectedCity, selectedGenre, searchQuery]);
 
   const handleOpenFullPage = (hotelId: string) => {
     setPopupHotel(null);
@@ -81,11 +80,11 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
 
   const handleClearAllFilters = () => {
     setSelectedCity('All Cities');
-    setSelectedCapacity('All Capacities');
+    setSelectedGenre('All Genres');
     setSearchQuery('');
   };
 
-  const hasActiveFilters = selectedCity !== 'All Cities' || selectedCapacity !== 'All Capacities' || searchQuery.trim() !== '';
+  const hasActiveFilters = selectedCity !== 'All Cities' || selectedGenre !== 'All Genres' || searchQuery.trim() !== '';
 
   return (
     <div className="min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
@@ -96,7 +95,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
           <div className="flex items-center space-x-2 text-neutral-500">
             <button onClick={onNavigateBack} className="hover:text-black cursor-pointer">Exploration</button>
             <span>/</span>
-            <span className="text-black font-medium">Hotels &amp; Palaces</span>
+            <span className="text-black font-medium">Hotels</span>
           </div>
 
           <button
@@ -118,10 +117,10 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
             National Portfolio
           </span>
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-black leading-tight">
-            Hotels &amp; Palaces
+            Hotels
           </h1>
           <p className="text-xs sm:text-sm text-neutral-600 font-light max-w-2xl leading-relaxed">
-            Browse our complete portfolio of palatial fortresses, coastal resorts, and wilderness sanctuaries across India. Filter by city, guest capacity, or search directly for specific properties.
+            Browse our complete portfolio of palatial fortresses, coastal resorts, and wilderness sanctuaries across India. Filter by city, wedding genre, or search directly for specific properties.
           </p>
         </div>
 
@@ -154,21 +153,21 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
               </div>
             </div>
 
-            {/* Filter 2: Capacity Range Dropdown (4 cols) */}
+            {/* Filter 2: Genre Dropdown (4 cols) */}
             <div className="md:col-span-4 space-y-1">
-              <label htmlFor="capacity-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
-                Guest Capacity Range:
+              <label htmlFor="genre-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
+                Wedding Genre:
               </label>
               <div className="relative">
                 <select
-                  id="capacity-filter-dropdown"
-                  value={selectedCapacity}
-                  onChange={(e) => setSelectedCapacity(e.target.value)}
+                  id="genre-filter-dropdown"
+                  value={selectedGenre}
+                  onChange={(e) => setSelectedGenre(e.target.value)}
                   className="w-full appearance-none bg-white border border-neutral-300 hover:border-black rounded-xl px-3.5 py-2.5 pr-9 text-xs font-sans text-black font-medium shadow-2xs focus:outline-none focus:border-black transition-colors cursor-pointer"
                 >
-                  {capacityRanges.map((range) => (
-                    <option key={range.label} value={range.label}>
-                      {range.label === 'All Capacities' ? 'All Guest Capacities' : `Capacity: ${range.label}`}
+                  {genreFilters.map((genre) => (
+                    <option key={genre} value={genre}>
+                      {genre === 'All Genres' ? 'All Wedding Genres' : `Genre: ${genre}`}
                     </option>
                   ))}
                 </select>
@@ -245,7 +244,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
               No sanctuaries matched your current filters.
             </h3>
             <p className="text-xs text-neutral-500 font-light max-w-sm mx-auto">
-              Try broadening your guest capacity range or clearing the search query to view available properties.
+              Try a different wedding genre or clearing the search query to view available properties.
             </p>
             <button
               type="button"
@@ -327,17 +326,8 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
                   </div>
                 </div>
 
-                {/* Dual Action Buttons: Quick Preview Overlay & Full Hotel Page */}
-                <div className="p-5 pt-0 grid grid-cols-2 gap-2 text-xs font-sans">
-                  <button
-                    type="button"
-                    onClick={() => setPopupHotel(hotel)}
-                    className="w-full text-center border border-neutral-300 hover:border-black hover:bg-neutral-50 text-black text-[11px] uppercase tracking-wider font-medium py-2 rounded-xl transition-colors flex items-center justify-center space-x-1.5 cursor-pointer"
-                  >
-                    <Eye className="w-3 h-3" />
-                    <span>Preview</span>
-                  </button>
-
+                {/* Single Action Button: Full Hotel Page (Preview is hover-only via the image) */}
+                <div className="p-5 pt-0 text-xs font-sans">
                   <button
                     type="button"
                     onClick={() => handleOpenFullPage(hotel.id)}

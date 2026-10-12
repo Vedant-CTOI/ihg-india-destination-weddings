@@ -21,6 +21,7 @@ import { AllStoriesPage } from './pages/AllStoriesPage';
 import { ConversationPage } from './pages/ConversationPage';
 import { PlanningCharterPage } from './pages/PlanningCharterPage';
 import { LegalInfoPage } from './pages/LegalInfoPage';
+import { GoToTopButton } from './components/GoToTopButton';
 
 export const App: React.FC = () => {
   // Navigation state (Default is home)
@@ -268,6 +269,9 @@ export const App: React.FC = () => {
         onCancelConsent={handleCancelConsent}
         onAcknowledgeNotification={handleAcknowledgeNotification}
       />
+
+      {/* 5. Floating Go-to-Top Button — on all pages */}
+      <GoToTopButton />
 
     </div>
   );

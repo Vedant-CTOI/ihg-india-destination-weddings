@@ -71,8 +71,8 @@ export interface HotelProperty {
   name: string;
   brand: 'Six Senses' | 'InterContinental' | 'Crowne Plaza' | 'voco' | 'Holiday Inn Resort';
   location: string;
-  city: 'Ranthambore' | 'Goa' | 'Mahabalipuram' | 'Kochi' | 'Delhi NCR' | 'Jim Corbett';
-  region: 'Rajasthan' | 'Goa' | 'Mahabalipuram' | 'Kerala' | 'NCR / Corbett';
+  city: 'Ranthambore' | 'Goa' | 'Mahabalipuram' | 'Kochi' | 'Delhi NCR' | 'Jim Corbett' | 'Jaipur' | 'Udaipur' | 'Kolkata';
+  region: 'Rajasthan' | 'Goa' | 'Mahabalipuram' | 'Kerala' | 'NCR / Corbett' | 'East India';
   genre: DestinationGenre;
   capacityMin: number;
   capacityMax: number;
