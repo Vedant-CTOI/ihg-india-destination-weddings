@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, ShieldCheck, Check, Clock, FileText, Lock, Users, HeartHandshake, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 interface PlanningCharterModalProps {
   isOpen: boolean;
@@ -28,13 +28,13 @@ export const PlanningCharterModal: React.FC<PlanningCharterModalProps> = ({
           className="absolute top-4 right-4 z-20 bg-white/90 hover:bg-black hover:text-white text-black p-2 rounded-full shadow-md transition-colors"
           aria-label="Close"
         >
-          <X className="w-4 h-4" />
+          <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
         </button>
 
         {/* Header */}
         <div className="p-6 sm:p-8 border-b border-neutral-200">
           <div className="flex items-center space-x-2 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold mb-2">
-            <ShieldCheck className="w-4 h-4 text-black" />
+            <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
             <span>Official Operating Protocol</span>
           </div>
           <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">
@@ -51,7 +51,7 @@ export const PlanningCharterModal: React.FC<PlanningCharterModalProps> = ({
           {/* Pillar 1: Dedicated Director & Pandits */}
           <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200">
             <div className="flex items-center space-x-2 text-black font-semibold mb-1">
-              <Users className="w-4 h-4" />
+              <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
               <span>Dedicated On-Ground Luxury Wedding Director</span>
             </div>
             <p className="text-neutral-600 font-light leading-relaxed">
@@ -62,7 +62,7 @@ export const PlanningCharterModal: React.FC<PlanningCharterModalProps> = ({
           {/* Pillar 2: Dietary Chain of Custody */}
           <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200">
             <div className="flex items-center space-x-2 text-black font-semibold mb-1">
-              <Check className="w-4 h-4" />
+              <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
               <span>Dietary Sanctity & Segregated Kitchen Custody</span>
             </div>
             <p className="text-neutral-600 font-light leading-relaxed">
@@ -73,7 +73,7 @@ export const PlanningCharterModal: React.FC<PlanningCharterModalProps> = ({
           {/* Pillar 3: Privacy & NDA Protocol */}
           <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200">
             <div className="flex items-center space-x-2 text-black font-semibold mb-1">
-              <Lock className="w-4 h-4" />
+              <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
               <span>Dignitary Privacy & Photography NDA</span>
             </div>
             <p className="text-neutral-600 font-light leading-relaxed">
@@ -84,7 +84,7 @@ export const PlanningCharterModal: React.FC<PlanningCharterModalProps> = ({
           {/* Pillar 4: All-Weather & Fire Safety */}
           <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200">
             <div className="flex items-center space-x-2 text-black font-semibold mb-1">
-              <Clock className="w-4 h-4" />
+              <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
               <span>Two-Hour Weather Contingency Guarantee</span>
             </div>
             <p className="text-neutral-600 font-light leading-relaxed">

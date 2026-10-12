@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { CONCIERGE_CANVAS_PROMPTS } from '../constants';
 import { ConciergeMessage } from '../types';
-import { X, Send, Sparkles } from 'lucide-react';
 
 interface AiConciergeDrawerProps {
   isOpen: boolean;
@@ -80,7 +79,7 @@ export const AiConciergeDrawer: React.FC<AiConciergeDrawerProps> = ({ isOpen, on
         {/* Header */}
         <div className="p-4 border-b border-brand-border/60 flex items-center justify-between font-sans">
           <div className="flex items-center space-x-2">
-            <Sparkles className="w-4 h-4 text-brand-orange" />
+            <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
             <span className="font-serif text-base text-brand-navy font-normal">Ask Riti</span>
             <span className="text-[10px] uppercase text-brand-muted tracking-wider">AI Concierge</span>
           </div>
@@ -90,7 +89,7 @@ export const AiConciergeDrawer: React.FC<AiConciergeDrawerProps> = ({ isOpen, on
             className="p-1 text-brand-navy/60 hover:text-brand-navy"
             aria-label="Close"
           >
-            <X className="w-4 h-4" />
+            <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
           </button>
         </div>
 
@@ -155,7 +154,7 @@ export const AiConciergeDrawer: React.FC<AiConciergeDrawerProps> = ({ isOpen, on
               className="bg-brand-navy hover:bg-brand-orange text-white p-2 rounded-xl transition-colors"
               aria-label="Send"
             >
-              <Send className="w-3.5 h-3.5" />
+              <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
             </button>
           </form>
         </div>

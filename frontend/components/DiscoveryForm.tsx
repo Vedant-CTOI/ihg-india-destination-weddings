@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { InquiryFormData, UserPersona } from '../types';
 import { HOTELS_DATA } from '../constants';
 import { HotelSelectorModal } from './HotelSelectorModal';
-import { ArrowRight, ShieldCheck, Sparkles, Clock, Plus } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 interface DiscoveryFormProps {
   onSubmitSuccess?: (data: InquiryFormData) => void;
@@ -172,7 +172,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                 onClick={onOpenCharter}
                 className="inline-flex items-center space-x-1.5 text-xs font-sans uppercase tracking-wider text-black border border-neutral-300 hover:border-black px-4 py-1.5 rounded-full bg-white transition-colors cursor-pointer"
               >
-                <ShieldCheck className="w-3.5 h-3.5" />
+                <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                 <span>Inspect IHG Philosophy &amp; SLA Guidelines</span>
               </button>
             </div>
@@ -215,7 +215,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
             {/* 2. Persona-Specific Dynamic Fields — compact, side by side */}
             <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-200 animate-fade-in">
               <div className="flex items-center space-x-2 text-[10px] uppercase tracking-wider text-neutral-500 font-semibold mb-3">
-                <Sparkles className="w-3 h-3 text-black" />
+                <span aria-hidden="true" className="w-3 h-3 inline-block border border-current"></span>
                 <span>Tailored for: {formData.decisionRole}</span>
               </div>
 
@@ -375,7 +375,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                       {formData.selectedHotelNames?.slice(0, 2).join(', ')}{formData.selectedHotelIds.length > 2 ? '…' : ''}
                     </span>
                   )}
-                  <Plus className="w-3.5 h-3.5 text-black" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                 </span>
               </button>
             </div>
@@ -496,7 +496,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
         {/* Subtle Assurance Indicators */}
         <div className="mt-10 pt-6 border-t border-neutral-200 flex flex-wrap items-center justify-center gap-6 text-[11px] font-sans text-neutral-500 font-light">
           <span className="flex items-center space-x-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-black" />
+            <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
             <span>Dedicated Director Assignment</span>
           </span>
           <span>•</span>

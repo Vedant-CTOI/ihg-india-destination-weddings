@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, ShieldCheck, Check, Clock, Lock, Users, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface PlanningCharterPageProps {
   onNavigateBack: () => void;
@@ -36,7 +36,7 @@ export const PlanningCharterPage: React.FC<PlanningCharterPageProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-neutral-200">
         <div className="max-w-3xl space-y-4">
           <div className="flex items-center space-x-2 text-[11px] uppercase tracking-widest text-neutral-500 font-semibold">
-            <ShieldCheck className="w-4 h-4 text-black" />
+            <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
             <span>Standardized Operational Philosophy</span>
           </div>
           <h1 className="font-serif text-4xl sm:text-5xl font-normal text-black leading-tight">
@@ -56,7 +56,7 @@ export const PlanningCharterPage: React.FC<PlanningCharterPageProps> = ({
           {/* Pillar 1 */}
           <div className="p-8 bg-neutral-50 rounded-2xl border border-neutral-200 space-y-3">
             <div className="w-10 h-10 rounded-xl bg-white border border-neutral-300 flex items-center justify-center text-black">
-              <Users className="w-5 h-5" />
+              <span aria-hidden="true" className="w-5 h-5 inline-block border border-current"></span>
             </div>
             <h2 className="font-serif text-2xl font-normal text-black">
               Dedicated On-Ground Luxury Wedding Director
@@ -69,7 +69,7 @@ export const PlanningCharterPage: React.FC<PlanningCharterPageProps> = ({
           {/* Pillar 2 */}
           <div className="p-8 bg-neutral-50 rounded-2xl border border-neutral-200 space-y-3">
             <div className="w-10 h-10 rounded-xl bg-white border border-neutral-300 flex items-center justify-center text-black">
-              <Check className="w-5 h-5" />
+              <span aria-hidden="true" className="w-5 h-5 inline-block border border-current"></span>
             </div>
             <h2 className="font-serif text-2xl font-normal text-black">
               Dietary Sanctity & Segregated Kitchen Custody
@@ -82,7 +82,7 @@ export const PlanningCharterPage: React.FC<PlanningCharterPageProps> = ({
           {/* Pillar 3 */}
           <div className="p-8 bg-neutral-50 rounded-2xl border border-neutral-200 space-y-3">
             <div className="w-10 h-10 rounded-xl bg-white border border-neutral-300 flex items-center justify-center text-black">
-              <Lock className="w-5 h-5" />
+              <span aria-hidden="true" className="w-5 h-5 inline-block border border-current"></span>
             </div>
             <h2 className="font-serif text-2xl font-normal text-black">
               Dignitary Privacy & Photography NDA
@@ -95,7 +95,7 @@ export const PlanningCharterPage: React.FC<PlanningCharterPageProps> = ({
           {/* Pillar 4 */}
           <div className="p-8 bg-neutral-50 rounded-2xl border border-neutral-200 space-y-3">
             <div className="w-10 h-10 rounded-xl bg-white border border-neutral-300 flex items-center justify-center text-black">
-              <Clock className="w-5 h-5" />
+              <span aria-hidden="true" className="w-5 h-5 inline-block border border-current"></span>
             </div>
             <h2 className="font-serif text-2xl font-normal text-black">
               Two-Hour Weather Contingency Guarantee

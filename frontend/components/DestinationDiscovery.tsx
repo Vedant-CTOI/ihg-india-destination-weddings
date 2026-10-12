@@ -66,7 +66,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
               onClick={handleOpenDetail}
               className="inline-flex items-center space-x-2 text-[11px] font-sans uppercase tracking-wider bg-black hover:bg-neutral-800 text-white px-5 py-2.5 rounded-lg transition-colors font-medium cursor-pointer shadow-2xs"
             >
-              <span>Explore {activeGenre.genre} Dossier & Properties</span>
+              <span>Explore Genre {currentIndex + 1} Dossier & Properties</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -115,38 +115,38 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
               alt={`${activeGenre.genre} Wedding Type`}
               className="absolute inset-0 w-full h-full object-cover filter grayscale contrast-115 group-hover:scale-103 transition-transform duration-700 animate-fade-in"
               onError={(e) => {
-                (e.target as HTMLImageElement).src = 'https://placehold.co/1600x900/000000/FFFFFF?text=' + encodeURIComponent(activeGenre.genre);
+                (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(activeGenre.genre);
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/40 to-white/10" />
 
-            {/* Text over image */}
-            <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10 text-white">
-              <div className="flex items-center space-x-2 text-[10px] font-sans text-neutral-300 uppercase tracking-widest mb-2">
-                <span className="bg-white text-black px-2.5 py-0.5 rounded-full font-bold">{activeGenre.genre}</span>
+            {/* Text over image — black on a bright wash */}
+            <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10 text-black">
+              <div className="flex items-center space-x-2 text-[10px] font-sans text-neutral-600 uppercase tracking-widest mb-2">
+                <span className="bg-black text-white px-2.5 py-0.5 rounded-full font-bold">Genre {currentIndex + 1}</span>
                 <span className="hidden sm:inline">{activeGenre.tagline}</span>
               </div>
 
               <h3 className="font-serif text-2xl sm:text-4xl font-normal mb-2.5">
-                {activeGenre.genre} Atmosphere
+                Genre {currentIndex + 1} Atmosphere
               </h3>
 
-              <p className="font-serif text-sm sm:text-base italic text-neutral-100 leading-snug max-w-2xl line-clamp-2 mb-4">
+              <p className="font-serif text-sm sm:text-base italic text-neutral-700 leading-snug max-w-2xl line-clamp-2 mb-4">
                 "{activeGenre.heroSnippet}"
               </p>
 
               {/* Minimal facts row over image */}
-              <div className="flex flex-wrap gap-x-8 gap-y-1.5 pt-3 border-t border-white/20 text-[11px] font-sans text-neutral-200">
+              <div className="flex flex-wrap gap-x-8 gap-y-1.5 pt-3 border-t border-black/15 text-[11px] font-sans text-neutral-800">
                 <div>
-                  <span className="text-neutral-400 uppercase tracking-wider text-[9px] block">Ideal Scale</span>
+                  <span className="text-neutral-500 uppercase tracking-wider text-[9px] block">Ideal Scale</span>
                   {activeGenre.idealScale}
                 </div>
                 <div>
-                  <span className="text-neutral-400 uppercase tracking-wider text-[9px] block">Season</span>
+                  <span className="text-neutral-500 uppercase tracking-wider text-[9px] block">Season</span>
                   {activeGenre.recommendedSeason}
                 </div>
                 <div>
-                  <span className="text-neutral-400 uppercase tracking-wider text-[9px] block">Key Ritual</span>
+                  <span className="text-neutral-500 uppercase tracking-wider text-[9px] block">Key Ritual</span>
                   {activeGenre.signatureRituals[0]}
                 </div>
               </div>

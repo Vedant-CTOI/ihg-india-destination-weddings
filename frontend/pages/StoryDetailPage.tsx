@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { RealWeddingCase } from '../types';
 import { REAL_WEDDINGS_DATA } from '../constants';
-import { ArrowLeft, MapPin, Users, ArrowRight, ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface StoryDetailPageProps {
   storyId: string;
@@ -104,7 +104,7 @@ export const StoryDetailPage: React.FC<StoryDetailPageProps> = ({
           alt={wedding.couple}
           className="w-full h-full object-cover filter grayscale contrast-115 animate-fade-in"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://placehold.co/1800x800/000000/FFFFFF?text=' + encodeURIComponent(wedding.couple);
+            (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(wedding.couple);
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
@@ -119,12 +119,12 @@ export const StoryDetailPage: React.FC<StoryDetailPageProps> = ({
             </h1>
             <div className="flex items-center space-x-4 text-xs sm:text-sm text-neutral-300 font-light">
               <span className="flex items-center space-x-1.5">
-                <MapPin className="w-3.5 h-3.5 text-white" />
+                <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                 <span>{wedding.property}</span>
               </span>
               <span>•</span>
               <span className="flex items-center space-x-1.5">
-                <Users className="w-3.5 h-3.5 text-white" />
+                <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                 <span>{wedding.guestCount} Guests</span>
               </span>
             </div>
@@ -225,11 +225,11 @@ export const StoryDetailPage: React.FC<StoryDetailPageProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {wedding.gallery.map((img, idx) => (
                 <div key={idx} className="h-80 rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-200">
-                  <img
+                  <span className="relative block w-full h-full object-cover filter grayscale contrast-110"><span className="relative block w-full h-full object-cover filter grayscale contrast-110"><img
                     src={img}
                     alt="Wedding moment"
                     className="w-full h-full object-cover filter grayscale contrast-110"
-                  />
+                  /><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span>
                 </div>
               ))}
             </div>
@@ -284,7 +284,7 @@ export const StoryDetailPage: React.FC<StoryDetailPageProps> = ({
                       alt={story.couple}
                       className="w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://placehold.co/600x450/000000/FFFFFF?text=' + encodeURIComponent(story.couple);
+                        (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(story.couple);
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
@@ -321,7 +321,7 @@ export const StoryDetailPage: React.FC<StoryDetailPageProps> = ({
                     }}
                     className="w-full border border-neutral-300 group-hover:bg-black group-hover:text-white text-black text-[11px] uppercase tracking-wider font-medium py-2 rounded-xl transition-colors flex items-center justify-center space-x-1.5"
                   >
-                    <BookOpen className="w-3.5 h-3.5" />
+                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                     <span>Read This Case Study</span>
                   </button>
                 </div>

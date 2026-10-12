@@ -1,6 +1,5 @@
 import React from 'react';
 import { RealWeddingCase } from '../types';
-import { X } from 'lucide-react';
 
 interface StoryModalProps {
   wedding: RealWeddingCase | null;
@@ -23,15 +22,15 @@ export const StoryModal: React.FC<StoryModalProps> = ({ wedding, onClose }) => {
           className="absolute top-4 right-4 z-20 bg-white/90 hover:bg-black hover:text-white p-1.5 rounded-full text-black transition-colors"
           aria-label="Close"
         >
-          <X className="w-4 h-4" />
+          <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
         </button>
 
         <div className="relative h-60 w-full overflow-hidden bg-neutral-900">
-          <img
+          <span className="relative block w-full h-full object-cover filter grayscale contrast-110"><span className="relative block w-full h-full object-cover filter grayscale contrast-110"><img
             src={wedding.gallery[0] || wedding.coverImage}
             alt={wedding.couple}
             className="w-full h-full object-cover filter grayscale contrast-110"
-          />
+          /><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span>
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent" />
           <div className="absolute bottom-4 left-4 right-4 text-white">
             <span className="text-[10px] uppercase tracking-widest text-neutral-300">

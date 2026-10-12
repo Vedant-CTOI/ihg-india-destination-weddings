@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LegalTab } from '../types';
-import { ArrowLeft, ArrowRight, ShieldCheck, ChevronDown, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react';
 
 interface LegalInfoPageProps {
   initialTab?: LegalTab;

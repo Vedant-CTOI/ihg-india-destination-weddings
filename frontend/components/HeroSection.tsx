@@ -14,49 +14,49 @@ interface HeroSlide {
 export const HeroSection: React.FC = () => {
   const slides: HeroSlide[] = [
     {
-      id: 'rajasthan-citadel',
-      tagline: 'Imperial Citadel Sanctuary',
-      titlePrefix: 'Sacred vows in',
-      titleItalic: 'quiet majesty.',
-      subtitle: 'Understated sunset mandaps, torchlit courtyards, and quiet luxury curated for your private promise.',
+      id: 'banner-1',
+      tagline: 'Hero Banner Text 1',
+      titlePrefix: 'Hero Banner Text 1',
+      titleItalic: 'continues here.',
+      subtitle: 'Hero banner subtext line for the first carousel slide, kept brief for the overlay layout.',
       locationLabel: 'Hotel 1 • Destination 1',
-      image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=2400&q=85'
+      image: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E'
     },
     {
-      id: 'goa-coastline',
-      tagline: 'Barefoot Shoreline Sanctuary',
-      titlePrefix: 'Tides of devotion at',
-      titleItalic: 'golden hour.',
-      subtitle: 'Where gentle ocean waves meet fragrant jasmine canopies, wind-shielded havan decks, and starlit banquets.',
+      id: 'banner-2',
+      tagline: 'Hero Banner Text 2',
+      titlePrefix: 'Hero Banner Text 2',
+      titleItalic: 'continues here.',
+      subtitle: 'Hero banner subtext line for the second carousel slide, kept brief for the overlay layout.',
       locationLabel: 'Hotel 3 • Destination 2',
-      image: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=2400&q=85'
+      image: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E'
     },
     {
-      id: 'mahabalipuram-temple',
-      tagline: 'Dravidian Temple Shoreline',
-      titlePrefix: 'Eternal promises by',
-      titleItalic: 'sacred waters.',
-      subtitle: 'Ancient granite stone pillars, floating lotus reflection ponds, and sunrise Vedic chants by the Bay of Bengal.',
+      id: 'banner-3',
+      tagline: 'Hero Banner Text 3',
+      titlePrefix: 'Hero Banner Text 3',
+      titleItalic: 'continues here.',
+      subtitle: 'Hero banner subtext line for the third carousel slide, kept brief for the overlay layout.',
       locationLabel: 'Hotel 6 • Destination 5',
-      image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=2400&q=85'
+      image: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E'
     },
     {
-      id: 'kerala-backwaters',
-      tagline: 'Tropical Waterway Sanctuaries',
-      titlePrefix: 'Unhurried grace on',
-      titleItalic: 'emerald shores.',
-      subtitle: 'Ceremonial Shikara flotilla arrivals, floating island mandaps, and authentic royal feasts enveloped in palm serenity.',
+      id: 'banner-4',
+      tagline: 'Hero Banner Text 4',
+      titlePrefix: 'Hero Banner Text 4',
+      titleItalic: 'continues here.',
+      subtitle: 'Hero banner subtext line for the fourth carousel slide, kept brief for the overlay layout.',
       locationLabel: 'Hotel 7 • Destination 4',
-      image: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=2400&q=85'
+      image: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E'
     },
     {
-      id: 'corbett-foothills',
-      tagline: 'Alpine Riverbed & Forest Clearing',
-      titlePrefix: 'Whispering pines &',
-      titleItalic: 'mountain mantras.',
-      subtitle: 'Flowing river-stone platforms, lantern-lit pine meadow receptions, and crisp Himalayan foothill quietude.',
+      id: 'banner-5',
+      tagline: 'Hero Banner Text 5',
+      titlePrefix: 'Hero Banner Text 5',
+      titleItalic: 'continues here.',
+      subtitle: 'Hero banner subtext line for the fifth carousel slide, kept brief for the overlay layout.',
       locationLabel: 'Hotel 5 • Destination 3',
-      image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=2400&q=85'
+      image: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E'
     }
   ];
 
@@ -117,17 +117,16 @@ export const HeroSection: React.FC = () => {
                 }`}
                 onError={(e) => {
                   (e.target as HTMLImageElement).src =
-                    'https://placehold.co/2400x1400/000000/FFFFFF?text=IHG+Weddings';
+                    'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E';
                 }}
               />
             </div>
           );
         })}
 
-        {/* Deep Black Monochrome Luxury Vignettes & Lighting Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/85 sm:via-black/60 to-black/35 z-20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50 z-20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80 z-20" />
+        {/* Light Monochrome Washes — keep image bright so black text reads */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/60 sm:via-white/40 to-white/10 z-20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white/70 via-transparent to-white/30 z-20" />
       </div>
 
       {/* Main Foreground Editorial Content */}
@@ -135,25 +134,25 @@ export const HeroSection: React.FC = () => {
         <div className="max-w-xl lg:max-w-2xl animate-fade-in" key={currentSlide.id}>
           
           {/* Eyebrow & Sanctuary Indicator */}
-          <div className="inline-flex items-center space-x-2 text-[11px] uppercase tracking-[0.28em] text-neutral-400 mb-6 font-sans">
-            <span className="inline-block w-2 h-2 border border-neutral-400 shrink-0" />
+          <div className="inline-flex items-center space-x-2 text-[11px] uppercase tracking-[0.28em] text-neutral-600 mb-6 font-sans">
+            <span className="inline-block w-2 h-2 border border-neutral-500 shrink-0" />
             <span>{currentSlide.tagline}</span>
-            <span className="text-neutral-600 hidden sm:inline">•</span>
+            <span className="text-neutral-400 hidden sm:inline">•</span>
             <span className="text-neutral-500 hidden sm:inline text-[10px] tracking-wider">
               {currentSlide.locationLabel}
             </span>
           </div>
 
           {/* Dynamic Headline with Italic Accent */}
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal leading-[1.12] text-white mb-6 tracking-tight">
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal leading-[1.12] text-black mb-6 tracking-tight">
             {currentSlide.titlePrefix} <br />
-            <span className="italic text-neutral-300 font-light">
+            <span className="italic text-neutral-700 font-light">
               {currentSlide.titleItalic}
             </span>
           </h1>
 
           {/* Concise Subtext */}
-          <p className="font-sans text-sm sm:text-base text-neutral-300 font-light leading-relaxed mb-9 max-w-md">
+          <p className="font-sans text-sm sm:text-base text-neutral-700 font-light leading-relaxed mb-9 max-w-md">
             {currentSlide.subtitle}
           </p>
 
@@ -161,13 +160,13 @@ export const HeroSection: React.FC = () => {
           <div className="flex items-center space-x-4 text-xs font-sans">
             <a
               href="#contact"
-              className="bg-white hover:bg-neutral-200 text-black px-7 py-3.5 rounded-full font-medium tracking-wider uppercase transition-all flex items-center space-x-2.5 shadow-md active:scale-95"
+              className="bg-black hover:bg-neutral-800 text-white px-7 py-3.5 rounded-full font-medium tracking-wider uppercase transition-all flex items-center space-x-2.5 shadow-md active:scale-95"
             >
               <span>Plan Celebration</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </a>
 
-            <div className="hidden sm:flex items-center space-x-2 text-[11px] text-neutral-400 font-light tracking-wide">
+            <div className="hidden sm:flex items-center space-x-2 text-[11px] text-neutral-600 font-light tracking-wide">
               <span>{currentIndex + 1} of {totalSlides}</span>
               <span>•</span>
               <span className="truncate max-w-[200px]">{currentSlide.locationLabel.split('•')[0]}</span>
@@ -192,9 +191,9 @@ export const HeroSection: React.FC = () => {
                   className="flex-1 sm:flex-none py-2 cursor-pointer group/bar focus:outline-none"
                   aria-label={`Jump to slide ${idx + 1}: ${slide.tagline}`}
                 >
-                  <div className="w-12 sm:w-16 h-1 bg-white/20 rounded-full overflow-hidden">
+                  <div className="w-12 sm:w-16 h-1 bg-black/15 rounded-full overflow-hidden">
                     <div
-                      className={`h-full bg-white transition-all ${
+                      className={`h-full bg-black transition-all ${
                         isActive
                           ? 'w-full duration-500'
                           : 'w-0 group-hover/bar:w-1/3'
@@ -202,7 +201,7 @@ export const HeroSection: React.FC = () => {
                     />
                   </div>
                   <span className={`text-[9px] uppercase tracking-wider font-mono hidden md:block mt-1 text-left ${
-                    isActive ? 'text-white' : 'text-neutral-500'
+                    isActive ? 'text-black' : 'text-neutral-500'
                   }`}>
                     0{idx + 1}
                   </span>
@@ -215,14 +214,14 @@ export const HeroSection: React.FC = () => {
           <div className="flex items-center space-x-2 text-xs font-sans">
             <button
               onClick={handlePrev}
-              className="w-9 h-9 rounded-full border border-white/20 hover:border-white text-white/80 hover:text-white flex items-center justify-center transition-colors cursor-pointer backdrop-blur-xs bg-black/40 hover:bg-black/80"
+              className="w-9 h-9 rounded-full border border-black/20 hover:border-black text-black/70 hover:text-black flex items-center justify-center transition-colors cursor-pointer backdrop-blur-xs bg-white/60 hover:bg-white"
               aria-label="Previous splash slide"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={handleNext}
-              className="w-9 h-9 rounded-full border border-white/20 hover:border-white text-white/80 hover:text-white flex items-center justify-center transition-colors cursor-pointer backdrop-blur-xs bg-black/40 hover:bg-black/80"
+              className="w-9 h-9 rounded-full border border-black/20 hover:border-black text-black/70 hover:text-black flex items-center justify-center transition-colors cursor-pointer backdrop-blur-xs bg-white/60 hover:bg-white"
               aria-label="Next splash slide"
             >
               <ChevronRight className="w-4 h-4" />

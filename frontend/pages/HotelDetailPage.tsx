@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { HotelProperty, InquiryFormData, UserPersona, HotelVenueSpace } from '../types';
 import { HOTELS_DATA } from '../constants';
-import { ArrowLeft, Users, BedDouble, MapPin, Check, ArrowRight, Sparkles, Plane, Utensils, Calendar, Clock, Building2, ChevronLeft, ChevronRight, Compass, X, Maximize2, ZoomIn, Plus } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { HotelSelectorModal } from '../components/HotelSelectorModal';
 
 interface HotelDetailPageProps {
@@ -26,7 +26,7 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
       isDraftDrawing: false
     })),
     {
-      url: venue.draftLayoutImage || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+      url: venue.draftLayoutImage || 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E',
       caption: venue.draftLayoutTitle || 'Draft Drawing Layout & Seating Architecture',
       isDraftDrawing: true,
       notes: venue.layoutNotes || 'Technical draft drawing showing staging, mandap orientation, and guest flow.'
@@ -114,7 +114,7 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
                 currentSlide.isDraftDrawing ? 'contrast-125 brightness-95' : 'contrast-110'
               }`}
               onError={(e) => {
-                (e.target as HTMLImageElement).src = 'https://placehold.co/1280x720/000000/FFFFFF?text=Venue+Visual';
+                (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E';
               }}
             />
 
@@ -125,7 +125,7 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
             <div className="absolute top-3 left-3 z-10">
               {currentSlide.isDraftDrawing ? (
                 <span className="bg-black text-white text-[9px] font-sans uppercase tracking-widest px-2.5 py-1 rounded-full font-bold border border-white/30 flex items-center space-x-1 shadow-sm">
-                  <Compass className="w-3 h-3 text-neutral-300" />
+                  <span aria-hidden="true" className="w-3 h-3 inline-block border border-current"></span>
                   <span>Draft Drawing Layout</span>
                 </span>
               ) : (
@@ -138,7 +138,7 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
             {/* Hover Click to Expand Overlay Pill */}
             <div className="absolute top-3 right-3 z-10">
               <span className="bg-white/90 hover:bg-white text-black text-[10px] font-sans uppercase tracking-wider px-2.5 py-1 rounded-full font-medium shadow-sm flex items-center space-x-1 transition-colors">
-                <ZoomIn className="w-3 h-3" />
+                <span aria-hidden="true" className="w-3 h-3 inline-block border border-current"></span>
                 <span>Preview Overlay</span>
               </span>
             </div>
@@ -177,11 +177,11 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
                     isActive ? 'border-black ring-1 ring-black shadow-xs' : 'border-neutral-200 hover:border-neutral-400 opacity-70 hover:opacity-100'
                   }`}
                 >
-                  <img
+                  <span className="relative block w-full h-full object-cover filter grayscale contrast-110"><span className="relative block w-full h-full object-cover filter grayscale contrast-110"><img
                     src={s.url}
                     alt={s.caption}
                     className="w-full h-full object-cover filter grayscale contrast-110"
-                  />
+                  /><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span>
                   <div className="absolute inset-0 bg-black/30 group-hover/thumb:bg-transparent transition-colors" />
                   {s.isDraftDrawing && (
                     <span className="absolute bottom-1 left-1 bg-black/80 text-white text-[8px] font-sans uppercase tracking-wider px-1 rounded">
@@ -202,7 +202,7 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
           <div className="flex-1 grid grid-cols-1 gap-2 text-xs font-sans content-start">
             {venue.amenities.map((amenity, aIdx) => (
               <div key={aIdx} className="flex items-start space-x-2 text-neutral-700 bg-neutral-50 p-2.5 rounded-xl border border-neutral-200/80">
-                <Check className="w-3.5 h-3.5 text-black shrink-0 mt-0.5" />
+                <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 mt-0.5 inline-block border border-current"></span>
                 <span className="text-[11px] font-light leading-relaxed">{amenity}</span>
               </div>
             ))}
@@ -405,7 +405,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
           alt={hotel.name}
           className="w-full h-full object-cover filter grayscale contrast-115"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://placehold.co/1800x800/000000/FFFFFF?text=' + encodeURIComponent(hotel.name);
+            (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(hotel.name);
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
@@ -416,7 +416,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
           onClick={() => handleOpenPreview(0, [{ url: hotel.image, caption: `${hotel.name} Exterior Sanctuary`, isDraftDrawing: false }])}
           className="absolute top-6 right-6 z-20 bg-black/60 hover:bg-black text-white px-3.5 py-1.5 rounded-full text-xs font-sans font-medium flex items-center space-x-1.5 backdrop-blur-xs border border-white/20 transition-all cursor-pointer shadow-sm"
         >
-          <Maximize2 className="w-3.5 h-3.5" />
+          <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
           <span>Expand Hero Visual</span>
         </button>
 
@@ -439,7 +439,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
             </h1>
 
             <p className="text-xs sm:text-sm text-neutral-300 flex items-center space-x-2 font-light">
-              <MapPin className="w-4 h-4 text-white shrink-0" />
+              <span aria-hidden="true" className="w-4 h-4  shrink-0 inline-block border border-current"></span>
               <span>{hotel.location}</span>
             </p>
           </div>
@@ -469,7 +469,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 title="Collapse"
               >
                 <span className="flex items-center space-x-1.5 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">
-                  <X className="w-3.5 h-3.5" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                   <span>Close Form</span>
                 </span>
               </button>
@@ -494,7 +494,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 {/* Form Title */}
                 <div className="mb-5 pb-4 border-b border-neutral-200 space-y-1">
                   <div className="flex items-center space-x-1.5 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">
-                    <Building2 className="w-3.5 h-3.5 text-black" />
+                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                     <span>Direct Property Reservation</span>
                   </div>
                   <h3 className="font-serif text-2xl font-normal text-black">
@@ -677,7 +677,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                           ? `${formData.selectedHotelIds.length} propert${formData.selectedHotelIds.length > 1 ? 'ies' : 'y'} selected`
                           : 'Choose properties'}
                       </span>
-                      <Plus className="w-3.5 h-3.5 text-black shrink-0" />
+                      <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 inline-block border border-current"></span>
                     </button>
                   </div>
 
@@ -798,7 +798,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               <div>
                 <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">Capacity</span>
                 <div className="font-serif text-sm font-bold text-black flex items-center justify-center space-x-1">
-                  <Users className="w-3.5 h-3.5 text-black" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                   <span>{hotel.capacityMin}–{hotel.capacityMax}</span>
                 </div>
                 <span className="text-[10px] text-neutral-500">Guests</span>
@@ -807,7 +807,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               <div>
                 <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">Total Rooms</span>
                 <div className="font-serif text-sm font-bold text-black flex items-center justify-center space-x-1">
-                  <BedDouble className="w-3.5 h-3.5 text-black" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                   <span>{hotel.roomsCount}</span>
                 </div>
                 <span className="text-[10px] text-neutral-500">Keys, Suites &amp; Villas</span>
@@ -816,7 +816,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               <div>
                 <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">No of Venues</span>
                 <div className="font-serif text-sm font-bold text-black flex items-center justify-center space-x-1">
-                  <Building2 className="w-3.5 h-3.5 text-black" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                   <span>{(hotel.curatedSpaces || []).length}</span>
                 </div>
                 <span className="text-[10px] text-neutral-500">Curated Spaces</span>
@@ -865,7 +865,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     {hotel.mandapType}
                   </div>
                 </div>
-                <Sparkles className="w-5 h-5 text-neutral-400 shrink-0" />
+                <span aria-hidden="true" className="w-5 h-5  shrink-0 inline-block border border-current"></span>
               </div>
             </div>
 
@@ -902,7 +902,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                       </div>
 
                       <div className="bg-white border border-neutral-300 rounded-full px-3.5 py-1 text-xs font-sans text-black flex items-center space-x-1.5 shrink-0 self-start sm:self-auto shadow-2xs">
-                        <Users className="w-3.5 h-3.5 text-black" />
+                        <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                         <span className="font-medium">{venue.capacity}</span>
                       </div>
                     </div>
@@ -931,7 +931,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 <ul className="space-y-2 text-xs text-neutral-700 font-light">
                   {(hotel.culinaryHighlights || []).map((c, i) => (
                     <li key={i} className="flex items-start space-x-2">
-                      <Utensils className="w-3.5 h-3.5 text-black shrink-0 mt-0.5" />
+                      <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 mt-0.5 inline-block border border-current"></span>
                       <span>{c}</span>
                     </li>
                   ))}
@@ -945,7 +945,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 <ul className="space-y-2 text-xs text-neutral-700 font-light">
                   {hotel.keyHighlights.map((h, i) => (
                     <li key={i} className="flex items-start space-x-2">
-                      <Check className="w-3.5 h-3.5 text-black shrink-0 mt-0.5" />
+                      <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 mt-0.5 inline-block border border-current"></span>
                       <span>{h}</span>
                     </li>
                   ))}
@@ -991,7 +991,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                       <span>weddings@ihg.com</span>
                     </a>
                     <div className="flex items-center space-x-2 text-neutral-400">
-                      <Clock className="w-3.5 h-3.5" />
+                      <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                       <span>Mon–Sat · 09:00–19:00 IST</span>
                     </div>
                   </div>
@@ -1064,18 +1064,18 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                   className="p-1.5 rounded-full hover:bg-neutral-200 text-neutral-600 hover:text-black transition-colors cursor-pointer"
                   aria-label="Close image preview overlay"
                 >
-                  <X className="w-5 h-5" />
+                  <span aria-hidden="true" className="w-5 h-5 inline-block border border-current"></span>
                 </button>
               </div>
             </div>
 
             {/* Full High-Resolution Visual Container */}
             <div className="relative bg-black flex-1 min-h-[340px] sm:min-h-[460px] flex items-center justify-center overflow-hidden">
-              <img
+              <span className="relative block max-h-[58vh] sm:max-h-[64vh] w-auto max-w-full object-contain filter grayscale contrast-115"><span className="relative block max-h-[58vh] sm:max-h-[64vh] w-auto max-w-full object-contain filter grayscale contrast-115"><img
                 src={activeLightboxSlide.url}
                 alt={activeLightboxSlide.caption}
                 className="max-h-[58vh] sm:max-h-[64vh] w-auto max-w-full object-contain filter grayscale contrast-115"
-              />
+              /><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span>
 
               {/* Prev and Next Arrows inside Lightbox */}
               {activePreviewSlides.length > 1 && (
@@ -1127,11 +1127,11 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         isCurrent ? 'border-black ring-2 ring-black' : 'border-neutral-300 opacity-60 hover:opacity-100'
                       }`}
                     >
-                      <img
+                      <span className="relative block w-full h-full object-cover filter grayscale contrast-110"><span className="relative block w-full h-full object-cover filter grayscale contrast-110"><img
                         src={slide.url}
                         alt={slide.caption}
                         className="w-full h-full object-cover filter grayscale contrast-110"
-                      />
+                      /><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span>
                       {slide.isDraftDrawing && (
                         <span className="absolute bottom-0.5 right-0.5 bg-black text-white text-[7px] uppercase tracking-wider px-1 rounded">
                           Draft

@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { HOTELS_DATA } from '../constants';
 import { HotelProperty } from '../types';
-import { X, Search, Check, Building2, MapPin, Users, BedDouble } from 'lucide-react';
 
 interface HotelSelectorModalProps {
   isOpen: boolean;
@@ -76,7 +75,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
       <div className="p-5 sm:p-7 border-b border-neutral-200 flex items-center justify-between bg-neutral-50 shrink-0">
         <div>
           <div className="flex items-center space-x-2 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold mb-1">
-            <Building2 className="w-3.5 h-3.5 text-black" />
+            <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
             <span>Sanctuary Portfolio Selector</span>
           </div>
           <h2 className="font-serif text-xl sm:text-2xl font-normal text-black">
@@ -93,7 +92,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
           className="p-2 rounded-full hover:bg-neutral-200 text-neutral-600 hover:text-black transition-colors cursor-pointer"
           aria-label="Close selector"
         >
-          <X className="w-4 h-4" />
+          <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
         </button>
       </div>
 
@@ -109,14 +108,14 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-neutral-50 border border-neutral-300 hover:border-black rounded-xl pl-9 pr-8 py-2 text-xs font-sans text-black focus:outline-none focus:border-black transition-colors"
             />
-            <Search className="w-3.5 h-3.5 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <span aria-hidden="true" className="w-3.5 h-3.5  absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none inline-block border border-current"></span>
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-black cursor-pointer"
               >
-                <X className="w-3 h-3" />
+                <span aria-hidden="true" className="w-3 h-3 inline-block border border-current"></span>
               </button>
             )}
           </div>
@@ -167,7 +166,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
       <div className="flex-1 overflow-y-auto p-5 sm:p-7 min-h-[300px]">
         {filteredHotels.length === 0 ? (
           <div className="text-center py-16 text-neutral-500 space-y-2">
-            <Building2 className="w-8 h-8 mx-auto text-neutral-400" />
+            <span aria-hidden="true" className="w-8 h-8 mx-auto inline-block border border-current"></span>
             <p className="font-serif text-base text-black">No hotels found matching criteria.</p>
             <p className="text-xs font-light">Try resetting search filters or city presets.</p>
           </div>
@@ -188,11 +187,11 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
                   <div>
                     {/* Image Thumbnail */}
                     <div className="relative h-28 rounded-xl overflow-hidden bg-neutral-900 mb-2">
-                      <img
+                      <span className="relative block w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"><span className="relative block w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"><img
                         src={hotel.image}
                         alt={hotel.name}
                         className="w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"
-                      />
+                      /><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span>
                       <span className="absolute top-2 left-2 bg-white/95 text-black text-[9px] uppercase tracking-wider px-2 py-0.5 rounded font-medium">
                         {hotel.city}
                       </span>
@@ -205,7 +204,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
                             : 'border-white/80 bg-black/40 text-transparent'
                         }`}
                       >
-                        <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        <span aria-hidden="true" className="w-3.5 h-3.5 stroke-[3] inline-block border border-current"></span>
                       </div>
                     </div>
 
@@ -218,7 +217,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
                         {hotel.name}
                       </h4>
                       <p className="text-[11px] text-neutral-500 truncate flex items-center space-x-1">
-                        <MapPin className="w-3 h-3 shrink-0" />
+                        <span aria-hidden="true" className="w-3 h-3 shrink-0 inline-block border border-current"></span>
                         <span className="truncate">{hotel.location}</span>
                       </p>
                     </div>
@@ -227,11 +226,11 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
                   {/* Metrics Strip */}
                   <div className="mt-2.5 pt-2 border-t border-neutral-200/80 flex items-center justify-between text-[10px] text-neutral-600">
                     <span className="flex items-center space-x-1">
-                      <Users className="w-3 h-3 text-neutral-400" />
+                      <span aria-hidden="true" className="w-3 h-3 inline-block border border-current"></span>
                       <span>{hotel.capacityMin}–{hotel.capacityMax}</span>
                     </span>
                     <span className="flex items-center space-x-1">
-                      <BedDouble className="w-3 h-3 text-neutral-400" />
+                      <span aria-hidden="true" className="w-3 h-3 inline-block border border-current"></span>
                       <span>{hotel.roomsCount} keys</span>
                     </span>
                   </div>
@@ -263,7 +262,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
             className="bg-black hover:bg-neutral-800 text-white px-5 py-2 rounded-xl text-xs uppercase tracking-wider font-medium transition-all shadow-xs cursor-pointer flex items-center space-x-1.5"
           >
             <span>Attach to Form</span>
-            <Check className="w-3.5 h-3.5" />
+            <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
           </button>
         </div>
       </div>

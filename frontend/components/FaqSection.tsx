@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ArrowRight, HelpCircle } from 'lucide-react';
+import { ChevronDown, ArrowRight } from 'lucide-react';
 
 interface FaqSectionProps {
   onOpenAllFaqs: () => void;
@@ -16,25 +16,25 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenAllFaqs }) => {
 
   const sampleFaqs = [
     {
-      q: 'How far in advance should we block an IHG destination sanctuary for an Indian wedding?',
-      a: 'For high-demand auspicious Muhurtham dates (October through March), we recommend securing your dates 8 to 14 months in advance. This ensures complete room block availability, prime lawn reservations, and timely municipal acoustic permits.'
+      q: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit?',
+      a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     },
     {
-      q: 'How does IHG guarantee 100% kitchen segregation for strict Jain and Sattvic dining?',
-      a: 'Our sanctuaries operate physically isolated satellite kitchens with zero cross-contact. We maintain consecrated cookware, segregated dishwashing units, and a strict zero onion, garlic, and root vegetable pantry certified by visiting family priests.'
+      q: 'Duis aute irure dolor in reprehenderit in voluptate velit?',
+      a: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.'
     },
     {
-      q: 'What is the noise curfew policy for Sangeet afterparties and live DJ performances?',
-      a: 'Per statutory environmental guidelines, outdoor amplified music on lawns and beaches concludes at 10:00 PM. High-energy musical performances then transition into our acoustically insulated pillarless ballrooms (certified up to 98dB) until late.'
+      q: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur?',
+      a: 'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.'
     },
     {
-      q: 'What is the Two-Hour Weather Contingency Guarantee for outdoor mandaps?',
-      a: 'Every outdoor lawn or beachside mandap reservation automatically includes a pre-reserved indoor ballroom or temperature-controlled glasshouse with mirrored staging readiness, capable of activating seamlessly within 120 minutes.'
+      q: 'Ut enim ad minima veniam, quis nostrum exercitationem ullam?',
+      a: 'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur. At vero eos et accusamus et iusto odio dignissimos.'
     }
   ];
 
   return (
-    <section className="py-20 bg-white border-b border-neutral-200">
+    <section id="faqs" className="py-20 bg-white border-b border-neutral-200">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Destination } from '../types';
-import { X, Check, MapPin, Calendar, Plane, Flame, Compass, Utensils, Volume2, Home, ArrowRight, ShieldCheck, Sun } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 interface DestinationDetailModalProps {
   destination: Destination | null;
@@ -29,7 +29,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
           className="absolute top-4 right-4 z-20 bg-white/95 hover:bg-black hover:text-white text-black p-2 rounded-full shadow-md transition-colors"
           aria-label="Close"
         >
-          <X className="w-4 h-4" />
+          <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
         </button>
 
         {/* Hero Architectural Vistas */}
@@ -39,7 +39,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
             alt={destination.name}
             className="w-full h-full object-cover filter grayscale contrast-115"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = 'https://placehold.co/1200x600/000000/FFFFFF?text=' + encodeURIComponent(destination.name);
+              (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(destination.name);
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
@@ -52,7 +52,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
               {destination.name}
             </h2>
             <p className="text-xs text-neutral-300 flex items-center space-x-1.5 mt-1 font-light">
-              <MapPin className="w-3.5 h-3.5 text-white shrink-0" />
+              <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 inline-block border border-current"></span>
               <span>{destination.tagline}</span>
             </p>
           </div>
@@ -79,7 +79,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
             <div>
               <span className="text-[10px] uppercase text-neutral-500 block mb-0.5 font-semibold">Climate Window</span>
               <div className="font-medium text-black flex items-center space-x-1.5">
-                <Sun className="w-3.5 h-3.5 text-black shrink-0" />
+                <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 inline-block border border-current"></span>
                 <span>{destination.climateWindow}</span>
               </div>
             </div>
@@ -92,7 +92,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
             <div>
               <span className="text-[10px] uppercase text-neutral-500 block mb-0.5 font-semibold">Certification</span>
               <div className="font-medium text-black flex items-center space-x-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-black shrink-0" />
+                <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 inline-block border border-current"></span>
                 <span>IHG 5-Point Ceremonial Audit</span>
               </div>
             </div>
@@ -107,12 +107,12 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
               
               <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-200 flex items-start space-x-3">
                 <div className="p-2 bg-white rounded-lg border border-neutral-200 text-black shrink-0">
-                  <Flame className="w-4 h-4" />
+                  <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
                 </div>
                 <div>
                   <div className="flex items-center space-x-2">
                     <span className="font-semibold text-black">{destination.readiness.havanFireSpace.title}</span>
-                    <Check className="w-3.5 h-3.5 text-black" />
+                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                   </div>
                   <p className="text-[11px] text-neutral-600 font-light mt-0.5">
                     {destination.readiness.havanFireSpace.detail}
@@ -122,12 +122,12 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
 
               <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-200 flex items-start space-x-3">
                 <div className="p-2 bg-white rounded-lg border border-neutral-200 text-black shrink-0">
-                  <Compass className="w-4 h-4" />
+                  <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
                 </div>
                 <div>
                   <div className="flex items-center space-x-2">
                     <span className="font-semibold text-black">{destination.readiness.baraatRoute.title}</span>
-                    <Check className="w-3.5 h-3.5 text-black" />
+                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                   </div>
                   <p className="text-[11px] text-neutral-600 font-light mt-0.5">
                     {destination.readiness.baraatRoute.detail}
@@ -137,12 +137,12 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
 
               <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-200 flex items-start space-x-3">
                 <div className="p-2 bg-white rounded-lg border border-neutral-200 text-black shrink-0">
-                  <Utensils className="w-4 h-4" />
+                  <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
                 </div>
                 <div>
                   <div className="flex items-center space-x-2">
                     <span className="font-semibold text-black">{destination.readiness.dietarySegregation.title}</span>
-                    <Check className="w-3.5 h-3.5 text-black" />
+                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                   </div>
                   <p className="text-[11px] text-neutral-600 font-light mt-0.5">
                     {destination.readiness.dietarySegregation.detail}
@@ -153,7 +153,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-200 flex items-start space-x-3">
                   <div className="p-2 bg-white rounded-lg border border-neutral-200 text-black shrink-0">
-                    <Volume2 className="w-4 h-4" />
+                    <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
                   </div>
                   <div>
                     <span className="font-semibold text-black block">{destination.readiness.lateNightAcoustics.title}</span>
@@ -165,7 +165,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
 
                 <div className="p-3 bg-neutral-50 rounded-xl border border-neutral-200 flex items-start space-x-3">
                   <div className="p-2 bg-white rounded-lg border border-neutral-200 text-black shrink-0">
-                    <Home className="w-4 h-4" />
+                    <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
                   </div>
                   <div>
                     <span className="font-semibold text-black block">{destination.readiness.vipSuites.title}</span>

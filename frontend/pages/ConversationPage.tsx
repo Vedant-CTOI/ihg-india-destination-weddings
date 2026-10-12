@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { InquiryFormData, UserPersona } from '../types';
 import { HOTELS_DATA } from '../constants';
 import { HotelSelectorModal } from '../components/HotelSelectorModal';
-import { ArrowLeft, ArrowRight, MessageSquare, ShieldCheck, Check, Sparkles, Calendar, Clock, Building2, Plus } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface ConversationPageProps {
   prefilledDestination?: string;
@@ -209,7 +209,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
         {/* Page Header */}
         <div className="space-y-2">
           <div className="flex items-center space-x-2 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">
-            <Sparkles className="w-4 h-4 text-black" />
+            <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
             <span>Bespoke Sanctuary Intake</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-black leading-tight">
@@ -265,7 +265,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
             {/* 2. Persona-Specific Dynamic Fields */}
             <div className="p-5 bg-neutral-50 rounded-2xl border border-neutral-200 space-y-4 animate-fade-in">
               <div className="flex items-center space-x-2 text-[11px] uppercase tracking-wider text-neutral-500 font-semibold">
-                <Sparkles className="w-3.5 h-3.5 text-black" />
+                <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                 <span>Tailored for: {formData.decisionRole}</span>
               </div>
 
@@ -477,7 +477,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
                             : 'border-neutral-300 text-transparent'
                         }`}
                       >
-                        <Check className="w-3 h-3 stroke-[3]" />
+                        <span aria-hidden="true" className="w-3 h-3 stroke-[3] inline-block border border-current"></span>
                       </div>
                     </button>
                   );
@@ -490,7 +490,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                   <label className="font-serif text-lg text-black font-normal flex items-center space-x-2">
-                    <Building2 className="w-4 h-4 text-black" />
+                    <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
                     <span>Choose Specific Hotels &amp; Palaces</span>
                   </label>
                   <p className="text-[11px] text-neutral-500 font-light mt-0.5">
@@ -503,7 +503,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
                   onClick={() => setHotelModalOpen(true)}
                   className="bg-black hover:bg-neutral-800 text-white px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-medium flex items-center justify-center space-x-1.5 transition-colors cursor-pointer self-start sm:self-auto shadow-2xs"
                 >
-                  <Plus className="w-3.5 h-3.5" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                   <span>Choose Hotels Overlay</span>
                 </button>
               </div>
@@ -593,7 +593,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
                   Target Celebration Window
                 </label>
                 <span className="text-[11px] text-neutral-400 font-light flex items-center space-x-1">
-                  <Clock className="w-3.5 h-3.5 text-neutral-400" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                   <span>Calendar Date Selection</span>
                 </span>
               </div>
@@ -602,7 +602,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div className="bg-neutral-50 p-3.5 rounded-2xl border border-neutral-200">
                   <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5 flex items-center space-x-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-black" />
+                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                     <span>From Date (Day / Month / Year):</span>
                   </label>
                   <input
@@ -621,7 +621,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
 
                 <div className="bg-neutral-50 p-3.5 rounded-2xl border border-neutral-200">
                   <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5 flex items-center space-x-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-black" />
+                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                     <span>To Date (Day / Month / Year):</span>
                   </label>
                   <input
@@ -686,7 +686,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
                 rel="noopener noreferrer"
                 className="border border-black text-black hover:bg-black hover:text-white py-3.5 rounded-xl font-medium tracking-wider uppercase text-xs transition-colors flex items-center justify-center space-x-2 text-center"
               >
-                <MessageSquare className="w-4 h-4" />
+                <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
                 <span>Instant Connect via WhatsApp</span>
               </a>
             </div>
@@ -709,7 +709,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
             onClick={onOpenCharter}
             className="inline-flex items-center space-x-1.5 text-xs text-neutral-500 hover:text-black uppercase tracking-wider font-medium cursor-pointer"
           >
-            <ShieldCheck className="w-4 h-4" />
+            <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
             <span>Read IHG Philosophy</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Destination, HotelProperty } from '../types';
 import { DESTINATIONS_DATA, HOTELS_DATA } from '../constants';
-import { ArrowLeft, MapPin, Sun, ShieldCheck, Flame, Compass, Utensils, Volume2, Home, ArrowRight, BedDouble, Users, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface DestinationDetailPageProps {
   destinationId: string;
@@ -57,7 +57,7 @@ export const DestinationDetailPage: React.FC<DestinationDetailPageProps> = ({
           alt={`${destination.genre} - ${destination.name}`}
           className="w-full h-full object-cover filter grayscale contrast-115"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://placehold.co/1800x800/000000/FFFFFF?text=' + encodeURIComponent(destination.name);
+            (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(destination.name);
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
@@ -78,7 +78,7 @@ export const DestinationDetailPage: React.FC<DestinationDetailPageProps> = ({
             </h1>
 
             <p className="text-xs sm:text-sm text-neutral-300 max-w-2xl font-light leading-relaxed flex items-center space-x-2">
-              <MapPin className="w-3.5 h-3.5 text-white shrink-0" />
+              <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 inline-block border border-current"></span>
               <span>{destination.tagline}</span>
             </p>
           </div>
@@ -138,7 +138,7 @@ export const DestinationDetailPage: React.FC<DestinationDetailPageProps> = ({
                   Curated signature backdrops, open-air ceremonial decks & acoustic ballroom zoning
                 </span>
               </div>
-              <Sparkles className="w-4 h-4 text-black shrink-0 ml-3" />
+              <span aria-hidden="true" className="w-4 h-4  shrink-0 ml-3 inline-block border border-current"></span>
             </div>
           </div>
 
@@ -150,7 +150,7 @@ export const DestinationDetailPage: React.FC<DestinationDetailPageProps> = ({
             <div>
               <span className="text-neutral-500 block mb-0.5">Optimal Climate Season</span>
               <div className="font-serif text-base text-black font-semibold flex items-center space-x-1.5">
-                <Sun className="w-3.5 h-3.5 text-black" />
+                <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                 <span>{destination.climateWindow}</span>
               </div>
             </div>
@@ -167,7 +167,7 @@ export const DestinationDetailPage: React.FC<DestinationDetailPageProps> = ({
             <div className="pt-2.5 border-t border-neutral-200">
               <span className="text-neutral-500 block mb-0.5">Ceremonial Audit Status</span>
               <div className="flex items-center space-x-1.5 text-black font-semibold text-[11px]">
-                <ShieldCheck className="w-3.5 h-3.5 text-black" />
+                <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                 <span>100% Certified (5-Point Audit)</span>
               </div>
             </div>
@@ -210,11 +210,11 @@ export const DestinationDetailPage: React.FC<DestinationDetailPageProps> = ({
               >
                 <div>
                   <div className="relative h-56 overflow-hidden bg-neutral-900">
-                    <img
+                    <span className="relative block w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"><span className="relative block w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"><img
                       src={hotel.image}
                       alt={hotel.name}
                       className="w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"
-                    />
+                    /><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span>
                     <span className="absolute top-3 left-3 bg-white/95 text-black text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-full font-medium">
                       {hotel.brand}
                     </span>
@@ -238,11 +238,11 @@ export const DestinationDetailPage: React.FC<DestinationDetailPageProps> = ({
 
                     <div className="flex items-center space-x-4 text-xs text-neutral-700 py-2 border-y border-neutral-200 mb-2">
                       <span className="flex items-center space-x-1.5">
-                        <Users className="w-3.5 h-3.5 text-black" />
+                        <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                         <span>{hotel.capacityMin}–{hotel.capacityMax} Guests</span>
                       </span>
                       <span className="flex items-center space-x-1.5">
-                        <BedDouble className="w-3.5 h-3.5 text-black" />
+                        <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                         <span>{hotel.roomsCount} Rooms</span>
                       </span>
                     </div>
@@ -285,7 +285,7 @@ export const DestinationDetailPage: React.FC<DestinationDetailPageProps> = ({
             <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200 flex flex-col justify-between">
               <div>
                 <div className="w-8 h-8 rounded-lg bg-white border border-neutral-300 flex items-center justify-center text-black mb-3">
-                  <Flame className="w-3.5 h-3.5" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                 </div>
                 <h3 className="font-serif text-sm font-normal text-black mb-1">
                   {destination.readiness.havanFireSpace.title}
@@ -303,7 +303,7 @@ export const DestinationDetailPage: React.FC<DestinationDetailPageProps> = ({
             <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200 flex flex-col justify-between">
               <div>
                 <div className="w-8 h-8 rounded-lg bg-white border border-neutral-300 flex items-center justify-center text-black mb-3">
-                  <Compass className="w-3.5 h-3.5" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                 </div>
                 <h3 className="font-serif text-sm font-normal text-black mb-1">
                   {destination.readiness.baraatRoute.title}
@@ -321,7 +321,7 @@ export const DestinationDetailPage: React.FC<DestinationDetailPageProps> = ({
             <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200 flex flex-col justify-between">
               <div>
                 <div className="w-8 h-8 rounded-lg bg-white border border-neutral-300 flex items-center justify-center text-black mb-3">
-                  <Utensils className="w-3.5 h-3.5" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                 </div>
                 <h3 className="font-serif text-sm font-normal text-black mb-1">
                   {destination.readiness.dietarySegregation.title}
@@ -339,7 +339,7 @@ export const DestinationDetailPage: React.FC<DestinationDetailPageProps> = ({
             <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200 flex flex-col justify-between">
               <div>
                 <div className="w-8 h-8 rounded-lg bg-white border border-neutral-300 flex items-center justify-center text-black mb-3">
-                  <Volume2 className="w-3.5 h-3.5" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                 </div>
                 <h3 className="font-serif text-sm font-normal text-black mb-1">
                   {destination.readiness.lateNightAcoustics.title}
@@ -357,7 +357,7 @@ export const DestinationDetailPage: React.FC<DestinationDetailPageProps> = ({
             <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200 flex flex-col justify-between md:col-span-2 lg:col-span-2">
               <div>
                 <div className="w-8 h-8 rounded-lg bg-white border border-neutral-300 flex items-center justify-center text-black mb-3">
-                  <Home className="w-3.5 h-3.5" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                 </div>
                 <h3 className="font-serif text-sm font-normal text-black mb-1">
                   {destination.readiness.vipSuites.title}

@@ -23,6 +23,7 @@ export const Header: React.FC<HeaderProps> = ({
     { label: 'Discover by Genre', anchor: 'destinations' },
     { label: 'Hotels', anchor: 'hotels-exploration' },
     { label: 'Real Weddings', anchor: 'real-weddings' },
+    { label: 'FAQs', anchor: 'faqs' },
     { label: 'IHG Philosophy', isCharter: true },
   ];
 

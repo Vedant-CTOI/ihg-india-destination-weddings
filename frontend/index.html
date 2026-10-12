@@ -111,15 +111,9 @@
     a:has(> img:only-child) div[class*="bg-gradient"] {
       display: none !important;
     }
-    /* Neutralize decorative darkening overlays so the blocks read clean */
-    img + div,
-    .wf-hide-overlay {
-      opacity: 0 !important;
-    }
 
     /* ─── GREY-SURFACE CONTRAST FIX ───
-       Text sitting on grey surfaces must read black. Grey panels are
-       bg-neutral-50/100; their muted text classes get darkened. */
+       Muted text on grey panels darkened; white text untouched. */
     .bg-neutral-50 .text-neutral-400,
     .bg-neutral-50 .text-neutral-500,
     .bg-neutral-100 .text-neutral-400,
@@ -129,16 +123,6 @@
     .bg-neutral-50 .text-neutral-600,
     .bg-neutral-100 .text-neutral-600 {
       color: #1a1a1a !important;
-    }
-    /* Direct children text of grey panels that inherit no color class */
-    .bg-neutral-50,
-    .bg-neutral-100 {
-      color: #000000;
-    }
-    /* White-on-grey leftovers from dark-inverted children inside grey panels */
-    .bg-neutral-50 .text-white,
-    .bg-neutral-100 .text-white {
-      color: #000000 !important;
     }
   </style>
 

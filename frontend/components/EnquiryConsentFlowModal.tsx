@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { InquiryFormData } from '../types';
-import { ShieldCheck, Check, Clock, ArrowRight, X, AlertCircle } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 interface EnquiryConsentFlowModalProps {
   isOpen: boolean;
@@ -50,7 +50,7 @@ export const EnquiryConsentFlowModal: React.FC<EnquiryConsentFlowModalProps> = (
           <div className="flex items-start justify-between border-b border-neutral-200 pb-5">
             <div>
               <div className="flex items-center space-x-2 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold mb-1">
-                <ShieldCheck className="w-4 h-4 text-black" />
+                <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
                 <span>IHG Governance &amp; Data Safeguards</span>
               </div>
               <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">
@@ -67,7 +67,7 @@ export const EnquiryConsentFlowModal: React.FC<EnquiryConsentFlowModalProps> = (
               className="p-1.5 rounded-full hover:bg-neutral-100 text-neutral-500 hover:text-black transition-colors cursor-pointer"
               aria-label="Cancel consent"
             >
-              <X className="w-4 h-4" />
+              <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
             </button>
           </div>
 
@@ -130,7 +130,7 @@ export const EnquiryConsentFlowModal: React.FC<EnquiryConsentFlowModalProps> = (
 
             {validationError && (
               <div className="flex items-center space-x-2 text-xs text-red-600 bg-red-50 p-3 rounded-xl border border-red-200 font-medium">
-                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span aria-hidden="true" className="w-4 h-4 shrink-0 inline-block border border-current"></span>
                 <span>{validationError}</span>
               </div>
             )}
@@ -167,7 +167,7 @@ export const EnquiryConsentFlowModal: React.FC<EnquiryConsentFlowModalProps> = (
         >
           {/* Registered Icon */}
           <div className="w-16 h-16 rounded-full bg-black text-white flex items-center justify-center mx-auto shadow-md">
-            <Check className="w-8 h-8 stroke-[2.5]" />
+            <span aria-hidden="true" className="w-8 h-8 stroke-[2.5] inline-block border border-current"></span>
           </div>
 
           {/* Title & Explicit Notification Statement */}
@@ -200,7 +200,7 @@ export const EnquiryConsentFlowModal: React.FC<EnquiryConsentFlowModalProps> = (
             <div className="flex justify-between py-0.5">
               <span className="text-neutral-400">Status:</span>
               <strong className="text-black font-medium flex items-center space-x-1">
-                <Clock className="w-3 h-3 text-neutral-500" />
+                <span aria-hidden="true" className="w-3 h-3 inline-block border border-current"></span>
                 <span>Enquiry Registered — Awaiting Director Communication</span>
               </strong>
             </div>

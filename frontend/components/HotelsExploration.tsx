@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { HOTELS_DATA } from '../constants';
 import { HotelProperty } from '../types';
-import { Users, BedDouble, Eye, ArrowRight, ArrowLeft, X, MapPin, Sparkles, Utensils, Check, Plane, ExternalLink } from 'lucide-react';
+import { ArrowRight, ArrowLeft } from 'lucide-react';
 
 interface HotelsExplorationProps {
   onSelectHotel: (hotel: HotelProperty) => void;
@@ -122,7 +122,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                     alt={hotel.name}
                     className="w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://placehold.co/600x400/000000/FFFFFF?text=' + encodeURIComponent(hotel.name);
+                      (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(hotel.name);
                     }}
                   />
                   <span className="absolute top-3 left-3 bg-white/95 text-black text-[10px] uppercase tracking-wider font-sans px-2.5 py-0.5 rounded-full font-medium shadow-xs">
@@ -135,7 +135,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
 
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <span className="bg-white text-black px-3 py-1.5 rounded-full text-xs font-sans font-medium flex items-center space-x-1.5 shadow-sm">
-                      <Eye className="w-3.5 h-3.5 text-black" />
+                      <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                       <span>Quick Preview</span>
                     </span>
                   </div>
@@ -161,11 +161,11 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
 
                   <div className="flex items-center space-x-4 text-xs font-sans text-neutral-700 py-2 border-y border-neutral-200 mb-3">
                     <span className="flex items-center space-x-1">
-                      <Users className="w-3.5 h-3.5 text-black" />
+                      <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                       <span>{hotel.capacityMin}–{hotel.capacityMax} Guests</span>
                     </span>
                     <span className="flex items-center space-x-1">
-                      <BedDouble className="w-3.5 h-3.5 text-black" />
+                      <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                       <span>{hotel.roomsCount} Rooms</span>
                     </span>
                   </div>
@@ -211,7 +211,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
               className="absolute top-4 right-4 z-20 bg-white/90 hover:bg-black hover:text-white text-black p-2 rounded-full shadow-md transition-colors cursor-pointer"
               aria-label="Close preview"
             >
-              <X className="w-4 h-4" />
+              <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
             </button>
 
             {/* Hero Image in Popup */}
@@ -221,7 +221,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                 alt={previewHotel.name}
                 className="w-full h-full object-cover filter grayscale contrast-115"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://placehold.co/1000x500/000000/FFFFFF?text=' + encodeURIComponent(previewHotel.name);
+                  (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(previewHotel.name);
                 }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
@@ -244,7 +244,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                 </h2>
 
                 <p className="text-xs text-neutral-300 flex items-center space-x-1.5 mt-1">
-                  <MapPin className="w-3.5 h-3.5 text-white shrink-0" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 inline-block border border-current"></span>
                   <span>{previewHotel.location}</span>
                 </p>
               </div>
@@ -258,7 +258,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                 <div>
                   <span className="text-[10px] uppercase text-neutral-500 block">Capacity</span>
                   <div className="font-serif text-lg font-bold text-black flex items-center justify-center space-x-1">
-                    <Users className="w-4 h-4 text-black" />
+                    <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
                     <span>{previewHotel.capacityMin}–{previewHotel.capacityMax}</span>
                   </div>
                   <span className="text-[10px] text-neutral-500">Guests</span>
@@ -266,7 +266,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                 <div>
                   <span className="text-[10px] uppercase text-neutral-500 block">Accommodations</span>
                   <div className="font-serif text-lg font-bold text-black flex items-center justify-center space-x-1">
-                    <BedDouble className="w-4 h-4 text-black" />
+                    <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
                     <span>{previewHotel.roomsCount} Keys</span>
                   </div>
                   <span className="text-[10px] text-neutral-500">Rooms & Villas</span>
@@ -290,7 +290,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                 </p>
                 {previewHotel.airportDistance && (
                   <div className="flex items-center space-x-1.5 text-xs text-neutral-800 mt-2 font-medium">
-                    <Plane className="w-3.5 h-3.5 text-black" />
+                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                     <span>Transit: {previewHotel.airportDistance}</span>
                   </div>
                 )}
@@ -331,7 +331,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                       'Simultaneous global coastal grills & continental bars'
                     ]).map((c, i) => (
                       <li key={i} className="flex items-start space-x-2">
-                        <Utensils className="w-3.5 h-3.5 text-black shrink-0 mt-0.5" />
+                        <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 mt-0.5 inline-block border border-current"></span>
                         <span>{c}</span>
                       </li>
                     ))}
@@ -345,7 +345,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                   <ul className="space-y-1.5 text-xs text-neutral-700 font-light">
                     {previewHotel.keyHighlights.map((h, i) => (
                       <li key={i} className="flex items-start space-x-2">
-                        <Check className="w-3.5 h-3.5 text-black shrink-0 mt-0.5" />
+                        <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 mt-0.5 inline-block border border-current"></span>
                         <span>{h}</span>
                       </li>
                     ))}
@@ -363,7 +363,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                     {previewHotel.mandapType}
                   </div>
                 </div>
-                <Sparkles className="w-5 h-5 text-neutral-400 shrink-0" />
+                <span aria-hidden="true" className="w-5 h-5  shrink-0 inline-block border border-current"></span>
               </div>
 
               {/* POPUP ACTION BUTTONS */}
@@ -374,7 +374,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                   className="border border-neutral-300 hover:border-black text-black px-5 py-2.5 rounded-full text-xs uppercase tracking-wider font-medium transition-colors flex items-center justify-center space-x-1.5 cursor-pointer"
                 >
                   <span>Open Dedicated Hotel Page</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                 </button>
 
                 <a

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { VISUALISE_FUNCTIONS } from '../constants';
 import { VisualiseFunctionData, WeddingFunctionId } from '../types';
-import { X, SlidersHorizontal, Check, ArrowRight, Sparkles, Sun, Moon, CloudSun, Eye } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 interface VisualiseStudioModalProps {
   isOpen: boolean;
@@ -56,7 +56,7 @@ export const VisualiseStudioModal: React.FC<VisualiseStudioModalProps> = ({
             className="p-1.5 rounded-full hover:bg-neutral-100 text-neutral-600 hover:text-black transition-colors"
             aria-label="Close Studio"
           >
-            <X className="w-5 h-5" />
+            <span aria-hidden="true" className="w-5 h-5 inline-block border border-current"></span>
           </button>
         </div>
 
@@ -92,27 +92,27 @@ export const VisualiseStudioModal: React.FC<VisualiseStudioModalProps> = ({
             className="relative h-[360px] sm:h-[460px] w-full select-none overflow-hidden rounded-2xl bg-black border border-neutral-300"
           >
             {/* Background Layer: Transformed Wedding Setup */}
-            <img
+            <span className="relative block "><span className="relative block "><img
               src={current.transformedImage}
               alt={`${current.label} Wedding Setup`}
               className={`absolute inset-0 w-full h-full object-cover filter grayscale contrast-115 ${
                 lightingPreset === 'starlit' ? 'brightness-75' : lightingPreset === 'sunset' ? 'brightness-95' : 'brightness-110'
               }`}
-            />
+            /><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span>
 
             {/* Foreground Layer (Clipped): Raw Property Photo */}
             <div
               className="absolute inset-0 overflow-hidden"
               style={{ width: `${sliderPos}%` }}
             >
-              <img
+              <span className="relative block "><span className="relative block "><img
                 src={current.rawImage}
                 alt={`${current.venueName} Raw Venue`}
                 className={`absolute inset-0 w-full h-full object-cover filter grayscale contrast-105 ${
                   lightingPreset === 'starlit' ? 'brightness-75' : lightingPreset === 'sunset' ? 'brightness-95' : 'brightness-110'
                 }`}
                 style={{ width: containerRef.current ? `${containerRef.current.clientWidth}px` : '100%', maxWidth: 'none' }}
-              />
+              /><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span>
             </div>
 
             {/* Split Divider Line */}
@@ -121,7 +121,7 @@ export const VisualiseStudioModal: React.FC<VisualiseStudioModalProps> = ({
               style={{ left: `${sliderPos}%` }}
             >
               <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-black border-2 border-white text-white flex items-center justify-center shadow-lg">
-                <SlidersHorizontal className="w-4 h-4" />
+                <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
               </div>
             </div>
 
@@ -175,7 +175,7 @@ export const VisualiseStudioModal: React.FC<VisualiseStudioModalProps> = ({
                       : 'border-neutral-200 text-neutral-600 hover:border-black'
                   }`}
                 >
-                  <Sun className="w-3.5 h-3.5" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                   <span className="text-[10px]">Daylight</span>
                 </button>
                 <button
@@ -187,7 +187,7 @@ export const VisualiseStudioModal: React.FC<VisualiseStudioModalProps> = ({
                       : 'border-neutral-200 text-neutral-600 hover:border-black'
                   }`}
                 >
-                  <CloudSun className="w-3.5 h-3.5" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                   <span className="text-[10px]">Sunset</span>
                 </button>
                 <button
@@ -199,7 +199,7 @@ export const VisualiseStudioModal: React.FC<VisualiseStudioModalProps> = ({
                       : 'border-neutral-200 text-neutral-600 hover:border-black'
                   }`}
                 >
-                  <Moon className="w-3.5 h-3.5" />
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                   <span className="text-[10px]">Starlit</span>
                 </button>
               </div>
@@ -213,7 +213,7 @@ export const VisualiseStudioModal: React.FC<VisualiseStudioModalProps> = ({
               <ul className="space-y-1.5 text-neutral-700 font-light">
                 {current.keyElements.map((elem, idx) => (
                   <li key={idx} className="flex items-start space-x-2">
-                    <Check className="w-3.5 h-3.5 text-black shrink-0 mt-0.5" />
+                    <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 mt-0.5 inline-block border border-current"></span>
                     <span>{elem}</span>
                   </li>
                 ))}
