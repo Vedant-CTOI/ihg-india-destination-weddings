@@ -19,7 +19,7 @@ export const HeroSection: React.FC = () => {
       titlePrefix: 'Sacred vows in',
       titleItalic: 'quiet majesty.',
       subtitle: 'Understated sunset mandaps, torchlit courtyards, and quiet luxury curated for your private promise.',
-      locationLabel: 'Six Senses Fort Barwara • Rajasthan',
+      locationLabel: 'Hotel 1 • Rajasthan',
       image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=2400&q=85'
     },
     {
@@ -28,7 +28,7 @@ export const HeroSection: React.FC = () => {
       titlePrefix: 'Tides of devotion at',
       titleItalic: 'golden hour.',
       subtitle: 'Where gentle ocean waves meet fragrant jasmine canopies, wind-shielded havan decks, and starlit banquets.',
-      locationLabel: 'Crowne Plaza Resort • South Goa Beach',
+      locationLabel: 'Hotel 3 • South Goa Beach',
       image: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=2400&q=85'
     },
     {
@@ -37,7 +37,7 @@ export const HeroSection: React.FC = () => {
       titlePrefix: 'Eternal promises by',
       titleItalic: 'sacred waters.',
       subtitle: 'Ancient granite stone pillars, floating lotus reflection ponds, and sunrise Vedic chants by the Bay of Bengal.',
-      locationLabel: 'InterContinental Mahabalipuram • Coromandel',
+      locationLabel: 'Hotel 6 • Coromandel',
       image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=2400&q=85'
     },
     {
@@ -46,7 +46,7 @@ export const HeroSection: React.FC = () => {
       titlePrefix: 'Unhurried grace on',
       titleItalic: 'emerald shores.',
       subtitle: 'Ceremonial Shikara flotilla arrivals, floating island mandaps, and authentic royal feasts enveloped in palm serenity.',
-      locationLabel: 'Crowne Plaza Kochi • Vembanad Waters',
+      locationLabel: 'Hotel 7 • Vembanad Waters',
       image: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=2400&q=85'
     },
     {
@@ -55,7 +55,7 @@ export const HeroSection: React.FC = () => {
       titlePrefix: 'Whispering pines &',
       titleItalic: 'mountain mantras.',
       subtitle: 'Flowing river-stone platforms, lantern-lit pine meadow receptions, and crisp Himalayan foothill quietude.',
-      locationLabel: 'Crowne Plaza Corbett • Himalayan Foothills',
+      locationLabel: 'Hotel 5 • Himalayan Foothills',
       image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=2400&q=85'
     }
   ];

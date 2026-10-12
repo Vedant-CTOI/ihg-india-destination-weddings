@@ -227,7 +227,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Meera Singhania"
+                      placeholder="Full name"
                       value={formData.primaryContactName}
                       onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
                       className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -237,7 +237,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                     <label className="block text-neutral-600 mb-1 font-medium">Groom / Partner's Name</label>
                     <input
                       type="text"
-                      placeholder="e.g. Siddharth Kapur"
+                      placeholder="Partner's name"
                       value={formData.partnerName || ''}
                       onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
                       className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -254,7 +254,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Siddharth Kapur"
+                      placeholder="Partner's name"
                       value={formData.primaryContactName}
                       onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
                       className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -264,7 +264,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                     <label className="block text-neutral-600 mb-1 font-medium">Bride / Partner's Name</label>
                     <input
                       type="text"
-                      placeholder="e.g. Meera Singhania"
+                      placeholder="Full name"
                       value={formData.partnerName || ''}
                       onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
                       className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -281,7 +281,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Ramesh Singhania (Father of Bride)"
+                      placeholder="Contact name"
                       value={formData.primaryContactName}
                       onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
                       className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -291,7 +291,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                     <label className="block text-neutral-600 mb-1 font-medium">Couple Being Celebrated</label>
                     <input
                       type="text"
-                      placeholder="e.g. Meera &amp; Siddharth"
+                      placeholder="Couple being celebrated"
                       value={formData.coupleReference || ''}
                       onChange={(e) => setFormData({ ...formData, coupleReference: e.target.value })}
                       className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -308,7 +308,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Sonam Verma"
+                      placeholder="Planner name"
                       value={formData.primaryContactName}
                       onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
                       className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -318,7 +318,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                     <label className="block text-neutral-600 mb-1 font-medium">Planning Agency / Production Firm</label>
                     <input
                       type="text"
-                      placeholder="e.g. Artisan Celebrations LLP"
+                      placeholder="Agency name"
                       value={formData.planningAgency || ''}
                       onChange={(e) => setFormData({ ...formData, planningAgency: e.target.value })}
                       className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"

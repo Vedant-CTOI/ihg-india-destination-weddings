@@ -69,7 +69,7 @@ export interface HotelVenueSpace {
 export interface HotelProperty {
   id: string;
   name: string;
-  brand: 'Six Senses' | 'InterContinental' | 'Crowne Plaza' | 'voco' | 'Holiday Inn Resort';
+  brand: 'Brand A';
   location: string;
   city: 'Ranthambore' | 'Goa' | 'Mahabalipuram' | 'Kochi' | 'Delhi NCR' | 'Jim Corbett' | 'Jaipur' | 'Udaipur' | 'Kolkata';
   region: 'Rajasthan' | 'Goa' | 'Mahabalipuram' | 'Kerala' | 'NCR / Corbett' | 'East India';

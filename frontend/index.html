@@ -9,7 +9,7 @@
   <!-- Google Fonts: Outfit, Playfair Display, Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -29,8 +29,8 @@
             }
           },
           fontFamily: {
-            sans: ['Outfit', 'sans-serif'],
-            serif: ['Playfair Display', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Inter', 'sans-serif'],
             body: ['Inter', 'sans-serif']
           },
           keyframes: {
@@ -76,6 +76,45 @@
     /* Grayscale imagery filter for true monochrome luxury editorial aesthetic */
     .img-monochrome {
       filter: grayscale(100%) contrast(108%);
+    }
+
+    /* ─── WIREFRAME MODE ───
+       All images render as flat grey blocks (traditional UX wireframe style).
+       Layout boxes are preserved; pixel content is fully hidden. */
+    img {
+      visibility: hidden !important;   /* never show actual pixels */
+      background-color: #E5E5E5 !important; /* the grey block itself */
+      border-radius: inherit;
+    }
+    /* Fill the whole reserved area even if the img box is smaller than its frame */
+    img {
+      min-width: 100%;
+      min-height: 100%;
+    }
+    /* Containers whose only visual content is an image become grey blocks too */
+    div:has(> img:only-child),
+    a:has(> img:only-child),
+    button:has(> img:only-child) {
+      background-color: #E5E5E5;
+    }
+    /* Dark image frames (bg-black / bg-neutral-900 wrappers) also read grey */
+    [class*="bg-black"]:has(img),
+    [class*="bg-neutral-900"]:has(img),
+    [class*="bg-neutral-950"]:has(img) {
+      background-color: #E5E5E5 !important;
+    }
+    /* Hide gradient/darkening overlays inside image containers so blocks read flat grey */
+    [class*="bg-black"]:has(img) div[class*="bg-gradient"],
+    [class*="bg-neutral-900"]:has(img) div[class*="bg-gradient"],
+    [class*="bg-neutral-950"]:has(img) div[class*="bg-gradient"],
+    div:has(> img:only-child) div[class*="bg-gradient"],
+    a:has(> img:only-child) div[class*="bg-gradient"] {
+      display: none !important;
+    }
+    /* Neutralize decorative darkening overlays so the blocks read clean */
+    img + div,
+    .wf-hide-overlay {
+      opacity: 0 !important;
     }
   </style>
 

@@ -40,9 +40,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToC
                 Portfolio
               </span>
               <ul className="space-y-1 text-[11px] text-neutral-300 font-light">
-                <li>Six Senses Fort Barwara</li>
-                <li>InterContinental Chennai</li>
-                <li>Crowne Plaza Goa</li>
+                <li>Hotel 1</li>
+                <li>Hotel 2</li>
+                <li>Hotel 3</li>
               </ul>
             </div>
 

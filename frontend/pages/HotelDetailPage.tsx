@@ -539,7 +539,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         <input
                           type="text"
                           required
-                          placeholder="e.g. Meera Singhania"
+                          placeholder="Full name"
                           value={formData.primaryContactName}
                           onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
                           className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -549,7 +549,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Groom / Partner's Name</label>
                         <input
                           type="text"
-                          placeholder="e.g. Siddharth Kapur"
+                          placeholder="Partner's name"
                           value={formData.partnerName || ''}
                           onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
                           className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -565,7 +565,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         <input
                           type="text"
                           required
-                          placeholder="e.g. Siddharth Kapur"
+                          placeholder="Partner's name"
                           value={formData.primaryContactName}
                           onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
                           className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -575,7 +575,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Bride / Partner's Name</label>
                         <input
                           type="text"
-                          placeholder="e.g. Meera Singhania"
+                          placeholder="Full name"
                           value={formData.partnerName || ''}
                           onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
                           className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -591,7 +591,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         <input
                           type="text"
                           required
-                          placeholder="e.g. Ramesh Singhania (Father of Bride)"
+                          placeholder="Contact name"
                           value={formData.primaryContactName}
                           onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
                           className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -601,7 +601,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Couple Being Celebrated</label>
                         <input
                           type="text"
-                          placeholder="e.g. Meera &amp; Siddharth"
+                          placeholder="Couple being celebrated"
                           value={formData.coupleReference || ''}
                           onChange={(e) => setFormData({ ...formData, coupleReference: e.target.value })}
                           className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -617,7 +617,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         <input
                           type="text"
                           required
-                          placeholder="e.g. Sonam Verma"
+                          placeholder="Planner name"
                           value={formData.primaryContactName}
                           onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
                           className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -627,7 +627,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Planning Agency / Production Firm</label>
                         <input
                           type="text"
-                          placeholder="e.g. Artisan Celebrations LLP"
+                          placeholder="Agency name"
                           value={formData.planningAgency || ''}
                           onChange={(e) => setFormData({ ...formData, planningAgency: e.target.value })}
                           className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
@@ -972,7 +972,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                       Your Dedicated Wedding Director & Stylist
                     </span>
                     <h4 className="font-serif text-xl sm:text-2xl font-normal text-white">
-                      Aisha Verma — {hotel.name}
+                      Wedding Director — {hotel.name}
                     </h4>
                     <p className="text-[11px] text-neutral-400 font-light mt-1">
                       Curating celebrations at {hotel.name} for over a decade. Your single point of contact from first call to farewell brunch.
@@ -986,9 +986,9 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                       <span className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center text-[10px]">✆</span>
                       <span>+91 98765 43210</span>
                     </a>
-                    <a href="mailto:aisha.verma@ihg.com" className="flex items-center space-x-2 text-neutral-200 hover:text-white transition-colors cursor-pointer">
+                    <a href="mailto:weddings@ihg.com" className="flex items-center space-x-2 text-neutral-200 hover:text-white transition-colors cursor-pointer">
                       <span className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center text-[10px]">✉</span>
-                      <span>aisha.verma@ihg.com</span>
+                      <span>weddings@ihg.com</span>
                     </a>
                     <div className="flex items-center space-x-2 text-neutral-400">
                       <Clock className="w-3.5 h-3.5" />

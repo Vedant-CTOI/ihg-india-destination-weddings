@@ -404,8 +404,8 @@ export const DESTINATIONS_DATA: Destination[] = [
 export const HOTELS_DATA: HotelProperty[] = [
   {
     id: 'six-senses-fort-barwara',
-    name: 'Six Senses Fort Barwara',
-    brand: 'Six Senses',
+    name: 'Hotel 1',
+    brand: 'Brand A',
     location: 'Ranthambore, Rajasthan',
     city: 'Ranthambore',
     region: 'Rajasthan',
@@ -418,11 +418,11 @@ export const HOTELS_DATA: HotelProperty[] = [
     keyHighlights: ['14th-century royal fortress', 'Ancient stepwell ceremony site', 'Dedicated guest butlers'],
     mandapType: 'Heritage Stepwell with Floating Candles',
     airportDistance: '2.5 hrs from Jaipur International Airport',
-    aboutUs: 'Sensitively transformed from a 14th-century fort originally owned by the Rajasthani Royal Family. Six Senses Fort Barwara features two ancient palaces, two consecrated original temples, and 48 suites overlooking the tranquil Aravalli hills. Every celebration here is steeped in royal conservation, Rajputana stone craft, and consecrated sacred rituals.',
+    aboutUs: 'Sensitively transformed from a 14th-century fort originally owned by the Rajasthani Royal Family. The property features two ancient palaces, two consecrated original temples, and 48 suites overlooking the tranquil Aravalli hills. Every celebration here is steeped in royal conservation, Rajputana stone craft, and consecrated sacred rituals.',
     overview: 'Sensitively transformed from a 14th-century fort originally owned by the Rajasthani Royal Family. Features two ancient palaces, two original temples, and 48 suites overlooking the Aravalli hills.',
     curatedSpaces: [
       {
-        name: 'Venue 1: Barwara Stepwell Amphitheater',
+        name: 'Venue 1: Heritage Stepwell Amphitheater',
         capacity: '180 Guests (Ceremonial Mandap)',
         type: 'Open-Air Sacred Stepwell',
         description: 'An ancient carved stone stepwell tier surrounded by hand-carved jali stone arches and candlelit reflecting pools. Designed specifically for sacred Vedic Pheras and sunrise havan rituals under open skies.',
@@ -437,7 +437,7 @@ export const HOTELS_DATA: HotelProperty[] = [
         ]
       },
       {
-        name: 'Venue 2: Zanana Palace Torchlit Courtyard',
+        name: 'Venue 2: Torchlit Palace Courtyard',
         capacity: '260 Guests (Seated Banquet)',
         type: 'Imperial Palace Courtyard',
         description: 'The historic women’s palace courtyard surrounded by hand-chiseled sandstone walls and flickering flaming braziers. Ideal for torchlit Sangeets, Mehendi brunches, and fine-dining royal feasts.',
@@ -452,7 +452,7 @@ export const HOTELS_DATA: HotelProperty[] = [
         ]
       },
       {
-        name: 'Venue 3: Aravalli Hilltop Ramparts Lawn',
+        name: 'Venue 3: Hilltop Ramparts Lawn',
         capacity: '320 Guests (Sunset Reception)',
         type: 'Fortress Panoramic Terraces',
         description: 'Perched high on the fort ramparts with 360-degree panoramic views of Ranthambore wilderness and Aravalli mountain ranges. Perfect for sunset cocktail receptions and starlit banquets.',
@@ -471,8 +471,8 @@ export const HOTELS_DATA: HotelProperty[] = [
   },
   {
     id: 'crowne-plaza-greater-noida',
-    name: 'Crowne Plaza Greater Noida',
-    brand: 'Crowne Plaza',
+    name: 'Hotel 2',
+    brand: 'Brand A',
     location: 'Delhi NCR',
     city: 'Delhi NCR',
     region: 'NCR / Corbett',
@@ -485,11 +485,11 @@ export const HOTELS_DATA: HotelProperty[] = [
     keyHighlights: ['51,000 sq.ft banquet spaces', 'Pillarless mega hall', 'Dedicated satellite kitchens'],
     mandapType: 'All-Weather Monumental Glasshouse Pavilion',
     airportDistance: '60 mins from Indira Gandhi International Airport, New Delhi',
-    aboutUs: 'The flagship mega-celebration destination in North India. Crowne Plaza Greater Noida houses 51,000 sq.ft of banquet grounds, 398 luxury keys, and three physically isolated culinary wings. Built to execute large-scale multi-thousand wedding productions with zero logistical bottleneck.',
+    aboutUs: 'The flagship mega-celebration destination in North India. Hotel 2 houses 51,000 sq.ft of banquet grounds, 398 luxury keys, and three physically isolated culinary wings. Built to execute large-scale multi-thousand wedding productions with zero logistical bottleneck.',
     overview: 'The largest luxury convention and celebration address in Delhi NCR, capable of hosting grand productions, palatial Baraats, and extensive royal setups with ease.',
     curatedSpaces: [
       {
-        name: 'Venue 1: Grand Crystal Pillarless Arena',
+        name: 'Venue 1: Crystal Pillarless Arena',
         capacity: '1,400 Guests (Mega Gala)',
         type: 'Monumental Pillarless Hall',
         description: 'North India’s most monumental pillarless ballroom with 28-foot ceiling clearance, heavy rigging points for kinetic stage productions, and direct multi-door motorcade entry.',
@@ -538,8 +538,8 @@ export const HOTELS_DATA: HotelProperty[] = [
   },
   {
     id: 'crowne-plaza-resort-goa',
-    name: 'Crowne Plaza Resort Goa',
-    brand: 'Crowne Plaza',
+    name: 'Hotel 3',
+    brand: 'Brand A',
     location: 'Arossim Beach, South Goa',
     city: 'Goa',
     region: 'Goa',
@@ -552,11 +552,11 @@ export const HOTELS_DATA: HotelProperty[] = [
     keyHighlights: ['30-acre landscaped beachfront', 'Tropical tiered lagoons', 'Private beach lawn'],
     mandapType: 'Ocean-Breeze Floral Canopy with Sunset Horizon',
     airportDistance: '20 mins from Dabolim International Airport',
-    aboutUs: 'A pristine 30-acre coastal estate along the untouched white sands of Arossim in South Goa. Crowne Plaza Resort Goa merges traditional Portuguese-Goan manor architecture with sprawling oceanfront lawns, coconut groves, and multi-tier lagoon pools, providing a calm sanctuary for multi-day seaside celebrations.',
+    aboutUs: 'A pristine 30-acre coastal estate along the untouched white sands of Arossim in South Goa. Hotel 3 merges traditional Portuguese-Goan manor architecture with sprawling oceanfront lawns, coconut groves, and multi-tier lagoon pools, providing a calm sanctuary for multi-day seaside celebrations.',
     overview: 'A sprawling 30-acre coastal estate along pristine white sands of Arossim, fusing Portuguese-Goan heritage with modern event infrastructure and beachfront intimacy.',
     curatedSpaces: [
       {
-        name: 'Venue 1: Arossim Oceanfront Beach Deck',
+        name: 'Venue 1: Oceanfront Beach Deck',
         capacity: '500 Guests (Sunset Vows)',
         type: 'Barefoot Beachfront Setting',
         description: 'Direct shoreline wooden deck with marine-grade glass windscreens ensuring undisturbed sacred Havan flames while listening to the rhythm of Arabian Sea waves.',
@@ -605,8 +605,8 @@ export const HOTELS_DATA: HotelProperty[] = [
   },
   {
     id: 'holiday-inn-resort-goa',
-    name: 'Holiday Inn Resort Goa',
-    brand: 'Holiday Inn Resort',
+    name: 'Hotel 4',
+    brand: 'Brand A',
     location: 'Mobor Beach, Goa',
     city: 'Goa',
     region: 'Goa',
@@ -619,11 +619,11 @@ export const HOTELS_DATA: HotelProperty[] = [
     keyHighlights: ['Direct Mobor beach access', 'Goan-Portuguese architecture', 'Expansive 20,000 sq.ft lawn'],
     mandapType: 'Minimalist Driftwood & Marigold Mandap',
     airportDistance: '60 mins from Dabolim International Airport',
-    aboutUs: 'Situated on the idyllic southern tip of Mobor Beach, Holiday Inn Resort Goa offers direct beach access, sprawling 20,000 sq.ft private lawns, and warm hospitality for relaxed multi-generational celebrations.',
+    aboutUs: 'Situated on the idyllic southern tip of Mobor Beach, Hotel 4 offers direct beach access, sprawling 20,000 sq.ft private lawns, and warm hospitality for relaxed multi-generational celebrations.',
     overview: 'Prime location at Mobor Beach with endless ocean frontage, sweeping lawns, and warm hospitality for relaxed multi-generational seaside celebrations.',
     curatedSpaces: [
       {
-        name: 'Venue 1: Mobor Beachfront Lawn',
+        name: 'Venue 1: Beachfront Lawn',
         capacity: '550 Guests (Wedding Vows)',
         type: 'Expansive Sea Lawn',
         description: 'Overlooking pristine Mobor sands with unobstructed views of the sunset horizon. Perfect for floral driftwood mandap ceremonies.',
@@ -638,7 +638,7 @@ export const HOTELS_DATA: HotelProperty[] = [
         ]
       },
       {
-        name: 'Venue 2: The Figueiredo Ballroom',
+        name: 'Venue 2: Heritage Ballroom',
         capacity: '350 Guests (Indoor Banqueting)',
         type: 'Colonial Pillarless Hall',
         description: 'Graceful colonial hall with timber ceiling details and modern acoustic dampening for indoor dinners, Sangeets, and bad-weather backup.',
@@ -672,8 +672,8 @@ export const HOTELS_DATA: HotelProperty[] = [
   },
   {
     id: 'corbett-riverside-resort',
-    name: 'Crowne Plaza Corbett Foothills Lodge',
-    brand: 'Crowne Plaza',
+    name: 'Hotel 5',
+    brand: 'Brand A',
     location: 'Jim Corbett, Uttarakhand',
     city: 'Jim Corbett',
     region: 'NCR / Corbett',
@@ -686,11 +686,11 @@ export const HOTELS_DATA: HotelProperty[] = [
     keyHighlights: ['Direct River Kosi frontage', 'Himalayan mountain backdrop', 'Lantern-lit forest amphitheater'],
     mandapType: 'Riverside Pebble Deck with Pine Needle Canopy',
     airportDistance: '2.5 hrs from Pantnagar Airport / 4.5 hrs from New Delhi',
-    aboutUs: 'Enclosed between the pristine waters of River Kosi and dense Himalayan Sal pine forests. Crowne Plaza Corbett Foothills Lodge is designed for nature-immersed ceremonies where pure mountain air, flowing river mantras, and quiet luxury form the celebration core.',
+    aboutUs: 'Enclosed between the pristine waters of River Kosi and dense Himalayan Sal pine forests. Hotel 5 is designed for nature-immersed ceremonies where pure mountain air, flowing river mantras, and quiet luxury form the celebration core.',
     overview: 'Nestled between the gushing Kosi River and dense Sal forests, offering a serene alpine sanctuary for intimate ceremonies immersed in mountain quietude.',
     curatedSpaces: [
       {
-        name: 'Venue 1: River Kosi Pebble Bank',
+        name: 'Venue 1: Riverside Pebble Deck',
         capacity: '250 Guests (Sacred Riverside Vows)',
         type: 'Flowing Riverfront Stone Platform',
         description: 'A natural pebble stone platform right on the edge of River Kosi. Perfect for sunrise Vedic Muhurthams with sacred water chanting and pine garlands.',
@@ -705,7 +705,7 @@ export const HOTELS_DATA: HotelProperty[] = [
         ]
       },
       {
-        name: 'Venue 2: Pine View Forest Amphitheater',
+        name: 'Venue 2: Forest Amphitheater',
         capacity: '300 Guests (Lantern Meadow Reception)',
         type: 'Open Forest Clearing',
         description: 'A verdant grass clearing surrounded by hundred-year-old Sal trees. Accommodates bonfire dinners, live Sufi concerts, and lantern-lit feasts.',
@@ -720,7 +720,7 @@ export const HOTELS_DATA: HotelProperty[] = [
         ]
       },
       {
-        name: 'Venue 3: Himalayan Cedar Hall',
+        name: 'Venue 3: Cedar Hall',
         capacity: '280 Guests (Alpine Sangeet)',
         type: 'Sound-Isolated Timber Ballroom',
         description: 'Constructed from natural cedar wood and stone, offering a warm alpine environment fully soundproofed for lively evening entertainment.',
@@ -739,8 +739,8 @@ export const HOTELS_DATA: HotelProperty[] = [
   },
   {
     id: 'intercon-chennai-mahabalipuram',
-    name: 'InterContinental Chennai Mahabalipuram',
-    brand: 'InterContinental',
+    name: 'Hotel 6',
+    brand: 'Brand A',
     location: 'Mahabalipuram, Tamil Nadu',
     city: 'Mahabalipuram',
     region: 'Mahabalipuram',
@@ -753,11 +753,11 @@ export const HOTELS_DATA: HotelProperty[] = [
     keyHighlights: ['Direct beachfront lawns', 'Central lotus reflection pond', 'Grand 600-guest ballroom'],
     mandapType: 'Lotus Pond Open-Sky Mandap with Shoreline Views',
     airportDistance: '45 mins from Chennai International Airport',
-    aboutUs: 'An architectural tribute to the Dravidian temple architecture of the 7th century, set amidst 15 acres of casuarina groves fronting the Bay of Bengal. InterContinental Chennai Mahabalipuram blends sacred granite reflection ponds with beachfront lawns and authentic regional dining mastery.',
+    aboutUs: 'An architectural tribute to the Dravidian temple architecture of the 7th century, set amidst 15 acres of casuarina groves fronting the Bay of Bengal. Hotel 6 blends sacred granite reflection ponds with beachfront lawns and authentic regional dining mastery.',
     overview: 'An architectural tribute to the Dravidian temple architecture of the 7th century, set amidst 15 acres of casuarina groves fronting the Bay of Bengal.',
     curatedSpaces: [
       {
-        name: 'Venue 1: The Lotus Pond Kulam Courtyard',
+        name: 'Venue 1: The Lotus Pond Courtyard',
         capacity: '350 Guests (Sacred Muhurtham)',
         type: 'Granite Temple Reflection Pond',
         description: 'Centered around a temple-style open water kulam filled with blooming water lilies and floating brass lamps. Purpose-built for sunrise Vedic ceremonies and Nadaswaram ensembles.',
@@ -772,7 +772,7 @@ export const HOTELS_DATA: HotelProperty[] = [
         ]
       },
       {
-        name: 'Venue 2: Sagar Oceanfront Lawn',
+        name: 'Venue 2: Oceanfront Lawn',
         capacity: '600 Guests (Coastal Reception)',
         type: 'Casuarina Grove Ocean Lawn',
         description: 'Fronting the Bay of Bengal and surrounded by casuarina groves, providing space for grand evening receptions and open-air multi-course banquets.',
@@ -787,7 +787,7 @@ export const HOTELS_DATA: HotelProperty[] = [
         ]
       },
       {
-        name: 'Venue 3: Coromandel Grand Ballroom',
+        name: 'Venue 3: Grand Ballroom',
         capacity: '450 Guests (Gala Sangeet)',
         type: 'Pillarless Indoor Hall',
         description: 'A pillarless hall featuring high acoustic dampening, custom crystal chandeliers, and expansive pre-function spaces for indoor gala events.',
@@ -806,8 +806,8 @@ export const HOTELS_DATA: HotelProperty[] = [
   },
   {
     id: 'crowne-plaza-kochi',
-    name: 'Crowne Plaza Kochi',
-    brand: 'Crowne Plaza',
+    name: 'Hotel 7',
+    brand: 'Brand A',
     location: 'Kochi, Kerala',
     city: 'Kochi',
     region: 'Kerala',
@@ -820,11 +820,11 @@ export const HOTELS_DATA: HotelProperty[] = [
     keyHighlights: ['Panoramic backwater views', 'Private boat jetty for Baraat', 'Authentic Sadya master chefs'],
     mandapType: 'Floating Backwater Island Mandap',
     airportDistance: '40 mins from Cochin International Airport',
-    aboutUs: 'Commanding uninterrupted views of tranquil Vembanad waters with a private boat jetty. Crowne Plaza Kochi offers a slow, restorative backwater sanctuary for couples seeking floating pier mandaps and authentic Kerala ceremonial feasts.',
+    aboutUs: 'Commanding uninterrupted views of tranquil Vembanad waters with a private boat jetty. Hotel 7 offers a slow, restorative backwater sanctuary for couples seeking floating pier mandaps and authentic Kerala ceremonial feasts.',
     overview: 'Overlooking tranquil Vembanad waters with dedicated private boat jetties, ideal for water-borne baraats and soul-calming rituals.',
     curatedSpaces: [
       {
-        name: 'Venue 1: Backwater Floating Island Pier',
+        name: 'Venue 1: Floating Island Pier',
         capacity: '300 Guests (Floating Mandap)',
         type: 'Waterfront Timber Pier',
         description: 'An open-air wooden pier extending into the backwaters, allowing couples to exchange vows completely surrounded by gentle waters and coconut groves.',
@@ -839,7 +839,7 @@ export const HOTELS_DATA: HotelProperty[] = [
         ]
       },
       {
-        name: 'Venue 2: Travancore Grand Hall',
+        name: 'Venue 2: Grand Hall',
         capacity: '500 Guests (Water-Facing Ballroom)',
         type: 'Panoramic Water Ballroom',
         description: 'Floor-to-ceiling glass windows facing the backwaters, blending indoor luxury with scenic lagoon panoramas for banquets and celebrations.',
@@ -854,7 +854,7 @@ export const HOTELS_DATA: HotelProperty[] = [
         ]
       },
       {
-        name: 'Venue 3: Spice Route Botanical Garden',
+        name: 'Venue 3: Botanical Garden',
         capacity: '250 Guests (Garden Mehendi)',
         type: 'Lush Botanical Courtyard',
         description: 'Fragrant with natural cinnamon and pepper vines, offering a relaxed courtyard for shaded henna afternoons, high-teas, and cocktail gatherings.',
@@ -873,8 +873,8 @@ export const HOTELS_DATA: HotelProperty[] = [
   },
   {
     id: 'intercon-jaipur',
-    name: 'InterContinental Jaipur',
-    brand: 'InterContinental',
+    name: 'Hotel 8',
+    brand: 'Brand A',
     location: 'Jaipur, Rajasthan',
     city: 'Jaipur',
     region: 'Rajasthan',
@@ -892,8 +892,8 @@ export const HOTELS_DATA: HotelProperty[] = [
   },
   {
     id: 'holiday-inn-udaipur',
-    name: 'Holiday Inn Resort Udaipur',
-    brand: 'Holiday Inn Resort',
+    name: 'Hotel 9',
+    brand: 'Brand A',
     location: 'Udaipur, Rajasthan',
     city: 'Udaipur',
     region: 'Rajasthan',
@@ -911,8 +911,8 @@ export const HOTELS_DATA: HotelProperty[] = [
   },
   {
     id: 'crowne-plaza-kolkata',
-    name: 'Crowne Plaza Kolkata Lakeside',
-    brand: 'Crowne Plaza',
+    name: 'Hotel 10',
+    brand: 'Brand A',
     location: 'Kolkata, West Bengal',
     city: 'Kolkata',
     region: 'East India',
@@ -933,10 +933,10 @@ export const HOTELS_DATA: HotelProperty[] = [
 export const REAL_WEDDINGS_DATA: RealWeddingCase[] = [
   {
     id: 'ananya-karthik',
-    couple: 'Ananya & Karthik',
-    title: 'The Coromandel Confluence',
+    couple: 'Wedding 1',
+    title: 'Story 1',
     location: 'Mahabalipuram, Tamil Nadu',
-    property: 'InterContinental Chennai Mahabalipuram',
+    property: 'Hotel 6',
     genre: 'Temple Shoreline',
     guestCount: 380,
     coverImage: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
@@ -955,10 +955,10 @@ export const REAL_WEDDINGS_DATA: RealWeddingCase[] = [
   },
   {
     id: 'rohan-elena',
-    couple: 'Rohan & Elena',
-    title: 'Rajputana Meets French Provence',
+    couple: 'Wedding 2',
+    title: 'Story 2',
     location: 'Ranthambore, Rajasthan',
-    property: 'Six Senses Fort Barwara',
+    property: 'Hotel 1',
     genre: 'Royal Wedding',
     guestCount: 160,
     coverImage: 'https://images.unsplash.com/photo-1545232979-8bf68ee9b1af?auto=format&fit=crop&w=800&q=80',
@@ -977,10 +977,10 @@ export const REAL_WEDDINGS_DATA: RealWeddingCase[] = [
   },
   {
     id: 'priya-sid',
-    couple: 'Priya & Siddharth',
-    title: 'Barefoot Coastal Euphoria',
+    couple: 'Wedding 3',
+    title: 'Story 3',
     location: 'Arossim Beach, Goa',
-    property: 'Crowne Plaza Resort Goa',
+    property: 'Hotel 3',
     genre: 'Beachside',
     guestCount: 290,
     coverImage: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
@@ -999,10 +999,10 @@ export const REAL_WEDDINGS_DATA: RealWeddingCase[] = [
   },
   {
     id: 'kabir-meera',
-    couple: 'Kabir & Meera',
-    title: 'Himalayan Foothills Sanctuary',
+    couple: 'Wedding 4',
+    title: 'Story 4',
     location: 'Jim Corbett, Uttarakhand',
-    property: 'Crowne Plaza Corbett Foothills Lodge',
+    property: 'Hotel 5',
     genre: 'Mountain & Wilderness',
     guestCount: 180,
     coverImage: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
@@ -1021,10 +1021,10 @@ export const REAL_WEDDINGS_DATA: RealWeddingCase[] = [
   },
   {
     id: 'vikram-sunaina',
-    couple: 'Vikram & Sunaina',
-    title: 'Vembanad Waterway Flotilla',
+    couple: 'Wedding 5',
+    title: 'Story 5',
     location: 'Kochi Backwaters, Kerala',
-    property: 'Crowne Plaza Kochi',
+    property: 'Hotel 7',
     genre: 'Backwater Serenity',
     guestCount: 220,
     coverImage: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80',
@@ -1043,10 +1043,10 @@ export const REAL_WEDDINGS_DATA: RealWeddingCase[] = [
   },
   {
     id: 'dev-natasha',
-    couple: 'Dev & Natasha',
-    title: 'The Monumental Capital Gala',
+    couple: 'Wedding 6',
+    title: 'Story 6',
     location: 'Delhi NCR',
-    property: 'Crowne Plaza Greater Noida',
+    property: 'Hotel 2',
     genre: 'Royal Wedding',
     guestCount: 1100,
     coverImage: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=800&q=80',
@@ -1065,10 +1065,10 @@ export const REAL_WEDDINGS_DATA: RealWeddingCase[] = [
   },
   {
     id: 'tara-neil',
-    couple: 'Tara & Neil',
-    title: 'Mobor Sands Sunset Vows',
+    couple: 'Wedding 7',
+    title: 'Story 7',
     location: 'Mobor Beach, Goa',
-    property: 'Holiday Inn Resort Goa',
+    property: 'Hotel 4',
     genre: 'Beachside',
     guestCount: 340,
     coverImage: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80',
@@ -1087,10 +1087,10 @@ export const REAL_WEDDINGS_DATA: RealWeddingCase[] = [
   },
   {
     id: 'aditi-samir',
-    couple: 'Aditi & Samir',
-    title: 'The Aravalli Fortress Vows',
+    couple: 'Wedding 8',
+    title: 'Story 8',
     location: 'Ranthambore, Rajasthan',
-    property: 'Six Senses Fort Barwara',
+    property: 'Hotel 1',
     genre: 'Royal Wedding',
     guestCount: 210,
     coverImage: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
@@ -1114,8 +1114,8 @@ export const VISUALISE_FUNCTIONS: VisualiseFunctionData[] = [
     id: 'wedding',
     label: 'Wedding (Pheras)',
     tagline: 'Sacred Mandap Transformation',
-    venueName: 'Barwara Heritage Stepwell Amphitheater',
-    property: 'Six Senses Fort Barwara, Rajasthan',
+    venueName: 'Heritage Stepwell Amphitheater',
+    property: 'Hotel 1, Rajasthan',
     rawImage: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1400&q=80',
     transformedImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80',
     decorTheme: 'Royal Vedic Mandap with Cascading Tuberose & Terracotta Diyas',
@@ -1131,8 +1131,8 @@ export const VISUALISE_FUNCTIONS: VisualiseFunctionData[] = [
     id: 'sangeet',
     label: 'Sangeet Night',
     tagline: 'High-Energy Sound & Glamour',
-    venueName: 'Coromandel Grand Ballroom & Glass Atrium',
-    property: 'InterContinental Chennai Mahabalipuram',
+    venueName: 'Grand Ballroom & Glass Atrium',
+    property: 'Hotel 6',
     rawImage: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1400&q=80',
     transformedImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1400&q=80',
     decorTheme: 'Kinetic Mirror Tunnel & Starlit Ceiling Canopy',
@@ -1148,8 +1148,8 @@ export const VISUALISE_FUNCTIONS: VisualiseFunctionData[] = [
     id: 'mehendi',
     label: 'Mehendi Brunch',
     tagline: 'Sun-Drenched Garden Festivities',
-    venueName: 'Arossim Tropical Palm Grove',
-    property: 'Crowne Plaza Resort Goa',
+    venueName: 'Tropical Palm Grove',
+    property: 'Hotel 3',
     rawImage: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1400&q=80',
     transformedImage: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1400&q=80',
     decorTheme: 'Artisanal Block-Print Canopies & Citrus Botanical Bazaars',
@@ -1165,8 +1165,8 @@ export const VISUALISE_FUNCTIONS: VisualiseFunctionData[] = [
     id: 'cocktail',
     label: 'Cocktail Night',
     tagline: 'Twilight Chic & Jazz Lounge',
-    venueName: 'Zenana Palace Torchlit Ramparts',
-    property: 'Six Senses Fort Barwara, Rajasthan',
+    venueName: 'Torchlit Ramparts Courtyard',
+    property: 'Hotel 1, Rajasthan',
     rawImage: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1400&q=80',
     transformedImage: 'https://images.unsplash.com/photo-1545232979-8bf68ee9b1af?auto=format&fit=crop&w=1400&q=80',
     decorTheme: 'Monochrome Velvet Lounges with Minimalist Glass Pillars',
@@ -1182,8 +1182,8 @@ export const VISUALISE_FUNCTIONS: VisualiseFunctionData[] = [
     id: 'reception',
     label: 'Grand Reception',
     tagline: 'Regal Banqueting Splendor',
-    venueName: 'Grand Crystal Pillarless Arena',
-    property: 'Crowne Plaza Greater Noida, Delhi NCR',
+    venueName: 'Crystal Pillarless Arena',
+    property: 'Hotel 2, Delhi NCR',
     rawImage: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=1400&q=80',
     transformedImage: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1400&q=80',
     decorTheme: 'Symphony in White & Gold Crystal Chandelier Forest',
