@@ -28,10 +28,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToC
                 Destinations
               </span>
               <ul className="space-y-1 text-[11px] text-neutral-300 font-light">
-                <li>Rajasthan</li>
-                <li>Goa Coast</li>
-                <li>Mahabalipuram</li>
-                <li>Kerala</li>
+                <li>Destination 1</li>
+                <li>Destination 2</li>
+                <li>Destination 3</li>
+                <li>Destination 4</li>
               </ul>
             </div>
 

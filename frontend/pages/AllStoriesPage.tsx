@@ -29,16 +29,16 @@ export const AllStoriesPage: React.FC<AllStoriesPageProps> = ({
     return REAL_WEDDINGS_DATA.filter((wedding) => {
       // 1. Category Filter
       if (selectedFilter !== 'All') {
-        if (selectedFilter === 'Royal Heritage' && !wedding.location.includes('Rajasthan') && !wedding.location.includes('Delhi')) {
+        if (selectedFilter === 'Royal Heritage' && !wedding.location.includes('Region 1') && !wedding.location.includes('Region 2')) {
           return false;
         }
-        if (selectedFilter === 'Beachside' && !wedding.location.includes('Goa')) {
+        if (selectedFilter === 'Beachside' && !wedding.location.includes('Region 3')) {
           return false;
         }
-        if (selectedFilter === 'Temple & Waterway' && !wedding.location.includes('Mahabalipuram') && !wedding.location.includes('Kerala')) {
+        if (selectedFilter === 'Temple & Waterway' && !wedding.location.includes('Region 5') && !wedding.location.includes('Region 6')) {
           return false;
         }
-        if (selectedFilter === 'Mountain Foothills' && !wedding.location.includes('Corbett') && !wedding.location.includes('Uttarakhand')) {
+        if (selectedFilter === 'Mountain Foothills' && !wedding.location.includes('Region 4')) {
           return false;
         }
       }

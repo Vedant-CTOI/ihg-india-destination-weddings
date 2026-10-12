@@ -25,7 +25,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
     setSelectedIds(initialSelectedIds || []);
   }, [initialSelectedIds, isOpen]);
 
-  const cities = ['All', 'Ranthambore', 'Goa', 'Mahabalipuram', 'Kochi', 'Delhi NCR', 'Jim Corbett'];
+  const cities = ['All', 'Region 1', 'Region 2', 'Region 3', 'Region 4', 'Region 5', 'Region 6'];
 
   const filteredHotels = useMemo(() => {
     return HOTELS_DATA.filter((hotel) => {

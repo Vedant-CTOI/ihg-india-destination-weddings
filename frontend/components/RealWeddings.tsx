@@ -16,10 +16,10 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
 
   const filteredWeddings = REAL_WEDDINGS_DATA.filter((wedding) => {
     if (selectedFilter === 'All') return true;
-    if (selectedFilter === 'Royal Heritage') return wedding.location.includes('Rajasthan') || wedding.location.includes('Delhi');
-    if (selectedFilter === 'Beachside') return wedding.location.includes('Goa');
-    if (selectedFilter === 'Temple & Waterway') return wedding.location.includes('Mahabalipuram') || wedding.location.includes('Kerala');
-    if (selectedFilter === 'Foothills') return wedding.location.includes('Corbett') || wedding.location.includes('Uttarakhand');
+    if (selectedFilter === 'Royal Heritage') return wedding.location.includes('Region 1') || wedding.location.includes('Region 2');
+    if (selectedFilter === 'Beachside') return wedding.location.includes('Region 3');
+    if (selectedFilter === 'Temple & Waterway') return wedding.location.includes('Region 5') || wedding.location.includes('Region 6');
+    if (selectedFilter === 'Foothills') return wedding.location.includes('Region 4');
     return true;
   });
 

@@ -21,7 +21,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
 }) => {
   const initialDestinations = prefilledDestination
     ? [prefilledDestination]
-    : ['Royal Wedding: Rajasthan (Jaipur & Ranthambore)'];
+    : ['Royal Wedding: Destination 1'];
 
   // Check if hotel prefilled
   const matchedHotel = prefilledHotel
@@ -82,11 +82,11 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
   const [submitting, setSubmitting] = useState(false);
 
   const destinationOptions = [
-    'Royal Wedding: Rajasthan (Jaipur & Ranthambore)',
-    'Beachside: Goa Coastal Coastline',
-    'Mountain & Wilderness: Corbett Foothills',
-    'Temple Shoreline: Mahabalipuram & Coromandel',
-    'Backwater Serenity: Kerala Backwaters & Kochi'
+    'Royal Wedding: Destination 1',
+    'Beachside: Destination 2',
+    'Mountain & Wilderness: Destination 3',
+    'Temple Shoreline: Destination 5',
+    'Backwater Serenity: Destination 4'
   ];
 
   const guestRanges = [

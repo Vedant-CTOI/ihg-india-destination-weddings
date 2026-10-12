@@ -24,12 +24,12 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
   // Available cities in India across IHG's portfolio
   const citiesInIndia = [
     'All Cities',
-    'Ranthambore',
-    'Goa',
-    'Mahabalipuram',
-    'Kochi',
-    'Delhi NCR',
-    'Jim Corbett'
+    'Region 1',
+    'Region 2',
+    'Region 3',
+    'Region 4',
+    'Region 5',
+    'Region 6'
   ];
 
   // Genre presets (wedding genres across the portfolio)

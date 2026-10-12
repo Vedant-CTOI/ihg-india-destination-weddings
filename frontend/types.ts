@@ -71,8 +71,8 @@ export interface HotelProperty {
   name: string;
   brand: 'Brand A';
   location: string;
-  city: 'Ranthambore' | 'Goa' | 'Mahabalipuram' | 'Kochi' | 'Delhi NCR' | 'Jim Corbett' | 'Jaipur' | 'Udaipur' | 'Kolkata';
-  region: 'Rajasthan' | 'Goa' | 'Mahabalipuram' | 'Kerala' | 'NCR / Corbett' | 'East India';
+  city: 'Region 1' | 'Region 2' | 'Region 3' | 'Region 4' | 'Region 5' | 'Region 6' | 'Region 7' | 'Region 8' | 'Region 9';
+  region: 'North India' | 'West India' | 'South India' | 'East India';
   genre: DestinationGenre;
   capacityMin: number;
   capacityMax: number;
