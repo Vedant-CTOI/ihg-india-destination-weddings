@@ -159,4 +159,5 @@ export type PageView =
   | { type: 'story-detail'; storyId: string }
   | { type: 'conversation'; prefilledDestination?: string; prefilledHotel?: string }
   | { type: 'planning-charter' }
-  | { type: 'legal-info'; initialTab?: LegalTab };
+  | { type: 'legal-info'; initialTab?: LegalTab }
+  | { type: 'sitemap' };

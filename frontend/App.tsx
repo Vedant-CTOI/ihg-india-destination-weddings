@@ -20,12 +20,19 @@ import { StoryDetailPage } from './pages/StoryDetailPage';
 import { AllStoriesPage } from './pages/AllStoriesPage';
 import { ConversationPage } from './pages/ConversationPage';
 import { PlanningCharterPage } from './pages/PlanningCharterPage';
+import { SitemapPage } from './pages/SitemapPage';
+import { CommentToolbar, CommentPinLayer, useComments, pageKeyFor, exportCommentsFile, importCommentsFile } from './components/CommentOverlay';
 import { LegalInfoPage } from './pages/LegalInfoPage';
 import { GoToTopButton } from './components/GoToTopButton';
 
 export const App: React.FC = () => {
   // Navigation state (Default is home)
   const [currentView, setCurrentView] = useState<PageView>({ type: 'home' });
+
+  // --- Client commenting system (prototype-only overlay) ---
+  const pageKey = pageKeyFor(currentView as unknown as { type: string; [k: string]: unknown });
+  const comments = useComments(pageKey);
+  const [commentMode, setCommentMode] = useState<boolean>(false);
 
   // Post-submission Consent & Notification popup states
   const [pendingInquiryData, setPendingInquiryData] = useState<InquiryFormData | null>(null);
@@ -252,12 +259,29 @@ export const App: React.FC = () => {
             onNavigateToInquiry={() => handleNavigateHome('contact')}
           />
         )}
+
+        {/* Separate Page 9: Site Map Directory */}
+        {currentView.type === 'sitemap' && (
+          <SitemapPage
+            onNavigateBack={() => handleNavigateHome()}
+            onNavigateHome={handleNavigateHome}
+            onNavigateToGenre={handleNavigateToGenre}
+            onNavigateToAllHotels={() => handleNavigateToAllHotels()}
+            onNavigateToHotel={handleNavigateToHotel}
+            onNavigateToAllStories={() => handleNavigateToAllStories()}
+            onNavigateToStory={handleNavigateToStory}
+            onNavigateToConversation={() => handleNavigateToConversation()}
+            onNavigateToCharter={handleNavigateToCharter}
+            onNavigateToLegal={handleNavigateToLegal}
+          />
+        )}
       </main>
 
       {/* 3. Footer with Terms, Privacy Policy, and FAQ Links */}
       <Footer
         onNavigateToLegal={handleNavigateToLegal}
         onNavigateToCharter={handleNavigateToCharter}
+        onNavigateToSitemap={() => setCurrentView({ type: 'sitemap' })}
       />
 
       {/* 4. Two-Step Post-Submission Flow: Consent Form Popup -> Notification of Registration Popup */}
@@ -272,6 +296,29 @@ export const App: React.FC = () => {
 
       {/* 5. Floating Go-to-Top Button — on all pages */}
       <GoToTopButton />
+
+      {/* 6. CLIENT COMMENTING OVERLAY — pins; persists in localStorage */}
+      <CommentToolbar
+        enabled={commentMode}
+        commentCount={comments.comments.length}
+        onToggle={() => setCommentMode(!commentMode)}
+        onExport={exportCommentsFile}
+        onImport={(file) => {
+          importCommentsFile(file).then((n) => {
+            window.alert(`Imported ${n} comment${n === 1 ? '' : 's'}.`);
+          }).catch(() => {
+            window.alert('Could not read that file. Please use a feedback JSON exported from this site.');
+          });
+        }}
+      />
+      <CommentPinLayer
+        enabled={commentMode}
+        comments={comments.comments}
+        onAdd={comments.addComment}
+        onUpdate={comments.updateComment}
+        onDelete={comments.deleteComment}
+        onToggleResolved={comments.toggleResolved}
+      />
 
     </div>
   );

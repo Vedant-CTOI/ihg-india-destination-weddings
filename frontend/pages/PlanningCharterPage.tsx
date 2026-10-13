@@ -43,7 +43,7 @@ export const PlanningCharterPage: React.FC<PlanningCharterPageProps> = ({
             The IHG Philosophy
           </h1>
           <p className="text-sm sm:text-base text-neutral-600 font-light leading-relaxed">
-            Our written institutional commitment to ceremonial purity, multi-generational harmony, all-weather reliability, and dignitary privacy across every IHG sanctuary in India.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
           </p>
         </div>
       </div>
@@ -59,10 +59,10 @@ export const PlanningCharterPage: React.FC<PlanningCharterPageProps> = ({
               <span aria-hidden="true" className="w-5 h-5 inline-block border border-current"></span>
             </div>
             <h2 className="font-serif text-2xl font-normal text-black">
-              Dedicated On-Ground Luxury Wedding Director
+              Placeholder Title Text 1
             </h2>
             <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
-              Every couple and family is assigned a single-point Wedding Director who coordinates months in advance with family elders, visiting Pandits, decorator production teams, and culinary masters.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
             </p>
           </div>
 
@@ -72,10 +72,10 @@ export const PlanningCharterPage: React.FC<PlanningCharterPageProps> = ({
               <span aria-hidden="true" className="w-5 h-5 inline-block border border-current"></span>
             </div>
             <h2 className="font-serif text-2xl font-normal text-black">
-              Dietary Sanctity & Segregated Kitchen Custody
+              Placeholder Title Text 2
             </h2>
             <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
-              Certified zero onion/garlic Sattvic lines, separate dishwashing facilities, consecrated brass cooking utensils, and visiting pandit inspection access prior to all sacred rituals.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
             </p>
           </div>
 
@@ -85,10 +85,10 @@ export const PlanningCharterPage: React.FC<PlanningCharterPageProps> = ({
               <span aria-hidden="true" className="w-5 h-5 inline-block border border-current"></span>
             </div>
             <h2 className="font-serif text-2xl font-normal text-black">
-              Dignitary Privacy & Photography NDA
+              Placeholder Title Text 3
             </h2>
             <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
-              Comprehensive privacy agreements for high-profile couples and families, strictly prohibiting unauthorized photography by hotel personnel, with options for private air-charter arrival gates and secure wings.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
             </p>
           </div>
 
@@ -98,10 +98,10 @@ export const PlanningCharterPage: React.FC<PlanningCharterPageProps> = ({
               <span aria-hidden="true" className="w-5 h-5 inline-block border border-current"></span>
             </div>
             <h2 className="font-serif text-2xl font-normal text-black">
-              Two-Hour Weather Contingency Guarantee
+              Placeholder Title Text 4
             </h2>
             <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
-              Every outdoor lawn mandap reservation automatically includes a pre-reserved, temperature-controlled ballroom with mirrored staging, ready to activate seamlessly within 120 minutes.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
             </p>
           </div>
 
@@ -114,7 +114,7 @@ export const PlanningCharterPage: React.FC<PlanningCharterPageProps> = ({
               Ready to begin your celebration plans?
             </h3>
             <p className="text-xs sm:text-sm text-neutral-300 font-light">
-              Connect with an assigned Luxury Wedding Director to reserve dates and inspect full property guidelines.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
           </div>
 

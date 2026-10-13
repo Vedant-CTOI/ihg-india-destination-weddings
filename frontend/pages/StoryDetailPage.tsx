@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { RealWeddingCase } from '../types';
 import { REAL_WEDDINGS_DATA } from '../constants';
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface StoryDetailPageProps {
   storyId: string;
@@ -9,49 +8,41 @@ interface StoryDetailPageProps {
   onNavigateToInquiry: (weddingTitle: string) => void;
 }
 
+const PLACEHOLDER_IMG = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E';
+
+const STORY_TEXT = [
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+  'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.'
+];
+
 export const StoryDetailPage: React.FC<StoryDetailPageProps> = ({
   storyId,
-  onNavigateBack,
-  onNavigateToInquiry
+  onNavigateBack
 }) => {
-  // Current active story id state allows user to switch to other stories in-place
   const [activeStoryId, setActiveStoryId] = useState<string>(storyId);
+  const [slideIndex, setSlideIndex] = useState<number>(0);
 
   useEffect(() => {
     setActiveStoryId(storyId);
+    setSlideIndex(0);
   }, [storyId]);
 
-  const currentStoryIndex = REAL_WEDDINGS_DATA.findIndex((w) => w.id === activeStoryId);
-  const wedding: RealWeddingCase =
-    currentStoryIndex !== -1 ? REAL_WEDDINGS_DATA[currentStoryIndex] : REAL_WEDDINGS_DATA[0];
+  const wedding =
+    REAL_WEDDINGS_DATA.find((w) => w.id === activeStoryId) || REAL_WEDDINGS_DATA[0];
 
-  // Other stories excluding currently active story
-  const otherStories = REAL_WEDDINGS_DATA.filter((w) => w.id !== wedding.id);
+  const gallery = wedding.gallery.length > 0 ? wedding.gallery : [PLACEHOLDER_IMG, PLACEHOLDER_IMG, PLACEHOLDER_IMG];
+  const totalSlides = gallery.length;
 
-  const handleNextStory = () => {
-    const nextIndex = (currentStoryIndex + 1) % REAL_WEDDINGS_DATA.length;
-    setActiveStoryId(REAL_WEDDINGS_DATA[nextIndex].id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handlePrevStory = () => {
-    const prevIndex = (currentStoryIndex - 1 + REAL_WEDDINGS_DATA.length) % REAL_WEDDINGS_DATA.length;
-    setActiveStoryId(REAL_WEDDINGS_DATA[prevIndex].id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleSelectStory = (id: string) => {
-    setActiveStoryId(id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const handleNextSlide = () => setSlideIndex((i) => (i + 1) % totalSlides);
+  const handlePrevSlide = () => setSlideIndex((i) => (i - 1 + totalSlides) % totalSlides);
 
   return (
     <div className="min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
-      
-      {/* Top Breadcrumb & Story Switcher Bar */}
+
+      {/* Top Breadcrumb Bar */}
       <div className="border-b border-neutral-200 bg-neutral-50 py-3 sticky top-0 z-20 backdrop-blur-md bg-neutral-50/95">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-xs">
-          
+
           <div className="flex items-center space-x-2 text-neutral-500">
             <button onClick={onNavigateBack} className="hover:text-black cursor-pointer">Exploration</button>
             <span>/</span>
@@ -60,274 +51,79 @@ export const StoryDetailPage: React.FC<StoryDetailPageProps> = ({
             <span className="text-black font-medium">{wedding.couple}</span>
           </div>
 
-          <div className="flex items-center space-x-3">
-            {/* Quick Prev / Next Story Arrows */}
-            <div className="flex items-center space-x-1 border-r border-neutral-200 pr-3">
-              <button
-                onClick={handlePrevStory}
-                className="p-1 rounded hover:bg-neutral-200 text-neutral-600 hover:text-black transition-colors cursor-pointer"
-                title="Previous wedding story"
-                aria-label="Previous story"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <span className="text-[11px] text-neutral-400 font-mono">
-                {currentStoryIndex + 1} / {REAL_WEDDINGS_DATA.length}
-              </span>
-              <button
-                onClick={handleNextStory}
-                className="p-1 rounded hover:bg-neutral-200 text-neutral-600 hover:text-black transition-colors cursor-pointer"
-                title="Next wedding story"
-                aria-label="Next story"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            <button
-              onClick={onNavigateBack}
-              className="inline-flex items-center space-x-1 text-black hover:text-neutral-600 font-medium uppercase tracking-wider text-[11px] cursor-pointer"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>All Real Weddings</span>
-            </button>
-          </div>
+          <button
+            onClick={onNavigateBack}
+            className="inline-flex items-center space-x-1 text-black hover:text-neutral-600 font-medium uppercase tracking-wider text-[11px] cursor-pointer"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>All Real Weddings</span>
+          </button>
 
         </div>
       </div>
 
-      {/* Hero Banner (Grayscale Luxury) */}
-      <div className="relative h-[480px] lg:h-[560px] w-full overflow-hidden bg-black">
-        <img
-          key={wedding.id}
-          src={wedding.gallery[0] || wedding.coverImage}
-          alt={wedding.couple}
-          className="w-full h-full object-cover filter grayscale contrast-115 animate-fade-in"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(wedding.couple);
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-        
-        <div className="absolute bottom-10 left-0 right-0">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-            <span className="bg-white text-black text-xs uppercase tracking-widest px-3 py-1 rounded-full font-semibold mb-3 inline-block">
-              {wedding.title}
-            </span>
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-white mb-2">
-              {wedding.couple}
-            </h1>
-            <div className="flex items-center space-x-4 text-xs sm:text-sm text-neutral-300 font-light">
-              <span className="flex items-center space-x-1.5">
-                <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                <span>{wedding.property}</span>
-              </span>
-              <span>•</span>
-              <span className="flex items-center space-x-1.5">
-                <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                <span>{wedding.guestCount} Guests</span>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Main Content Body — picture carousel + two-paragraph story */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-12">
 
-      {/* Main Content Body */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
-        
-        {/* Cultural Confluence & Resolution Narrative */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          <div className="lg:col-span-8 space-y-6">
-            <div>
-              <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-semibold block mb-2">
-                Cultural Confluence
-              </span>
-              <h2 className="font-serif text-3xl font-normal text-black leading-snug">
-                "{wedding.culturalConfluence}"
-              </h2>
-            </div>
-
-            <p className="text-sm sm:text-base text-neutral-700 font-light leading-relaxed">
-              {wedding.resolutionStory}
-            </p>
-
-            <blockquote className="border-l-2 border-black pl-5 py-2 text-sm sm:text-base italic font-serif text-neutral-800">
-              {wedding.coupleTestimonial}
-              <span className="block text-xs font-sans not-italic text-neutral-500 mt-2 font-medium">
-                — {wedding.couple}, IHG Celebrations Review
-              </span>
-            </blockquote>
-          </div>
-
-          <div className="lg:col-span-4 bg-neutral-50 p-6 rounded-2xl border border-neutral-200 space-y-4">
-            <span className="text-[10px] uppercase tracking-widest text-neutral-500 font-semibold block">
-              Case Study Guide
-            </span>
-            <h3 className="font-serif text-xl text-black font-normal">
-              Inquire for Similar Format
-            </h3>
-            <p className="text-xs text-neutral-600 font-light leading-relaxed">
-              Replicate this multi-cultural harmony with certified dietary custody and sound-isolated afterparties at {wedding.property}.
-            </p>
-            <button
-              onClick={() => onNavigateToInquiry(wedding.title)}
-              className="w-full bg-black hover:bg-neutral-800 text-white py-3 rounded-xl uppercase tracking-wider text-xs font-medium transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
-            >
-              <span>Enquire with Director</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Hour-by-Hour Timeline Execution */}
+        {/* Picture Carousel */}
         <div>
-          <div className="max-w-2xl mb-8">
-            <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-semibold block mb-1">
-              Execution Protocol
+          <div className="relative h-[380px] sm:h-[480px] lg:h-[560px] w-full rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-200">
+            <img
+              key={slideIndex}
+              src={gallery[slideIndex] || PLACEHOLDER_IMG}
+              alt={`Wedding moment ${slideIndex + 1}`}
+              className="w-full h-full object-cover filter grayscale contrast-110 animate-fade-in"
+              onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
+            />
+            <span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">
+              Image here
             </span>
-            <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">
-              Orchestrated Run-of-Show Timeline
-            </h2>
-            <p className="text-xs sm:text-sm text-neutral-600 font-light mt-1">
-              Synchronized milestones ensuring traditional sanctity alongside celebration.
-            </p>
+
+            {/* Side Arrows */}
+            <button
+              onClick={handlePrevSlide}
+              aria-label="Previous image"
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-black flex items-center justify-center transition-colors cursor-pointer"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={handleNextSlide}
+              aria-label="Next image"
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-black flex items-center justify-center transition-colors cursor-pointer"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+
+            {/* Slide Counter */}
+            <div className="absolute bottom-4 right-5 z-20 text-[11px] font-mono text-neutral-600 bg-white/80 rounded-full px-3 py-1">
+              {slideIndex + 1} / {totalSlides}
+            </div>
           </div>
 
-          <div className="bg-neutral-50 p-6 sm:p-8 rounded-2xl border border-neutral-200 space-y-4">
-            {wedding.timelineHighlights.map((tl, i) => (
-              <div key={i} className="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-neutral-200 last:border-0 gap-2">
-                <div className="w-44 font-semibold text-black text-xs">
-                  {tl.time}
-                </div>
-                <div className="flex-1 text-xs text-neutral-700 font-light">
-                  {tl.ritual}
-                </div>
-                <div className="text-[11px] text-neutral-500 font-medium uppercase tracking-wider">
-                  {tl.space}
-                </div>
-              </div>
+          {/* Dot Indicators */}
+          <div className="flex items-center justify-center space-x-2 mt-4">
+            {gallery.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setSlideIndex(i)}
+                aria-label={`Go to image ${i + 1}`}
+                className={`w-2 h-2 rounded-full transition-colors cursor-pointer ${i === slideIndex ? 'bg-black' : 'bg-neutral-300 hover:bg-neutral-500'}`}
+              />
             ))}
           </div>
         </div>
 
-        {/* Photo Documentary Gallery */}
-        {wedding.gallery.length > 0 && (
-          <div>
-            <div className="max-w-2xl mb-8">
-              <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-semibold block mb-1">
-                Visual Archive
-              </span>
-              <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">
-                Ceremony Moments
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {wedding.gallery.map((img, idx) => (
-                <div key={idx} className="h-80 rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-200">
-                  <span className="relative block w-full h-full object-cover filter grayscale contrast-110"><span className="relative block w-full h-full object-cover filter grayscale contrast-110"><img
-                    src={img}
-                    alt="Wedding moment"
-                    className="w-full h-full object-cover filter grayscale contrast-110"
-                  /><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* SECTION: EXPLORE OTHER REAL WEDDING STORIES */}
-        <div className="pt-12 border-t border-neutral-200">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-3">
-            <div>
-              <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-semibold block mb-1">
-                Case Study Archive
-              </span>
-              <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">
-                Explore Other Real Wedding Stories
-              </h2>
-              <p className="text-xs sm:text-sm text-neutral-600 font-light mt-1">
-                Discover how other couples harmonized cross-cultural traditions across palaces, beaches, and backwaters.
-              </p>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={handlePrevStory}
-                className="px-3 py-1.5 border border-neutral-300 hover:border-black rounded-lg text-xs uppercase tracking-wider flex items-center space-x-1 cursor-pointer"
-              >
-                <ChevronLeft className="w-3.5 h-3.5" />
-                <span>Prev</span>
-              </button>
-              <button
-                onClick={handleNextStory}
-                className="px-3 py-1.5 border border-neutral-300 hover:border-black rounded-lg text-xs uppercase tracking-wider flex items-center space-x-1 cursor-pointer"
-              >
-                <span>Next</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Grid of Other Stories */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {otherStories.map((story) => (
-              <article
-                key={story.id}
-                onClick={() => handleSelectStory(story.id)}
-                className="group bg-white rounded-2xl border border-neutral-200 hover:border-black overflow-hidden transition-all duration-300 flex flex-col justify-between cursor-pointer shadow-2xs hover:shadow-md"
-              >
-                <div>
-                  <div className="relative h-52 overflow-hidden bg-neutral-900">
-                    <img
-                      src={story.coverImage}
-                      alt={story.couple}
-                      className="w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(story.couple);
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                    <div className="absolute bottom-3 left-3 right-3 text-white">
-                      <span className="text-[10px] uppercase tracking-wider font-sans text-neutral-300 block">
-                        {story.location}
-                      </span>
-                      <h3 className="font-serif text-lg font-normal text-white">
-                        {story.couple}
-                      </h3>
-                    </div>
-                  </div>
-
-                  <div className="p-5">
-                    <span className="text-[11px] font-sans font-semibold text-black uppercase tracking-wider block mb-1">
-                      The Confluence:
-                    </span>
-                    <p className="text-xs text-neutral-800 font-sans mb-2 font-medium line-clamp-1">
-                      {story.culturalConfluence}
-                    </p>
-
-                    <p className="text-xs text-neutral-600 font-sans leading-relaxed line-clamp-2 font-light">
-                      {story.resolutionStory}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="p-5 pt-0">
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleSelectStory(story.id);
-                    }}
-                    className="w-full border border-neutral-300 group-hover:bg-black group-hover:text-white text-black text-[11px] uppercase tracking-wider font-medium py-2 rounded-xl transition-colors flex items-center justify-center space-x-1.5"
-                  >
-                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                    <span>Read This Case Study</span>
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
+        {/* Dummy Story — two paragraphs max */}
+        <div className="space-y-5">
+          <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">
+            {wedding.couple}
+          </h2>
+          {STORY_TEXT.map((p, i) => (
+            <p key={i} className="text-sm sm:text-base text-neutral-700 font-light leading-relaxed">
+              {p}
+            </p>
+          ))}
         </div>
 
       </div>

@@ -343,6 +343,54 @@ function getRequestHeaders(accessToken) {
   };
 }
 
+// --- Client Comment Threads (prototype feedback) ---
+// Persisted to comments.json on the server so all comments + full history
+// are available centrally (and downloadable via GET /api-comments/export).
+const COMMENTS_FILE = process.env.COMMENTS_FILE || path.resolve(process.cwd(), 'comments.json');
+
+const readCommentsFile = () => {
+  try {
+    const raw = fs.readFileSync(COMMENTS_FILE, 'utf8');
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
+
+const writeCommentsFile = (threads) => {
+  try {
+    fs.writeFileSync(COMMENTS_FILE, JSON.stringify(threads, null, 2), 'utf8');
+  } catch (error) {
+    console.error('[Comments] Failed to persist comments:', error);
+  }
+};
+
+app.get('/api-comments', (req, res) => {
+  res.json({ threads: readCommentsFile() });
+});
+
+app.post('/api-comments', (req, res) => {
+  const incoming = req.body?.threads;
+  if (!Array.isArray(incoming)) {
+    return res.status(400).json({ error: 'Body must be { threads: [...] }' });
+  }
+  writeCommentsFile(incoming);
+  res.json({ ok: true, count: incoming.length });
+});
+
+app.get('/api-comments/export', (req, res) => {
+  const data = {
+    site: 'IHG Destination Weddings — Prototype Feedback',
+    exportedAt: new Date().toISOString(),
+    totalPins: readCommentsFile().length,
+    threads: readCommentsFile(),
+  };
+  res.setHeader('Content-Disposition', 'attachment; filename="ihg-prototype-comments.json"');
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(data, null, 2));
+});
+
 // --- Proxy Endpoint ---
 app.post('/api-proxy', async (req, res) => {
 

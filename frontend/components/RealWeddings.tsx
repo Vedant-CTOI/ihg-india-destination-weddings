@@ -36,10 +36,10 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
               Case Studies
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-black font-normal mb-2">
-              Real Weddings
+              Placeholder Text (Real Wedding Stories)
             </h2>
             <p className="font-sans text-neutral-600 text-sm font-light">
-              How diverse family traditions, dietary purity, and sacred hours were brought into harmony across India.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
             </p>
           </div>
 

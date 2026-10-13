@@ -53,10 +53,9 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
               Portfolio
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-black font-normal mb-1">
-              Hotels
-            </h2>
+              Placeholder Text (List of Hotels)</h2>
             <p className="text-xs text-neutral-500 font-sans font-light">
-              Architectural sanctuaries across India with consecrated havan courtyards and segregated kitchens.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
             </p>
           </div>
 

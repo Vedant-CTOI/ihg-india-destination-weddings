@@ -52,10 +52,10 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
               Curated Wedding Types
             </span>
             <h2 className="font-serif text-2xl sm:text-3xl text-black font-normal mb-1.5">
-              Discover by Genre
+              Placeholder Text (Discover by Genre)
             </h2>
             <p className="font-sans text-neutral-500 text-xs font-light leading-relaxed">
-              Explore your celebration by its ceremonial format, ritual atmosphere, and aesthetic setting.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
             </p>
           </div>
 
@@ -128,7 +128,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
               </div>
 
               <h3 className="font-serif text-2xl sm:text-4xl font-normal mb-2.5">
-                Genre {currentIndex + 1} Atmosphere
+                Genre {currentIndex + 1}
               </h3>
 
               <p className="font-serif text-sm sm:text-base italic text-neutral-700 leading-snug max-w-2xl line-clamp-2 mb-4">

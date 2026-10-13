@@ -44,10 +44,10 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenAllFaqs }) => {
               Ceremonial Guidance
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-black font-normal">
-              Frequently Asked Questions
+              Placeholder Text (FAQs)
             </h2>
             <p className="text-xs sm:text-sm text-neutral-600 font-sans font-light leading-relaxed">
-              Essential answers regarding ceremonial logistics, kitchen segregation, noise curfews, and reservation protocols.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
             </p>
           </div>
 
@@ -101,10 +101,10 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenAllFaqs }) => {
         <div className="mt-10 p-6 bg-neutral-50 rounded-2xl border border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans">
           <div className="space-y-0.5 text-center sm:text-left">
             <span className="font-semibold text-black block">
-              Looking for detailed legal charters, vendor NDAs, or pandit guidelines?
+              Placeholder text 1
             </span>
             <span className="text-neutral-500 font-light">
-              Visit our comprehensive FAQ repository covering all institutional policies across India.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
             </span>
           </div>
 

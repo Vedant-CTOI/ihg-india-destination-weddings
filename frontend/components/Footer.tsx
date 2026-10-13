@@ -1,12 +1,14 @@
 import React from 'react';
 import { LegalTab } from '../types';
+import { ArrowRight } from 'lucide-react';
 
 interface FooterProps {
   onNavigateToLegal?: (tab: LegalTab) => void;
   onNavigateToCharter?: () => void;
+  onNavigateToSitemap?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToCharter }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToCharter, onNavigateToSitemap }) => {
   return (
     <>
       {/* Existing Primary Footer without Celebrations in heading */}
@@ -97,43 +99,19 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToC
             </div>
           </div>
 
-          {/* Sitemap — top nav titles + Home; other entries as lorem ipsum */}
-          <div className="py-8 border-b border-neutral-800">
-            <span className="text-[11px] uppercase tracking-wider text-neutral-400 font-medium block mb-4">
-              Site Map
+          {/* Site Map — single link to the full directory page */}
+          <div className="py-5 border-b border-neutral-800 flex items-center justify-between">
+            <button
+              type="button"
+              onClick={onNavigateToSitemap}
+              className="inline-flex items-center space-x-2 text-[11px] uppercase tracking-wider text-neutral-300 hover:text-white font-medium transition-colors cursor-pointer"
+            >
+              <span>Site Map</span>
+              <ArrowRight className="w-3 h-3" />
+            </button>
+            <span className="text-[10px] text-neutral-600 font-light">
+              Every page of the directory, one click away.
             </span>
-            <nav className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-8 gap-y-2 text-[11px] text-neutral-300 font-light">
-              <div className="space-y-1.5 flex flex-col items-start">
-                <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-medium">Home</span>
-                <span className="text-neutral-600">Lorem ipsum dolor</span>
-                <span className="text-neutral-600">Sit amet consectetur</span>
-              </div>
-              <div className="space-y-1.5 flex flex-col items-start">
-                <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-medium">About</span>
-                <span className="text-neutral-600">Lorem ipsum dolor</span>
-                <span className="text-neutral-600">Sit amet consectetur</span>
-              </div>
-              <div className="space-y-1.5 flex flex-col items-start">
-                <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-medium">Discover by Genre</span>
-                <span className="text-neutral-600">Lorem ipsum dolor</span>
-                <span className="text-neutral-600">Sit amet consectetur</span>
-              </div>
-              <div className="space-y-1.5 flex flex-col items-start">
-                <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-medium">Hotels</span>
-                <span className="text-neutral-600">Lorem ipsum dolor</span>
-                <span className="text-neutral-600">Sit amet consectetur</span>
-              </div>
-              <div className="space-y-1.5 flex flex-col items-start">
-                <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-medium">Real Weddings</span>
-                <span className="text-neutral-600">Lorem ipsum dolor</span>
-                <span className="text-neutral-600">Sit amet consectetur</span>
-              </div>
-              <div className="space-y-1.5 flex flex-col items-start">
-                <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-medium">IHG Philosophy</span>
-                <span className="text-neutral-600">Lorem ipsum dolor</span>
-                <span className="text-neutral-600">Sit amet consectetur</span>
-              </div>
-            </nav>
           </div>
 
           <div className="pt-5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-500 gap-3">

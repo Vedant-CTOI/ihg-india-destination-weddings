@@ -34,17 +34,16 @@ export const AboutUs: React.FC = () => {
 
             {/* Headline */}
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-black leading-tight tracking-tight">
-              A Legacy of Reverence <br />
-              <span className="italic text-neutral-500 font-light">&amp; Quiet Grandeur</span>
+              Placeholder Text (About Us)
             </h2>
 
             {/* Narrative copy with generous line-height */}
             <div className="space-y-4 text-xs sm:text-sm text-neutral-600 font-sans font-light leading-relaxed">
               <p>
-                IHG Weddings brings together India’s most distinguished palaces, oceanfront estates, and secluded nature retreats into a single cohesive portfolio. We approach each union not as an event, but as a living legacy where sacred rituals, generational respect, and contemporary celebration exist in complete harmony.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
               </p>
               <p>
-                From consecrated early-morning Vedic Havans to high-energy midnight afterparties, our dedicated on-ground teams maintain uncompromising standards. Certified satellite kitchens uphold absolute dietary sanctity, while sound-isolated ballrooms and expansive processional avenues grant families the freedom to honor both solemn vows and festive joy without friction.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
               </p>
             </div>
 

@@ -159,10 +159,10 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
             Consultation &amp; Reservation
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl text-black font-normal mb-3">
-            Begin the Conversation
+            Placeholder Text (Lead Form Capture)
           </h2>
           <p className="font-sans text-neutral-600 text-sm font-light leading-relaxed">
-            Share your preliminary celebration plans. Connect directly with an assigned Luxury Wedding Director to reserve auspicious date blocks, coordinate sanctuary properties, and tailor ceremonial catering across India.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
           </p>
 
           {onOpenCharter && (
