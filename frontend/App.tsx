@@ -32,7 +32,8 @@ export const App: React.FC = () => {
   // --- Client commenting system (prototype-only overlay) ---
   const pageKey = pageKeyFor(currentView as unknown as { type: string; [k: string]: unknown });
   const comments = useComments(pageKey);
-  const [commentMode, setCommentMode] = useState<boolean>(false);
+  // Re-render the layer when a comment is added outside React state (e.g. screenshot attach)
+  const [commentTick, setCommentTick] = useState<number>(0);
 
   // Post-submission Consent & Notification popup states
   const [pendingInquiryData, setPendingInquiryData] = useState<InquiryFormData | null>(null);
@@ -297,27 +298,27 @@ export const App: React.FC = () => {
       {/* 5. Floating Go-to-Top Button — on all pages */}
       <GoToTopButton />
 
-      {/* 6. CLIENT COMMENTING OVERLAY — pins; persists in localStorage */}
+      {/* 6. CLIENT COMMENTING OVERLAY — SHIFT+click to pin; persists in localStorage */}
       <CommentToolbar
-        enabled={commentMode}
         commentCount={comments.comments.length}
-        onToggle={() => setCommentMode(!commentMode)}
         onExport={exportCommentsFile}
         onImport={(file) => {
           importCommentsFile(file).then((n) => {
             window.alert(`Imported ${n} comment${n === 1 ? '' : 's'}.`);
+            setCommentTick((t) => t + 1);
           }).catch(() => {
             window.alert('Could not read that file. Please use a feedback JSON exported from this site.');
           });
         }}
       />
       <CommentPinLayer
-        enabled={commentMode}
+        key={`${pageKey}-${commentTick}`}
         comments={comments.comments}
         onAdd={comments.addComment}
         onUpdate={comments.updateComment}
         onDelete={comments.deleteComment}
         onToggleResolved={comments.toggleResolved}
+        onCommentsChanged={() => setCommentTick((t) => t + 1)}
       />
 
     </div>

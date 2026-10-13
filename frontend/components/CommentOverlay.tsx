@@ -131,28 +131,31 @@ export function importCommentsFile(file: File): Promise<number> {
 /* Capture a small PNG thumbnail of the viewport area around a pin point.
    Uses html-to-image on the page root; crops to a rect around (xPct, yPct). */
 export async function capturePinThumbnail(
-  layerEl: HTMLElement | null,
-  xPct: number,
-  yPct: number
+  _layerEl: HTMLElement | null,
+  docX: number,
+  docY: number
 ): Promise<string | undefined> {
   try {
-    const target = layerEl?.ownerDocument?.body;
+    const target = document.body;
     if (!target) return undefined;
+    // Screenshot the visible viewport (scroll position is implicit in toPng capture of body)
+    const scrollY = window.scrollY;
     const dataUrl = await toPng(target, {
       width: window.innerWidth,
       height: window.innerHeight,
+      style: { transform: 'none' },
       filter: (node: HTMLElement) =>
         !(node?.dataset && node.dataset.commentOverlay === 'true'),
     });
-    // Crop a 480x320 region centered on the pin from the full-viewport png
     const img = new Image();
     await new Promise<void>((res, rej) => {
       img.onload = () => res();
       img.onerror = () => rej(new Error('img'));
       img.src = dataUrl;
     });
-    const cx = Math.round((xPct / 100) * img.width);
-    const cy = Math.round((yPct / 100) * img.height);
+    // The pin's viewport position = docX/docY minus current scroll
+    const cx = Math.round(docX - window.scrollX);
+    const cy = Math.round(docY - scrollY);
     const w = Math.min(480, img.width);
     const h = Math.min(320, img.height);
     const sx = Math.max(0, Math.min(img.width - w, cx - w / 2));
@@ -228,43 +231,36 @@ export function useComments(page: string) {
 /* ------------------------------------------------------------------ */
 
 export const CommentToolbar: React.FC<{
-  enabled: boolean;
   commentCount: number;
-  onToggle: () => void;
   onExport: () => void;
   onImport: (file: File) => void;
-}> = ({ enabled, commentCount, onToggle, onExport, onImport }) => {
-  if (!enabled) {
-    return (
-      <button
-        onClick={onToggle}
-        className="fixed bottom-5 right-5 z-[9999] inline-flex items-center space-x-2 bg-black text-white text-[11px] uppercase tracking-wider font-medium px-4 py-2.5 rounded-full shadow-lg hover:bg-neutral-800 transition-colors cursor-pointer"
-        title="Enable client commenting mode"
-      >
-        <MessageSquare className="w-3.5 h-3.5" />
-        <span>Enable Commenting</span>
-        {commentCount > 0 && (
-          <span className="bg-white text-black text-[10px] font-semibold rounded-full px-1.5 py-0.5">
-            {commentCount}
-          </span>
-        )}
-      </button>
-    );
-  }
-
+}> = ({ commentCount, onExport, onImport }) => {
   return (
-    <div className="fixed bottom-5 right-5 z-[9999] flex items-center space-x-2">
-      <span className="bg-black text-white text-[11px] uppercase tracking-wider font-medium px-4 py-2.5 rounded-full shadow-lg">
-        Commenting ON — click anywhere to pin
-      </span>
-      <button
-        onClick={onExport}
-        className="bg-white border border-neutral-300 text-black text-[11px] uppercase tracking-wider font-medium px-3 py-2.5 rounded-full shadow hover:border-black transition-colors cursor-pointer inline-flex items-center space-x-1.5"
-        title="Download all comments (with screenshots) as a JSON file"
-      >
-        <Download className="w-3.5 h-3.5" />
-        <span>Export</span>
-      </button>
+    <div data-comment-overlay-ui="true" className="fixed bottom-5 right-5 z-[9999] flex items-center space-x-2">
+      {/* Step-by-step helper — always visible, zero learning curve */}
+      {commentCount === 0 ? (
+        <span className="bg-black text-white text-[11px] font-medium px-4 py-2.5 rounded-full shadow-lg">
+          To comment: hold SHIFT and click any spot on the page
+        </span>
+      ) : (
+        <span className="bg-black text-white text-[11px] font-medium px-4 py-2.5 rounded-full shadow-lg">
+          {commentCount} comment{commentCount === 1 ? '' : 's'} on this page — SHIFT+click to add more
+        </span>
+      )}
+
+      {/* Export — appears as soon as one comment exists on the site */}
+      {commentCount > 0 && (
+        <button
+          onClick={onExport}
+          className="bg-white border border-neutral-300 text-black text-[11px] uppercase tracking-wider font-medium px-3 py-2.5 rounded-full shadow hover:border-black transition-colors cursor-pointer inline-flex items-center space-x-1.5"
+          title="Download all comments (with screenshots) as a JSON file to send back"
+        >
+          <Download className="w-3.5 h-3.5" />
+          <span>Export Comments</span>
+        </button>
+      )}
+
+      {/* Import — always available (it's how the owner loads a client's file) */}
       <label
         className="bg-white border border-neutral-300 text-black text-[11px] uppercase tracking-wider font-medium px-3 py-2.5 rounded-full shadow hover:border-black transition-colors cursor-pointer inline-flex items-center space-x-1.5"
         title="Load a feedback JSON file"
@@ -282,17 +278,6 @@ export const CommentToolbar: React.FC<{
           }}
         />
       </label>
-      <button
-        onClick={onToggle}
-        className="bg-white border border-neutral-300 text-black text-[11px] uppercase tracking-wider font-medium px-3 py-2.5 rounded-full shadow hover:border-black transition-colors cursor-pointer"
-      >
-        Turn Off
-        {commentCount > 0 && (
-          <span className="ml-2 bg-black text-white text-[10px] font-semibold rounded-full px-1.5 py-0.5">
-            {commentCount}
-          </span>
-        )}
-      </button>
     </div>
   );
 };
@@ -347,69 +332,113 @@ export const CommentEditor: React.FC<{
 /* ------------------------------------------------------------------ */
 
 export const CommentPinLayer: React.FC<{
-  enabled: boolean;
   comments: CommentRecord[];
   onAdd: (x: number, y: number, text: string, screenshot?: string) => void;
   onUpdate: (id: string, text: string) => void;
   onDelete: (id: string) => void;
   onToggleResolved: (id: string) => void;
-}> = ({ enabled, comments, onAdd, onUpdate, onDelete, onToggleResolved }) => {
+  onCommentsChanged: () => void;
+}> = ({ comments, onAdd, onUpdate, onDelete, onToggleResolved, onCommentsChanged }) => {
   const [pendingPoint, setPendingPoint] = useState<{ x: number; y: number } | null>(null);
   const [draftText, setDraftText] = useState<string>('');
   const [openId, setOpenId] = useState<string | null>(null);
+  const [shiftHeld, setShiftHeld] = useState<boolean>(false);
   const layerRef = useRef<HTMLDivElement>(null);
+  const [docHeight, setDocHeight] = useState<number>(0);
 
-  // Reset transient state when the layer toggles off
+  // Track document height so the absolutely-positioned layer always spans the page
   useEffect(() => {
-    if (!enabled) {
-      setPendingPoint(null);
-      setDraftText('');
-      setOpenId(null);
-    }
-  }, [enabled]);
+    const measure = () => setDocHeight(Math.max(document.documentElement.scrollHeight, window.innerHeight));
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(document.body);
+    window.addEventListener('resize', measure);
+    return () => { ro.disconnect(); window.removeEventListener('resize', measure); };
+  }, []);
 
-  if (!enabled) return null;
+  // SHIFT = commenting key.
+  // - SHIFT held: page shows the red pin cursor; clicking pins at the exact point.
+  // - Normal clicks behave 100% normally (links navigate, forms submit).
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Shift' && !e.repeat) setShiftHeld(true);
+      if (e.key === 'Escape') {
+        setPendingPoint(null);
+        setDraftText('');
+        setOpenId(null);
+      }
+    };
+    const onKeyUp = (e: KeyboardEvent) => {
+      if (e.key === 'Shift') setShiftHeld(false);
+    };
+    const onBlur = () => setShiftHeld(false);
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
+    window.addEventListener('blur', onBlur);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
+      window.removeEventListener('blur', onBlur);
+      setShiftHeld(false);
+    };
+  }, []);
 
-  const handleClick = (e: React.MouseEvent) => {
-    // If a draft is open, this click just dismisses it (pin placement cancel)
-    if (pendingPoint) {
-      setPendingPoint(null);
-      setDraftText('');
-      return;
-    }
-    const rect = layerRef.current?.getBoundingClientRect();
-    if (!rect || rect.height === 0) return;
-    // Document-space coordinates: pin stays glued to the content when scrolling
-    const docX = e.clientX + window.scrollX;
-    const docY = e.clientY + window.scrollY - rect.top;
-    setPendingPoint({
-      x: (docX / rect.width) * 100,
-      y: (docY / rect.height) * 100,
-    });
-  };
+  // Capture-phase click interception ONLY while SHIFT is held: the SHIFT+click
+  // never reaches the site (links/buttons can't misfire); normal clicks untouched.
+  useEffect(() => {
+    if (!shiftHeld) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (!e.shiftKey) return;
+      const t = e.target as HTMLElement | null;
+      if (t && t.closest('[data-comment-overlay-ui="true"]')) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const docX = e.clientX + window.scrollX;
+      const docY = e.clientY + window.scrollY;
+      if (pendingPoint) {
+        setPendingPoint(null);
+        setDraftText('');
+        return;
+      }
+      setPendingPoint({ x: docX, y: docY });
+    };
+    document.addEventListener('click', onDocClick, { capture: true });
+    return () => document.removeEventListener('click', onDocClick, { capture: true });
+  }, [shiftHeld, pendingPoint]);
+
+
 
   const handleDraftSubmit = async () => {
     if (!pendingPoint || !draftText.trim()) return;
     const { x, y } = pendingPoint;
     const text = draftText.trim();
-    // Capture the page area around the pin first (overlay itself is excluded from the shot)
-    const shot = await capturePinThumbnail(layerRef.current, x, y);
+    const shot = await capturePinThumbnail(null, x, y);
     onAdd(x, y, text, shot);
     setPendingPoint(null);
     setDraftText('');
+    onCommentsChanged();
   };
 
   return (
     <div
       ref={layerRef}
       data-comment-overlay="true"
-      onClick={handleClick}
-      className="absolute inset-x-0 top-0 z-[9998]"
-      style={{ cursor: 'crosshair', height: '100%' }}
+      data-comment-overlay-ui="true"
+      className="absolute inset-x-0 top-0 z-[9998] pointer-events-none"
+      style={{ height: `${docHeight}px` }}
     >
-      {/* Existing pins */}
+      {/* SHIFT hint chip — appears the moment SHIFT is held, gone on release */}
+      {shiftHeld && !pendingPoint && (
+        <div
+          className="fixed bottom-5 left-1/2 -translate-x-1/2 z-[9999] bg-red-600 text-white text-[11px] font-medium px-4 py-2 rounded-full shadow-lg pointer-events-none"
+        >
+          Release SHIFT and click anywhere to pin a comment — or press ESC to dismiss this
+        </div>
+      )}
+
+      {/* Existing pins — bright red for visibility */}
       {comments.map((c) => (
-        <div key={c.id} className="absolute" style={{ left: `${c.x}%`, top: `${c.y}%` }}>
+        <div key={c.id} className="absolute pointer-events-auto" style={{ left: `${c.x}px`, top: `${c.y}px` }}>
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -417,18 +446,19 @@ export const CommentPinLayer: React.FC<{
             }}
             className={`-translate-x-1/2 -translate-y-1/2 w-7 h-7 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer ${
               openId === c.id
-                ? 'bg-black text-white scale-110'
+                ? 'bg-red-700 text-white scale-110'
                 : c.resolved
                   ? 'bg-emerald-600 text-white'
-                  : 'bg-white text-black border-2 border-black'
+                  : 'bg-red-600 text-white'
             }`}
-            title={c.resolved ? 'Resolved — view / reopen / delete' : 'View / edit / resolve / delete'}
+            title={c.resolved ? 'Resolved — click to view / reopen / delete' : 'Click to view / edit / resolve / delete'}
           >
             {c.resolved ? <Check className="w-3.5 h-3.5" /> : <MessageCircle className="w-3.5 h-3.5" />}
           </button>
 
           {openId === c.id && (
             <div
+              data-comment-overlay-ui="true"
               className="absolute left-4 top-4 w-72 bg-white rounded-xl border border-neutral-200 shadow-2xl p-4 space-y-3 z-30"
               onClick={(e) => e.stopPropagation()}
             >
@@ -484,17 +514,18 @@ export const CommentPinLayer: React.FC<{
         </div>
       ))}
 
-      {/* Pending pin + new-comment draft box */}
+      {/* Pending pin + new-comment draft box — window appears exactly at the pin */}
       {pendingPoint && (
         <div
-          className="absolute z-30"
-          style={{ left: `${pendingPoint.x}%`, top: `${pendingPoint.y}%` }}
+          className="absolute z-30 pointer-events-auto"
+          style={{ left: `${pendingPoint.x}px`, top: `${pendingPoint.y}px` }}
           onClick={(e) => e.stopPropagation()}
+          data-comment-overlay-ui="true"
         >
-          <div className="-translate-x-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black text-white flex items-center justify-center shadow-lg animate-pulse">
+          <div className="-translate-x-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg animate-pulse">
             <Pin className="w-3.5 h-3.5" />
           </div>
-          <div className="absolute left-4 top-4 w-72 bg-white rounded-xl border border-neutral-200 shadow-2xl p-4 space-y-3">
+          <div className="absolute left-4 top-4 w-72 bg-white rounded-xl border-2 border-red-600 shadow-2xl p-4 space-y-3">
             <span className="text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">
               New Comment
             </span>
