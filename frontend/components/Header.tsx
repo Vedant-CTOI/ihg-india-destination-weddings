@@ -5,35 +5,43 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 interface HeaderProps {
   currentView: PageView;
   onNavigateHome: (anchor?: string) => void;
-  onNavigateToCharter: () => void;
   onNavigateToConversation?: () => void;
+  onNavigateToAboutPage?: () => void;
+  onNavigateToGenre?: () => void;
+  onNavigateToAllHotels?: () => void;
+  onNavigateToAllStories?: () => void;
+  onNavigateToLegalFaq?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   currentView,
   onNavigateHome,
-  onNavigateToCharter,
-  onNavigateToConversation
+  onNavigateToConversation,
+  onNavigateToAboutPage,
+  onNavigateToGenre,
+  onNavigateToAllHotels,
+  onNavigateToAllStories,
+  onNavigateToLegalFaq
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isHome = currentView.type === 'home';
 
-  const navLinks = [
-    { label: 'About', anchor: 'about' },
-    { label: 'Discover by Genre', anchor: 'destinations' },
-    { label: 'Hotels', anchor: 'hotels-exploration' },
-    { label: 'Real Weddings', anchor: 'real-weddings' },
-    { label: 'FAQs', anchor: 'faqs' },
-    { label: 'IHG Philosophy', isCharter: true },
+  const navLinks: Array<{ label: string; anchor?: string; page?: string }> = [
+    { label: 'About', page: 'about' },
+    { label: 'Discover by Destination', page: 'genre' },
+    { label: 'Hotels', page: 'hotels' },
+    { label: 'Real Weddings', page: 'stories' },
+    { label: 'FAQs', page: 'faqs' },
   ];
 
-  const handleLinkClick = (link: typeof navLinks[0]) => {
+  const handleLinkClick = (link: { label: string; anchor?: string; page?: string }) => {
     setMobileMenuOpen(false);
-    if (link.isCharter) {
-      onNavigateToCharter();
-    } else {
-      onNavigateHome(link.anchor);
-    }
+    if (link.page === 'about') { onNavigateToAboutPage?.(); return; }
+    if (link.page === 'genre') { onNavigateToGenre?.(); return; }
+    if (link.page === 'hotels') { onNavigateToAllHotels?.(); return; }
+    if (link.page === 'stories') { onNavigateToAllStories?.(); return; }
+    if (link.page === 'faqs') { onNavigateToLegalFaq?.(); return; }
+    onNavigateHome(link.anchor);
   };
 
   const handleEnquireClick = () => {

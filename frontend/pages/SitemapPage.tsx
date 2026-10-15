@@ -11,7 +11,6 @@ interface SitemapPageProps {
   onNavigateToAllStories: () => void;
   onNavigateToStory: (storyId: string) => void;
   onNavigateToConversation: () => void;
-  onNavigateToCharter: () => void;
   onNavigateToLegal: (tab: 'terms' | 'privacy' | 'faq') => void;
 }
 
@@ -30,7 +29,6 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
   onNavigateToAllStories,
   onNavigateToStory,
   onNavigateToConversation,
-  onNavigateToCharter,
   onNavigateToLegal
 }) => {
 
@@ -79,8 +77,7 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
     {
       heading: 'Institutional',
       entries: [
-        { label: 'IHG Philosophy', description: 'Placeholder Text — planning principles & SLA guidelines', action: onNavigateToCharter },
-        { label: 'Terms & Conditions', description: 'Legal charter and booking terms', action: () => onNavigateToLegal('terms') },
+        { label: 'Terms & Conditions', description: 'Placeholder Text — terms & booking conditions', action: () => onNavigateToLegal('terms') },
         { label: 'Privacy Policy', description: 'Data protection and confidentiality policy', action: () => onNavigateToLegal('privacy') },
         { label: 'FAQs', description: 'Placeholder Text — ceremonial guidance & policies', action: () => onNavigateToLegal('faq') }
       ]

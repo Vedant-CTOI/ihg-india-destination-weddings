@@ -54,6 +54,8 @@ export function pageKeyFor(view: { type: string; [k: string]: unknown }): string
   switch (view.type) {
     case 'home':
       return 'home';
+    case 'genre-listing':
+      return 'genre-listing';
     case 'genre-detail':
       return `genre:${String(view.genreId ?? 'unknown')}`;
     case 'destination-detail':
@@ -68,8 +70,6 @@ export function pageKeyFor(view: { type: string; [k: string]: unknown }): string
       return 'all-stories';
     case 'conversation':
       return 'conversation';
-    case 'planning-charter':
-      return 'planning-charter';
     case 'sitemap':
       return 'sitemap';
     case 'legal-info':

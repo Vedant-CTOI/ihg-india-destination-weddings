@@ -18,6 +18,8 @@ export const GenreDetailPage: React.FC<GenreDetailPageProps> = ({
 }) => {
   const [selectedGenreId, setSelectedGenreId] = useState<string>(genreId);
   const [selectedDestinationFilter, setSelectedDestinationFilter] = useState<string>('All Destinations');
+  const [selectedOccasionFilter, setSelectedOccasionFilter] = useState<string>('All Occasions');
+  const [hotelSearch, setHotelSearch] = useState<string>('');
 
   const genreInfo: WeddingGenreInfo =
     WEDDING_GENRES_DATA.find((g) => g.id === selectedGenreId) || WEDDING_GENRES_DATA[0];
@@ -34,18 +36,40 @@ export const GenreDetailPage: React.FC<GenreDetailPageProps> = ({
     return ['All Destinations', ...Array.from(destSet)];
   }, [allGenreHotels]);
 
+  const availableOccasions = useMemo(() => {
+    const occSet = new Set<string>();
+    allGenreHotels.forEach((h) => {
+      h.weddingTypes?.forEach((w) => occSet.add(w));
+    });
+    return ['All Occasions', ...Array.from(occSet)];
+  }, [allGenreHotels]);
+
   const filteredHotels: HotelProperty[] = useMemo(() => {
-    if (selectedDestinationFilter === 'All Destinations') {
-      return allGenreHotels;
+    let list = allGenreHotels;
+    if (selectedDestinationFilter !== 'All Destinations') {
+      list = list.filter(
+        (h) => h.region === selectedDestinationFilter || h.location.toLowerCase().includes(selectedDestinationFilter.toLowerCase())
+      );
     }
-    return allGenreHotels.filter(
-      (h) => h.region === selectedDestinationFilter || h.location.toLowerCase().includes(selectedDestinationFilter.toLowerCase())
-    );
-  }, [allGenreHotels, selectedDestinationFilter]);
+    if (selectedOccasionFilter !== 'All Occasions') {
+      list = list.filter((h) => h.weddingTypes?.includes(selectedOccasionFilter));
+    }
+    if (hotelSearch.trim()) {
+      const q = hotelSearch.trim().toLowerCase();
+      list = list.filter((h) =>
+        h.name.toLowerCase().includes(q) ||
+        h.brand.toLowerCase().includes(q) ||
+        h.location.toLowerCase().includes(q)
+      );
+    }
+    return list;
+  }, [allGenreHotels, selectedDestinationFilter, selectedOccasionFilter, hotelSearch]);
 
   const handleGenreSwitch = (newGenreId: string) => {
     setSelectedGenreId(newGenreId);
     setSelectedDestinationFilter('All Destinations');
+    setSelectedOccasionFilter('All Occasions');
+    setHotelSearch('');
   };
 
   return (
@@ -220,11 +244,11 @@ export const GenreDetailPage: React.FC<GenreDetailPageProps> = ({
               </p>
             </div>
 
-            {/* Destination Dropdown Selector */}
+            {/* Destination / Occasion / Search Filters */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <div className="relative inline-block w-full sm:w-64 font-sans">
+              <div className="relative inline-block w-full sm:w-52 font-sans">
                 <label htmlFor="destination-filter-select" className="block text-[9px] uppercase tracking-wider text-neutral-400 font-semibold mb-1">
-                  Filter Destination:
+                  Choose City:
                 </label>
                 <div className="relative">
                   <select
@@ -235,7 +259,7 @@ export const GenreDetailPage: React.FC<GenreDetailPageProps> = ({
                   >
                     {availableDestinations.map((dest) => (
                       <option key={dest} value={dest}>
-                        {dest === 'All Destinations' ? 'All Destinations' : `Destination: ${dest}`}
+                        {dest === 'All Destinations' ? 'All Cities' : dest}
                       </option>
                     ))}
                   </select>
@@ -245,9 +269,50 @@ export const GenreDetailPage: React.FC<GenreDetailPageProps> = ({
                 </div>
               </div>
 
-              {selectedDestinationFilter !== 'All Destinations' && (
+              {/* Occasion dropdown */}
+              <div className="relative inline-block w-full sm:w-52 font-sans">
+                <label htmlFor="occasion-filter-select" className="block text-[9px] uppercase tracking-wider text-neutral-400 font-semibold mb-1">
+                  By Occasion:
+                </label>
+                <div className="relative">
+                  <select
+                    id="occasion-filter-select"
+                    value={selectedOccasionFilter}
+                    onChange={(e) => setSelectedOccasionFilter(e.target.value)}
+                    className="w-full appearance-none bg-white border border-neutral-300 hover:border-black rounded-lg px-3.5 py-2 pr-9 text-xs font-sans text-black font-medium shadow-2xs focus:outline-none focus:border-black transition-colors cursor-pointer"
+                  >
+                    {availableOccasions.map((occ) => (
+                      <option key={occ} value={occ}>{occ}</option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-neutral-500">
+                    <ChevronDown className="w-4 h-4" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Search by hotel */}
+              <div className="relative inline-block w-full sm:w-64 font-sans">
+                <label htmlFor="hotel-search-input" className="block text-[9px] uppercase tracking-wider text-neutral-400 font-semibold mb-1">
+                  Search by Hotel:
+                </label>
+                <input
+                  id="hotel-search-input"
+                  type="text"
+                  value={hotelSearch}
+                  onChange={(e) => setHotelSearch(e.target.value)}
+                  placeholder="Search properties…"
+                  className="w-full bg-white border border-neutral-300 hover:border-black rounded-lg px-3.5 py-2 text-xs font-sans text-black placeholder-neutral-400 shadow-2xs focus:outline-none focus:border-black transition-colors"
+                />
+              </div>
+
+              {(selectedDestinationFilter !== 'All Destinations' || selectedOccasionFilter !== 'All Occasions' || hotelSearch.trim()) && (
                 <button
-                  onClick={() => setSelectedDestinationFilter('All Destinations')}
+                  onClick={() => {
+                    setSelectedDestinationFilter('All Destinations');
+                    setSelectedOccasionFilter('All Occasions');
+                    setHotelSearch('');
+                  }}
                   className="text-[11px] text-neutral-500 hover:text-black font-medium underline uppercase tracking-wider cursor-pointer whitespace-nowrap self-end sm:self-center"
                 >
                   Reset Filter

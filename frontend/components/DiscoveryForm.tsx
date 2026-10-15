@@ -7,12 +7,10 @@ import { ArrowRight } from 'lucide-react';
 interface DiscoveryFormProps {
   onSubmitSuccess?: (data: InquiryFormData) => void;
   onOpenConversationPage?: () => void;
-  onOpenCharter?: () => void;
 }
 
 export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
   onSubmitSuccess,
-  onOpenCharter
 }) => {
   const defaultStartDate = '2025-11-20';
   const defaultEndDate = '2025-11-23';
@@ -165,18 +163,6 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
           </p>
 
-          {onOpenCharter && (
-            <div className="mt-4">
-              <button
-                type="button"
-                onClick={onOpenCharter}
-                className="inline-flex items-center space-x-1.5 text-xs font-sans uppercase tracking-wider text-black border border-neutral-300 hover:border-black px-4 py-1.5 rounded-full bg-white transition-colors cursor-pointer"
-              >
-                <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                <span>Inspect IHG Philosophy &amp; SLA Guidelines</span>
-              </button>
-            </div>
-          )}
         </div>
 
         {/* The Open Discovery Intake Form Directly on Landing Page - With Relative Positioning for in-place hotel popup overlay */}

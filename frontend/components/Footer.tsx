@@ -4,11 +4,10 @@ import { ArrowRight } from 'lucide-react';
 
 interface FooterProps {
   onNavigateToLegal?: (tab: LegalTab) => void;
-  onNavigateToCharter?: () => void;
   onNavigateToSitemap?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToCharter, onNavigateToSitemap }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToSitemap }) => {
   return (
     <>
       {/* Existing Primary Footer without Celebrations in heading */}
@@ -53,17 +52,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToC
                 Governance &amp; Trust
               </span>
               <ul className="space-y-1.5 text-[11px] text-neutral-300 font-light">
-                {onNavigateToCharter && (
-                  <li>
-                    <button
-                      type="button"
-                      onClick={onNavigateToCharter}
-                      className="hover:text-white transition-colors cursor-pointer text-left"
-                    >
-                      IHG Philosophy
-                    </button>
-                  </li>
-                )}
                 {onNavigateToLegal && (
                   <>
                     <li>
@@ -141,15 +129,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToC
                     FAQ
                   </button>
                 </>
-              )}
-              {onNavigateToCharter && (
-                <button
-                  type="button"
-                  onClick={onNavigateToCharter}
-                  className="hover:text-white transition-colors cursor-pointer"
-                >
-                  IHG Philosophy
-                </button>
               )}
             </div>
           </div>

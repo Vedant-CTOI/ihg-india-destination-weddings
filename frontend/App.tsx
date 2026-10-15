@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PageView, InquiryFormData, LegalTab } from './types';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
@@ -14,12 +14,13 @@ import { Footer } from './components/Footer';
 // Standalone Full-Page Views (NO POPUPS)
 import { DestinationDetailPage } from './pages/DestinationDetailPage';
 import { GenreDetailPage } from './pages/GenreDetailPage';
+import { GenreListingPage } from './pages/GenreListingPage';
 import { AllHotelsPage } from './pages/AllHotelsPage';
+import { AboutPage } from './pages/AboutPage';
 import { HotelDetailPage } from './pages/HotelDetailPage';
 import { StoryDetailPage } from './pages/StoryDetailPage';
 import { AllStoriesPage } from './pages/AllStoriesPage';
 import { ConversationPage } from './pages/ConversationPage';
-import { PlanningCharterPage } from './pages/PlanningCharterPage';
 import { SitemapPage } from './pages/SitemapPage';
 import { CommentToolbar, CommentPinLayer, useComments, pageKeyFor, exportCommentsFile, importCommentsFile } from './components/CommentOverlay';
 import { LegalInfoPage } from './pages/LegalInfoPage';
@@ -32,6 +33,8 @@ export const App: React.FC = () => {
   // --- Client commenting system (prototype-only overlay) ---
   const pageKey = pageKeyFor(currentView as unknown as { type: string; [k: string]: unknown });
   const comments = useComments(pageKey);
+  // Tracks which genre the homepage carousel is currently showing (for header nav)
+  const genreIndexRef = useRef<number>(0);
   // Re-render the layer when a comment is added outside React state (e.g. screenshot attach)
   const [commentTick, setCommentTick] = useState<number>(0);
 
@@ -60,6 +63,10 @@ export const App: React.FC = () => {
     setCurrentView({ type: 'genre-detail', genreId });
   };
 
+  const handleNavigateToGenreListing = () => {
+    setCurrentView({ type: 'genre-listing' });
+  };
+
   const handleNavigateToDestination = (destinationId: string) => {
     setCurrentView({ type: 'destination-detail', destinationId });
   };
@@ -80,8 +87,8 @@ export const App: React.FC = () => {
     setCurrentView({ type: 'all-stories', selectedCategory: category });
   };
 
-  const handleNavigateToCharter = () => {
-    setCurrentView({ type: 'planning-charter' });
+  const handleNavigateToAboutPage = () => {
+    setCurrentView({ type: 'about-page' });
   };
 
   const handleNavigateToLegal = (tab: LegalTab = 'terms') => {
@@ -130,23 +137,34 @@ export const App: React.FC = () => {
       <Header
         currentView={currentView}
         onNavigateHome={handleNavigateHome}
-        onNavigateToCharter={handleNavigateToCharter}
         onNavigateToConversation={() => handleNavigateToConversation()}
+        onNavigateToAboutPage={handleNavigateToAboutPage}
+        onNavigateToGenre={handleNavigateToGenreListing}
+        onNavigateToAllHotels={() => handleNavigateToAllHotels()}
+        onNavigateToAllStories={() => handleNavigateToAllStories()}
+        onNavigateToLegalFaq={() => handleNavigateToLegal('faq')}
       />
 
       {/* 2. Page View Routing */}
       <main className="flex-grow">
+        {currentView.type === 'about-page' && (
+          <AboutPage
+            onNavigateBack={() => handleNavigateHome()}
+            onNavigateToInquiry={() => handleNavigateToConversation()}
+          />
+        )}
+
         {currentView.type === 'home' && (
           <div className="animate-fade-in">
             {/* Hero Section (Splash Screen Carousel) */}
             <HeroSection />
 
             {/* About Us — IHG Weddings */}
-            <AboutUs />
+            <AboutUs onOpenAboutPage={handleNavigateToAboutPage} />
 
             {/* Section 1: Discover by Genre */}
             <DestinationDiscovery
-              onOpenDetail={(genre) => handleNavigateToGenre(genre.id)}
+              onOpenDetail={() => handleNavigateToGenreListing()}
             />
 
             {/* Section 2: Hotels & Sanctuaries Exploration */}
@@ -170,9 +188,16 @@ export const App: React.FC = () => {
             <DiscoveryForm
               onSubmitSuccess={handleFormSubmitted}
               onOpenConversationPage={() => handleNavigateToConversation()}
-              onOpenCharter={handleNavigateToCharter}
             />
           </div>
+        )}
+
+        {/* Separate Page 0: All Curated Wedding Types (Genre Listing) */}
+        {currentView.type === 'genre-listing' && (
+          <GenreListingPage
+            onNavigateBack={() => handleNavigateHome('destinations')}
+            onNavigateToHotelDetail={handleNavigateToHotel}
+          />
         )}
 
         {/* Separate Page 1: Wedding Genre Atmosphere & Property List Page */}
@@ -240,15 +265,6 @@ export const App: React.FC = () => {
             prefilledHotel={currentView.prefilledHotel}
             onNavigateBack={() => handleNavigateHome('contact')}
             onSubmitSuccess={handleFormSubmitted}
-            onOpenCharter={handleNavigateToCharter}
-          />
-        )}
-
-        {/* Separate Page 7: Official Luxury Wedding Charter & Protocol Page */}
-        {currentView.type === 'planning-charter' && (
-          <PlanningCharterPage
-            onNavigateBack={() => handleNavigateHome('contact')}
-            onProceedToForm={() => handleNavigateToConversation()}
           />
         )}
 
@@ -272,8 +288,7 @@ export const App: React.FC = () => {
             onNavigateToAllStories={() => handleNavigateToAllStories()}
             onNavigateToStory={handleNavigateToStory}
             onNavigateToConversation={() => handleNavigateToConversation()}
-            onNavigateToCharter={handleNavigateToCharter}
-            onNavigateToLegal={handleNavigateToLegal}
+                        onNavigateToLegal={handleNavigateToLegal}
           />
         )}
       </main>
@@ -281,8 +296,7 @@ export const App: React.FC = () => {
       {/* 3. Footer with Terms, Privacy Policy, and FAQ Links */}
       <Footer
         onNavigateToLegal={handleNavigateToLegal}
-        onNavigateToCharter={handleNavigateToCharter}
-        onNavigateToSitemap={() => setCurrentView({ type: 'sitemap' })}
+                onNavigateToSitemap={() => setCurrentView({ type: 'sitemap' })}
       />
 
       {/* 4. Two-Step Post-Submission Flow: Consent Form Popup -> Notification of Registration Popup */}

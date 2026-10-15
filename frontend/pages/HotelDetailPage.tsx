@@ -781,7 +781,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 </form>
 
                 <div className="text-center text-[10px] text-neutral-400 mt-4 px-2">
-                  Protected by IHG Philosophy &amp; Privacy Protocol.
+                  Protected by IHG Privacy Protocol.
                 </div>
               </div>
             )}

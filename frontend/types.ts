@@ -151,13 +151,15 @@ export type LegalTab = 'terms' | 'privacy' | 'faq';
 
 export type PageView =
   | { type: 'home' }
+  | { type: 'about-page' }
   | { type: 'destination-detail'; destinationId: string }
+  | { type: 'genre-listing' }
   | { type: 'genre-detail'; genreId: string }
   | { type: 'all-hotels'; selectedCity?: string }
   | { type: 'hotel-detail'; hotelId: string }
   | { type: 'all-stories'; selectedCategory?: string }
   | { type: 'story-detail'; storyId: string }
   | { type: 'conversation'; prefilledDestination?: string; prefilledHotel?: string }
-  | { type: 'planning-charter' }
+
   | { type: 'legal-info'; initialTab?: LegalTab }
   | { type: 'sitemap' };

@@ -9,7 +9,6 @@ interface ConversationPageProps {
   prefilledHotel?: string;
   onNavigateBack: () => void;
   onSubmitSuccess: (data: InquiryFormData) => void;
-  onOpenCharter: () => void;
 }
 
 export const ConversationPage: React.FC<ConversationPageProps> = ({
@@ -17,7 +16,6 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
   prefilledHotel,
   onNavigateBack,
   onSubmitSuccess,
-  onOpenCharter
 }) => {
   const initialDestinations = prefilledDestination
     ? [prefilledDestination]
@@ -700,19 +698,6 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
             onClose={() => setHotelModalOpen(false)}
             onConfirmSelection={handleHotelSelectionSaved}
           />
-        </div>
-
-        {/* Bottom Charter Link */}
-        <div className="text-center pt-2">
-          <button
-            type="button"
-            onClick={onOpenCharter}
-            className="inline-flex items-center space-x-1.5 text-xs text-neutral-500 hover:text-black uppercase tracking-wider font-medium cursor-pointer"
-          >
-            <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
-            <span>Read IHG Philosophy</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
         </div>
 
       </div>

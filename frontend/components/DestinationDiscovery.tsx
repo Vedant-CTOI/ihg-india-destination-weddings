@@ -4,7 +4,7 @@ import { WeddingGenreInfo } from '../types';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface DestinationDiscoveryProps {
-  onOpenDetail?: (genre: WeddingGenreInfo) => void;
+  onOpenDetail?: () => void;
 }
 
 export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOpenDetail }) => {
@@ -37,7 +37,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
 
   const handleOpenDetail = () => {
     if (onOpenDetail) {
-      onOpenDetail(activeGenre);
+      onOpenDetail();
     }
   };
 
@@ -52,7 +52,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
               Curated Wedding Types
             </span>
             <h2 className="font-serif text-2xl sm:text-3xl text-black font-normal mb-1.5">
-              Placeholder Text (Discover by Genre)
+              Placeholder Text (Discover by Destination)
             </h2>
             <p className="font-sans text-neutral-500 text-xs font-light leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
@@ -66,7 +66,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
               onClick={handleOpenDetail}
               className="inline-flex items-center space-x-2 text-[11px] font-sans uppercase tracking-wider bg-black hover:bg-neutral-800 text-white px-5 py-2.5 rounded-lg transition-colors font-medium cursor-pointer shadow-2xs"
             >
-              <span>Explore Genre {currentIndex + 1} Dossier & Properties</span>
+              <span>View All Destinations</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -123,12 +123,12 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
             {/* Text over image — black on a bright wash */}
             <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10 text-black">
               <div className="flex items-center space-x-2 text-[10px] font-sans text-neutral-600 uppercase tracking-widest mb-2">
-                <span className="bg-black text-white px-2.5 py-0.5 rounded-full font-bold">Genre {currentIndex + 1}</span>
+                <span className="bg-black text-white px-2.5 py-0.5 rounded-full font-bold">Destination {currentIndex + 1}</span>
                 <span className="hidden sm:inline">{activeGenre.tagline}</span>
               </div>
 
               <h3 className="font-serif text-2xl sm:text-4xl font-normal mb-2.5">
-                Genre {currentIndex + 1}
+                Destination {currentIndex + 1}
               </h3>
 
               <p className="font-serif text-sm sm:text-base italic text-neutral-700 leading-snug max-w-2xl line-clamp-2 mb-4">

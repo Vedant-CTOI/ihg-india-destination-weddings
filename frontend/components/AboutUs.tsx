@@ -1,6 +1,10 @@
 import React from 'react';
 
-export const AboutUs: React.FC = () => {
+interface AboutUsProps {
+  onOpenAboutPage?: () => void;
+}
+
+export const AboutUs: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
   // 3 high-resolution grayscale Indian wedding & sanctuary images for the collage
   const collageImages = [
     {
@@ -47,20 +51,33 @@ export const AboutUs: React.FC = () => {
               </p>
             </div>
 
-            {/* Architectural Signature Badges (No CTA) */}
-            <div className="pt-4 border-t border-neutral-200 grid grid-cols-3 gap-4 text-neutral-500 font-sans text-xs">
-              <div>
-                <span className="font-serif text-xl sm:text-2xl text-black font-normal block">6,000+</span>
-                <span className="text-[10px] text-neutral-400 uppercase tracking-wider block mt-0.5">Global Heritage</span>
+            {/* Architectural Signature Badges + CTA */}
+            <div className="pt-4 border-t border-neutral-200">
+              <div className="grid grid-cols-3 gap-4 text-neutral-500 font-sans text-xs">
+                <div>
+                  <span className="font-serif text-xl sm:text-2xl text-black font-normal block">6,000+</span>
+                  <span className="text-[10px] text-neutral-400 uppercase tracking-wider block mt-0.5">Global Heritage</span>
+                </div>
+                <div>
+                  <span className="font-serif text-xl sm:text-2xl text-black font-normal block">5-Point</span>
+                  <span className="text-[10px] text-neutral-400 uppercase tracking-wider block mt-0.5">Ceremony Audit</span>
+                </div>
+                <div>
+                  <span className="font-serif text-xl sm:text-2xl text-black font-normal block">100%</span>
+                  <span className="text-[10px] text-neutral-400 uppercase tracking-wider block mt-0.5">Kitchen Custody</span>
+                </div>
               </div>
-              <div>
-                <span className="font-serif text-xl sm:text-2xl text-black font-normal block">5-Point</span>
-                <span className="text-[10px] text-neutral-400 uppercase tracking-wider block mt-0.5">Ceremony Audit</span>
-              </div>
-              <div>
-                <span className="font-serif text-xl sm:text-2xl text-black font-normal block">100%</span>
-                <span className="text-[10px] text-neutral-400 uppercase tracking-wider block mt-0.5">Kitchen Custody</span>
-              </div>
+
+              {/* CTA — opens the full About Us page */}
+              {onOpenAboutPage && (
+                <button
+                  type="button"
+                  onClick={onOpenAboutPage}
+                  className="mt-5 inline-flex items-center space-x-2 text-[11px] font-sans uppercase tracking-wider bg-black hover:bg-neutral-800 text-white px-6 py-3 rounded-full transition-colors font-medium cursor-pointer shadow-2xs"
+                >
+                  <span>Discover Our Story</span>
+                </button>
+              )}
             </div>
 
           </div>
