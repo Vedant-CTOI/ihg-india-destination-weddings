@@ -324,9 +324,6 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
                       <span className="text-[10px] uppercase tracking-wider font-sans text-neutral-500 font-medium">
                         {hotel.location}
                       </span>
-                      <span className="text-[10px] bg-neutral-100 text-neutral-700 px-2 py-0.5 rounded-full font-medium">
-                        {hotel.genre}
-                      </span>
                     </div>
 
                     <h3 

@@ -278,10 +278,6 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                         (e.target as HTMLImageElement).src = PLACEHOLDER_IMG;
                       }}
                     />
-                    <span className="absolute top-3 left-3 bg-white/95 text-black text-[10px] uppercase tracking-wider font-sans px-2.5 py-0.5 rounded-full font-medium shadow-xs">
-                      {hotel.brand}
-                    </span>
-
                     <span className="absolute top-3 right-3 bg-black/85 text-white text-[10px] uppercase tracking-wider font-sans px-2.5 py-0.5 rounded-full font-medium border border-white/20">
                       {hotel.city.replace(/^Region (\d+)$/, 'Destination $1')}
                     </span>
@@ -299,9 +295,6 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-[10px] uppercase tracking-wider font-sans text-neutral-500 font-medium">
                         {hotel.location}
-                      </span>
-                      <span className="text-[10px] bg-neutral-100 text-neutral-700 px-2 py-0.5 rounded-full font-medium">
-                        {hotel.genre}
                       </span>
                     </div>
 
