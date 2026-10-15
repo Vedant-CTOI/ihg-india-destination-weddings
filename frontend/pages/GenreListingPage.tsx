@@ -19,8 +19,8 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [popupHotel, setPopupHotel] = useState<HotelProperty | null>(null);
 
-  // Available regions across the portfolio (same list the Hotels page filters on)
-  const citiesInIndia = [
+  // Available destinations across the portfolio (same list the Hotels page filters on)
+  const destinationOptions = [
     'All Cities',
     'Region 1',
     'Region 2',
@@ -135,7 +135,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
             {/* Filter 1: City Dropdown (4 cols) */}
             <div className="md:col-span-4 space-y-1">
               <label htmlFor="dest-city-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
-                Filter by City:
+                Filter by Destination:
               </label>
               <div className="relative">
                 <select
@@ -144,9 +144,9 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                   onChange={(e) => setSelectedCity(e.target.value)}
                   className="w-full appearance-none bg-white border border-neutral-300 hover:border-black rounded-xl px-3.5 py-2.5 pr-9 text-xs font-sans text-black font-medium shadow-2xs focus:outline-none focus:border-black transition-colors cursor-pointer"
                 >
-                  {citiesInIndia.map((city) => (
-                    <option key={city} value={city}>
-                      {city === 'All Cities' ? 'All Cities in India' : `City: ${city}`}
+                  {destinationOptions.map((dest) => (
+                    <option key={dest} value={dest}>
+                      {dest === 'All Cities' ? 'All Destinations' : dest.replace(/^Region (\d+)$/, 'Destination $1')}
                     </option>
                   ))}
                 </select>
@@ -283,7 +283,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                     </span>
 
                     <span className="absolute top-3 right-3 bg-black/85 text-white text-[10px] uppercase tracking-wider font-sans px-2.5 py-0.5 rounded-full font-medium border border-white/20">
-                      {hotel.city}
+                      {hotel.city.replace(/^Region (\d+)$/, 'Destination $1')}
                     </span>
 
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
