@@ -32,15 +32,15 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
     'Region 6'
   ];
 
-  // Occasion presets — mirrors the Discover by Destination occasion filter
-  const genreFilters = [
-    'All Occasions',
-    'Royal Wedding',
-    'Beachside',
-    'Mountain & Wilderness',
-    'Temple Shoreline',
-    'Backwater Serenity'
-  ];
+  // Occasion presets — display labels map to actual occasion data keys
+  const occasionLabels: Record<string, string> = {
+    'Royal Wedding': 'Occasion 1',
+    'Beachside': 'Occasion 2',
+    'Mountain & Wilderness': 'Occasion 3',
+    'Temple Shoreline': 'Occasion 4',
+    'Backwater Serenity': 'Occasion 5'
+  };
+  const genreFilters = ['All Occasions', ...Object.keys(occasionLabels)];
 
   // Filtered hotels list based on city, genre, and search query
   const filteredHotels = useMemo(() => {
@@ -194,7 +194,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
                 >
                   {genreFilters.map((genre) => (
                     <option key={genre} value={genre}>
-                      {genre}
+                      {genre === 'All Occasions' ? 'All Occasions' : occasionLabels[genre]}
                     </option>
                   ))}
                 </select>

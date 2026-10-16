@@ -30,8 +30,15 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
     'Region 6'
   ];
 
-  // Occasion presets — empty for now until occasion data exists in the content
-  const occasionFilters = ['All Occasions'];
+  // Occasion presets — display labels map to actual occasion data keys
+  const occasionLabels: Record<string, string> = {
+    'Royal Wedding': 'Occasion 1',
+    'Beachside': 'Occasion 2',
+    'Mountain & Wilderness': 'Occasion 3',
+    'Temple Shoreline': 'Occasion 4',
+    'Backwater Serenity': 'Occasion 5'
+  };
+  const occasionFilters = ['All Occasions', ...Object.keys(occasionLabels)];
 
   // Filtered hotels list based on city, occasion, and search query
   const filteredHotels = useMemo(() => {
@@ -170,7 +177,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                 >
                   {occasionFilters.map((occasion) => (
                     <option key={occasion} value={occasion}>
-                      All Occasions
+                      {occasion === 'All Occasions' ? 'All Occasions' : occasionLabels[occasion]}
                     </option>
                   ))}
                 </select>
