@@ -127,26 +127,6 @@ export const AllStoriesPage: React.FC<AllStoriesPageProps> = ({
         {/* Filter & Search Bar */}
         <div className="bg-neutral-50 p-4 sm:p-5 rounded-2xl border border-neutral-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
           
-          {/* Category Filter Pills */}
-          <div className="flex space-x-2 overflow-x-auto no-scrollbar pb-1">
-            {filterCategories.map((cat) => {
-              const isSelected = selectedFilter === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedFilter(cat)}
-                  className={`px-4 py-2 rounded-xl text-xs font-sans whitespace-nowrap transition-all cursor-pointer ${
-                    isSelected
-                      ? 'bg-black text-white font-medium shadow-xs'
-                      : 'bg-white border border-neutral-300 text-neutral-700 hover:border-black'
-                  }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
-
           {/* Search Box */}
           <div className="relative w-full md:w-72">
             <input

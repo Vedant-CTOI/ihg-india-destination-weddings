@@ -65,26 +65,6 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
           </div>
         </div>
 
-        {/* Filter Pills to explore different settings */}
-        <div className="flex space-x-2 overflow-x-auto no-scrollbar pb-1 mb-8">
-          {filters.map((flt) => {
-            const isSelected = selectedFilter === flt;
-            return (
-              <button
-                key={flt}
-                onClick={() => setSelectedFilter(flt)}
-                className={`px-4 py-1.5 rounded-full text-xs font-sans transition-all whitespace-nowrap cursor-pointer border ${
-                  isSelected
-                    ? 'border-black bg-black text-white font-medium shadow-2xs'
-                    : 'border-neutral-300 text-neutral-600 hover:border-black bg-white hover:text-black'
-                }`}
-              >
-                {flt === 'All' ? 'All Stories' : flt}
-              </button>
-            );
-          })}
-        </div>
-
         {/* Minimal Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {visibleWeddings.map((wedding) => (

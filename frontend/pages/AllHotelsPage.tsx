@@ -17,7 +17,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
   onNavigateToHotelDetail
 }) => {
   const [selectedCity, setSelectedCity] = useState<string>(initialCity);
-  const [selectedGenre, setSelectedGenre] = useState<string>('All Genres');
+  const [selectedGenre, setSelectedGenre] = useState<string>('All Occasions');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [popupHotel, setPopupHotel] = useState<HotelProperty | null>(null);
 
@@ -32,9 +32,9 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
     'Region 6'
   ];
 
-  // Genre presets (wedding genres across the portfolio)
+  // Occasion presets — mirrors the Discover by Destination occasion filter
   const genreFilters = [
-    'All Genres',
+    'All Occasions',
     'Royal Wedding',
     'Beachside',
     'Mountain & Wilderness',
@@ -50,8 +50,8 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
         return false;
       }
 
-      // 2. Genre filter
-      if (selectedGenre !== 'All Genres' && h.genre !== selectedGenre) {
+      // 2. Occasion filter
+      if (selectedGenre !== 'All Occasions' && h.genre !== selectedGenre) {
         return false;
       }
 
@@ -80,11 +80,11 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
 
   const handleClearAllFilters = () => {
     setSelectedCity('All Cities');
-    setSelectedGenre('All Genres');
+    setSelectedGenre('All Occasions');
     setSearchQuery('');
   };
 
-  const hasActiveFilters = selectedCity !== 'All Cities' || selectedGenre !== 'All Genres' || searchQuery.trim() !== '';
+  const hasActiveFilters = selectedCity !== 'All Cities' || selectedGenre !== 'All Occasions' || searchQuery.trim() !== '';
 
   return (
     <div className="min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
@@ -147,7 +147,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
             Hotels
           </h1>
           <p className="text-xs sm:text-sm text-neutral-600 font-light max-w-2xl leading-relaxed">
-            Browse our complete portfolio of palatial fortresses, coastal resorts, and wilderness sanctuaries across India. Filter by city, wedding genre, or search directly for specific properties.
+            Browse our complete portfolio of palatial fortresses, coastal resorts, and wilderness sanctuaries across India. Filter by city, occasion, or search directly for specific properties.
           </p>
         </div>
 
@@ -180,10 +180,10 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
               </div>
             </div>
 
-            {/* Filter 2: Genre Dropdown (4 cols) */}
+            {/* Filter 2: Occasion Dropdown (4 cols) */}
             <div className="md:col-span-4 space-y-1">
               <label htmlFor="genre-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
-                Wedding Genre:
+                Filter by Occasion:
               </label>
               <div className="relative">
                 <select
@@ -194,7 +194,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
                 >
                   {genreFilters.map((genre) => (
                     <option key={genre} value={genre}>
-                      {genre === 'All Genres' ? 'All Wedding Genres' : `Genre: ${genre}`}
+                      {genre}
                     </option>
                   ))}
                 </select>
@@ -271,7 +271,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
               No sanctuaries matched your current filters.
             </h3>
             <p className="text-xs text-neutral-500 font-light max-w-sm mx-auto">
-              Try a different wedding genre or clearing the search query to view available properties.
+              Try a different occasion or clearing the search query to view available properties.
             </p>
             <button
               type="button"
