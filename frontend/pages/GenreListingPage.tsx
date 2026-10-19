@@ -274,7 +274,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                 <div>
                   {/* Photo with Overlay (Grayscale) */}
                   <div
-                    onClick={() => setPopupHotel(hotel)}
+                    onClick={() => handleOpenFullPage(hotel.id)}
                     className="relative h-60 overflow-hidden bg-neutral-900 cursor-pointer"
                   >
                     <img
@@ -289,12 +289,6 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                       {hotel.city.replace(/^Region (\d+)$/, 'Destination $1')}
                     </span>
 
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <span className="bg-white text-black px-3.5 py-1.5 rounded-full text-xs font-sans font-medium flex items-center space-x-2 shadow-sm">
-                        <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                        <span>Quick Preview</span>
-                      </span>
-                    </div>
                   </div>
 
                   {/* Details */}

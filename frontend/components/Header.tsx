@@ -66,11 +66,8 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Wordmark without the word Celebrations */}
             <button
               onClick={() => onNavigateHome()}
-              className="flex items-center space-x-3.5 group text-left cursor-pointer"
+              className="group text-left cursor-pointer"
             >
-              <div className="w-10 h-10 rounded-full border border-black flex items-center justify-center bg-white text-black font-serif font-bold text-sm tracking-widest group-hover:bg-black group-hover:text-white transition-all">
-                IHG
-              </div>
               <div>
                 <div className="font-serif text-2xl tracking-widest text-black font-normal leading-none">
                   IHG
@@ -128,11 +125,8 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Wordmark without Celebrations */}
             <button
               onClick={() => onNavigateHome()}
-              className="flex items-center space-x-2.5 text-left"
+              className="text-left"
             >
-              <div className="w-8 h-8 rounded-full border border-black flex items-center justify-center bg-white text-black font-serif font-bold text-xs">
-                IHG
-              </div>
               <div>
                 <span className="font-serif text-lg tracking-wider text-black font-normal block leading-tight">
                   IHG
