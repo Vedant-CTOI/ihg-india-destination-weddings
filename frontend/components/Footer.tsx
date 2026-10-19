@@ -155,73 +155,34 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 items-center">
                 
                 {/* Six Senses */}
-                <div className="flex items-center space-x-2 py-1.5 px-2.5 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <svg className="w-4 h-4 text-neutral-300 shrink-0 group-hover:text-white" viewBox="0 0 40 40" fill="currentColor">
-                    <circle cx="20" cy="8" r="3.2" />
-                    <circle cx="13" cy="18" r="3.2" />
-                    <circle cx="27" cy="18" r="3.2" />
-                    <circle cx="7" cy="28" r="3.2" />
-                    <circle cx="20" cy="28" r="3.2" />
-                    <circle cx="33" cy="28" r="3.2" />
-                  </svg>
-                  <div className="truncate">
-                    <span className="font-serif text-[10px] font-semibold tracking-wider text-neutral-200 block truncate leading-none">
-                      SIX SENSES
-                    </span>
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
                   </div>
-                </div>
 
                 {/* Regent */}
-                <div className="flex items-center space-x-2 py-1.5 px-2.5 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <svg className="w-4 h-4 text-neutral-300 shrink-0 group-hover:text-white" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <path d="M12 28V12L28 28V12" strokeLinecap="round" strokeLinejoin="round"/>
-                    <rect x="5" y="5" width="30" height="30" rx="3" strokeWidth="1"/>
-                  </svg>
-                  <span className="font-serif text-[10px] font-semibold tracking-widest text-neutral-200 block truncate leading-none">
-                    REGENT
-                  </span>
-                </div>
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
+                  </div>
 
                 {/* InterContinental */}
-                <div className="flex items-center space-x-2 py-1.5 px-2.5 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <div className="w-4 h-4 rounded-full border border-neutral-400 flex items-center justify-center font-serif text-[10px] font-bold text-neutral-200 shrink-0">
-                    I
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
                   </div>
-                  <span className="font-serif text-[10px] font-semibold tracking-wide text-neutral-200 block truncate leading-none">
-                    INTERCONTINENTAL
-                  </span>
-                </div>
 
                 {/* Vignette Collection */}
-                <div className="flex items-center space-x-2 py-1.5 px-2.5 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <svg className="w-4 h-4 text-neutral-300 shrink-0 group-hover:text-white" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <polygon points="20,6 34,18 29,34 11,34 6,18" />
-                    <circle cx="20" cy="20" r="3.5" fill="currentColor" stroke="none" />
-                  </svg>
-                  <span className="font-sans text-[10px] font-semibold tracking-wider text-neutral-200 block truncate leading-none">
-                    VIGNETTE
-                  </span>
-                </div>
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
+                  </div>
 
                 {/* Kimpton */}
-                <div className="flex items-center space-x-2 py-1.5 px-2.5 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <svg className="w-4 h-4 text-neutral-300 shrink-0 group-hover:text-white" viewBox="0 0 40 40" fill="currentColor">
-                    <path d="M10 8h5v10l8-10h6l-10 12 11 12h-6l-9-10v10h-5V8z" />
-                  </svg>
-                  <span className="font-sans text-[10px] font-bold tracking-wider text-neutral-200 block truncate leading-none">
-                    KIMPTON
-                  </span>
-                </div>
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
+                  </div>
 
                 {/* Hotel Indigo */}
-                <div className="flex items-center space-x-2 py-1.5 px-2.5 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <svg className="w-4 h-4 text-neutral-300 shrink-0 group-hover:text-white" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <path d="M7 32L20 8l13 24H7z" />
-                  </svg>
-                  <span className="font-sans text-[10px] font-semibold tracking-wider text-neutral-200 block truncate leading-none">
-                    HOTEL INDIGO
-                  </span>
-                </div>
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
+                  </div>
 
               </div>
             </div>
@@ -234,69 +195,44 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
               <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-8 gap-2 items-center">
                 
                 {/* voco */}
-                <div className="flex items-center space-x-1.5 py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <svg className="w-3.5 h-3.5 text-neutral-300 shrink-0 group-hover:text-white" viewBox="0 0 40 40" fill="currentColor">
-                    <path d="M12 26c3-1 6-4 8-8 3 0 7-3 9-6-1 5-4 9-8 11l5 7h-7l-7-4z"/>
-                  </svg>
-                  <span className="font-sans text-[11px] font-semibold tracking-tight text-neutral-200 lowercase truncate leading-none">
-                    voco
-                  </span>
-                </div>
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
+                  </div>
 
                 {/* Crowne Plaza */}
-                <div className="flex items-center space-x-1.5 py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <svg className="w-3.5 h-3.5 text-neutral-300 shrink-0 group-hover:text-white" viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <path d="M8 26l3-12 9 6 9-6 3 12H8z" />
-                  </svg>
-                  <span className="font-sans text-[10px] font-bold tracking-wider text-neutral-200 truncate leading-none">
-                    CROWNE PLAZA
-                  </span>
-                </div>
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
+                  </div>
 
                 {/* Holiday Inn */}
-                <div className="flex items-center space-x-1.5 py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <div className="w-3.5 h-3.5 rounded-full border border-neutral-400 flex items-center justify-center font-serif italic text-[9px] font-bold text-neutral-200 shrink-0">
-                    H
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
                   </div>
-                  <span className="font-serif text-[10px] text-neutral-200 truncate leading-none">
-                    Holiday Inn
-                  </span>
-                </div>
 
                 {/* Holiday Inn Express */}
-                <div className="flex items-center space-x-1.5 py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <span className="font-sans text-[9px] font-semibold text-neutral-300 truncate leading-none">
-                    Holiday Inn <span className="text-neutral-400 font-normal">Exp</span>
-                  </span>
-                </div>
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
+                  </div>
 
                 {/* Garner */}
-                <div className="flex items-center space-x-1.5 py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <span className="font-serif text-[10px] font-semibold tracking-wider text-neutral-200 truncate leading-none">
-                    garner
-                  </span>
-                </div>
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
+                  </div>
 
                 {/* avid */}
-                <div className="flex items-center space-x-1.5 py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <span className="font-sans text-[10px] font-bold tracking-wider text-neutral-200 truncate leading-none">
-                    avid
-                  </span>
-                </div>
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
+                  </div>
 
                 {/* Staybridge Suites */}
-                <div className="flex items-center space-x-1.5 py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <span className="font-sans text-[9px] font-bold tracking-wider text-neutral-200 truncate leading-none">
-                    STAYBRIDGE
-                  </span>
-                </div>
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
+                  </div>
 
                 {/* Candlewood Suites */}
-                <div className="flex items-center space-x-1.5 py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                  <span className="font-sans text-[9px] font-bold tracking-wider text-neutral-200 truncate leading-none">
-                    CANDLEWOOD
-                  </span>
-                </div>
+                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
+                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
+                  </div>
 
               </div>
             </div>
