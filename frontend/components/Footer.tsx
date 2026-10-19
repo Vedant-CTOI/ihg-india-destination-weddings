@@ -129,7 +129,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
           {/* Family of Brands — single brand image */}
           <div className="py-6">
             <img
-              src="/ihg-footer-logo.png"
+              src="/ihg-footer-brand.png"
               alt="IHG Hotels & Resorts"
               className="h-10 sm:h-12 w-auto object-contain"
             />
