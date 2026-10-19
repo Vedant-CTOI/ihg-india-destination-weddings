@@ -126,130 +126,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
       <footer className="bg-[#050505] text-white border-t border-neutral-800/80 font-sans text-xs select-none">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           
-          {/* Streamlined Compact Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3.5 border-b border-neutral-900 gap-2">
-            <div className="flex items-center space-x-3">
-              <img
-                src="/ihg-footer-logo.png"
-                alt="IHG Hotels & Resorts"
-                className="h-6 sm:h-8 w-auto object-contain"
-              />
-              <span className="text-neutral-600 hidden sm:inline">•</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-light">
-                Family of Brands
-              </span>
-            </div>
-            <div className="text-[10px] text-neutral-500 font-light">
-              6,000+ sanctuaries worldwide
-            </div>
-          </div>
-
-          {/* Combined Compact Logo Grid with Tight Proximity */}
-          <div className="py-4 space-y-3.5">
-            
-            {/* Tier 1: Luxury & Lifestyle */}
-            <div>
-              <span className="text-[9px] uppercase tracking-[0.25em] text-neutral-500 font-medium block mb-2">
-                Luxury &amp; Lifestyle
-              </span>
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 items-center">
-                
-                {/* Six Senses */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-                {/* Regent */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-                {/* InterContinental */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-                {/* Vignette Collection */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-                {/* Kimpton */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-                {/* Hotel Indigo */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-              </div>
-            </div>
-
-            {/* Tier 2: Premium, Essentials & Suites */}
-            <div>
-              <span className="text-[9px] uppercase tracking-[0.25em] text-neutral-500 font-medium block mb-2">
-                Premium, Essentials &amp; Suites
-              </span>
-              <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-8 gap-2 items-center">
-                
-                {/* voco */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-                {/* Crowne Plaza */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-                {/* Holiday Inn */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-                {/* Holiday Inn Express */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-                {/* Garner */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-                {/* avid */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-                {/* Staybridge Suites */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-                {/* Candlewood Suites */}
-                <div className="flex items-center justify-center py-1.5 px-2 rounded-lg bg-neutral-950/70 border border-neutral-900 hover:border-neutral-700 transition-colors group">
-                    <img src="/ihg-footer-logo.png" alt="IHG Hotels & Resorts" className="h-6 w-auto object-contain" />
-                  </div>
-
-              </div>
-            </div>
-
-          </div>
-
-          {/* Compact Loyalty & Corporate Strip */}
-          <div className="pt-3 border-t border-neutral-900 flex flex-col sm:flex-row items-center justify-between text-[10px] text-neutral-500 gap-2">
-            <div className="flex items-center space-x-2">
-              <span className="border border-neutral-800 rounded px-1.5 py-0.5 text-neutral-300 font-serif font-bold text-[9px]">
-                IHG ONE REWARDS
-              </span>
-              <span>Earn milestone points across all participating brands worldwide.</span>
-            </div>
-            <div className="uppercase tracking-wider text-neutral-600 text-[9px]">
-              InterContinental Hotels Group PLC
-            </div>
+          {/* Family of Brands — single brand image */}
+          <div className="py-6">
+            <img
+              src="/ihg-footer-logo.png"
+              alt="IHG Hotels & Resorts"
+              className="h-10 sm:h-12 w-auto object-contain"
+            />
           </div>
 
         </div>
