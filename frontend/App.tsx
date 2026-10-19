@@ -141,7 +141,6 @@ export const App: React.FC = () => {
         onNavigateToGenre={handleNavigateToGenreListing}
         onNavigateToAllHotels={() => handleNavigateToAllHotels()}
         onNavigateToAllStories={() => handleNavigateToAllStories()}
-        onNavigateToLegalFaq={() => handleNavigateToLegal('faq')}
       />
 
       {/* 2. Page View Routing */}
@@ -263,7 +262,7 @@ export const App: React.FC = () => {
           />
         )}
 
-        {/* Separate Page 8: Dedicated Terms & Conditions, Privacy Policy & FAQ Page */}
+        {/* Separate Page 8: Dedicated Terms & Conditions, Privacy Policy Page */}
         {currentView.type === 'legal-info' && (
           <LegalInfoPage
             initialTab={currentView.initialTab || 'terms'}

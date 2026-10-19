@@ -72,15 +72,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
                         Privacy Policy
                       </button>
                     </li>
-                    <li>
-                      <button
-                        type="button"
-                        onClick={() => onNavigateToLegal('faq')}
-                        className="hover:text-white transition-colors cursor-pointer text-left"
-                      >
-                        Frequently Asked Questions (FAQ)
-                      </button>
-                    </li>
                   </>
                 )}
               </ul>
@@ -120,13 +111,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
                     className="hover:text-white transition-colors cursor-pointer"
                   >
                     Privacy Policy
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToLegal('faq')}
-                    className="hover:text-white transition-colors cursor-pointer"
-                  >
-                    FAQ
                   </button>
                 </>
               )}

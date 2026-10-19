@@ -11,7 +11,7 @@ interface SitemapPageProps {
   onNavigateToAllStories: () => void;
   onNavigateToStory: (storyId: string) => void;
   onNavigateToConversation: () => void;
-  onNavigateToLegal: (tab: 'terms' | 'privacy' | 'faq') => void;
+  onNavigateToLegal: (tab: 'terms' | 'privacy') => void;
 }
 
 interface SitemapEntry {
@@ -78,8 +78,7 @@ export const SitemapPage: React.FC<SitemapPageProps> = ({
       heading: 'Institutional',
       entries: [
         { label: 'Terms & Conditions', description: 'Placeholder Text — terms & booking conditions', action: () => onNavigateToLegal('terms') },
-        { label: 'Privacy Policy', description: 'Data protection and confidentiality policy', action: () => onNavigateToLegal('privacy') },
-        { label: 'FAQs', description: 'Placeholder Text — ceremonial guidance & policies', action: () => onNavigateToLegal('faq') }
+        { label: 'Privacy Policy', description: 'Data protection and confidentiality policy', action: () => onNavigateToLegal('privacy') }
       ]
     }
   ];

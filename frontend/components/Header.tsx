@@ -10,7 +10,6 @@ interface HeaderProps {
   onNavigateToGenre?: () => void;
   onNavigateToAllHotels?: () => void;
   onNavigateToAllStories?: () => void;
-  onNavigateToLegalFaq?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -21,7 +20,6 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigateToGenre,
   onNavigateToAllHotels,
   onNavigateToAllStories,
-  onNavigateToLegalFaq
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isHome = currentView.type === 'home';
@@ -31,7 +29,6 @@ export const Header: React.FC<HeaderProps> = ({
     { label: 'Discover by Destination', page: 'genre' },
     { label: 'Hotels', page: 'hotels' },
     { label: 'Real Weddings', page: 'stories' },
-    { label: 'FAQs', page: 'faqs' },
   ];
 
   const handleLinkClick = (link: { label: string; anchor?: string; page?: string }) => {
@@ -40,7 +37,6 @@ export const Header: React.FC<HeaderProps> = ({
     if (link.page === 'genre') { onNavigateToGenre?.(); return; }
     if (link.page === 'hotels') { onNavigateToAllHotels?.(); return; }
     if (link.page === 'stories') { onNavigateToAllStories?.(); return; }
-    if (link.page === 'faqs') { onNavigateToLegalFaq?.(); return; }
     onNavigateHome(link.anchor);
   };
 

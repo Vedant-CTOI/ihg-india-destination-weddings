@@ -147,7 +147,7 @@ export interface InquiryFormData {
   baraatSpec?: string;
 }
 
-export type LegalTab = 'terms' | 'privacy' | 'faq';
+export type LegalTab = 'terms' | 'privacy';
 
 export type PageView =
   | { type: 'home' }

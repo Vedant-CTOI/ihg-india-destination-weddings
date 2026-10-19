@@ -22,32 +22,6 @@ export const LegalInfoPage: React.FC<LegalInfoPageProps> = ({
     );
   };
 
-  const faqItems = [
-    {
-      q: 'How far in advance should we block an IHG destination sanctuary for an Indian wedding?',
-      a: 'For high-demand auspicious Muhurtham windows (October through March), we recommend reserving 8 to 14 months in advance to secure optimal room inventory blocks, private lawn access, and required ceremonial permits.'
-    },
-    {
-      q: 'How does IHG ensure 100% kitchen segregation for strict Jain and Sattvic dining?',
-      a: 'We operate dedicated satellite kitchens completely sealed off from non-vegetarian cooking areas. These kitchens maintain an independent inventory of brass and copper cookware, separate dishwashing machines, and strict zero root vegetable, onion, and garlic standards, certified by visiting family priests.'
-    },
-    {
-      q: 'What is the noise curfew policy for Sangeet afterparties and live DJ performances?',
-      a: 'Per statutory regulations in coastal and heritage zones, outdoor acoustic music transitions indoors by 10:00 PM. Our sanctuaries offer acoustically treated, pillarless ballrooms soundproofed up to 98dB, allowing celebration until 03:00 AM without external disruption.'
-    },
-    {
-      q: 'What is the Two-Hour Weather Contingency Guarantee?',
-      a: 'Every open-air lawn or beachside mandap reservation includes an automatic pre-reserved, climate-controlled indoor ballroom or glasshouse with mirrored decor readiness, capable of transitioning smoothly within 120 minutes in case of unseasonal rain or wind.'
-    },
-    {
-      q: 'Can we bring our own external wedding planners, pandits, and bridal makeup teams?',
-      a: 'Yes. Our on-ground Luxury Wedding Directors work alongside your chosen event planners, family elders, pandits, and production teams, providing direct technical drawings, rigging points, and 24-hour staging access.'
-    },
-    {
-      q: 'What privacy protocols are in place for high-profile weddings and dignitaries?',
-      a: 'We offer comprehensive Non-Disclosure Agreements (NDAs) enforced across all hotel staff, dedicated private charter airport arrival gates, secure elevator keycards, and restricted guest floor access.'
-    }
-  ];
 
   return (
     <div className="min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
@@ -82,10 +56,10 @@ export const LegalInfoPage: React.FC<LegalInfoPageProps> = ({
             Institutional Trust &amp; Governance
           </span>
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-black leading-tight">
-            Legal, Privacy &amp; FAQs
+            Legal, Privacy
           </h1>
           <p className="text-xs sm:text-sm text-neutral-600 font-light max-w-2xl leading-relaxed">
-            Review the contractual standards, ceremonial safeguards, guest data privacy protocols, and frequently asked operational questions across all IHG Hotels &amp; Resorts in India.
+            Review the contractual standards, ceremonial safeguards, and guest data privacy protocols across all IHG Hotels &amp; Resorts in India.
           </p>
         </div>
 
@@ -113,18 +87,6 @@ export const LegalInfoPage: React.FC<LegalInfoPageProps> = ({
             }`}
           >
             Privacy Policy
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('faq')}
-            className={`px-5 py-2 rounded-xl text-xs font-sans uppercase tracking-wider font-medium transition-all cursor-pointer ${
-              activeTab === 'faq'
-                ? 'bg-black text-white shadow-xs'
-                : 'bg-neutral-50 border border-neutral-200 text-neutral-700 hover:border-black'
-            }`}
-          >
-            Frequently Asked Questions
           </button>
         </div>
 
@@ -225,58 +187,6 @@ export const LegalInfoPage: React.FC<LegalInfoPageProps> = ({
                 All personal and celebration details submitted through this platform are encrypted via industry-standard protocols. Inquiries that do not materialize into confirmed reservations are securely archived or purged in accordance with our institutional retention schedule.
               </p>
             </section>
-
-          </div>
-        )}
-
-        {/* TAB 3: FREQUENTLY ASKED QUESTIONS (FAQ) */}
-        {activeTab === 'faq' && (
-          <div className="space-y-6 animate-fade-in">
-            
-            <div className="p-6 bg-neutral-50 rounded-2xl border border-neutral-200 space-y-2">
-              <span className="text-[10px] uppercase tracking-wider font-semibold text-neutral-500 block">
-                Operational Guidance
-              </span>
-              <h2 className="font-serif text-xl sm:text-2xl font-normal text-black">
-                Frequently Asked Questions
-              </h2>
-              <p className="text-xs text-neutral-500">
-                Clear answers to common questions regarding logistics, catering, timings, and property reservations.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              {faqItems.map((item, idx) => {
-                const isOpen = openFaqIndices.includes(idx);
-                return (
-                  <div
-                    key={idx}
-                    className="border border-neutral-200 rounded-2xl overflow-hidden transition-all bg-white"
-                  >
-                    <button
-                      type="button"
-                      onClick={() => toggleFaq(idx)}
-                      className="w-full p-5 text-left flex items-center justify-between space-x-4 cursor-pointer hover:bg-neutral-50 transition-colors"
-                    >
-                      <span className="font-serif text-base font-normal text-black">
-                        {item.q}
-                      </span>
-                      <ChevronDown
-                        className={`w-4 h-4 text-neutral-500 shrink-0 transition-transform ${
-                          isOpen ? 'rotate-180' : ''
-                        }`}
-                      />
-                    </button>
-
-                    {isOpen && (
-                      <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-neutral-600 font-light leading-relaxed border-t border-neutral-100">
-                        {item.a}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
 
           </div>
         )}
