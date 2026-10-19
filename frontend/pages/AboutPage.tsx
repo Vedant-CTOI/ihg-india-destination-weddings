@@ -149,64 +149,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({
         {/* Divider */}
         <div className="border-t border-neutral-200" />
 
-        {/* What We Curate */}
-        <section className="space-y-5">
-          <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1.5">
-            What We Curate
-          </span>
-          <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">
-            Lorem ipsum dolor sit amet
-          </h2>
-          <div className="space-y-4 text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            </p>
-            <p>
-              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
-            </p>
-          </div>
-
-          {/* Signature figures strip */}
-          <div className="pt-6 border-t border-neutral-200 grid grid-cols-3 gap-4 text-neutral-500 font-sans text-xs">
-            <div>
-              <span className="font-serif text-xl sm:text-2xl text-black font-normal block">6,000+</span>
-              <span className="text-[10px] text-neutral-400 uppercase tracking-wider block mt-0.5">Global Heritage</span>
-            </div>
-            <div>
-              <span className="font-serif text-xl sm:text-2xl text-black font-normal block">5-Point</span>
-              <span className="text-[10px] text-neutral-400 uppercase tracking-wider block mt-0.5">Ceremony Audit</span>
-            </div>
-            <div>
-              <span className="font-serif text-xl sm:text-2xl text-black font-normal block">100%</span>
-              <span className="text-[10px] text-neutral-400 uppercase tracking-wider block mt-0.5">Kitchen Custody</span>
-            </div>
-          </div>
-        </section>
-
-        {/* Divider */}
-        <div className="border-t border-neutral-200" />
-
-        {/* The Wedding Directors */}
-        <section className="space-y-5">
-          <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1.5">
-            The Wedding Directors
-          </span>
-          <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">
-            Lorem ipsum dolor sit amet
-          </h2>
-          <div className="space-y-4 text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </p>
-            <p>
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-          </div>
-        </section>
-
-        {/* Divider */}
-        <div className="border-t border-neutral-200" />
-
         {/* Closing invitation + CTA */}
         <section className="space-y-5">
           <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1.5">
