@@ -21,16 +21,16 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [popupHotel, setPopupHotel] = useState<HotelProperty | null>(null);
 
-  // Available cities in India across IHG's portfolio
-  const citiesInIndia = [
-    'All Cities',
-    'Region 1',
-    'Region 2',
-    'Region 3',
-    'Region 4',
-    'Region 5',
-    'Region 6'
-  ];
+  // Available destinations across IHG's portfolio — display labels map to city data keys
+  const destinationLabels: Record<string, string> = {
+    'Region 1': 'Destination 1',
+    'Region 2': 'Destination 2',
+    'Region 3': 'Destination 3',
+    'Region 4': 'Destination 4',
+    'Region 5': 'Destination 5',
+    'Region 6': 'Destination 6'
+  };
+  const citiesInIndia = ['All Cities', ...Object.keys(destinationLabels)];
 
   // Occasion presets — display labels map to actual occasion data keys
   const occasionLabels: Record<string, string> = {
@@ -159,7 +159,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
             {/* Filter 1: City in India Dropdown (4 cols) */}
             <div className="md:col-span-4 space-y-1">
               <label htmlFor="city-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
-                Filter by City:
+                Filter by Destination:
               </label>
               <div className="relative">
                 <select
@@ -170,7 +170,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
                 >
                   {citiesInIndia.map((city) => (
                     <option key={city} value={city}>
-                      {city === 'All Cities' ? 'All Cities in India' : `City: ${city}`}
+                      {city === 'All Cities' ? 'All Destinations' : destinationLabels[city]}
                     </option>
                   ))}
                 </select>

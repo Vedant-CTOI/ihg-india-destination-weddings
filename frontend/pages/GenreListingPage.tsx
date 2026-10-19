@@ -6,13 +6,15 @@ import { ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react';
 interface GenreListingPageProps {
   onNavigateBack: () => void;
   onNavigateToHotelDetail: (hotelId: string) => void;
+  onNavigateToDestinationProperties?: (city: string) => void;
 }
 
 const PLACEHOLDER_IMG = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E';
 
 export const GenreListingPage: React.FC<GenreListingPageProps> = ({
   onNavigateBack,
-  onNavigateToHotelDetail
+  onNavigateToHotelDetail,
+  onNavigateToDestinationProperties
 }) => {
   const [selectedCity, setSelectedCity] = useState<string>('All Cities');
   const [selectedOccasion, setSelectedOccasion] = useState<string>('All Occasions');
@@ -68,6 +70,10 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
       return true;
     });
   }, [selectedCity, selectedOccasion, searchQuery]);
+
+  const handleOpenDestinationProperties = (hotel: HotelProperty) => {
+    onNavigateToDestinationProperties?.(hotel.city);
+  };
 
   const handleOpenFullPage = (hotelId: string) => {
     setPopupHotel(null);
@@ -274,7 +280,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                 <div>
                   {/* Photo with Overlay (Grayscale) */}
                   <div
-                    onClick={() => handleOpenFullPage(hotel.id)}
+                    onClick={() => handleOpenDestinationProperties(hotel)}
                     className="relative h-60 overflow-hidden bg-neutral-900 cursor-pointer"
                   >
                     <img
@@ -300,7 +306,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                     </div>
 
                     <h3
-                      onClick={() => handleOpenFullPage(hotel.id)}
+                      onClick={() => handleOpenDestinationProperties(hotel)}
                       className="font-serif text-lg font-normal text-black mb-2 hover:underline transition-colors cursor-pointer"
                     >
                       Destination {hotel.city.replace(/^Region (\d+)$/, '$1')}
@@ -320,7 +326,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                 <div className="p-5 pt-0 text-xs font-sans">
                   <button
                     type="button"
-                    onClick={() => handleOpenFullPage(hotel.id)}
+                    onClick={() => handleOpenDestinationProperties(hotel)}
                     className="w-full text-center bg-black hover:bg-neutral-800 text-white text-[11px] uppercase tracking-wider font-medium py-2 rounded-xl transition-colors flex items-center justify-center space-x-1.5 cursor-pointer"
                   >
                     <span>Discover Destination {hotel.city.replace(/^Region (\d+)$/, '$1')} Properties</span>

@@ -197,6 +197,7 @@ export const App: React.FC = () => {
           <GenreListingPage
             onNavigateBack={() => handleNavigateHome('destinations')}
             onNavigateToHotelDetail={handleNavigateToHotel}
+            onNavigateToDestinationProperties={handleNavigateToAllHotels}
           />
         )}
 
