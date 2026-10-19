@@ -6,7 +6,6 @@ import { AboutUs } from './components/AboutUs';
 import { DestinationDiscovery } from './components/DestinationDiscovery';
 import { HotelsExploration } from './components/HotelsExploration';
 import { RealWeddings } from './components/RealWeddings';
-import { FaqSection } from './components/FaqSection';
 import { DiscoveryForm } from './components/DiscoveryForm';
 import { EnquiryConsentFlowModal } from './components/EnquiryConsentFlowModal';
 import { Footer } from './components/Footer';
@@ -177,11 +176,6 @@ export const App: React.FC = () => {
             <RealWeddings
               onSelectStory={(wedding) => handleNavigateToStory(wedding.id)}
               onViewAllStories={() => handleNavigateToAllStories()}
-            />
-
-            {/* Section 4: Frequently Asked Questions */}
-            <FaqSection
-              onOpenAllFaqs={() => handleNavigateToLegal('faq')}
             />
 
             {/* Section 5: Begin the Conversation Form */}

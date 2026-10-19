@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface HeroSlide {
   id: string;
@@ -156,16 +156,8 @@ export const HeroSection: React.FC = () => {
             {currentSlide.subtitle}
           </p>
 
-          {/* Clean Monochrome CTA Button */}
+          {/* Slide Meta (CTA removed) */}
           <div className="flex items-center space-x-4 text-xs font-sans">
-            <a
-              href="#contact"
-              className="bg-black hover:bg-neutral-800 text-white px-7 py-3.5 rounded-full font-medium tracking-wider uppercase transition-all flex items-center space-x-2.5 shadow-md active:scale-95"
-            >
-              <span>Plan Celebration</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </a>
-
             <div className="hidden sm:flex items-center space-x-2 text-[11px] text-neutral-600 font-light tracking-wide">
               <span>{currentIndex + 1} of {totalSlides}</span>
               <span>•</span>
