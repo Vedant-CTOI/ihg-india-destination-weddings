@@ -479,18 +479,6 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
           />
         </div>
 
-        {/* Subtle Assurance Indicators */}
-        <div className="mt-10 pt-6 border-t border-neutral-200 flex flex-wrap items-center justify-center gap-6 text-[11px] font-sans text-neutral-500 font-light">
-          <span className="flex items-center space-x-1.5">
-            <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-            <span>Dedicated Director Assignment</span>
-          </span>
-          <span>•</span>
-          <span>Multi-Location Hold Capability</span>
-          <span>•</span>
-          <span>Confidentiality &amp; NDA Enforced</span>
-        </div>
-
       </div>
     </section>
   );
