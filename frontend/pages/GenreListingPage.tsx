@@ -295,7 +295,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                   <div className="p-5">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-[10px] uppercase tracking-wider font-sans text-neutral-500 font-medium">
-                        {hotel.location}
+                        Lorem ipsum dolor sit amet
                       </span>
                     </div>
 
@@ -303,22 +303,15 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                       onClick={() => handleOpenFullPage(hotel.id)}
                       className="font-serif text-lg font-normal text-black mb-2 hover:underline transition-colors cursor-pointer"
                     >
-                      {hotel.name}
+                      Destination {hotel.city.replace(/^Region (\d+)$/, '$1')}
                     </h3>
 
-                    <div className="flex items-center space-x-4 text-xs font-sans text-neutral-700 py-2 border-y border-neutral-200 mb-3">
-                      <span className="flex items-center space-x-1.5">
-                        <span className="inline-block w-2 h-2 border border-black shrink-0" />
-                        <span>{hotel.capacityMin}–{hotel.capacityMax} Guests</span>
-                      </span>
-                      <span className="flex items-center space-x-1.5">
-                        <span className="inline-block w-2 h-2 bg-neutral-400 shrink-0" />
-                        <span>{hotel.roomsCount} Rooms</span>
-                      </span>
-                    </div>
+                    <p className="text-xs font-sans text-neutral-600 font-light leading-relaxed py-2 border-y border-neutral-200 mb-3">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+                    </p>
 
                     <p className="text-[11px] text-neutral-500 font-sans italic mb-2">
-                      Mandap: {hotel.mandapType}
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     </p>
                   </div>
                 </div>
@@ -330,7 +323,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                     onClick={() => handleOpenFullPage(hotel.id)}
                     className="w-full text-center bg-black hover:bg-neutral-800 text-white text-[11px] uppercase tracking-wider font-medium py-2 rounded-xl transition-colors flex items-center justify-center space-x-1.5 cursor-pointer"
                   >
-                    <span>Full Page</span>
+                    <span>Discover Destination {hotel.city.replace(/^Region (\d+)$/, '$1')} Properties</span>
                     <ArrowRight className="w-3 h-3" />
                   </button>
                 </div>
