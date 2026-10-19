@@ -996,22 +996,14 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     </div>
                   </div>
 
-                  <a
-                    href="#side-form"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setSideFormOpen(true);
-                      // Bring the freshly opened side form into view
-                      setTimeout(() => {
-                        window.scrollIntoView;
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }, 520);
-                    }}
+                  <button
+                    type="button"
+                    onClick={() => onNavigateToInquiry(hotel.name)}
                     className="bg-white text-black hover:bg-neutral-200 px-5 py-2.5 rounded-lg text-[11px] uppercase tracking-wider font-medium transition-colors flex items-center space-x-2 cursor-pointer"
                   >
                     <span>Begin the Conversation</span>
                     <ArrowRight className="w-3.5 h-3.5" />
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
