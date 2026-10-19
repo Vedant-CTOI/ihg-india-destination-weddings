@@ -121,15 +121,17 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
         <div className="absolute bottom-8 left-0 right-0">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
             <span className="bg-white text-black text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full font-bold inline-block mb-2.5">
-              National Portfolio
+              {selectedCity === 'All Cities' ? 'National Portfolio' : destinationLabels[selectedCity]}
             </span>
 
             <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white mb-2">
-              Lorem ipsum dolor sit amet
+              {selectedCity === 'All Cities' ? 'Lorem ipsum dolor sit amet' : `${destinationLabels[selectedCity]} dummy text`}
             </h1>
 
             <p className="text-xs sm:text-sm text-neutral-300 max-w-2xl font-light leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              {selectedCity === 'All Cities'
+                ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+                : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
             </p>
           </div>
         </div>
