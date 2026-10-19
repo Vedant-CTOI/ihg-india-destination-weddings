@@ -16,9 +16,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-8 border-b border-neutral-800">
             <div>
-              <span className="font-serif text-base text-white block mb-2 font-normal tracking-wide">
-                IHG Weddings
-              </span>
+              <img
+                src="/ihg-footer-logo.png"
+                alt="IHG Hotels & Resorts"
+                className="h-8 w-auto object-contain mb-3 max-w-[220px]"
+              />
               <p className="text-[11px] text-neutral-400 font-light leading-relaxed">
                 Timeless Indian destination weddings across palaces, beaches, and backwaters.
               </p>
@@ -127,9 +129,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
           {/* Streamlined Compact Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3.5 border-b border-neutral-900 gap-2">
             <div className="flex items-center space-x-3">
-              <span className="font-serif text-sm sm:text-base font-normal text-white tracking-wider">
-                IHG HOTELS &amp; RESORTS
-              </span>
+              <img
+                src="/ihg-footer-logo.png"
+                alt="IHG Hotels & Resorts"
+                className="h-6 sm:h-8 w-auto object-contain"
+              />
               <span className="text-neutral-600 hidden sm:inline">•</span>
               <span className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-light">
                 Family of Brands
