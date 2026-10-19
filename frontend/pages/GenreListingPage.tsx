@@ -18,6 +18,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
 }) => {
   const [selectedCity, setSelectedCity] = useState<string>('All Cities');
   const [selectedOccasion, setSelectedOccasion] = useState<string>('All Occasions');
+  const [selectedGenre, setSelectedGenre] = useState<string>('All Genres');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [popupHotel, setPopupHotel] = useState<HotelProperty | null>(null);
 
@@ -42,6 +43,16 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
   };
   const occasionFilters = ['All Occasions', ...Object.keys(occasionLabels)];
 
+  // Genre presets — display labels map to actual genre data keys
+  const genreLabels: Record<string, string> = {
+    'Royal Wedding': 'Genre 1',
+    'Beachside': 'Genre 2',
+    'Mountain & Wilderness': 'Genre 3',
+    'Temple Shoreline': 'Genre 4',
+    'Backwater Serenity': 'Genre 5'
+  };
+  const genreFilters = ['All Genres', ...Object.keys(genreLabels)];
+
   // Filtered hotels list based on city, occasion, and search query
   const filteredHotels = useMemo(() => {
     return HOTELS_DATA.filter((h) => {
@@ -51,6 +62,9 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
       }
 
       // 2. Occasion filter (no occasion data yet — 'All Occasions' only, no-op)
+      if (selectedGenre !== 'All Genres' && h.genre !== selectedGenre) {
+        return false;
+      }
       if (selectedOccasion !== 'All Occasions' && h.genre !== selectedOccasion) {
         return false;
       }
@@ -83,10 +97,11 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
   const handleClearAllFilters = () => {
     setSelectedCity('All Cities');
     setSelectedOccasion('All Occasions');
+    setSelectedGenre('All Genres');
     setSearchQuery('');
   };
 
-  const hasActiveFilters = selectedCity !== 'All Cities' || selectedOccasion !== 'All Occasions' || searchQuery.trim() !== '';
+  const hasActiveFilters = selectedCity !== 'All Cities' || selectedOccasion !== 'All Occasions' || selectedGenre !== 'All Genres' || searchQuery.trim() !== '';
 
   return (
     <div className="min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
@@ -145,8 +160,8 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
 
-            {/* Filter 1: City Dropdown (4 cols) */}
-            <div className="md:col-span-4 space-y-1">
+            {/* Filter 1: City Dropdown (3 cols) */}
+            <div className="md:col-span-3 space-y-1">
               <label htmlFor="dest-city-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
                 Filter by Destination:
               </label>
@@ -169,8 +184,8 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
               </div>
             </div>
 
-            {/* Filter 2: Occasion Dropdown (4 cols) */}
-            <div className="md:col-span-4 space-y-1">
+            {/* Filter 2: Occasion Dropdown (3 cols) */}
+            <div className="md:col-span-3 space-y-1">
               <label htmlFor="dest-occasion-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
                 Filter by Occasion:
               </label>
@@ -193,8 +208,32 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
               </div>
             </div>
 
-            {/* Filter 3: Search Bar for Hotels (4 cols) */}
-            <div className="md:col-span-4 space-y-1">
+            {/* Filter 3: Genre Dropdown (3 cols) */}
+            <div className="md:col-span-3 space-y-1">
+              <label htmlFor="dest-genre-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
+                Discover by Genre:
+              </label>
+              <div className="relative">
+                <select
+                  id="dest-genre-filter-dropdown"
+                  value={selectedGenre}
+                  onChange={(e) => setSelectedGenre(e.target.value)}
+                  className="w-full appearance-none bg-white border border-neutral-300 hover:border-black rounded-xl px-3.5 py-2.5 pr-9 text-xs font-sans text-black font-medium shadow-2xs focus:outline-none focus:border-black transition-colors cursor-pointer"
+                >
+                  {genreFilters.map((genre) => (
+                    <option key={genre} value={genre}>
+                      {genre === 'All Genres' ? 'All Genres' : genreLabels[genre]}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-500">
+                  <ChevronDown className="w-4 h-4" />
+                </div>
+              </div>
+            </div>
+
+            {/* Filter 4: Search Bar for Hotels (3 cols) */}
+            <div className="md:col-span-3 space-y-1">
               <label htmlFor="dest-hotel-search-input" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
                 Search Hotels:
               </label>
