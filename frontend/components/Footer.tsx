@@ -16,11 +16,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-8 border-b border-neutral-800">
             <div>
-              <img
-                src="/ihg-footer-logo.png"
-                alt="IHG Hotels & Resorts"
-                className="h-8 w-auto object-contain mb-3 max-w-[220px]"
-              />
+              <div className="font-serif text-2xl tracking-widest text-white font-normal leading-none">
+                IHG
+              </div>
+              <div className="text-[10px] uppercase font-sans tracking-[0.32em] text-white font-medium mt-1 mb-3">
+                Hotels &amp; Resorts India
+              </div>
               <p className="text-[11px] text-white font-light leading-relaxed">
                 Timeless Indian destination weddings across palaces, beaches, and backwaters.
               </p>
@@ -90,33 +91,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
               <span>Site Map</span>
               <ArrowRight className="w-3 h-3" />
             </button>
-            <span className="text-[10px] text-white font-light">
-              Every page of the directory, one click away.
-            </span>
           </div>
 
           <div className="pt-5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-white gap-3">
             <p>© {new Date().getFullYear()} IHG Hotels &amp; Resorts India. All Rights Reserved.</p>
-            <div className="flex flex-wrap items-center gap-4">
-              {onNavigateToLegal && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToLegal('terms')}
-                    className="hover:text-white transition-colors cursor-pointer"
-                  >
-                    Terms &amp; Conditions
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onNavigateToLegal('privacy')}
-                    className="hover:text-white transition-colors cursor-pointer"
-                  >
-                    Privacy Policy
-                  </button>
-                </>
-              )}
-            </div>
           </div>
 
         </div>
@@ -127,11 +105,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           
           {/* Family of Brands — single brand image */}
-          <div className="py-6">
+          <div>
             <img
               src="/ihg-footer-brand.png"
               alt="IHG Hotels & Resorts"
-              className="h-10 sm:h-12 w-auto object-contain"
+              className="w-full h-auto object-cover object-center block"
             />
           </div>
 
