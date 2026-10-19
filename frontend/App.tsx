@@ -95,13 +95,7 @@ export const App: React.FC = () => {
   };
 
   const handleNavigateToConversation = (prefilledDestination?: string, prefilledHotel?: string) => {
-    if (currentView.type === 'home') {
-      const contactEl = document.getElementById('contact');
-      if (contactEl) {
-        contactEl.scrollIntoView({ behavior: 'smooth' });
-        return;
-      }
-    }
+    // Always open the dedicated Conversation (lead form) page — no inline scroll on home
     setCurrentView({ type: 'conversation', prefilledDestination, prefilledHotel });
   };
 
