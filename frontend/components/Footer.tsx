@@ -1,6 +1,5 @@
 import React from 'react';
 import { LegalTab } from '../types';
-import { ArrowRight } from 'lucide-react';
 
 interface FooterProps {
   onNavigateToLegal?: (tab: LegalTab) => void;
@@ -77,24 +76,19 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
                     </li>
                   </>
                 )}
+                {onNavigateToSitemap && (
+                  <li>
+                    <button
+                      type="button"
+                      onClick={onNavigateToSitemap}
+                      className="hover:text-white transition-colors cursor-pointer text-left"
+                    >
+                      Site Map
+                    </button>
+                  </li>
+                )}
               </ul>
             </div>
-          </div>
-
-          {/* Site Map — single link to the full directory page */}
-          <div className="py-5 border-b border-neutral-800 flex items-center justify-between">
-            <button
-              type="button"
-              onClick={onNavigateToSitemap}
-              className="inline-flex items-center space-x-2 text-[11px] uppercase tracking-wider text-white font-medium transition-colors cursor-pointer"
-            >
-              <span>Site Map</span>
-              <ArrowRight className="w-3 h-3" />
-            </button>
-          </div>
-
-          <div className="pt-5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-white gap-3">
-            <p>© {new Date().getFullYear()} IHG Hotels &amp; Resorts India. All Rights Reserved.</p>
           </div>
 
         </div>
