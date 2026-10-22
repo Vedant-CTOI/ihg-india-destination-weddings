@@ -200,7 +200,7 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
             Key Amenities:
           </span>
           <div className="flex-1 grid grid-cols-1 gap-2 text-xs font-sans content-start">
-            {venue.amenities.map((amenity, aIdx) => (
+            {venue.amenities.slice(0, 2).map((amenity, aIdx) => (
               <div key={aIdx} className="flex items-start space-x-2 text-neutral-700 bg-neutral-50 p-2.5 rounded-xl border border-neutral-200/80">
                 <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 mt-0.5 inline-block border border-current"></span>
                 <span className="text-[11px] font-light leading-relaxed">{amenity}</span>
