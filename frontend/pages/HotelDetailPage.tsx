@@ -103,7 +103,7 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
         <div className="lg:col-span-8">
           <div
             onClick={() => onPreviewImage(currentIndex, slides)}
-            className="relative w-full aspect-video rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-200 shadow-2xs cursor-pointer group/frame"
+            className="relative w-full aspect-[16/10] sm:aspect-[21/10] rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-200 shadow-2xs cursor-pointer group/frame"
             title="Click to preview full size in popup overlay"
           >
             <img
@@ -883,32 +883,55 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 </p>
               </div>
 
-              {/* Loop over Venue 1, Venue 2, Venue 3 */}
-              <div className="space-y-12">
+              {/* Venue Jump Pills — sticky index; click scrolls venue to top of viewport */}
+              <div className="sticky top-16 z-30 bg-white/95 backdrop-blur-sm py-2.5 border-y border-neutral-200">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-[9px] uppercase tracking-widest text-neutral-400 font-semibold mr-1.5">
+                    Jump to
+                  </span>
+                  {(hotel.curatedSpaces || []).map((venue, vIndex) => (
+                    <button
+                      key={vIndex}
+                      type="button"
+                      onClick={() => {
+                        const el = document.getElementById(`venue-anchor-${vIndex}`);
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }}
+                      className="px-2.5 py-1 rounded-full text-[10px] font-sans font-medium tracking-wide border border-neutral-300 bg-white text-neutral-600 hover:border-black hover:text-black transition-colors cursor-pointer"
+                    >
+                      {String(vIndex + 1).padStart(2, '0')}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Venue cards — compact: stacked, scrollable, one anchor each */}
+              <div className="space-y-5">
                 {(hotel.curatedSpaces || []).map((venue, vIndex) => (
                   <div 
                     key={vIndex} 
-                    className="p-6 sm:p-7 bg-neutral-50 rounded-3xl border border-neutral-200 space-y-6"
+                    id={`venue-anchor-${vIndex}`}
+                    className="scroll-mt-28 p-4 sm:p-5 bg-neutral-50 rounded-2xl border border-neutral-200 space-y-3"
                   >
-                    {/* Venue Header & Capacity Badge */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-neutral-200">
+                    {/* Venue Header & Capacity Badge — condensed single row */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pb-2.5 border-b border-neutral-200">
                       <div>
-                        <span className="text-[9px] uppercase tracking-widest text-neutral-400 font-bold block mb-0.5">
-                          {venue.type}
+                        <span className="text-[8px] uppercase tracking-widest text-neutral-400 font-bold block">
+                          {String(vIndex + 1).padStart(2, '0')} · {venue.type}
                         </span>
-                        <h4 className="font-serif text-xl sm:text-2xl font-normal text-black">
+                        <h4 className="font-serif text-lg sm:text-xl font-normal text-black leading-tight">
                           {venue.name}
                         </h4>
                       </div>
 
-                      <div className="bg-white border border-neutral-300 rounded-full px-3.5 py-1 text-xs font-sans text-black flex items-center space-x-1.5 shrink-0 self-start sm:self-auto shadow-2xs">
-                        <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
+                      <div className="bg-white border border-neutral-300 rounded-full px-3 py-0.5 text-[11px] font-sans text-black flex items-center space-x-1.5 shrink-0 self-start sm:self-auto shadow-2xs">
+                        <span aria-hidden="true" className="w-3 h-3 inline-block border border-current"></span>
                         <span className="font-medium">{venue.capacity}</span>
                       </div>
                     </div>
 
-                    {/* Venue Description */}
-                    <p className="text-xs sm:text-sm text-neutral-700 font-light leading-relaxed">
+                    {/* Venue Description — clamped to 2 lines for compact scroll */}
+                    <p className="text-xs text-neutral-700 font-light leading-relaxed line-clamp-2">
                       {venue.description}
                     </p>
 
