@@ -965,7 +965,19 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     id={`venue-anchor-${vIndex}`}
                     className="scroll-mt-28 bg-neutral-50 rounded-2xl border border-neutral-200 overflow-hidden flex flex-col"
                   >
-                    {/* TOP: 16:9 carousel media, full card width */}
+                    {/* TOP: venue title header band */}
+                    <div className="px-5 pt-4 pb-3 flex items-baseline justify-between gap-3 border-b border-neutral-200">
+                      <div>
+                        <span className="text-[9px] uppercase tracking-[0.2em] text-neutral-400 font-semibold block mb-0.5">
+                          {String(vIndex + 1).padStart(2, '0')} · {venue.type}
+                        </span>
+                        <h4 className="font-serif text-lg sm:text-xl font-normal text-black leading-tight">
+                          {venue.name}
+                        </h4>
+                      </div>
+                    </div>
+
+                    {/* MIDDLE: 16:9 carousel media, full card width */}
                     <div>
                       <VenueCarousel 
                         venue={venue} 
@@ -974,45 +986,37 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                       />
                     </div>
 
-                    {/* BELOW: identity row + Key Highlights in 2 columns */}
-                    <div className="p-4 sm:p-5 flex flex-col gap-3">
-                      <div>
-                        <span className="text-[8px] uppercase tracking-widest text-neutral-400 font-bold block">
-                          {String(vIndex + 1).padStart(2, '0')} · {venue.type}
-                        </span>
-                        <h4 className="font-serif text-lg sm:text-xl font-normal text-black leading-tight">
-                          {venue.name}
-                        </h4>
-                      </div>
+                    {/* BELOW: Key Highlights in 2 columns, airy spacing */}
+                    <div className="px-5 py-4">
 
-                      {/* Key Highlights — 7 fields, 2-col dense grid (no height growth) */}
-                      <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] font-sans">
-                        <div className="border-b border-neutral-200/70 pb-1">
-                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">Venue Size</span>
+                      {/* Key Highlights — 7 fields, 2-col grid with breathing room */}
+                      <div className="grid grid-cols-2 gap-x-8 gap-y-3 text-xs font-sans">
+                        <div>
+                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Venue Size</span>
                           <span className="text-black font-medium leading-tight block">Lorem ipsum sq.ft</span>
                         </div>
-                        <div className="border-b border-neutral-200/70 pb-1">
-                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">Seating Capacity</span>
+                        <div>
+                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Seating Capacity</span>
                           <span className="text-black font-medium leading-tight block">Cluster · Classroom · Theatre</span>
                         </div>
-                        <div className="border-b border-neutral-200/70 pb-1">
-                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">Floating Capacity</span>
+                        <div>
+                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Floating Capacity</span>
                           <span className="text-black font-medium leading-tight block">Lorem ipsum guests</span>
                         </div>
-                        <div className="border-b border-neutral-200/70 pb-1">
-                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">In-Built Stage</span>
+                        <div>
+                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">In-Built Stage</span>
                           <span className="text-black font-medium leading-tight block">Lorem ipsum</span>
                         </div>
-                        <div className="border-b border-neutral-200/70 pb-1">
-                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">Location</span>
+                        <div>
+                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Location</span>
                           <span className="text-black font-medium leading-tight block">Indoor / Outdoor / Poolside</span>
                         </div>
-                        <div className="border-b border-neutral-200/70 pb-1">
-                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">Vendor Policies</span>
+                        <div>
+                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Vendor Policies</span>
                           <span className="text-black font-medium leading-tight block">In-House / Outside</span>
                         </div>
-                        <div className="col-span-2 border-b border-neutral-200/70 pb-1">
-                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">Venue Timing Slots</span>
+                        <div className="col-span-2">
+                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Venue Timing Slots</span>
                           <span className="text-black font-medium leading-tight block">Lorem ipsum dolor sit amet, consectetur</span>
                         </div>
                       </div>
