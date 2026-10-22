@@ -13,7 +13,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
       <footer className="bg-black text-white border-t border-neutral-800 font-sans text-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-8 border-b border-neutral-800">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 pb-8 border-b border-neutral-800">
             <div>
               <div className="font-serif text-2xl tracking-widest text-white font-normal leading-none">
                 IHG
@@ -33,16 +33,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
               <ul className="space-y-1 text-[11px] text-white font-light">
                 <li>Phone: +91 98765 43210</li>
                 <li>Email: placeholder@example.com</li>
-              </ul>
-            </div>
-
-            <div>
-              <span className="text-[11px] uppercase tracking-wider text-white font-medium block mb-2">
-                Wedding Desk
-              </span>
-              <ul className="space-y-1 text-[11px] text-white font-light">
-                <li>Phone: +91 91234 56780</li>
-                <li>Email: weddings@example.com</li>
               </ul>
             </div>
 
