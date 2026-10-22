@@ -183,6 +183,27 @@ export const App: React.FC = () => {
               onViewAllStories={() => handleNavigateToAllStories()}
             />
 
+            {/* Section 4: Loyalty Packages teaser */}
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 border-t border-neutral-200">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1">
+                    Loyalty Packages
+                  </span>
+                  <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed max-w-xl">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleNavigateToLoremPage}
+                  className="inline-flex items-center space-x-2 text-[11px] font-sans uppercase tracking-wider bg-black hover:bg-neutral-800 text-white px-6 py-3 rounded-full transition-colors font-medium cursor-pointer shrink-0 self-start sm:self-auto"
+                >
+                  <span>View Loyalty Packages</span>
+                </button>
+              </div>
+            </section>
+
             {/* Section 5: Begin the Conversation Form */}
             <DiscoveryForm
               onSubmitSuccess={handleFormSubmitted}
