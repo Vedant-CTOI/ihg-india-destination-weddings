@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { HotelProperty, InquiryFormData, UserPersona, HotelVenueSpace } from '../types';
 import { HOTELS_DATA } from '../constants';
+import { HotelSelectorModal } from '../components/HotelSelectorModal';
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface HotelDetailPageProps {
@@ -298,6 +299,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
 
 
+  const [hotelModalOpen, setHotelModalOpen] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState(false);
 
   // Consent checkbox states (replicates landing form)
@@ -547,37 +549,36 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     </select>
                   </div>
 
-                  {/* 4. Hotels — this hotel pre-selected; add others from filtered list */}
+                  {/* 4. Hotels — popup with visual images; this hotel pre-selected */}
                   <div>
                     <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">
                       Select Hotels {selectedHotelIds.length > 0 && `(${selectedHotelIds.length} selected — enquiry routes to all)`}
                     </label>
-                    <div className="grid grid-cols-2 gap-1.5">
-                      {availableHotels.map((h) => {
-                        const selected = selectedHotelIds.includes(h.id);
-                        const isThisHotel = h.id === hotel.id;
-                        return (
-                          <button
-                            type="button"
-                            key={h.id}
-                            onClick={() => toggleHotel(h.id)}
-                            className={`px-2.5 py-2 rounded-lg border text-left text-[11px] transition-all cursor-pointer ${
-                              selected
-                                ? 'border-black bg-black text-white font-medium'
-                                : 'border-neutral-200 bg-white text-neutral-700 hover:border-black'
-                            } ${isThisHotel ? 'ring-1 ring-neutral-400' : ''}`}
-                          >
-                            {h.name}
-                            {isThisHotel && <span className="block text-[9px] opacity-60">this property</span>}
-                          </button>
-                        );
-                      })}
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setHotelModalOpen(true)}
+                      className="w-full bg-white border border-neutral-300 hover:border-black rounded-xl p-2.5 text-left text-xs text-black flex items-center justify-between cursor-pointer transition-colors"
+                    >
+                      <span className={selectedHotelIds.length ? 'font-medium' : 'text-neutral-400 font-light'}>
+                        {selectedHotelIds.length
+                          ? `${selectedHotelIds.length} propert${selectedHotelIds.length > 1 ? 'ies' : 'y'} selected`
+                          : 'Choose properties'}
+                      </span>
+                      <span className="flex items-center space-x-1.5 shrink-0">
+                        {selectedHotelIds.length > 0 && (
+                          <span className="text-[10px] text-neutral-400 font-light max-w-[140px] truncate">
+                            {HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).slice(0, 2).map((h) => h.name).join(', ')}{selectedHotelIds.length > 2 ? '…' : ''}
+                          </span>
+                        )}
+                        <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
+                      </span>
+                    </button>
                     {selectedHotelIds.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         {HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => (
                           <span key={h.id} className="inline-flex items-center gap-1.5 border border-neutral-300 bg-neutral-50 rounded-full pl-3 pr-1.5 py-1 text-[10px] text-neutral-700">
                             {h.name}
+                            {h.id === hotel.id && <span className="text-[8px] uppercase tracking-wider text-neutral-400">(this property)</span>}
                             <button
                               type="button"
                               onClick={() => toggleHotel(h.id)}
@@ -943,6 +944,14 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
       </div>
 
+
+      {/* Hotel selector popup with visual images (side-rail form) */}
+      <HotelSelectorModal
+        isOpen={hotelModalOpen}
+        selectedHotelIds={selectedHotelIds}
+        onClose={() => setHotelModalOpen(false)}
+        onConfirmSelection={(ids) => setSelectedHotelIds(ids)}
+      />
 
       {/* POPUP OVERLAY FOR PREVIEWING VENUE GALLERY AND DRAFT DRAWING LAYOUT */}
       {previewModalOpen && activeLightboxSlide && (

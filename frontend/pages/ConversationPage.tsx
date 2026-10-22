@@ -312,6 +312,14 @@ const handleSubmit = (e: React.FormEvent) => {
             </div>
           </form>
 
+          {/* Hotel selector popup with visual images */}
+          <HotelSelectorModal
+            isOpen={hotelModalOpen}
+            selectedHotelIds={selectedHotelIds}
+            onClose={() => setHotelModalOpen(false)}
+            onConfirmSelection={(ids) => setSelectedHotelIds(ids)}
+          />
+
         </div>
 
       </div>

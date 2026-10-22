@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { InquiryFormData, UserPersona } from '../types';
 import { HOTELS_DATA } from '../constants';
 import { ArrowRight } from 'lucide-react';
+import { HotelSelectorModal } from './HotelSelectorModal';
 
 interface DiscoveryFormProps {
   onSubmitSuccess?: (data: InquiryFormData) => void;
@@ -61,6 +62,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
     );
   };
 
+  const [hotelModalOpen, setHotelModalOpen] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -184,37 +186,30 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
               </select>
             </div>
 
-            {/* 4. Hotel multi-select — filtered by destination, chips for selection */}
+            {/* 4. Hotel multi-select — popup with visual images */}
             <div>
               <label className={labelCls}>
                 Select Hotels {selectedHotelIds.length > 0 && `(${selectedHotelIds.length} selected — enquiry routes to all)`}
               </label>
-              {availableHotels.length === 0 ? (
-                <p className="text-neutral-400 font-light">No hotels in this destination yet.</p>
-              ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                  {availableHotels.map((h) => {
-                    const selected = selectedHotelIds.includes(h.id);
-                    return (
-                      <button
-                        type="button"
-                        key={h.id}
-                        onClick={() => toggleHotel(h.id)}
-                        className={`px-3 py-2 rounded-lg border text-left text-[11px] transition-all cursor-pointer ${
-                          selected
-                            ? 'border-black bg-black text-white font-medium'
-                            : 'border-neutral-200 bg-white text-neutral-700 hover:border-black'
-                        }`}
-                      >
-                        {h.name}
-                        {preselectedHotel && h.id === preselectedHotel.id && !selected && (
-                          <span className="block text-[9px] opacity-60">tap to re-add</span>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
+              <button
+                type="button"
+                onClick={() => setHotelModalOpen(true)}
+                className="w-full bg-white border border-neutral-300 hover:border-black rounded-xl p-2.5 text-left text-xs text-black flex items-center justify-between cursor-pointer transition-colors"
+              >
+                <span className={selectedHotelIds.length ? 'font-medium' : 'text-neutral-400 font-light'}>
+                  {selectedHotelIds.length
+                    ? `${selectedHotelIds.length} propert${selectedHotelIds.length > 1 ? 'ies' : 'y'} selected`
+                    : 'Choose properties'}
+                </span>
+                <span className="flex items-center space-x-1.5 shrink-0">
+                  {selectedHotelIds.length > 0 && (
+                    <span className="text-[10px] text-neutral-400 font-light max-w-[140px] truncate">
+                      {HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).slice(0, 2).map((h) => h.name).join(', ')}{selectedHotelIds.length > 2 ? '…' : ''}
+                    </span>
+                  )}
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
+                </span>
+              </button>
               {selectedHotelIds.length > 0 && (
                 <div className="mt-2.5 flex flex-wrap gap-1.5">
                   {HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => (
@@ -297,6 +292,14 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
             </div>
 
           </form>
+
+          {/* Hotel selector popup with visual images */}
+          <HotelSelectorModal
+            isOpen={hotelModalOpen}
+            selectedHotelIds={selectedHotelIds}
+            onClose={() => setHotelModalOpen(false)}
+            onConfirmSelection={(ids) => setSelectedHotelIds(ids)}
+          />
         </div>
 
       </div>
