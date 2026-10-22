@@ -13,11 +13,12 @@ interface HotelDetailPageProps {
 
 // Dedicated Automatic Carousel Component for each venue including photos, draft drawing layout, and popup preview
 interface VenueCarouselProps {
+  compact?: boolean;
   venue: HotelVenueSpace;
   onPreviewImage: (slideIndex: number, allSlides: { url: string; caption: string; isDraftDrawing: boolean; notes?: string }[]) => void;
 }
 
-const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) => {
+const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage, compact = false }) => {
   // Combine live ceremony/sanctuary photos with the draft drawing layout
   const slides = [
     ...(venue.gallery || []).map((url, idx) => ({
@@ -96,14 +97,32 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
         </div>
       </div>
 
-      {/* 16:9 Carousel Frame + Key Amenities to the right */}
+      {compact ? (
+        <div
+          onClick={() => onPreviewImage(currentIndex, slides)}
+          className="relative w-full aspect-video overflow-hidden bg-neutral-900 cursor-pointer group/frame"
+          title="Click to preview full size in popup overlay"
+        >
+          <img
+            key={currentSlide.url}
+            src={currentSlide.url}
+            alt={`${venue.name} - ${currentSlide.caption}`}
+            className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter grayscale contrast-115 group-hover/frame:scale-103"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
+          <span className="absolute bottom-2 left-3 z-10 text-[9px] font-sans uppercase tracking-widest text-white/90 font-semibold">
+            {currentSlide.isDraftDrawing ? 'Draft Layout' : currentSlide.caption} · {currentIndex + 1}/{totalSlides}
+          </span>
+        </div>
+      ) : (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
 
         {/* Carousel — locked 16:9 aspect ratio */}
         <div className="lg:col-span-8">
           <div
             onClick={() => onPreviewImage(currentIndex, slides)}
-            className="relative w-full aspect-[16/10] sm:aspect-[21/10] rounded-2xl overflow-hidden bg-neutral-900 border border-neutral-200 shadow-2xs cursor-pointer group/frame"
+            className={`relative w-full aspect-video overflow-hidden bg-neutral-900 border-neutral-200 cursor-pointer group/frame ${compact ? "" : "rounded-2xl border shadow-2xs"}`}
             title="Click to preview full size in popup overlay"
           >
             <img
@@ -210,6 +229,7 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
         </div>
 
       </div>
+      )}
     </div>
   );
 };
@@ -925,10 +945,19 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                   <div 
                     key={vIndex} 
                     id={`venue-anchor-${vIndex}`}
-                    className="scroll-mt-28 p-4 sm:p-5 bg-neutral-50 rounded-2xl border border-neutral-200 space-y-3"
+                    className="scroll-mt-28 bg-neutral-50 rounded-2xl border border-neutral-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12"
                   >
-                    {/* Venue Header & Capacity Badge — condensed single row */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pb-2.5 border-b border-neutral-200">
+                    {/* LEFT: 16:9 carousel media */}
+                    <div className="lg:col-span-8">
+                      <VenueCarousel 
+                        venue={venue} 
+                        onPreviewImage={handleOpenPreview}
+                        compact
+                      />
+                    </div>
+
+                    {/* RIGHT: identity + 4 spec fields, flush and dense */}
+                    <div className="lg:col-span-4 p-4 sm:p-5 flex flex-col gap-3">
                       <div>
                         <span className="text-[8px] uppercase tracking-widest text-neutral-400 font-bold block">
                           {String(vIndex + 1).padStart(2, '0')} · {venue.type}
@@ -938,22 +967,35 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         </h4>
                       </div>
 
-                      <div className="bg-white border border-neutral-300 rounded-full px-3 py-0.5 text-[11px] font-sans text-black flex items-center space-x-1.5 shrink-0 self-start sm:self-auto shadow-2xs">
-                        <span aria-hidden="true" className="w-3 h-3 inline-block border border-current"></span>
-                        <span className="font-medium">{venue.capacity}</span>
+                      <div className="space-y-1.5 text-[11px] font-sans">
+                        <div className="flex justify-between gap-2 border-b border-neutral-200/70 pb-1">
+                          <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-semibold pt-0.5">Seating Capacity</span>
+                          <span className="text-black font-medium text-right">{venue.capacity}</span>
+                        </div>
+                        <div className="flex justify-between gap-2 border-b border-neutral-200/70 pb-1">
+                          <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-semibold pt-0.5">Floating Capacity</span>
+                          <span className="text-black font-medium text-right">Placeholder text</span>
+                        </div>
+                        <div className="flex justify-between gap-2 border-b border-neutral-200/70 pb-1">
+                          <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-semibold pt-0.5">Venue Setting</span>
+                          <span className="text-black font-medium text-right">Placeholder text</span>
+                        </div>
+                        <div className="flex justify-between gap-2">
+                          <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-semibold pt-0.5">Poolside Setup</span>
+                          <span className="text-black font-medium text-right">Placeholder text</span>
+                        </div>
+                      </div>
+
+                      {/* Amenities — 2 compact chips */}
+                      <div className="flex flex-wrap gap-1.5 mt-auto">
+                        {(venue.amenities || []).slice(0, 2).map((amenity, aIdx) => (
+                          <span key={aIdx} className="inline-flex items-center gap-1.5 border border-neutral-300 bg-white rounded-full px-2.5 py-1 text-[9px] font-sans text-neutral-700">
+                            <span aria-hidden="true" className="w-2.5 h-2.5 inline-block border border-current"></span>
+                            {amenity}
+                          </span>
+                        ))}
                       </div>
                     </div>
-
-                    {/* Venue Description — clamped to 2 lines for compact scroll */}
-                    <p className="text-xs text-neutral-700 font-light leading-relaxed line-clamp-2">
-                      {venue.description}
-                    </p>
-
-                    {/* AUTOMATIC CAROUSEL: Photos + Draft Drawing Layout Picture + Preview Overlay Trigger */}
-                    <VenueCarousel 
-                      venue={venue} 
-                      onPreviewImage={handleOpenPreview}
-                    />
                   </div>
                 ))}
               </div>
