@@ -152,6 +152,8 @@ export type LegalTab = 'terms' | 'privacy';
 export type PageView =
   | { type: 'home' }
   | { type: 'about-page' }
+  | { type: 'lorem-page' }
+  
   | { type: 'destination-detail'; destinationId: string }
   | { type: 'genre-listing' }
   | { type: 'genre-detail'; genreId: string }

@@ -16,6 +16,7 @@ import { GenreDetailPage } from './pages/GenreDetailPage';
 import { GenreListingPage } from './pages/GenreListingPage';
 import { AllHotelsPage } from './pages/AllHotelsPage';
 import { AboutPage } from './pages/AboutPage';
+import { LoremIpsumPage } from './pages/LoremIpsumPage';
 import { HotelDetailPage } from './pages/HotelDetailPage';
 import { StoryDetailPage } from './pages/StoryDetailPage';
 import { AllStoriesPage } from './pages/AllStoriesPage';
@@ -90,6 +91,10 @@ export const App: React.FC = () => {
     setCurrentView({ type: 'about-page' });
   };
 
+  const handleNavigateToLoremPage = () => {
+    setCurrentView({ type: 'lorem-page' });
+  };
+
   const handleNavigateToLegal = (tab: LegalTab = 'terms') => {
     setCurrentView({ type: 'legal-info', initialTab: tab });
   };
@@ -135,6 +140,7 @@ export const App: React.FC = () => {
         onNavigateToGenre={handleNavigateToGenreListing}
         onNavigateToAllHotels={() => handleNavigateToAllHotels()}
         onNavigateToAllStories={() => handleNavigateToAllStories()}
+        onNavigateToLoremPage={handleNavigateToLoremPage}
       />
 
       {/* 2. Page View Routing */}
@@ -143,6 +149,12 @@ export const App: React.FC = () => {
           <AboutPage
             onNavigateBack={() => handleNavigateHome()}
             onNavigateToInquiry={() => handleNavigateToConversation()}
+          />
+        )}
+
+        {currentView.type === 'lorem-page' && (
+          <LoremIpsumPage
+            onNavigateBack={() => handleNavigateHome()}
           />
         )}
 
