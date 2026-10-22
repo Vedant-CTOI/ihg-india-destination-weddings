@@ -950,37 +950,6 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               </div>
             </div>
 
-            {/* Culinary & Sanctuary Highlights */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-neutral-200">
-              <div className="p-5 bg-neutral-50 rounded-2xl border border-neutral-200 space-y-3">
-                <span className="text-[10px] uppercase tracking-widest text-neutral-500 font-semibold block">
-                  Segregated Master Galleys
-                </span>
-                <ul className="space-y-2 text-xs text-neutral-700 font-light">
-                  {(hotel.culinaryHighlights || []).map((c, i) => (
-                    <li key={i} className="flex items-start space-x-2">
-                      <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 mt-0.5 inline-block border border-current"></span>
-                      <span>{c}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="p-5 bg-neutral-50 rounded-2xl border border-neutral-200 space-y-3">
-                <span className="text-[10px] uppercase tracking-widest text-neutral-500 font-semibold block">
-                  Sanctuary Highlights
-                </span>
-                <ul className="space-y-2 text-xs text-neutral-700 font-light">
-                  {hotel.keyHighlights.map((h, i) => (
-                    <li key={i} className="flex items-start space-x-2">
-                      <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 mt-0.5 inline-block border border-current"></span>
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
             {/* Your Dedicated Wedding Director — dummy contact card */}
             <div className="pt-4 border-t border-neutral-200">
               <div className="bg-black text-white p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
