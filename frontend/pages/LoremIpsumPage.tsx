@@ -40,26 +40,26 @@ export const LoremIpsumPage: React.FC<LoremIpsumPageProps> = ({ onNavigateBack }
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>
 
-        {/* Tier cards — visual grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Tier cards — large 16:9 visuals, stacked one below the other */}
+        <div className="space-y-8">
           {[
             { n: '01', title: 'Tier One' },
             { n: '02', title: 'Tier Two' },
             { n: '03', title: 'Tier Three' },
             { n: '04', title: 'Tier Four' },
           ].map((tier) => (
-            <div key={tier.n} className="bg-neutral-50 border border-neutral-200 rounded-2xl overflow-hidden flex flex-col">
-              <div className="aspect-[4/3] bg-[#E5E5E5] border-b border-neutral-200 flex items-center justify-center">
-                <span className="font-serif text-3xl text-neutral-400">{tier.n}</span>
+            <div key={tier.n} className="bg-neutral-50 border border-neutral-200 rounded-2xl overflow-hidden flex flex-col sm:flex-row">
+              <div className="sm:w-3/5 aspect-[16/9] bg-[#E5E5E5] border-b sm:border-b-0 sm:border-r border-neutral-200 flex items-center justify-center">
+                <span className="font-serif text-5xl text-neutral-400">{tier.n}</span>
               </div>
-              <div className="p-4 flex flex-col gap-1.5">
+              <div className="sm:w-2/5 p-6 flex flex-col justify-center gap-2">
                 <span className="text-[9px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">
                   Loyalty Package
                 </span>
-                <h2 className="font-serif text-xl font-normal text-black leading-tight">
+                <h2 className="font-serif text-2xl font-normal text-black leading-tight">
                   {tier.title}
                 </h2>
-                <p className="text-[11px] text-neutral-500 font-light leading-relaxed">
+                <p className="text-xs text-neutral-500 font-light leading-relaxed">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.
                 </p>
               </div>
