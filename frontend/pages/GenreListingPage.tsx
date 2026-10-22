@@ -235,13 +235,13 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
             {/* Filter 4: Search Bar for Hotels (3 cols) */}
             <div className="md:col-span-3 space-y-1">
               <label htmlFor="dest-hotel-search-input" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
-                Search Hotels:
+                Search Destinations:
               </label>
               <div className="relative">
                 <input
                   id="dest-hotel-search-input"
                   type="text"
-                  placeholder="Search by hotel name or location..."
+                  placeholder="Search by destination..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full bg-white border border-neutral-300 hover:border-black rounded-xl pl-9 pr-8 py-2.5 text-xs font-sans text-black placeholder:text-neutral-400 font-medium shadow-2xs focus:outline-none focus:border-black transition-colors"
