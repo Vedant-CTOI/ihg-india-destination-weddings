@@ -946,19 +946,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     id={`venue-anchor-${vIndex}`}
                     className="scroll-mt-28 bg-neutral-50 rounded-2xl border border-neutral-200 overflow-hidden flex flex-col"
                   >
-                    {/* TOP: venue title header band */}
-                    <div className="px-5 pt-4 pb-3 flex items-baseline justify-between gap-3 border-b border-neutral-200">
-                      <div>
-                        <span className="text-[9px] uppercase tracking-[0.2em] text-neutral-400 font-semibold block mb-0.5">
-                          {String(vIndex + 1).padStart(2, '0')} · {venue.type}
-                        </span>
-                        <h4 className="font-serif text-lg sm:text-xl font-normal text-black leading-tight">
-                          {venue.name}
-                        </h4>
-                      </div>
-                    </div>
-
-                    {/* MIDDLE: 16:9 carousel media, full card width */}
+                    {/* TOP: 16:9 carousel media, full card width */}
                     <div>
                       <VenueCarousel 
                         venue={venue} 
@@ -972,33 +960,54 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
                       {/* Key Highlights — 4 top row + 3 bottom row, centered, equidistant */}
                       <div className="grid grid-cols-4 gap-x-4 gap-y-3 text-xs font-sans">
-                        <div className="text-center">
-                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Venue Size</span>
-                          <span className="text-black font-medium leading-tight block">Lorem ipsum sq.ft</span>
+                        <div className="text-left flex items-start gap-1.5">
+                          <span aria-hidden="true" className="w-1.5 h-1.5 border border-neutral-400 shrink-0 mt-1.5 inline-block"></span>
+                          <div>
+                            <span className="text-neutral-500 text-[10px] font-light leading-snug block">Venue Size</span>
+                            <span className="text-neutral-600 font-extralight text-[11px] leading-snug block">Lorem ipsum sq.ft</span>
+                          </div>
                         </div>
-                        <div className="text-center">
-                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Seating Capacity</span>
-                          <span className="text-black font-medium leading-tight block">Cluster · Classroom · Theatre</span>
+                        <div className="text-left flex items-start gap-1.5">
+                          <span aria-hidden="true" className="w-1.5 h-1.5 border border-neutral-400 shrink-0 mt-1.5 inline-block"></span>
+                          <div>
+                            <span className="text-neutral-500 text-[10px] font-light leading-snug block">Seating Capacity</span>
+                            <span className="text-neutral-600 font-extralight text-[11px] leading-snug block">Cluster · Classroom · Theatre</span>
+                          </div>
                         </div>
-                        <div className="text-center">
-                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Floating Capacity</span>
-                          <span className="text-black font-medium leading-tight block">Lorem ipsum guests</span>
+                        <div className="text-left flex items-start gap-1.5">
+                          <span aria-hidden="true" className="w-1.5 h-1.5 border border-neutral-400 shrink-0 mt-1.5 inline-block"></span>
+                          <div>
+                            <span className="text-neutral-500 text-[10px] font-light leading-snug block">Floating Capacity</span>
+                            <span className="text-neutral-600 font-extralight text-[11px] leading-snug block">Lorem ipsum guests</span>
+                          </div>
                         </div>
-                        <div className="text-center">
-                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">In-Built Stage</span>
-                          <span className="text-black font-medium leading-tight block">Lorem ipsum</span>
+                        <div className="text-left flex items-start gap-1.5">
+                          <span aria-hidden="true" className="w-1.5 h-1.5 border border-neutral-400 shrink-0 mt-1.5 inline-block"></span>
+                          <div>
+                            <span className="text-neutral-500 text-[10px] font-light leading-snug block">In-Built Stage</span>
+                            <span className="text-neutral-600 font-extralight text-[11px] leading-snug block">Lorem ipsum</span>
+                          </div>
                         </div>
-                        <div className="text-center">
-                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Location</span>
-                          <span className="text-black font-medium leading-tight block">Indoor / Outdoor / Poolside</span>
+                        <div className="text-left flex items-start gap-1.5">
+                          <span aria-hidden="true" className="w-1.5 h-1.5 border border-neutral-400 shrink-0 mt-1.5 inline-block"></span>
+                          <div>
+                            <span className="text-neutral-500 text-[10px] font-light leading-snug block">Location</span>
+                            <span className="text-neutral-600 font-extralight text-[11px] leading-snug block">Indoor / Outdoor / Poolside</span>
+                          </div>
                         </div>
-                        <div className="text-center">
-                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Vendor Policies</span>
-                          <span className="text-black font-medium leading-tight block">In-House / Outside</span>
+                        <div className="text-left flex items-start gap-1.5">
+                          <span aria-hidden="true" className="w-1.5 h-1.5 border border-neutral-400 shrink-0 mt-1.5 inline-block"></span>
+                          <div>
+                            <span className="text-neutral-500 text-[10px] font-light leading-snug block">Vendor Policies</span>
+                            <span className="text-neutral-600 font-extralight text-[11px] leading-snug block">In-House / Outside</span>
+                          </div>
                         </div>
-                        <div className="text-center">
-                          <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Venue Timing Slots</span>
-                          <span className="text-black font-medium leading-tight block">Lorem ipsum</span>
+                        <div className="text-left flex items-start gap-1.5">
+                          <span aria-hidden="true" className="w-1.5 h-1.5 border border-neutral-400 shrink-0 mt-1.5 inline-block"></span>
+                          <div>
+                            <span className="text-neutral-500 text-[10px] font-light leading-snug block">Venue Timing Slots</span>
+                            <span className="text-neutral-600 font-extralight text-[11px] leading-snug block">Lorem ipsum</span>
+                          </div>
                         </div>
                       </div>
                     </div>
