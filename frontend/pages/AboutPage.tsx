@@ -61,11 +61,19 @@ export const AboutPage: React.FC<AboutPageProps> = ({
         </div>
       </div>
 
+      {/* Wide feature visual placeholder */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+        <div className="w-full aspect-[16/9] bg-[#E5E5E5] border border-neutral-300 rounded-2xl flex items-center justify-center">
+          <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">Visual Element</span>
+        </div>
+      </div>
+
       {/* Editorial Body — text-based page */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-14">
 
-        {/* Opening Narrative */}
-        <section className="space-y-5">
+        {/* Opening Narrative — text left, small visual placeholders right */}
+        <section className="grid grid-cols-1 md:grid-cols-12 gap-8">
+          <div className="md:col-span-7 space-y-5">
           <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1.5">
             Our Story
           </span>
@@ -79,6 +87,20 @@ export const AboutPage: React.FC<AboutPageProps> = ({
             <p>
               Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
+          </div>
+          </div>
+
+          {/* Small visual placeholders */}
+          <div className="md:col-span-5 space-y-3">
+            <div className="aspect-[4/3] bg-[#E5E5E5] border border-neutral-300 rounded-xl flex items-center justify-center">
+              <span className="text-[9px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">Visual Element</span>
+            </div>
+            <div className="aspect-[4/3] bg-[#E5E5E5] border border-neutral-300 rounded-xl flex items-center justify-center">
+              <span className="text-[9px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">Visual Element</span>
+            </div>
+            <div className="aspect-[4/3] bg-[#E5E5E5] border border-neutral-300 rounded-xl flex items-center justify-center">
+              <span className="text-[9px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">Visual Element</span>
+            </div>
           </div>
         </section>
 

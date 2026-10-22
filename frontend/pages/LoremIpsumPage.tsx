@@ -40,53 +40,31 @@ export const LoremIpsumPage: React.FC<LoremIpsumPageProps> = ({ onNavigateBack }
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>
 
-        {/* Tier sections */}
-        <div className="space-y-10">
-          <section className="space-y-3">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1">
-              Tier One
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">Lorem ipsum dolor sit amet</h2>
-            <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            </p>
-          </section>
-
-          <div className="border-t border-neutral-200" />
-
-          <section className="space-y-3">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1">
-              Tier Two
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">Lorem ipsum dolor sit amet</h2>
-            <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            </p>
-          </section>
-
-          <div className="border-t border-neutral-200" />
-
-          <section className="space-y-3">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1">
-              Tier Three
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">Lorem ipsum dolor sit amet</h2>
-            <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            </p>
-          </section>
-
-          <div className="border-t border-neutral-200" />
-
-          <section className="space-y-3">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1">
-              Tier Four
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">Lorem ipsum dolor sit amet</h2>
-            <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            </p>
-          </section>
+        {/* Tier cards — visual grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { n: '01', title: 'Tier One' },
+            { n: '02', title: 'Tier Two' },
+            { n: '03', title: 'Tier Three' },
+            { n: '04', title: 'Tier Four' },
+          ].map((tier) => (
+            <div key={tier.n} className="bg-neutral-50 border border-neutral-200 rounded-2xl overflow-hidden flex flex-col">
+              <div className="aspect-[4/3] bg-[#E5E5E5] border-b border-neutral-200 flex items-center justify-center">
+                <span className="font-serif text-3xl text-neutral-400">{tier.n}</span>
+              </div>
+              <div className="p-4 flex flex-col gap-1.5">
+                <span className="text-[9px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">
+                  Loyalty Package
+                </span>
+                <h2 className="font-serif text-xl font-normal text-black leading-tight">
+                  {tier.title}
+                </h2>
+                <p className="text-[11px] text-neutral-500 font-light leading-relaxed">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
