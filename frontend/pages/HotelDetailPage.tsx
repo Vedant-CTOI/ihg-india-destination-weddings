@@ -963,10 +963,10 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                   <div 
                     key={vIndex} 
                     id={`venue-anchor-${vIndex}`}
-                    className="scroll-mt-28 bg-neutral-50 rounded-2xl border border-neutral-200 overflow-hidden grid grid-cols-1 lg:grid-cols-12"
+                    className="scroll-mt-28 bg-neutral-50 rounded-2xl border border-neutral-200 overflow-hidden flex flex-col"
                   >
-                    {/* LEFT: 16:9 carousel media */}
-                    <div className="lg:col-span-8">
+                    {/* TOP: 16:9 carousel media, full card width */}
+                    <div>
                       <VenueCarousel 
                         venue={venue} 
                         onPreviewImage={handleOpenPreview}
@@ -974,8 +974,8 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                       />
                     </div>
 
-                    {/* RIGHT: identity + 4 spec fields, flush and dense */}
-                    <div className="lg:col-span-4 p-4 sm:p-5 flex flex-col gap-3">
+                    {/* BELOW: identity row + Key Highlights in 2 columns */}
+                    <div className="p-4 sm:p-5 flex flex-col gap-3">
                       <div>
                         <span className="text-[8px] uppercase tracking-widest text-neutral-400 font-bold block">
                           {String(vIndex + 1).padStart(2, '0')} · {venue.type}
