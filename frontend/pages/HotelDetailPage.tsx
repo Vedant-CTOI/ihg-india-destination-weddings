@@ -197,7 +197,7 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage }) 
         {/* Key Amenities — right of the images */}
         <div className="lg:col-span-4 flex flex-col">
           <span className="text-[10px] uppercase tracking-wider text-neutral-500 font-semibold block mb-2">
-            Key Amenities &amp; Architectural Specifications:
+            Key Amenities:
           </span>
           <div className="flex-1 grid grid-cols-1 gap-2 text-xs font-sans content-start">
             {venue.amenities.map((amenity, aIdx) => (
