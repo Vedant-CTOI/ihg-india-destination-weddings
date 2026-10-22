@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { InquiryFormData, UserPersona } from '../types';
 import { HOTELS_DATA } from '../constants';
+import { HotelSelectorModal } from '../components/HotelSelectorModal';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface ConversationPageProps {
@@ -45,6 +46,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
   const [consentMandatory, setConsentMandatory] = useState<boolean>(false);
   const [consentNewsletter, setConsentNewsletter] = useState<boolean>(false);
   const [consentContact, setConsentContact] = useState<boolean>(false);
+  const [hotelModalOpen, setHotelModalOpen] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState(false);
 
   const availableHotels = useMemo(() => {
@@ -59,7 +61,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
     );
   };
 
-const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
     const payload: InquiryFormData = {
