@@ -75,9 +75,7 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage, co
         <div className="flex flex-col">
           {/* Main 16:9 frame — cyclic */}
           <div
-            onClick={() => onPreviewImage(currentIndex, slides)}
-            className="relative w-full aspect-video overflow-hidden bg-neutral-900 cursor-pointer group/frame"
-            title="Click to preview full size in popup overlay"
+            className="relative w-full aspect-video overflow-hidden bg-neutral-900 group/frame"
           >
             <img
               key={currentSlide.url}
