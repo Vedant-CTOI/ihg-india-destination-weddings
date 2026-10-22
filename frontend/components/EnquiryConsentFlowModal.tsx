@@ -44,9 +44,6 @@ export const EnquiryConsentFlowModal: React.FC<EnquiryConsentFlowModalProps> = (
             <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">
               Request Has Been Registered
             </h2>
-            <div className="p-4 bg-neutral-50 rounded-2xl border border-neutral-200 text-xs sm:text-sm text-neutral-700 font-light leading-relaxed">
-              Kindly await communication from <strong className="text-black font-semibold">IHG Hotels &amp; Resorts India</strong>. Your assigned Destination Wedding Director will reach out to you directly with auspicious date schedules and tailored sanctuary blueprints.
-            </div>
           </div>
 
           {/* Registered Particulars */}
@@ -62,13 +59,6 @@ export const EnquiryConsentFlowModal: React.FC<EnquiryConsentFlowModalProps> = (
             <div className="flex justify-between py-0.5 border-b border-neutral-100">
               <span className="text-neutral-400">Target Window:</span>
               <strong className="text-black font-medium">{data.targetWindow}</strong>
-            </div>
-            <div className="flex justify-between py-0.5">
-              <span className="text-neutral-400">Status:</span>
-              <strong className="text-black font-medium flex items-center space-x-1">
-                <span aria-hidden="true" className="w-3 h-3 inline-block border border-current"></span>
-                <span>Enquiry Registered — Awaiting Director Communication</span>
-              </strong>
             </div>
           </div>
 
