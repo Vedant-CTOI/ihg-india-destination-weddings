@@ -886,10 +886,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
               {/* Venue Jump Pills — sticky index; click scrolls venue to top of viewport */}
               <div ref={pillBarRef} className="sticky top-[110px] sm:top-[146px] z-20 bg-white/95 backdrop-blur-sm py-2.5 border-y border-neutral-200 shadow-sm">
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <span className="text-[9px] uppercase tracking-widest text-neutral-400 font-semibold mr-1.5">
-                    Jump to
-                  </span>
+                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5">
                   {(hotel.curatedSpaces || []).map((venue, vIndex) => (
                     <button
                       key={vIndex}
@@ -902,9 +899,21 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         const top = el.getBoundingClientRect().top + window.scrollY - offset;
                         window.scrollTo({ top, behavior: 'smooth' });
                       }}
-                      className="px-3 py-1 rounded-full text-[10px] font-sans font-medium tracking-wide border border-neutral-300 bg-white text-neutral-600 hover:border-black hover:text-black transition-colors cursor-pointer whitespace-nowrap"
+                      className="shrink-0 w-32 rounded-xl border border-neutral-300 bg-white overflow-hidden hover:border-black transition-colors cursor-pointer group/thmb"
                     >
-                      Venue {vIndex + 1} - Placeholder Text
+                      <div className="h-14 w-full bg-neutral-900 relative overflow-hidden">
+                        <img
+                          src={(venue.gallery && venue.gallery[0]) || ''}
+                          alt={`${venue.name} thumbnail`}
+                          className="w-full h-full object-cover filter grayscale contrast-110 group-hover/thmb:scale-105 transition-transform"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
+                      <div className="px-2 py-1.5 text-[10px] font-sans font-medium text-neutral-700 group-hover/thmb:text-black transition-colors truncate">
+                        Venue {vIndex + 1}
+                      </div>
                     </button>
                   ))}
                 </div>
