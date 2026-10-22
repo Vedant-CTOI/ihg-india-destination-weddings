@@ -901,7 +901,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                       }}
                       className="shrink-0 w-32 rounded-xl border border-neutral-300 bg-white overflow-hidden hover:border-black transition-colors cursor-pointer group/thmb"
                     >
-                      <div className="h-14 w-full bg-neutral-900 relative overflow-hidden">
+                      <div className="aspect-[4/3] w-full bg-neutral-900 relative overflow-hidden">
                         <img
                           src={(venue.gallery && venue.gallery[0]) || ''}
                           alt={`${venue.name} thumbnail`}
@@ -912,7 +912,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         />
                       </div>
                       <div className="px-2 py-1.5 text-[10px] font-sans font-medium text-neutral-700 group-hover/thmb:text-black transition-colors truncate">
-                        Venue {vIndex + 1}
+                        Venue {vIndex + 1} - {venue.capacity}
                       </div>
                     </button>
                   ))}
