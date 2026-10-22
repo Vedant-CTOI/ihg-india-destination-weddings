@@ -31,7 +31,7 @@ export const Header: React.FC<HeaderProps> = ({
     { label: 'Discover by Destination', page: 'genre' },
     { label: 'Hotels', page: 'hotels' },
     { label: 'Real Weddings', page: 'stories' },
-    { label: 'Lorem Ipsum', page: 'lorem' },
+    { label: 'Loyalty Packages', page: 'lorem' },
   ];
 
   const handleLinkClick = (link: { label: string; anchor?: string; page?: string }) => {
