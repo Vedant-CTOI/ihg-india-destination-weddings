@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { HotelProperty, InquiryFormData, UserPersona, HotelVenueSpace } from '../types';
 import { HOTELS_DATA } from '../constants';
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-import { HotelSelectorModal } from '../components/HotelSelectorModal';
 
 interface HotelDetailPageProps {
   hotelId: string;
@@ -246,6 +245,38 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   const [activePreviewSlides, setActivePreviewSlides] = useState<{ url: string; caption: string; isDraftDrawing: boolean; notes?: string }[]>([]);
   const pillBarRef = useRef<HTMLDivElement>(null);
 
+  // Enquiry form state — new lean form (this hotel pre-selected)
+  const COUNTRY_DESTINATIONS = [
+    { label: 'All Destinations', regions: [] as string[] },
+    { label: 'Destination 1', regions: ['North India'] },
+    { label: 'Destination 2', regions: ['West India'] },
+    { label: 'Destination 3', regions: ['South India'] },
+    { label: 'Destination 4', regions: ['East India'] },
+  ];
+  const OCCASIONS = ['Occasion 1', 'Occasion 2', 'Occasion 3', 'Occasion 4', 'Occasion 5'];
+  const [formDataPersona, setFormDataPersona] = useState<string>('Bride or Groom');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [expectedDate, setExpectedDate] = useState('');
+  const [guestCount, setGuestCount] = useState('');
+  const [notes, setNotes] = useState('');
+  const [occasion, setOccasion] = useState('Occasion 1');
+  const [countryDestination, setCountryDestination] = useState('All Destinations');
+  const [selectedHotelIds, setSelectedHotelIds] = useState<string[]>([hotel.id]);
+
+  const availableHotels = useMemo(() => {
+    const chosen = COUNTRY_DESTINATIONS.find((c) => c.label === countryDestination);
+    if (!chosen || chosen.regions.length === 0) return HOTELS_DATA;
+    return HOTELS_DATA.filter((h) => chosen.regions.includes(h.region));
+  }, [countryDestination]);
+
+  const toggleHotel = (id: string) => {
+    setSelectedHotelIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
   const handleOpenPreview = (
     slideIndex: number, 
     allSlides: { url: string; caption: string; isDraftDrawing: boolean; notes?: string }[]
@@ -264,51 +295,8 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   };
 
   // Right-hand side "Begin the Conversation" Form States pre-filled with this hotel
-  const defaultStartDate = '2025-11-20';
-  const defaultEndDate = '2025-11-23';
 
-  const formatWindowString = (start: string, end: string) => {
-    if (!start && !end) return 'Dates to be finalized';
-    if (start && !end) {
-      const d = new Date(start);
-      return `Commencing ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`;
-    }
-    const d1 = new Date(start);
-    const d2 = new Date(end);
-    const diffTime = Math.abs(d2.getTime() - d1.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-    const startStr = d1.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-    const endStr = d2.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-    return `${startStr} – ${endStr} (${diffDays} Days Celebration)`;
-  };
 
-  const [startDate, setStartDate] = useState<string>(defaultStartDate);
-  const [endDate, setEndDate] = useState<string>(defaultEndDate);
-
-  const [formData, setFormData] = useState<InquiryFormData>({
-    primaryContactName: '',
-    email: '',
-    phone: '',
-    decisionRole: 'Bride',
-    destinations: [`${hotel.genre}: ${hotel.location}`],
-    selectedHotelIds: [hotel.id],
-    selectedHotelNames: [hotel.name],
-    startDate: defaultStartDate,
-    endDate: defaultEndDate,
-    targetWindow: formatWindowString(defaultStartDate, defaultEndDate),
-    guestRange: '150 – 350',
-    estimatedGuests: 250,
-    ceremonyTraditions: ['North Indian Mandap'],
-    priorityDietary: ['Dedicated Jain Kitchen'],
-    notes: `Inquiry initiated for ${hotel.name} (${hotel.city}).`,
-    partnerName: '',
-    planningAgency: '',
-    coupleReference: '',
-    elderAccessibilityNeeds: '',
-    vendorProductionNotes: '',
-    bridalStylingNeeds: '',
-    baraatSpec: ''
-  });
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -319,76 +307,36 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
   // Collapsible side-nav form: open on arrival, auto-collapse after landing, manually toggleable
   const [sideFormOpen, setSideFormOpen] = useState<boolean>(true);
-  const [hotelModalOpen, setHotelModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const t = setTimeout(() => setSideFormOpen(false), 2200);
     return () => clearTimeout(t);
   }, []);
 
-  const guestRanges = [
-    { label: '50 – 150', defaultCount: 120 },
-    { label: '150 – 350', defaultCount: 250 },
-    { label: '350 – 650', defaultCount: 450 },
-    { label: '650 – 1,500+', defaultCount: 850 }
-  ];
-
-  const handleRangeChange = (rangeLabel: string) => {
-    const matched = guestRanges.find((r) => r.label === rangeLabel);
-    setFormData((prev) => ({
-      ...prev,
-      guestRange: rangeLabel,
-      estimatedGuests: matched ? matched.defaultCount : prev.estimatedGuests
-    }));
-  };
-
-  const handleStartDateChange = (val: string) => {
-    setStartDate(val);
-    let newEnd = endDate;
-    if (endDate && new Date(val) > new Date(endDate)) {
-      newEnd = val;
-      setEndDate(val);
-    }
-    const windowStr = formatWindowString(val, newEnd);
-    setFormData((prev) => ({
-      ...prev,
-      startDate: val,
-      endDate: newEnd,
-      targetWindow: windowStr
-    }));
-  };
-
-  const handleEndDateChange = (val: string) => {
-    setEndDate(val);
-    const windowStr = formatWindowString(startDate, val);
-    setFormData((prev) => ({
-      ...prev,
-      startDate,
-      endDate: val,
-      targetWindow: windowStr
-    }));
-  };
-
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    const payload: InquiryFormData = {
+      primaryContactName: `${firstName} ${lastName}`.trim(),
+      email,
+      phone: '',
+      decisionRole: (formDataPersona === 'Family' ? 'Parent' : formDataPersona === 'Wedding Planner' ? 'Wedding Planner' : 'Bride') as UserPersona,
+      destinations: [countryDestination],
+      selectedHotelIds,
+      selectedHotelNames: HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => h.name),
+      targetWindow: expectedDate || 'Dates to be finalized',
+      guestRange: guestCount || 'To be confirmed',
+      estimatedGuests: Number(guestCount) || 0,
+      ceremonyTraditions: [occasion],
+      priorityDietary: [],
+      notes,
+    };
     setTimeout(() => {
       setSubmitting(false);
-      if (onSubmitSuccess) {
-        onSubmitSuccess(formData);
-      } else {
-        onNavigateToInquiry(hotel.name);
-      }
-    }, 500);
+      if (onSubmitSuccess) onSubmitSuccess(payload);
+    }, 600);
   };
 
-  const handleHotelSelectionSaved = (ids: string[], names: string[]) => {
-    setFormData((prev) => ({
-      ...prev,
-      selectedHotelIds: ids,
-      selectedHotelNames: names
-    }));
-  };
 
   const activeLightboxSlide = activePreviewSlides[activePreviewIndex] || activePreviewSlides[0];
 
@@ -525,17 +473,17 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
                 <form onSubmit={handleFormSubmit} className="space-y-4">
 
-                  {/* 1. Persona Selector */}
+                  {/* 1. Persona */}
                   <div>
-                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Describe your persona</label>
-                    <div className="grid grid-cols-4 gap-1.5">
-                      {(['Bride', 'Groom', 'Parent', 'Wedding Planner'] as UserPersona[]).map((persona) => {
-                        const isSelected = formData.decisionRole === persona;
+                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Persona</label>
+                    <div className="grid grid-cols-3 gap-1.5">
+                      {(['Bride or Groom', 'Family', 'Wedding Planner'] as string[]).map((persona) => {
+                        const isSelected = formDataPersona === persona;
                         return (
                           <button
                             type="button"
                             key={persona}
-                            onClick={() => setFormData({ ...formData, decisionRole: persona })}
+                            onClick={() => setFormDataPersona(persona)}
                             className={`py-2 px-1 rounded-xl border text-center transition-all cursor-pointer ${
                               isSelected
                                 ? 'border-black bg-black text-white font-medium shadow-2xs'
@@ -549,202 +497,112 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     </div>
                   </div>
 
-                  {/* 2. Persona Name Fields (replicates landing form) */}
-                  {formData.decisionRole === 'Bride' && (
-                    <div className="space-y-2.5">
-                      <div>
-                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Bride's Full Name *</label>
-                        <input
-                          type="text"
-                          required
-                          placeholder="Full name"
-                          value={formData.primaryContactName}
-                          onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
-                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Groom / Partner's Name</label>
-                        <input
-                          type="text"
-                          placeholder="Partner's name"
-                          value={formData.partnerName || ''}
-                          onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
-                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {formData.decisionRole === 'Groom' && (
-                    <div className="space-y-2.5">
-                      <div>
-                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Groom's Full Name *</label>
-                        <input
-                          type="text"
-                          required
-                          placeholder="Partner's name"
-                          value={formData.primaryContactName}
-                          onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
-                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Bride / Partner's Name</label>
-                        <input
-                          type="text"
-                          placeholder="Full name"
-                          value={formData.partnerName || ''}
-                          onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
-                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {formData.decisionRole === 'Parent' && (
-                    <div className="space-y-2.5">
-                      <div>
-                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Parent / Family Representative Name *</label>
-                        <input
-                          type="text"
-                          required
-                          placeholder="Contact name"
-                          value={formData.primaryContactName}
-                          onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
-                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Couple Being Celebrated</label>
-                        <input
-                          type="text"
-                          placeholder="Couple being celebrated"
-                          value={formData.coupleReference || ''}
-                          onChange={(e) => setFormData({ ...formData, coupleReference: e.target.value })}
-                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {formData.decisionRole === 'Wedding Planner' && (
-                    <div className="space-y-2.5">
-                      <div>
-                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Lead Wedding Planner Name *</label>
-                        <input
-                          type="text"
-                          required
-                          placeholder="Planner name"
-                          value={formData.primaryContactName}
-                          onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
-                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Planning Agency / Production Firm</label>
-                        <input
-                          type="text"
-                          placeholder="Agency name"
-                          value={formData.planningAgency || ''}
-                          onChange={(e) => setFormData({ ...formData, planningAgency: e.target.value })}
-                          className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* 3. Phone & Email */}
-                  <div className="grid grid-cols-1 gap-2.5">
+                  {/* 2. Core fields */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Phone / Contact Number *</label>
-                      <input
-                        type="tel"
-                        required
-                        placeholder="+91 98765 43210"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                      />
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">First Name *</label>
+                      <input type="text" required placeholder="First name" value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
                     </div>
                     <div>
-                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Official Email Address *</label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="name@example.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                      />
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Last Name *</label>
+                      <input type="text" required placeholder="Last name" value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Email *</label>
+                      <input type="email" required placeholder="name@example.com" value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Occasion</label>
+                      <select value={occasion} onChange={(e) => setOccasion(e.target.value)}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium">
+                        {OCCASIONS.map((o) => <option key={o} value={o}>{o}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Expected Date</label>
+                      <input type="date" min="2025-01-01" max="2028-12-31" value={expectedDate}
+                        onChange={(e) => setExpectedDate(e.target.value)}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium" />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Number of Guests</label>
+                      <input type="number" min="20" max="2000" placeholder="e.g. 250" value={guestCount}
+                        onChange={(e) => setGuestCount(e.target.value)}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
                     </div>
                   </div>
 
-                  {/* 4. Specific Hotels — overlay trigger (replicates landing form) */}
+                  {/* 3. Destination filter */}
                   <div>
-                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">
-                      Specific Hotels (Select via Overlay)
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => setHotelModalOpen(true)}
-                      className="w-full bg-white border border-neutral-300 hover:border-black rounded-xl p-2.5 text-left text-xs text-black flex items-center justify-between cursor-pointer transition-colors"
-                    >
-                      <span className={formData.selectedHotelIds?.length ? 'font-medium' : 'text-neutral-400 font-light'}>
-                        {formData.selectedHotelIds?.length
-                          ? `${formData.selectedHotelIds.length} propert${formData.selectedHotelIds.length > 1 ? 'ies' : 'y'} selected`
-                          : 'Choose properties'}
-                      </span>
-                      <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 inline-block border border-current"></span>
-                    </button>
-                  </div>
-
-                  {/* 6. Guests */}
-                  <div>
-                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">
-                      No of Guests
-                    </label>
-                    <select
-                      value={formData.guestRange}
-                      onChange={(e) => handleRangeChange(e.target.value)}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium"
-                    >
-                      {guestRanges.map((range) => (
-                        <option key={range.label} value={range.label}>
-                          {range.label} guests
-                        </option>
-                      ))}
+                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Destination</label>
+                    <select value={countryDestination} onChange={(e) => setCountryDestination(e.target.value)}
+                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium">
+                      {COUNTRY_DESTINATIONS.map((c) => <option key={c.label} value={c.label}>{c.label}</option>)}
                     </select>
                   </div>
 
-                  {/* 7. Celebration Window */}
+                  {/* 4. Hotels — this hotel pre-selected; add others from filtered list */}
                   <div>
-                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">
-                      Celebration Window
+                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">
+                      Select Hotels {selectedHotelIds.length > 0 && `(${selectedHotelIds.length} selected — enquiry routes to all)`}
                     </label>
-                    <div className="grid grid-cols-2 gap-2.5">
-                      <input
-                        type="date"
-                        required
-                        min="2025-01-01"
-                        max="2028-12-31"
-                        value={startDate}
-                        onChange={(e) => handleStartDateChange(e.target.value)}
-                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 text-xs text-black font-medium focus:outline-none focus:border-black cursor-pointer"
-                      />
-                      <input
-                        type="date"
-                        required
-                        min={startDate || '2025-01-01'}
-                        max="2028-12-31"
-                        value={endDate}
-                        onChange={(e) => handleEndDateChange(e.target.value)}
-                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 text-xs text-black font-medium focus:outline-none focus:border-black cursor-pointer"
-                      />
+                    <div className="grid grid-cols-2 gap-1.5">
+                      {availableHotels.map((h) => {
+                        const selected = selectedHotelIds.includes(h.id);
+                        const isThisHotel = h.id === hotel.id;
+                        return (
+                          <button
+                            type="button"
+                            key={h.id}
+                            onClick={() => toggleHotel(h.id)}
+                            className={`px-2.5 py-2 rounded-lg border text-left text-[11px] transition-all cursor-pointer ${
+                              selected
+                                ? 'border-black bg-black text-white font-medium'
+                                : 'border-neutral-200 bg-white text-neutral-700 hover:border-black'
+                            } ${isThisHotel ? 'ring-1 ring-neutral-400' : ''}`}
+                          >
+                            {h.name}
+                            {isThisHotel && <span className="block text-[9px] opacity-60">this property</span>}
+                          </button>
+                        );
+                      })}
                     </div>
+                    {selectedHotelIds.length > 0 && (
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        {HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => (
+                          <span key={h.id} className="inline-flex items-center gap-1.5 border border-neutral-300 bg-neutral-50 rounded-full pl-3 pr-1.5 py-1 text-[10px] text-neutral-700">
+                            {h.name}
+                            <button
+                              type="button"
+                              onClick={() => toggleHotel(h.id)}
+                              className="w-4 h-4 rounded-full border border-neutral-400 hover:border-black hover:text-black flex items-center justify-center cursor-pointer text-[9px] leading-none"
+                              aria-label={`Remove ${h.name}`}
+                            >×</button>
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  {/* 8. Consent checkboxes (replicates landing form) */}
+                  {/* 5. Notes */}
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Notes</label>
+                    <textarea
+                      rows={3}
+                      placeholder="Share any details about your celebration…"
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black resize-none"
+                    />
+                  </div>
+
+                  {/* 6. Consent checkboxes — kept as-is */}
                   <div className="space-y-2 pt-1">
                     <label className="flex items-start space-x-2.5 cursor-pointer">
                       <input
@@ -779,7 +637,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         className="mt-0.5 w-3.5 h-3.5 shrink-0 accent-black cursor-pointer"
                       />
                       <span className="text-[11px] text-neutral-600 font-light leading-relaxed">
-                        I consent to sharing my phone number so the IHG Team can contact me via WhatsApp or email. <span className="text-[10px] uppercase tracking-wider text-neutral-500">(Optional)</span>
+                        I consent to sharing my contact number so the IHG Team can contact me via email. <span className="text-[10px] uppercase tracking-wider text-neutral-500">(Optional)</span>
                       </span>
                     </label>
                   </div>
@@ -791,7 +649,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                       disabled={submitting}
                       className="w-full bg-black hover:bg-neutral-800 text-white py-3.5 rounded-xl font-medium tracking-wider uppercase text-xs transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
                     >
-                      <span>{submitting ? "Submitting..." : `Enquire for ${hotel.name.split(' ')[0]}`}</span>
+                      <span>{submitting ? "Submitting…" : "Submit Query"}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -1085,13 +943,6 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
       </div>
 
-      {/* Hotel Selector Overlay (from side-nav form) */}
-      <HotelSelectorModal
-        isOpen={hotelModalOpen}
-        selectedHotelIds={formData.selectedHotelIds || []}
-        onClose={() => setHotelModalOpen(false)}
-        onConfirmSelection={handleHotelSelectionSaved}
-      />
 
       {/* POPUP OVERLAY FOR PREVIEWING VENUE GALLERY AND DRAFT DRAWING LAYOUT */}
       {previewModalOpen && activeLightboxSlide && (

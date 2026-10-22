@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { InquiryFormData, UserPersona } from '../types';
 import { HOTELS_DATA } from '../constants';
-import { HotelSelectorModal } from '../components/HotelSelectorModal';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface ConversationPageProps {
@@ -17,167 +16,73 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
   onNavigateBack,
   onSubmitSuccess,
 }) => {
-  const initialDestinations = prefilledDestination
-    ? [prefilledDestination]
-    : ['Royal Wedding: Destination 1'];
-
-  // Check if hotel prefilled
+    // Pre-fill from hotel page navigation (prefilledHotel is a hotel name)
   const matchedHotel = prefilledHotel
     ? HOTELS_DATA.find((h) => h.name.toLowerCase().includes(prefilledHotel.toLowerCase()))
     : undefined;
 
-  const initialHotelIds = matchedHotel ? [matchedHotel.id] : [];
-  const initialHotelNames = matchedHotel ? [matchedHotel.name] : [];
+  const COUNTRY_DESTINATIONS = [
+    { label: 'All Destinations', regions: [] as string[] },
+    { label: 'Destination 1', regions: ['North India'] },
+    { label: 'Destination 2', regions: ['West India'] },
+    { label: 'Destination 3', regions: ['South India'] },
+    { label: 'Destination 4', regions: ['East India'] },
+  ];
+  const OCCASIONS = ['Occasion 1', 'Occasion 2', 'Occasion 3', 'Occasion 4', 'Occasion 5'];
 
-  const defaultStartDate = '2025-11-20';
-  const defaultEndDate = '2025-11-23';
-
-  const formatWindowString = (start: string, end: string) => {
-    if (!start && !end) return 'Dates to be finalized';
-    if (start && !end) {
-      const d = new Date(start);
-      return `Commencing ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`;
-    }
-    const d1 = new Date(start);
-    const d2 = new Date(end);
-    const diffTime = Math.abs(d2.getTime() - d1.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-    const startStr = d1.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-    const endStr = d2.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-    return `${startStr} – ${endStr} (${diffDays} Days Celebration)`;
-  };
-
-  const [startDate, setStartDate] = useState<string>(defaultStartDate);
-  const [endDate, setEndDate] = useState<string>(defaultEndDate);
-  const [hotelModalOpen, setHotelModalOpen] = useState<boolean>(false);
-
-  const [formData, setFormData] = useState<InquiryFormData>({
-    primaryContactName: '',
-    email: '',
-    phone: '',
-    decisionRole: 'Bride',
-    destinations: initialDestinations,
-    selectedHotelIds: initialHotelIds,
-    selectedHotelNames: initialHotelNames,
-    startDate: defaultStartDate,
-    endDate: defaultEndDate,
-    targetWindow: formatWindowString(defaultStartDate, defaultEndDate),
-    guestRange: 'Mid-Sized Celebration (150 – 350 guests)',
-    estimatedGuests: 250,
-    ceremonyTraditions: ['North Indian Mandap'],
-    priorityDietary: ['Dedicated Jain Kitchen'],
-    notes: prefilledHotel ? `Inquiry initiated for ${prefilledHotel}.` : '',
-    partnerName: '',
-    planningAgency: '',
-    coupleReference: '',
-    elderAccessibilityNeeds: '',
-    vendorProductionNotes: '',
-    bridalStylingNeeds: '',
-    baraatSpec: ''
-  });
-
+  const [formDataPersona, setFormDataPersona] = useState<string>('Bride or Groom');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [expectedDate, setExpectedDate] = useState('');
+  const [guestCount, setGuestCount] = useState('');
+  const [notes, setNotes] = useState(prefilledHotel ? `Inquiry initiated for ${prefilledHotel}.` : '');
+  const [occasion, setOccasion] = useState('Occasion 1');
+  const [countryDestination, setCountryDestination] = useState('All Destinations');
+  const [selectedHotelIds, setSelectedHotelIds] = useState<string[]>(
+    matchedHotel ? [matchedHotel.id] : []
+  );
+  const [consentMandatory, setConsentMandatory] = useState<boolean>(false);
+  const [consentNewsletter, setConsentNewsletter] = useState<boolean>(false);
+  const [consentContact, setConsentContact] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const destinationOptions = [
-    'Royal Wedding: Destination 1',
-    'Beachside: Destination 2',
-    'Mountain & Wilderness: Destination 3',
-    'Temple Shoreline: Destination 5',
-    'Backwater Serenity: Destination 4'
-  ];
+  const availableHotels = useMemo(() => {
+    const chosen = COUNTRY_DESTINATIONS.find((c) => c.label === countryDestination);
+    if (!chosen || chosen.regions.length === 0) return HOTELS_DATA;
+    return HOTELS_DATA.filter((h) => chosen.regions.includes(h.region));
+  }, [countryDestination]);
 
-  const guestRanges = [
-    { label: 'Intimate Gathering (50 – 150 guests)', defaultCount: 120 },
-    { label: 'Mid-Sized Celebration (150 – 350 guests)', defaultCount: 250 },
-    { label: 'Grand Destination (350 – 650 guests)', defaultCount: 450 },
-    { label: 'Monumental Royal (650 – 1,500+ guests)', defaultCount: 850 }
-  ];
-
-  const toggleDestination = (dest: string) => {
-    setFormData((prev) => {
-      const exists = prev.destinations.includes(dest);
-      if (exists) {
-        if (prev.destinations.length === 1) return prev;
-        return { ...prev, destinations: prev.destinations.filter((d) => d !== dest) };
-      } else {
-        return { ...prev, destinations: [...prev.destinations, dest] };
-      }
-    });
+  const toggleHotel = (id: string) => {
+    setSelectedHotelIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
   };
 
-  const handleRangeChange = (rangeLabel: string) => {
-    const matched = guestRanges.find((r) => r.label === rangeLabel);
-    setFormData((prev) => ({
-      ...prev,
-      guestRange: rangeLabel,
-      estimatedGuests: matched ? matched.defaultCount : prev.estimatedGuests
-    }));
-  };
-
-  const handleStartDateChange = (val: string) => {
-    setStartDate(val);
-    let newEnd = endDate;
-    if (endDate && new Date(val) > new Date(endDate)) {
-      newEnd = val;
-      setEndDate(val);
-    }
-    const windowStr = formatWindowString(val, newEnd);
-    setFormData((prev) => ({
-      ...prev,
-      startDate: val,
-      endDate: newEnd,
-      targetWindow: windowStr
-    }));
-  };
-
-  const handleEndDateChange = (val: string) => {
-    setEndDate(val);
-    const windowStr = formatWindowString(startDate, val);
-    setFormData((prev) => ({
-      ...prev,
-      startDate,
-      endDate: val,
-      targetWindow: windowStr
-    }));
-  };
-
-  const handleHotelSelectionSaved = (ids: string[], names: string[]) => {
-    setFormData((prev) => ({
-      ...prev,
-      selectedHotelIds: ids,
-      selectedHotelNames: names
-    }));
-  };
-
-  const handleRemoveHotel = (idToRemove: string) => {
-    setFormData((prev) => {
-      const updatedIds = (prev.selectedHotelIds || []).filter((id) => id !== idToRemove);
-      const updatedNames = HOTELS_DATA.filter((h) => updatedIds.includes(h.id)).map((h) => h.name);
-      return {
-        ...prev,
-        selectedHotelIds: updatedIds,
-        selectedHotelNames: updatedNames
-      };
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    const payload: InquiryFormData = {
+      primaryContactName: `${firstName} ${lastName}`.trim(),
+      email,
+      phone: '',
+      decisionRole: (formDataPersona === 'Family' ? 'Parent' : formDataPersona === 'Wedding Planner' ? 'Wedding Planner' : 'Bride') as UserPersona,
+      destinations: [countryDestination],
+      selectedHotelIds,
+      selectedHotelNames: HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => h.name),
+      targetWindow: expectedDate || 'Dates to be finalized',
+      guestRange: guestCount || 'To be confirmed',
+      estimatedGuests: Number(guestCount) || 0,
+      ceremonyTraditions: [occasion],
+      priorityDietary: [],
+      notes,
+    };
     setTimeout(() => {
       setSubmitting(false);
-      onSubmitSuccess(formData);
-    }, 500);
+      onSubmitSuccess(payload);
+    }, 600);
   };
 
-  const getInstantWhatsAppUrl = () => {
-    const hotelsStr = formData.selectedHotelNames && formData.selectedHotelNames.length > 0
-      ? formData.selectedHotelNames.join(', ')
-      : 'All suited properties';
-    const text = `Namaste IHG Celebrations,\n\nI would like to enquire:\n- Persona: ${formData.decisionRole}\n- Primary Contact: ${formData.primaryContactName || 'Family'}\n- Destinations: ${formData.destinations.join(', ')}\n- Selected Hotels: ${hotelsStr}\n- Scale: ${formData.guestRange} (~${formData.estimatedGuests} guests)\n- Celebration Dates: ${formData.targetWindow}`;
-    return `https://api.whatsapp.com/send?phone=919876543210&text=${encodeURIComponent(text)}`;
-  };
 
   return (
     <div className="min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
@@ -224,26 +129,17 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
           className="relative bg-white rounded-3xl border border-neutral-300 p-6 sm:p-12 shadow-sm font-sans text-xs min-h-[700px]"
         >
           <form onSubmit={handleSubmit} className="space-y-7">
-            
-            {/* 1. Describe your persona */}
+            {/* 1. Persona */}
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="font-serif text-lg text-black font-normal">
-                  Describe your persona
-                </label>
-                <span className="text-[11px] text-neutral-400 font-light">
-                  Input fields adjust based on your role
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {(['Bride', 'Groom', 'Parent', 'Wedding Planner'] as UserPersona[]).map((persona) => {
-                  const isSelected = formData.decisionRole === persona;
+              <label className="font-serif text-lg text-black font-normal block mb-2">Persona</label>
+              <div className="grid grid-cols-3 gap-2">
+                {(['Bride or Groom', 'Family', 'Wedding Planner'] as string[]).map((persona) => {
+                  const isSelected = formDataPersona === persona;
                   return (
                     <button
                       type="button"
                       key={persona}
-                      onClick={() => setFormData({ ...formData, decisionRole: persona })}
+                      onClick={() => setFormDataPersona(persona)}
                       className={`py-3 px-3 rounded-xl border text-center transition-all cursor-pointer ${
                         isSelected
                           ? 'border-black bg-black text-white font-medium shadow-2xs'
@@ -251,453 +147,171 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
                       }`}
                     >
                       <span className="block text-xs">{persona}</span>
-                      <span className={`text-[10px] block opacity-70 ${isSelected ? 'text-neutral-300' : 'text-neutral-500'}`}>
-                        {persona === 'Parent' ? 'Father / Mother' : persona === 'Wedding Planner' ? 'Agency Lead' : 'Couple'}
-                      </span>
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            {/* 2. Persona-Specific Dynamic Fields */}
-            <div className="p-5 bg-neutral-50 rounded-2xl border border-neutral-200 space-y-4 animate-fade-in">
-              <div className="flex items-center space-x-2 text-[11px] uppercase tracking-wider text-neutral-500 font-semibold">
-                <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                <span>Tailored for: {formData.decisionRole}</span>
+            {/* 2. Core fields */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">First Name *</label>
+                <input type="text" required placeholder="First name" value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
               </div>
-
-              {/* BRIDE Specific Fields */}
-              {formData.decisionRole === 'Bride' && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  <div>
-                    <label className="block text-neutral-600 mb-1 font-medium">Bride's Full Name *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Full name"
-                      value={formData.primaryContactName}
-                      onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-neutral-600 mb-1 font-medium">Groom / Partner's Name</label>
-                    <input
-                      type="text"
-                      placeholder="Partner's name"
-                      value={formData.partnerName || ''}
-                      onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                    />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className="block text-neutral-600 mb-1 font-medium">Bridal Suite, Vanity &amp; Sanctuary Privacy Preferences</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Dual bridal dressing suite with natural daylight, private garden access for family portraits"
-                      value={formData.bridalStylingNeeds || ''}
-                      onChange={(e) => setFormData({ ...formData, bridalStylingNeeds: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* GROOM Specific Fields */}
-              {formData.decisionRole === 'Groom' && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  <div>
-                    <label className="block text-neutral-600 mb-1 font-medium">Groom's Full Name *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Partner's name"
-                      value={formData.primaryContactName}
-                      onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-neutral-600 mb-1 font-medium">Bride / Partner's Name</label>
-                    <input
-                      type="text"
-                      placeholder="Full name"
-                      value={formData.partnerName || ''}
-                      onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                    />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className="block text-neutral-600 mb-1 font-medium">Baraat Procession &amp; Arrival Protocol</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Vintage open-top car, acoustic live brass band + dholis, 60-min processional route"
-                      value={formData.baraatSpec || ''}
-                      onChange={(e) => setFormData({ ...formData, baraatSpec: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* PARENT Specific Fields */}
-              {formData.decisionRole === 'Parent' && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  <div>
-                    <label className="block text-neutral-600 mb-1 font-medium">Parent / Family Representative Name *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Contact name"
-                      value={formData.primaryContactName}
-                      onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-neutral-600 mb-1 font-medium">Couple Being Celebrated</label>
-                    <input
-                      type="text"
-                      placeholder="Couple being celebrated"
-                      value={formData.coupleReference || ''}
-                      onChange={(e) => setFormData({ ...formData, coupleReference: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                    />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className="block text-neutral-600 mb-1 font-medium">Elder Comfort, Golf Cart Transit &amp; Traditional Pandit Ritual Needs</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Step-free access for grandparents, golf buggy fleet to mandap, 05:30 AM sunrise muhurtham setup"
-                      value={formData.elderAccessibilityNeeds || ''}
-                      onChange={(e) => setFormData({ ...formData, elderAccessibilityNeeds: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* WEDDING PLANNER Specific Fields */}
-              {formData.decisionRole === 'Wedding Planner' && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  <div>
-                    <label className="block text-neutral-600 mb-1 font-medium">Lead Wedding Planner Name *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Planner name"
-                      value={formData.primaryContactName}
-                      onChange={(e) => setFormData({ ...formData, primaryContactName: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-neutral-600 mb-1 font-medium">Planning Agency / Production Firm</label>
-                    <input
-                      type="text"
-                      placeholder="Agency name"
-                      value={formData.planningAgency || ''}
-                      onChange={(e) => setFormData({ ...formData, planningAgency: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                    />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label className="block text-neutral-600 mb-1 font-medium">Client Family Reference &amp; Production Staging Requirements</label>
-                    <input
-                      type="text"
-                      placeholder="Client reference; production notes"
-                      value={formData.vendorProductionNotes || ''}
-                      onChange={(e) => setFormData({ ...formData, vendorProductionNotes: e.target.value })}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Common Contact Fields (Phone & Email) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-                <div>
-                  <label className="block text-neutral-600 mb-1 font-medium">Phone / WhatsApp Number *</label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="+91 98765 43210"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                  />
-                </div>
-                <div>
-                  <label className="block text-neutral-600 mb-1 font-medium">Official Email Address *</label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="name@example.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
-                  />
-                </div>
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Last Name *</label>
+                <input type="text" required placeholder="Last name" value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
+              </div>
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Email *</label>
+                <input type="email" required placeholder="name@example.com" value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
+              </div>
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Occasion</label>
+                <select value={occasion} onChange={(e) => setOccasion(e.target.value)}
+                  className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium">
+                  {OCCASIONS.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Expected Date</label>
+                <input type="date" min="2025-01-01" max="2028-12-31" value={expectedDate}
+                  onChange={(e) => setExpectedDate(e.target.value)}
+                  className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium" />
+              </div>
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Number of Guests</label>
+                <input type="number" min="20" max="2000" placeholder="e.g. 250" value={guestCount}
+                  onChange={(e) => setGuestCount(e.target.value)}
+                  className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
               </div>
             </div>
 
-            {/* 3. MULTI-SELECT LOCATIONS BY GENRE */}
+            {/* 3. Destination (country-level) */}
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="font-serif text-lg text-black font-normal">
-                  Preferred Sanctuary Genres &amp; Locations (Select Multiple)
-                </label>
-                <span className="text-[11px] text-neutral-400 font-light">
-                  {formData.destinations.length} location{formData.destinations.length > 1 ? 's' : ''} selected
-                </span>
-              </div>
+              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Destination</label>
+              <select value={countryDestination} onChange={(e) => setCountryDestination(e.target.value)}
+                className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium">
+                {COUNTRY_DESTINATIONS.map((c) => <option key={c.label} value={c.label}>{c.label}</option>)}
+              </select>
+            </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-                {destinationOptions.map((dest) => {
-                  const isSelected = formData.destinations.includes(dest);
-                  return (
-                    <button
-                      type="button"
-                      key={dest}
-                      onClick={() => toggleDestination(dest)}
-                      className={`p-3.5 rounded-xl border text-left transition-all flex items-center justify-between cursor-pointer ${
-                        isSelected
-                          ? 'border-black bg-black text-white shadow-2xs'
-                          : 'border-neutral-200 hover:border-black bg-neutral-50 text-neutral-800'
-                      }`}
-                    >
-                      <span className="text-xs font-medium pr-2">{dest}</span>
-                      <div
-                        className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
-                          isSelected
-                            ? 'border-white bg-white text-black'
-                            : 'border-neutral-300 text-transparent'
+            {/* 4. Hotels — multi-select, filtered by destination, pre-filled hotel stays */}
+            <div>
+              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">
+                Select Hotels {selectedHotelIds.length > 0 && `(${selectedHotelIds.length} selected — enquiry routes to all)`}
+              </label>
+              {availableHotels.length === 0 ? (
+                <p className="text-neutral-400 font-light">No hotels in this destination yet.</p>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                  {availableHotels.map((h) => {
+                    const selected = selectedHotelIds.includes(h.id);
+                    return (
+                      <button
+                        type="button"
+                        key={h.id}
+                        onClick={() => toggleHotel(h.id)}
+                        className={`px-3 py-2 rounded-lg border text-left text-[11px] transition-all cursor-pointer ${
+                          selected
+                            ? 'border-black bg-black text-white font-medium'
+                            : 'border-neutral-200 bg-white text-neutral-700 hover:border-black'
                         }`}
                       >
-                        <span aria-hidden="true" className="w-3 h-3 stroke-[3] inline-block border border-current"></span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* 4. CHOOSE HOTELS FROM ALL PROPERTIES VIA POPUP OVERLAY */}
-            <div className="p-5 bg-neutral-50 rounded-2xl border border-neutral-200 space-y-3">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div>
-                  <label className="font-serif text-lg text-black font-normal flex items-center space-x-2">
-                    <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
-                    <span>Choose Specific Hotels &amp; Palaces</span>
-                  </label>
-                  <p className="text-[11px] text-neutral-500 font-light mt-0.5">
-                    Browse and select properties across India via our interactive portfolio overlay.
-                  </p>
+                        {h.name}
+                      </button>
+                    );
+                  })}
                 </div>
-
-                <button
-                  type="button"
-                  onClick={() => setHotelModalOpen(true)}
-                  className="bg-black hover:bg-neutral-800 text-white px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-medium flex items-center justify-center space-x-1.5 transition-colors cursor-pointer self-start sm:self-auto shadow-2xs"
-                >
-                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                  <span>Choose Hotels Overlay</span>
-                </button>
-              </div>
-
-              {/* Selected Hotels Chips */}
-              {formData.selectedHotelIds && formData.selectedHotelIds.length > 0 ? (
-                <div className="pt-2 border-t border-neutral-200">
-                  <span className="text-[10px] uppercase tracking-wider text-neutral-400 font-semibold block mb-2">
-                    Selected Properties ({formData.selectedHotelIds.length}):
-                  </span>
-                  <div className="flex flex-wrap gap-2">
-                    {formData.selectedHotelIds.map((id) => {
-                      const h = HOTELS_DATA.find((item) => item.id === id);
-                      if (!h) return null;
-                      return (
-                        <div
-                          key={h.id}
-                          className="bg-white border border-neutral-300 rounded-full px-3 py-1 flex items-center space-x-2 text-xs text-black shadow-2xs"
-                        >
-                          <span className="font-medium">{h.name}</span>
-                          <span className="text-[10px] text-neutral-400">({h.city})</span>
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveHotel(h.id)}
-                            className="text-neutral-400 hover:text-black cursor-pointer ml-1"
-                            title="Remove property"
-                          >
-                            ×
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              ) : (
-                <div className="pt-2 text-xs text-neutral-500 font-light italic">
-                  No specific properties picked yet. Click "Choose Hotels Overlay" above to select.
+              )}
+              {selectedHotelIds.length > 0 && (
+                <div className="mt-2.5 flex flex-wrap gap-1.5">
+                  {HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => (
+                    <span key={h.id} className="inline-flex items-center gap-1.5 border border-neutral-300 bg-neutral-50 rounded-full pl-3 pr-1.5 py-1 text-[10px] text-neutral-700">
+                      {h.name}
+                      <button
+                        type="button"
+                        onClick={() => toggleHotel(h.id)}
+                        className="w-4 h-4 rounded-full border border-neutral-400 hover:border-black hover:text-black flex items-center justify-center cursor-pointer text-[9px] leading-none"
+                        aria-label={`Remove ${h.name}`}
+                      >×</button>
+                    </span>
+                  ))}
                 </div>
               )}
             </div>
 
-            {/* 5. NO OF GUESTS */}
-            <div className="space-y-2">
-              <label className="font-serif text-lg text-black font-normal block">
-                No of Guests
-              </label>
-
-              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
-                <div className="sm:col-span-8">
-                  <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">
-                    Select Guest Scale / Range Preset:
-                  </label>
-                  <select
-                    value={formData.guestRange}
-                    onChange={(e) => handleRangeChange(e.target.value)}
-                    className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium"
-                  >
-                    {guestRanges.map((range) => (
-                      <option key={range.label} value={range.label}>
-                        {range.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="sm:col-span-4">
-                  <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">
-                    Approximate Attendees:
-                  </label>
-                  <input
-                    type="number"
-                    min="25"
-                    max="2000"
-                    placeholder="Guest Count"
-                    value={formData.estimatedGuests}
-                    onChange={(e) => setFormData({ ...formData, estimatedGuests: Number(e.target.value) })}
-                    className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black font-medium"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* 6. TARGET CELEBRATION WINDOW */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <label className="font-serif text-lg text-black font-normal block">
-                  Target Celebration Window
-                </label>
-                <span className="text-[11px] text-neutral-400 font-light flex items-center space-x-1">
-                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                  <span>Calendar Date Selection</span>
-                </span>
-              </div>
-
-              {/* Dual Date Pickers */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                <div className="bg-neutral-50 p-3.5 rounded-2xl border border-neutral-200">
-                  <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5 flex items-center space-x-1.5">
-                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                    <span>From Date (Day / Month / Year):</span>
-                  </label>
-                  <input
-                    type="date"
-                    required
-                    min="2025-01-01"
-                    max="2028-12-31"
-                    value={startDate}
-                    onChange={(e) => handleStartDateChange(e.target.value)}
-                    className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 text-xs text-black font-medium focus:outline-none focus:border-black cursor-pointer"
-                  />
-                  <span className="text-[10px] text-neutral-400 mt-1 block font-light">
-                    Commencement / Arrival Date
-                  </span>
-                </div>
-
-                <div className="bg-neutral-50 p-3.5 rounded-2xl border border-neutral-200">
-                  <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5 flex items-center space-x-1.5">
-                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                    <span>To Date (Day / Month / Year):</span>
-                  </label>
-                  <input
-                    type="date"
-                    required
-                    min={startDate || '2025-01-01'}
-                    max="2028-12-31"
-                    value={endDate}
-                    onChange={(e) => handleEndDateChange(e.target.value)}
-                    className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 text-xs text-black font-medium focus:outline-none focus:border-black cursor-pointer"
-                  />
-                  <span className="text-[10px] text-neutral-400 mt-1 block font-light">
-                    Conclusion / Farewell Date
-                  </span>
-                </div>
-              </div>
-
-              {/* Live Formatted Summary Badge */}
-              <div className="p-3 bg-neutral-100 rounded-xl border border-neutral-200/80 flex items-center justify-between text-xs text-neutral-700">
-                <div className="flex items-center space-x-2">
-                  <span className="text-[10px] uppercase font-semibold text-neutral-500 tracking-wider">
-                    Celebration Window:
-                  </span>
-                  <span className="font-serif font-medium text-black text-sm">
-                    {formData.targetWindow}
-                  </span>
-                </div>
-                <span className="text-[10px] text-neutral-400 hidden sm:inline">
-                  Auspicious dates confirmed with Director
-                </span>
-              </div>
-            </div>
-
-            {/* 7. Notes & Dietary Safeguards */}
+            {/* 5. Notes */}
             <div>
-              <label className="font-serif text-lg text-black font-normal block mb-1.5">
-                Ceremony Notes &amp; Dietary Safeguards
-              </label>
+              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Notes</label>
               <textarea
                 rows={3}
-                placeholder="Share any special Pandit preferences, strict Jain kitchen mandates, or specific sacred dates you have blocked..."
-                value={formData.notes}
-                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                className="w-full border border-neutral-300 rounded-xl p-3 focus:outline-none focus:border-black resize-none text-xs text-black"
+                placeholder="Share any details about your celebration…"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black resize-none"
               />
             </div>
 
-            {/* Action Buttons */}
-            <div className="pt-4 border-t border-neutral-200 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Consent Checkboxes — kept as-is */}
+            <div className="space-y-2.5">
+              <label className="flex items-start space-x-2.5 cursor-pointer">
+                <input
+                  type="checkbox"
+                  required
+                  checked={consentMandatory}
+                  onChange={(e) => setConsentMandatory(e.target.checked)}
+                  className="mt-0.5 w-3.5 h-3.5 shrink-0 accent-black cursor-pointer"
+                />
+                <span className="text-[11px] text-neutral-600 font-light leading-relaxed">
+                  I confirm that I am at least 18 years of age &amp; I agree to the General Terms and Conditions and the Privacy Policy of IHG. <span className="text-[10px] uppercase tracking-wider text-neutral-500">(Mandatory)</span>
+                </span>
+              </label>
+
+              <label className="flex items-start space-x-2.5 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={consentNewsletter}
+                  onChange={(e) => setConsentNewsletter(e.target.checked)}
+                  className="mt-0.5 w-3.5 h-3.5 shrink-0 accent-black cursor-pointer"
+                />
+                <span className="text-[11px] text-neutral-600 font-light leading-relaxed">
+                  I wish to receive regular newsletters and updates about future news. <button type="button" className="underline hover:text-black transition-colors cursor-pointer">View more.</button> <span className="text-[10px] uppercase tracking-wider text-neutral-500">(Optional)</span>
+                </span>
+              </label>
+
+              <label className="flex items-start space-x-2.5 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={consentContact}
+                  onChange={(e) => setConsentContact(e.target.checked)}
+                  className="mt-0.5 w-3.5 h-3.5 shrink-0 accent-black cursor-pointer"
+                />
+                <span className="text-[11px] text-neutral-600 font-light leading-relaxed">
+                  I consent to sharing my contact number so the IHG Team can contact me via email. <span className="text-[10px] uppercase tracking-wider text-neutral-500">(Optional)</span>
+                </span>
+              </label>
+            </div>
+
+            {/* CTA */}
+            <div className="pt-4 border-t border-neutral-200">
               <button
                 type="submit"
                 disabled={submitting}
-                className="bg-black hover:bg-neutral-800 text-white py-3.5 rounded-xl font-medium tracking-wider uppercase text-xs transition-colors flex items-center justify-center space-x-2 cursor-pointer shadow-xs"
+                className="w-full bg-black hover:bg-neutral-800 text-white py-4 rounded-xl font-medium tracking-wider uppercase text-xs transition-colors cursor-pointer shadow-xs"
               >
-                <span>{submitting ? "Submitting Inquiry..." : "Submit Inquiry to Wedding Director"}</span>
-                <ArrowRight className="w-4 h-4" />
+                {submitting ? "Submitting…" : "Submit Query"}
               </button>
-
-              <a
-                href={getInstantWhatsAppUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border border-black text-black hover:bg-black hover:text-white py-3.5 rounded-xl font-medium tracking-wider uppercase text-xs transition-colors flex items-center justify-center space-x-2 text-center"
-              >
-                <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
-                <span>Instant Connect via WhatsApp</span>
-              </a>
             </div>
-
           </form>
 
-          {/* Interactive Hotel Selector Popup Overlay */}
-          <HotelSelectorModal
-            isOpen={hotelModalOpen}
-            selectedHotelIds={formData.selectedHotelIds || []}
-            onClose={() => setHotelModalOpen(false)}
-            onConfirmSelection={handleHotelSelectionSaved}
-          />
         </div>
 
       </div>
