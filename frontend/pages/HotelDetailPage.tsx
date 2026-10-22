@@ -46,7 +46,7 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage, co
     if (!isPaused && totalSlides > 1) {
       timerRef.current = setInterval(() => {
         setCurrentIndex((prev) => (prev + 1) % totalSlides);
-      }, 3200);
+      }, 1200);
     }
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -68,9 +68,6 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage, co
       className="space-y-3 group/carousel"
     >
       <div className="flex items-center justify-between text-xs text-neutral-500 font-sans">
-        <div className="flex items-center space-x-2">
-          <span className="text-[10px] text-neutral-400">({currentIndex + 1} of {totalSlides})</span>
-        </div>
 
         {/* Nav Indicators */}
         <div className="flex items-center space-x-2">
@@ -109,20 +106,20 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage, co
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
-            <span className="absolute bottom-2 left-3 z-10 text-[9px] font-sans uppercase tracking-widest text-white/90 font-semibold">
-              {currentSlide.isDraftDrawing ? 'Draft Layout' : currentSlide.caption} · {currentIndex + 1}/{totalSlides}
+            <span className="absolute bottom-2 left-3 z-10 text-[9px] font-sans uppercase tracking-widest text-black font-semibold bg-white/85 rounded-full px-2.5 py-1">
+              {currentSlide.isDraftDrawing ? 'Draft Layout' : currentSlide.caption}
             </span>
           </div>
 
           {/* Thumbnail strip — cyclic navigation below the main frame */}
-          <div className="flex items-center gap-1.5 px-3 py-2 bg-neutral-900/95">
+          <div className="flex items-center gap-1.5 px-3 py-2 bg-white border-t border-neutral-200">
             {slides.map((slide, sIdx) => (
               <button
                 key={sIdx}
                 type="button"
                 onClick={() => setCurrentIndex(sIdx)}
                 className={`shrink-0 w-16 aspect-video rounded-md overflow-hidden border transition-all cursor-pointer ${
-                  sIdx === currentIndex ? 'border-white opacity-100' : 'border-white/20 opacity-50 hover:opacity-80'
+                  sIdx === currentIndex ? 'border-black opacity-100' : 'border-neutral-300 opacity-60 hover:opacity-90'
                 }`}
                 aria-label={`Show slide ${sIdx + 1}: ${slide.caption}`}
               >
