@@ -885,7 +885,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               </div>
 
               {/* Venue Jump Pills — sticky index; click scrolls venue to top of viewport */}
-              <div ref={pillBarRef} className="sticky top-16 z-20 bg-white/95 backdrop-blur-sm py-2.5 border-y border-neutral-200">
+              <div ref={pillBarRef} className="sticky top-[110px] sm:top-[146px] z-20 bg-white/95 backdrop-blur-sm py-2.5 border-y border-neutral-200 shadow-sm">
                 <div className="flex flex-wrap items-center gap-1.5">
                   <span className="text-[9px] uppercase tracking-widest text-neutral-400 font-semibold mr-1.5">
                     Jump to
@@ -902,9 +902,9 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         const top = el.getBoundingClientRect().top + window.scrollY - offset;
                         window.scrollTo({ top, behavior: 'smooth' });
                       }}
-                      className="px-2.5 py-1 rounded-full text-[10px] font-sans font-medium tracking-wide border border-neutral-300 bg-white text-neutral-600 hover:border-black hover:text-black transition-colors cursor-pointer"
+                      className="px-3 py-1 rounded-full text-[10px] font-sans font-medium tracking-wide border border-neutral-300 bg-white text-neutral-600 hover:border-black hover:text-black transition-colors cursor-pointer whitespace-nowrap"
                     >
-                      {String(vIndex + 1).padStart(2, '0')}
+                      Venue {vIndex + 1} - Placeholder Text
                     </button>
                   ))}
                 </div>
