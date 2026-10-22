@@ -33,7 +33,7 @@ export const LegalInfoPage: React.FC<LegalInfoPageProps> = ({
             <button onClick={onNavigateBack} className="hover:text-black cursor-pointer">Exploration</button>
             <span>/</span>
             <span className="text-black font-medium">
-              {activeTab === 'terms' ? 'Terms & Conditions' : activeTab === 'privacy' ? 'Privacy Policy' : 'Frequently Asked Questions'}
+              {activeTab === 'privacy' ? 'Privacy Policy' : 'Terms & Conditions'}
             </span>
           </div>
 
