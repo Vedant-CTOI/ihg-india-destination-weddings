@@ -227,6 +227,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   const [previewModalOpen, setPreviewModalOpen] = useState<boolean>(false);
   const [activePreviewIndex, setActivePreviewIndex] = useState<number>(0);
   const [activePreviewSlides, setActivePreviewSlides] = useState<{ url: string; caption: string; isDraftDrawing: boolean; notes?: string }[]>([]);
+  const [activeVenueIndex, setActiveVenueIndex] = useState<number>(0);
 
   const handleOpenPreview = (
     slideIndex: number, 
@@ -883,42 +884,80 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 </p>
               </div>
 
-              {/* Loop over Venue 1, Venue 2, Venue 3 */}
-              <div className="space-y-12">
-                {(hotel.curatedSpaces || []).map((venue, vIndex) => (
-                  <div 
-                    key={vIndex} 
-                    className="p-6 sm:p-7 bg-neutral-50 rounded-3xl border border-neutral-200 space-y-6"
-                  >
-                    {/* Venue Header & Capacity Badge */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-neutral-200">
-                      <div>
-                        <span className="text-[9px] uppercase tracking-widest text-neutral-400 font-bold block mb-0.5">
-                          {venue.type}
-                        </span>
-                        <h4 className="font-serif text-xl sm:text-2xl font-normal text-black">
-                          {venue.name}
-                        </h4>
+              {/* Venue Tabs — one venue panel at a time so scroll stays short */}
+              <div className="space-y-6">
+                {/* Tab bar */}
+                <div className="flex flex-wrap items-center gap-2">
+                  {(hotel.curatedSpaces || []).map((venue, vIndex) => (
+                    <button
+                      key={vIndex}
+                      type="button"
+                      onClick={() => setActiveVenueIndex(vIndex)}
+                      className={
+                        'px-4 py-2 rounded-full text-[11px] font-sans font-medium tracking-wide border transition-colors cursor-pointer ' +
+                        (activeVenueIndex === vIndex
+                          ? 'bg-black text-white border-black'
+                          : 'bg-white text-neutral-600 border-neutral-300 hover:border-neutral-500')
+                      }
+                    >
+                      <span className="font-serif mr-1.5">{String(vIndex + 1).padStart(2, '0')}</span>
+                      {venue.name}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Active venue panel */}
+                {(() => {
+                  const venue = (hotel.curatedSpaces || [])[activeVenueIndex] || (hotel.curatedSpaces || [])[0];
+                  if (!venue) return null;
+                  return (
+                    <div className="p-6 sm:p-7 bg-neutral-50 rounded-3xl border border-neutral-200 space-y-6">
+                      {/* Venue Header & Capacity Badge */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-neutral-200">
+                        <div>
+                          <span className="text-[9px] uppercase tracking-widest text-neutral-400 font-bold block mb-0.5">
+                            {venue.type}
+                          </span>
+                          <h4 className="font-serif text-xl sm:text-2xl font-normal text-black">
+                            {venue.name}
+                          </h4>
+                        </div>
+
+                        <div className="bg-white border border-neutral-300 rounded-full px-3.5 py-1 text-xs font-sans text-black flex items-center space-x-1.5 shrink-0 self-start sm:self-auto shadow-2xs">
+                          <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
+                          <span className="font-medium">{venue.capacity}</span>
+                        </div>
                       </div>
 
-                      <div className="bg-white border border-neutral-300 rounded-full px-3.5 py-1 text-xs font-sans text-black flex items-center space-x-1.5 shrink-0 self-start sm:self-auto shadow-2xs">
-                        <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                        <span className="font-medium">{venue.capacity}</span>
+                      {/* Venue Description */}
+                      <p className="text-xs sm:text-sm text-neutral-700 font-light leading-relaxed">
+                        {venue.description}
+                      </p>
+
+                      {/* AUTOMATIC CAROUSEL: Photos + Draft Drawing Layout Picture + Preview Overlay Trigger */}
+                      <VenueCarousel 
+                        venue={venue} 
+                        onPreviewImage={handleOpenPreview}
+                      />
+
+                      {/* Venue pagination — venue X of N + next */}
+                      <div className="pt-4 border-t border-neutral-200 flex items-center justify-between text-[11px] text-neutral-500">
+                        <span className="uppercase tracking-wider">
+                          Venue {activeVenueIndex + 1} of {(hotel.curatedSpaces || []).length}
+                        </span>
+                        {(hotel.curatedSpaces || []).length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => setActiveVenueIndex((activeVenueIndex + 1) % (hotel.curatedSpaces || []).length)}
+                            className="text-black font-medium uppercase tracking-wider hover:text-neutral-600 transition-colors cursor-pointer"
+                          >
+                            Next Venue →
+                          </button>
+                        )}
                       </div>
                     </div>
-
-                    {/* Venue Description */}
-                    <p className="text-xs sm:text-sm text-neutral-700 font-light leading-relaxed">
-                      {venue.description}
-                    </p>
-
-                    {/* AUTOMATIC CAROUSEL: Photos + Draft Drawing Layout Picture + Preview Overlay Trigger */}
-                    <VenueCarousel 
-                      venue={venue} 
-                      onPreviewImage={handleOpenPreview}
-                    />
-                  </div>
-                ))}
+                  );
+                })()}
               </div>
             </div>
 
