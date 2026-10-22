@@ -69,25 +69,6 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage, co
     >
       <div className="flex items-center justify-between text-xs text-neutral-500 font-sans">
 
-        {/* Nav Indicators */}
-        <div className="flex items-center space-x-2">
-          <button
-            type="button"
-            onClick={handlePrev}
-            className="p-1 rounded border border-neutral-300 hover:border-black text-black bg-white transition-colors cursor-pointer"
-            aria-label="Previous venue image"
-          >
-            <ChevronLeft className="w-3 h-3" />
-          </button>
-          <button
-            type="button"
-            onClick={handleNext}
-            className="p-1 rounded border border-neutral-300 hover:border-black text-black bg-white transition-colors cursor-pointer"
-            aria-label="Next venue image"
-          >
-            <ChevronRight className="w-3 h-3" />
-          </button>
-        </div>
       </div>
 
       {compact ? (
@@ -989,35 +970,35 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     {/* BELOW: Key Highlights in 2 columns, airy spacing */}
                     <div className="px-5 py-4">
 
-                      {/* Key Highlights — 7 fields, 2-col grid with breathing room */}
-                      <div className="grid grid-cols-2 gap-x-8 gap-y-3 text-xs font-sans">
-                        <div>
+                      {/* Key Highlights — 4 top row + 3 bottom row, centered, equidistant */}
+                      <div className="grid grid-cols-4 gap-x-4 gap-y-3 text-xs font-sans">
+                        <div className="text-center">
                           <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Venue Size</span>
                           <span className="text-black font-medium leading-tight block">Lorem ipsum sq.ft</span>
                         </div>
-                        <div>
+                        <div className="text-center">
                           <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Seating Capacity</span>
                           <span className="text-black font-medium leading-tight block">Cluster · Classroom · Theatre</span>
                         </div>
-                        <div>
+                        <div className="text-center">
                           <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Floating Capacity</span>
                           <span className="text-black font-medium leading-tight block">Lorem ipsum guests</span>
                         </div>
-                        <div>
+                        <div className="text-center">
                           <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">In-Built Stage</span>
                           <span className="text-black font-medium leading-tight block">Lorem ipsum</span>
                         </div>
-                        <div>
+                        <div className="text-center">
                           <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Location</span>
                           <span className="text-black font-medium leading-tight block">Indoor / Outdoor / Poolside</span>
                         </div>
-                        <div>
+                        <div className="text-center">
                           <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Vendor Policies</span>
                           <span className="text-black font-medium leading-tight block">In-House / Outside</span>
                         </div>
-                        <div className="col-span-2">
+                        <div className="text-center">
                           <span className="text-neutral-400 uppercase tracking-wider text-[9px] font-semibold block leading-relaxed">Venue Timing Slots</span>
-                          <span className="text-black font-medium leading-tight block">Lorem ipsum dolor sit amet, consectetur</span>
+                          <span className="text-black font-medium leading-tight block">Lorem ipsum</span>
                         </div>
                       </div>
                     </div>
