@@ -985,33 +985,36 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         </h4>
                       </div>
 
-                      <div className="space-y-1.5 text-[11px] font-sans">
-                        <div className="flex justify-between gap-2 border-b border-neutral-200/70 pb-1">
-                          <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-semibold pt-0.5">Seating Capacity</span>
-                          <span className="text-black font-medium text-right">{venue.capacity}</span>
+                      {/* Key Highlights — 7 fields, 2-col dense grid (no height growth) */}
+                      <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-[11px] font-sans">
+                        <div className="border-b border-neutral-200/70 pb-1">
+                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">Venue Size</span>
+                          <span className="text-black font-medium leading-tight block">Lorem ipsum sq.ft</span>
                         </div>
-                        <div className="flex justify-between gap-2 border-b border-neutral-200/70 pb-1">
-                          <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-semibold pt-0.5">Floating Capacity</span>
-                          <span className="text-black font-medium text-right">Placeholder text</span>
+                        <div className="border-b border-neutral-200/70 pb-1">
+                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">Seating Capacity</span>
+                          <span className="text-black font-medium leading-tight block">Cluster · Classroom · Theatre</span>
                         </div>
-                        <div className="flex justify-between gap-2 border-b border-neutral-200/70 pb-1">
-                          <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-semibold pt-0.5">Venue Setting</span>
-                          <span className="text-black font-medium text-right">Placeholder text</span>
+                        <div className="border-b border-neutral-200/70 pb-1">
+                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">Floating Capacity</span>
+                          <span className="text-black font-medium leading-tight block">Lorem ipsum guests</span>
                         </div>
-                        <div className="flex justify-between gap-2">
-                          <span className="text-neutral-500 uppercase tracking-wider text-[9px] font-semibold pt-0.5">Poolside Setup</span>
-                          <span className="text-black font-medium text-right">Placeholder text</span>
+                        <div className="border-b border-neutral-200/70 pb-1">
+                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">In-Built Stage</span>
+                          <span className="text-black font-medium leading-tight block">Lorem ipsum</span>
                         </div>
-                      </div>
-
-                      {/* Amenities — 2 compact chips */}
-                      <div className="flex flex-wrap gap-1.5 mt-auto">
-                        {(venue.amenities || []).slice(0, 2).map((amenity, aIdx) => (
-                          <span key={aIdx} className="inline-flex items-center gap-1.5 border border-neutral-300 bg-white rounded-full px-2.5 py-1 text-[9px] font-sans text-neutral-700">
-                            <span aria-hidden="true" className="w-2.5 h-2.5 inline-block border border-current"></span>
-                            {amenity}
-                          </span>
-                        ))}
+                        <div className="border-b border-neutral-200/70 pb-1">
+                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">Location</span>
+                          <span className="text-black font-medium leading-tight block">Indoor / Outdoor / Poolside</span>
+                        </div>
+                        <div className="border-b border-neutral-200/70 pb-1">
+                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">Vendor Policies</span>
+                          <span className="text-black font-medium leading-tight block">In-House / Outside</span>
+                        </div>
+                        <div className="col-span-2 border-b border-neutral-200/70 pb-1">
+                          <span className="text-neutral-500 uppercase tracking-wider text-[8px] font-semibold block leading-tight">Venue Timing Slots</span>
+                          <span className="text-black font-medium leading-tight block">Lorem ipsum dolor sit amet, consectetur</span>
+                        </div>
                       </div>
                     </div>
                   </div>
