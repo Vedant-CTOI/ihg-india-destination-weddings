@@ -946,7 +946,17 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     id={`venue-anchor-${vIndex}`}
                     className="scroll-mt-28 bg-neutral-50 rounded-2xl border border-neutral-200 overflow-hidden flex flex-col"
                   >
-                    {/* TOP: 16:9 carousel media, full card width */}
+                    {/* TOP: venue title + one-line description */}
+                    <div className="px-5 pt-4 pb-3">
+                      <h4 className="font-serif text-lg sm:text-xl font-normal text-black leading-tight">
+                        Venue {vIndex + 1} - Placeholder Text
+                      </h4>
+                      <p className="text-[11px] text-neutral-500 font-light leading-relaxed mt-1 line-clamp-1">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
+                      </p>
+                    </div>
+
+                    {/* MIDDLE: 16:9 carousel media, full card width */}
                     <div>
                       <VenueCarousel 
                         venue={venue} 
