@@ -28,24 +28,21 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToLegal, onNavigateToS
 
             <div>
               <span className="text-[11px] uppercase tracking-wider text-white font-medium block mb-2">
-                Destinations
+                Contact Us
               </span>
               <ul className="space-y-1 text-[11px] text-white font-light">
-                <li>Destination 1</li>
-                <li>Destination 2</li>
-                <li>Destination 3</li>
-                <li>Destination 4</li>
+                <li>Phone: +91 98765 43210</li>
+                <li>Email: placeholder@example.com</li>
               </ul>
             </div>
 
             <div>
               <span className="text-[11px] uppercase tracking-wider text-white font-medium block mb-2">
-                Portfolio
+                Wedding Desk
               </span>
               <ul className="space-y-1 text-[11px] text-white font-light">
-                <li>Hotel 1</li>
-                <li>Hotel 2</li>
-                <li>Hotel 3</li>
+                <li>Phone: +91 91234 56780</li>
+                <li>Email: weddings@example.com</li>
               </ul>
             </div>
 
