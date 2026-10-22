@@ -89,10 +89,10 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
         <button
           type="button"
           onClick={onClose}
-          className="p-2 rounded-full hover:bg-neutral-200 text-neutral-600 hover:text-black transition-colors cursor-pointer"
+          className="p-2 rounded-full hover:bg-neutral-200 text-neutral-600 hover:text-black transition-colors cursor-pointer text-xl font-light leading-none"
           aria-label="Close selector"
         >
-          <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
+          ✕
         </button>
       </div>
 

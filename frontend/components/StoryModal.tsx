@@ -22,7 +22,7 @@ export const StoryModal: React.FC<StoryModalProps> = ({ wedding, onClose }) => {
           className="absolute top-4 right-4 z-20 bg-white/90 hover:bg-black hover:text-white p-1.5 rounded-full text-black transition-colors"
           aria-label="Close"
         >
-          <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
+          <span aria-hidden="true" className="text-xl font-light leading-none">✕</span>
         </button>
 
         <div className="relative h-60 w-full overflow-hidden bg-neutral-900">

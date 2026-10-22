@@ -56,7 +56,7 @@ export const VisualiseStudioModal: React.FC<VisualiseStudioModalProps> = ({
             className="p-1.5 rounded-full hover:bg-neutral-100 text-neutral-600 hover:text-black transition-colors"
             aria-label="Close Studio"
           >
-            <span aria-hidden="true" className="w-5 h-5 inline-block border border-current"></span>
+            <span aria-hidden="true" className="text-xl font-light leading-none">✕</span>
           </button>
         </div>
 

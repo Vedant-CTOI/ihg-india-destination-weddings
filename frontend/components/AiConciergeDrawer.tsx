@@ -79,7 +79,7 @@ export const AiConciergeDrawer: React.FC<AiConciergeDrawerProps> = ({ isOpen, on
         {/* Header */}
         <div className="p-4 border-b border-brand-border/60 flex items-center justify-between font-sans">
           <div className="flex items-center space-x-2">
-            <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
+            <span aria-hidden="true" className="text-xl font-light leading-none">✕</span>
             <span className="font-serif text-base text-brand-navy font-normal">Ask Riti</span>
             <span className="text-[10px] uppercase text-brand-muted tracking-wider">AI Concierge</span>
           </div>

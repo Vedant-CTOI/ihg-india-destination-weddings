@@ -29,7 +29,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
           className="absolute top-4 right-4 z-20 bg-white/95 hover:bg-black hover:text-white text-black p-2 rounded-full shadow-md transition-colors"
           aria-label="Close"
         >
-          <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
+          <span aria-hidden="true" className="text-xl font-light leading-none">✕</span>
         </button>
 
         {/* Hero Architectural Vistas */}

@@ -40,7 +40,7 @@ export const App: React.FC = () => {
 
   // Post-submission Consent & Notification popup states
   const [pendingInquiryData, setPendingInquiryData] = useState<InquiryFormData | null>(null);
-  const [consentFlowStep, setConsentFlowStep] = useState<'none' | 'consent' | 'notification'>('none');
+  const [consentFlowStep, setConsentFlowStep] = useState<'none' | 'consent'>('none');
 
   // Scroll to top whenever navigating to a separate page
   useEffect(() => {
@@ -111,21 +111,16 @@ export const App: React.FC = () => {
     setConsentFlowStep('consent');
   };
 
-  // Step 2: User accepts consent form popup -> Transition to notification popup
+  // Step 2: User accepts consent form popup -> flow complete, return home
   const handleAcceptConsent = () => {
-    setConsentFlowStep('notification');
+    setConsentFlowStep('none');
+    setPendingInquiryData(null);
+    handleNavigateHome();
   };
 
   // User cancels/goes back from consent form popup
   const handleCancelConsent = () => {
     setConsentFlowStep('none');
-  };
-
-  // Step 3: User acknowledges the notification popup -> Return back to exploration smoothly
-  const handleAcknowledgeNotification = () => {
-    setConsentFlowStep('none');
-    setPendingInquiryData(null);
-    handleNavigateHome();
   };
 
   return (
@@ -327,7 +322,6 @@ export const App: React.FC = () => {
         data={pendingInquiryData}
         onAcceptConsent={handleAcceptConsent}
         onCancelConsent={handleCancelConsent}
-        onAcknowledgeNotification={handleAcknowledgeNotification}
       />
 
       {/* 5. Floating Go-to-Top Button — on all pages */}
