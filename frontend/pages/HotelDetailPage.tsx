@@ -69,10 +69,6 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage, co
     >
       <div className="flex items-center justify-between text-xs text-neutral-500 font-sans">
         <div className="flex items-center space-x-2">
-          <span className="text-[10px] uppercase tracking-wider font-semibold text-black flex items-center space-x-1.5">
-            <span className="inline-block w-2 h-2 bg-black" />
-            <span>Venue Gallery &amp; Draft Layout</span>
-          </span>
           <span className="text-[10px] text-neutral-400">({currentIndex + 1} of {totalSlides})</span>
         </div>
 
