@@ -227,6 +227,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   const [previewModalOpen, setPreviewModalOpen] = useState<boolean>(false);
   const [activePreviewIndex, setActivePreviewIndex] = useState<number>(0);
   const [activePreviewSlides, setActivePreviewSlides] = useState<{ url: string; caption: string; isDraftDrawing: boolean; notes?: string }[]>([]);
+  const pillBarRef = useRef<HTMLDivElement>(null);
 
   const handleOpenPreview = (
     slideIndex: number, 
@@ -884,7 +885,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               </div>
 
               {/* Venue Jump Pills — sticky index; click scrolls venue to top of viewport */}
-              <div className="sticky top-16 z-30 bg-white/95 backdrop-blur-sm py-2.5 border-y border-neutral-200">
+              <div ref={pillBarRef} className="sticky top-16 z-20 bg-white/95 backdrop-blur-sm py-2.5 border-y border-neutral-200">
                 <div className="flex flex-wrap items-center gap-1.5">
                   <span className="text-[9px] uppercase tracking-widest text-neutral-400 font-semibold mr-1.5">
                     Jump to
@@ -895,7 +896,11 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                       type="button"
                       onClick={() => {
                         const el = document.getElementById(`venue-anchor-${vIndex}`);
-                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        if (!el) return;
+                        const barRect = (pillBarRef.current || {}).getBoundingClientRect ? pillBarRef.current.getBoundingClientRect() : { bottom: 64 };
+                        const offset = Math.max(64, barRect.bottom + 12);
+                        const top = el.getBoundingClientRect().top + window.scrollY - offset;
+                        window.scrollTo({ top, behavior: 'smooth' });
                       }}
                       className="px-2.5 py-1 rounded-full text-[10px] font-sans font-medium tracking-wide border border-neutral-300 bg-white text-neutral-600 hover:border-black hover:text-black transition-colors cursor-pointer"
                     >
