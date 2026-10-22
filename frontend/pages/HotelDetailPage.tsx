@@ -98,22 +98,47 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage, co
       </div>
 
       {compact ? (
-        <div
-          onClick={() => onPreviewImage(currentIndex, slides)}
-          className="relative w-full aspect-video overflow-hidden bg-neutral-900 cursor-pointer group/frame"
-          title="Click to preview full size in popup overlay"
-        >
-          <img
-            key={currentSlide.url}
-            src={currentSlide.url}
-            alt={`${venue.name} - ${currentSlide.caption}`}
-            className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter grayscale contrast-115 group-hover/frame:scale-103"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
-          <span className="absolute bottom-2 left-3 z-10 text-[9px] font-sans uppercase tracking-widest text-white/90 font-semibold">
-            {currentSlide.isDraftDrawing ? 'Draft Layout' : currentSlide.caption} · {currentIndex + 1}/{totalSlides}
-          </span>
+        <div className="flex flex-col">
+          {/* Main 16:9 frame — cyclic */}
+          <div
+            onClick={() => onPreviewImage(currentIndex, slides)}
+            className="relative w-full aspect-video overflow-hidden bg-neutral-900 cursor-pointer group/frame"
+            title="Click to preview full size in popup overlay"
+          >
+            <img
+              key={currentSlide.url}
+              src={currentSlide.url}
+              alt={`${venue.name} - ${currentSlide.caption}`}
+              className="absolute inset-0 w-full h-full object-cover transition-all duration-700 filter grayscale contrast-115 group-hover/frame:scale-103"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
+            <span className="absolute bottom-2 left-3 z-10 text-[9px] font-sans uppercase tracking-widest text-white/90 font-semibold">
+              {currentSlide.isDraftDrawing ? 'Draft Layout' : currentSlide.caption} · {currentIndex + 1}/{totalSlides}
+            </span>
+          </div>
+
+          {/* Thumbnail strip — cyclic navigation below the main frame */}
+          <div className="flex items-center gap-1.5 px-3 py-2 bg-neutral-900/95">
+            {slides.map((slide, sIdx) => (
+              <button
+                key={sIdx}
+                type="button"
+                onClick={() => setCurrentIndex(sIdx)}
+                className={`shrink-0 w-16 aspect-video rounded-md overflow-hidden border transition-all cursor-pointer ${
+                  sIdx === currentIndex ? 'border-white opacity-100' : 'border-white/20 opacity-50 hover:opacity-80'
+                }`}
+                aria-label={`Show slide ${sIdx + 1}: ${slide.caption}`}
+              >
+                <img
+                  src={slide.url}
+                  alt=""
+                  className="w-full h-full object-cover filter grayscale"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+              </button>
+            ))}
+          </div>
         </div>
       ) : (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
