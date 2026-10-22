@@ -124,34 +124,6 @@ export const AllStoriesPage: React.FC<AllStoriesPageProps> = ({
           </p>
         </div>
 
-        {/* Filter & Search Bar */}
-        <div className="bg-neutral-50 p-4 sm:p-5 rounded-2xl border border-neutral-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          
-          {/* Search Box */}
-          <div className="relative w-full md:w-72">
-            <input
-              type="text"
-              placeholder="Search by couple, city, or confluence..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border border-neutral-300 hover:border-black rounded-xl pl-9 pr-8 py-2 text-xs font-sans text-black placeholder:text-neutral-400 font-medium shadow-2xs focus:outline-none focus:border-black transition-colors"
-            />
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-neutral-400">
-              <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-            </div>
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery('')}
-                className="absolute inset-y-0 right-0 flex items-center pr-3 text-neutral-400 hover:text-black cursor-pointer"
-              >
-                <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-              </button>
-            )}
-          </div>
-
-        </div>
-
         {/* Stories Grid */}
         {filteredStories.length === 0 ? (
           <div className="text-center py-20 bg-neutral-50 rounded-2xl border border-dashed border-neutral-300 space-y-3">
