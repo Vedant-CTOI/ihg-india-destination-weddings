@@ -38,7 +38,6 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
   const [guestCount, setGuestCount] = useState('');
   const [notes, setNotes] = useState(prefilledHotel ? `Inquiry initiated for ${prefilledHotel}.` : '');
   const [occasion, setOccasion] = useState('Occasion 1');
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [selectedHotelIds, setSelectedHotelIds] = useState<string[]>(
     matchedHotel ? [matchedHotel.id] : []
   );
@@ -48,17 +47,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
   const [hotelModalOpen, setHotelModalOpen] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const availableHotels = useMemo(() => {
-    if (selectedCountries.length === 0) return HOTELS_DATA;
-    const regions = new Set(COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions));
-    return HOTELS_DATA.filter((h) => regions.has(h.region));
-  }, [selectedCountries]);
 
-  const toggleCountry = (label: string) => {
-    setSelectedCountries((prev) =>
-      prev.includes(label) ? prev.filter((x) => x !== label) : [...prev, label]
-    );
-  };
 
   const toggleHotel = (id: string) => {
     setSelectedHotelIds((prev) =>
@@ -74,7 +63,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
       email,
       phone: '',
       decisionRole: (formDataPersona === 'Family' ? 'Parent' : formDataPersona === 'Wedding Planner' ? 'Wedding Planner' : 'Bride') as UserPersona,
-      destinations: selectedCountries,
+      destinations: selectedDestinations.length > 0 ? selectedDestinations : [selectedCountry],
       selectedHotelIds,
       selectedHotelNames: HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => h.name),
       targetWindow: expectedDate || 'Dates to be finalized',
@@ -201,34 +190,28 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
               </div>
             </div>
 
-            {/* 3. Select Destination — country-level destination (multi-select) that filters hotels */}
-            <div>
-              <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Select Destination</label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* 3. Select Destination — Country dropdown + Destination multi-checkbox dropdown */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] text-neutral-600 font-medium mb-1.5">
-                  Country {selectedCountries.length > 0 && `(${selectedCountries.length} selected)`}
-                </label>
-                <div className="flex flex-wrap gap-1.5">
-                  {COUNTRY_OPTIONS.map((c) => {
-                    const active = selectedCountries.includes(c.label);
-                    return (
-                      <button
-                        type="button"
-                        key={c.label}
-                        onClick={() => toggleCountry(c.label)}
-                        className={`px-3 py-1.5 rounded-full border text-[11px] transition-all cursor-pointer ${
-                          active
-                            ? 'border-black bg-black text-white font-medium'
-                            : 'border-neutral-200 bg-white text-neutral-700 hover:border-black'
-                        }`}
-                      >
-                        {c.label}
-                      </button>
-                    );
-                  })}
-                </div>
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Country</label>
+                <select
+                  value={selectedCountry}
+                  onChange={(e) => { setSelectedCountry(e.target.value); setSelectedDestinations([]); }}
+                  className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium"
+                >
+                  {Object.keys(COUNTRY_DEST_MAP).map((c) => <option key={c} value={c}>{c}</option>)}
+                </select>
               </div>
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">
+                  Destination {selectedDestinations.length > 0 && `(${selectedDestinations.length} selected)`}
+                </label>
+                <DestinationDropdown
+                  selectedCountry={selectedCountry}
+                  selectedDestinations={selectedDestinations}
+                  onChange={setSelectedDestinations}
+                  inputCls="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs"
+                />
               </div>
             </div>
 
@@ -345,7 +328,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
           <HotelSelectorModal
             isOpen={hotelModalOpen}
             selectedHotelIds={selectedHotelIds}
-            regionFilter={selectedCountries.length > 0 ? COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions) : undefined}
+            hotelNameFilter={availableHotels.map((h) => h.name)}
             
           
             onClose={() => setHotelModalOpen(false)}

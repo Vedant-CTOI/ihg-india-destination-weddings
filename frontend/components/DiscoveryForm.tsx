@@ -3,6 +3,7 @@ import { InquiryFormData, UserPersona } from '../types';
 import { HOTELS_DATA } from '../constants';
 import { ArrowRight } from 'lucide-react';
 import { HotelSelectorModal } from './HotelSelectorModal';
+import { COUNTRY_DEST_MAP, DestinationDropdown } from './DestinationDropdown';
 
 interface DiscoveryFormProps {
   onSubmitSuccess?: (data: InquiryFormData) => void;
@@ -11,15 +12,7 @@ interface DiscoveryFormProps {
   preselectedHotelId?: string;
 }
 
-// Destination filter data:
-// 1. Countries — multi-select; maps to regions for hotel filtering
-const COUNTRY_OPTIONS = [
-  { label: 'Country 1', regions: ['North India'] },
-  { label: 'Country 2', regions: ['West India'] },
-  { label: 'Country 3', regions: ['South India'] },
-  { label: 'Country 4', regions: ['East India'] },
-];
-// 2. Regions — single-select refinement
+// Destination filter data — countries -> destinations -> hotels
 
 const OCCASIONS = ['Occasion 1', 'Occasion 2', 'Occasion 3', 'Occasion 4', 'Occasion 5'];
 
@@ -44,7 +37,8 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
   const [guestCount, setGuestCount] = useState('');
   const [notes, setNotes] = useState('');
   const [occasion, setOccasion] = useState('Occasion 1');
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [selectedCountry, setSelectedCountry] = useState('Country 1');
+  const [selectedDestinations, setSelectedDestinations] = useState<string[]>([]);
 
   const [selectedHotelIds, setSelectedHotelIds] = useState<string[]>(
     preselectedHotel ? [preselectedHotel.id] : []
@@ -52,16 +46,15 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
 
   // Two filters combine: selected countries (multi) AND region (single)
   const availableHotels = useMemo(() => {
-    if (selectedCountries.length === 0) return HOTELS_DATA;
-    const regions = new Set(COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions));
-    return HOTELS_DATA.filter((h) => regions.has(h.region));
-  }, [selectedCountries]);
+    const destMap = COUNTRY_DEST_MAP[selectedCountry] || {};
+    if (selectedDestinations.length === 0) {
+      const allHotelNames = Object.values(destMap).flat();
+      return HOTELS_DATA.filter((h) => allHotelNames.includes(h.name));
+    }
+    const names = selectedDestinations.flatMap((d) => destMap[d] || []);
+    return HOTELS_DATA.filter((h) => names.includes(h.name));
+  }, [selectedCountry, selectedDestinations]);
 
-  const toggleCountry = (label: string) => {
-    setSelectedCountries((prev) =>
-      prev.includes(label) ? prev.filter((x) => x !== label) : [...prev, label]
-    );
-  };
 
   const toggleHotel = (id: string) => {
     setSelectedHotelIds((prev) =>
@@ -80,7 +73,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
       email,
       phone: '',
       decisionRole: (formDataPersona === 'Family' ? 'Parent' : formDataPersona === 'Wedding Planner' ? 'Wedding Planner' : 'Bride') as UserPersona,
-      destinations: selectedCountries,
+      destinations: selectedDestinations.length > 0 ? selectedDestinations : [selectedCountry],
       selectedHotelIds,
       selectedHotelNames: HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => h.name),
       targetWindow: expectedDate || 'Dates to be finalized',
@@ -184,34 +177,26 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
               </div>
             </div>
 
-            {/* 3. Select Destination — country-level destination (multi-select) that filters hotels */}
-            <div>
-              <label className={labelCls}>Select Destination</label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* 3. Select Destination — Country dropdown + Destination multi-checkbox dropdown */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className={labelCls + " !text-neutral-600 normal-case tracking-normal font-medium"}>
-                  Country {selectedCountries.length > 0 && `(${selectedCountries.length} selected)`}
-                </label>
-                <div className="flex flex-wrap gap-1.5">
-                  {COUNTRY_OPTIONS.map((c) => {
-                    const active = selectedCountries.includes(c.label);
-                    return (
-                      <button
-                        type="button"
-                        key={c.label}
-                        onClick={() => toggleCountry(c.label)}
-                        className={`px-3 py-1.5 rounded-full border text-[11px] transition-all cursor-pointer ${
-                          active
-                            ? 'border-black bg-black text-white font-medium'
-                            : 'border-neutral-200 bg-white text-neutral-700 hover:border-black'
-                        }`}
-                      >
-                        {c.label}
-                      </button>
-                    );
-                  })}
-                </div>
+                <label className={labelCls}>Country</label>
+                <select
+                  value={selectedCountry}
+                  onChange={(e) => { setSelectedCountry(e.target.value); setSelectedDestinations([]); }}
+                  className={inputCls + " cursor-pointer font-medium"}
+                >
+                  {Object.keys(COUNTRY_DEST_MAP).map((c) => <option key={c} value={c}>{c}</option>)}
+                </select>
               </div>
+              <div>
+                <label className={labelCls}>Destination {selectedDestinations.length > 0 && `(${selectedDestinations.length} selected)`}</label>
+                <DestinationDropdown
+                  selectedCountry={selectedCountry}
+                  selectedDestinations={selectedDestinations}
+                  onChange={setSelectedDestinations}
+                  inputCls={inputCls}
+                />
               </div>
             </div>
 
@@ -326,7 +311,8 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
           <HotelSelectorModal
             isOpen={hotelModalOpen}
             selectedHotelIds={selectedHotelIds}
-            regionFilter={selectedCountries.length > 0 ? COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions) : undefined}
+            hotelNameFilter={availableHotels.map((h) => h.name)}
+            onClose={() => setHotelModalOpen(false)}
             
           
             onClose={() => setHotelModalOpen(false)}
