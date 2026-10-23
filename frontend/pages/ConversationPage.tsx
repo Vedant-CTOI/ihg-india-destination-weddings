@@ -28,7 +28,6 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
     { label: 'Country 3', regions: ['South India'] },
     { label: 'Country 4', regions: ['East India'] },
   ];
-  const REGION_OPTIONS = ['All Regions', 'North India', 'West India', 'South India', 'East India'];
   const OCCASIONS = ['Occasion 1', 'Occasion 2', 'Occasion 3', 'Occasion 4', 'Occasion 5'];
 
   const [formDataPersona, setFormDataPersona] = useState<string>('Bride or Groom');
@@ -40,7 +39,6 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
   const [notes, setNotes] = useState(prefilledHotel ? `Inquiry initiated for ${prefilledHotel}.` : '');
   const [occasion, setOccasion] = useState('Occasion 1');
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
-  const [selectedRegion, setSelectedRegion] = useState('All Regions');
   const [selectedHotelIds, setSelectedHotelIds] = useState<string[]>(
     matchedHotel ? [matchedHotel.id] : []
   );
@@ -51,16 +49,10 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
   const [submitting, setSubmitting] = useState(false);
 
   const availableHotels = useMemo(() => {
-    let hotels = HOTELS_DATA;
-    if (selectedCountries.length > 0) {
-      const regions = new Set(COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions));
-      hotels = hotels.filter((h) => regions.has(h.region));
-    }
-    if (selectedRegion !== 'All Regions') {
-      hotels = hotels.filter((h) => h.region === selectedRegion);
-    }
-    return hotels;
-  }, [selectedCountries, selectedRegion]);
+    if (selectedCountries.length === 0) return HOTELS_DATA;
+    const regions = new Set(COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions));
+    return HOTELS_DATA.filter((h) => regions.has(h.region));
+  }, [selectedCountries]);
 
   const toggleCountry = (label: string) => {
     setSelectedCountries((prev) =>
@@ -82,7 +74,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
       email,
       phone: '',
       decisionRole: (formDataPersona === 'Family' ? 'Parent' : formDataPersona === 'Wedding Planner' ? 'Wedding Planner' : 'Bride') as UserPersona,
-      destinations: selectedCountries.length > 0 ? selectedCountries : [selectedRegion],
+      destinations: selectedCountries,
       selectedHotelIds,
       selectedHotelNames: HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => h.name),
       targetWindow: expectedDate || 'Dates to be finalized',
@@ -237,13 +229,6 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
                   })}
                 </div>
               </div>
-              <div>
-                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Region</label>
-                <select value={selectedRegion} onChange={(e) => setSelectedRegion(e.target.value)}
-                  className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium">
-                  {REGION_OPTIONS.map((r) => <option key={r} value={r}>{r}</option>)}
-                </select>
-              </div>
               </div>
             </div>
 
@@ -360,7 +345,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
           <HotelSelectorModal
             isOpen={hotelModalOpen}
             selectedHotelIds={selectedHotelIds}
-            regionFilter={selectedCountries.length > 0 ? COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions) : (selectedRegion !== 'All Regions' ? [selectedRegion] : undefined)}
+            regionFilter={selectedCountries.length > 0 ? COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions) : undefined}
             
           
             onClose={() => setHotelModalOpen(false)}

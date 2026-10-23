@@ -20,7 +20,6 @@ const COUNTRY_OPTIONS = [
   { label: 'Country 4', regions: ['East India'] },
 ];
 // 2. Regions — single-select refinement
-const REGION_OPTIONS = ['All Regions', 'North India', 'West India', 'South India', 'East India'];
 
 const OCCASIONS = ['Occasion 1', 'Occasion 2', 'Occasion 3', 'Occasion 4', 'Occasion 5'];
 
@@ -46,7 +45,6 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
   const [notes, setNotes] = useState('');
   const [occasion, setOccasion] = useState('Occasion 1');
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
-  const [selectedRegion, setSelectedRegion] = useState('All Regions');
 
   const [selectedHotelIds, setSelectedHotelIds] = useState<string[]>(
     preselectedHotel ? [preselectedHotel.id] : []
@@ -54,16 +52,10 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
 
   // Two filters combine: selected countries (multi) AND region (single)
   const availableHotels = useMemo(() => {
-    let hotels = HOTELS_DATA;
-    if (selectedCountries.length > 0) {
-      const regions = new Set(COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions));
-      hotels = hotels.filter((h) => regions.has(h.region));
-    }
-    if (selectedRegion !== 'All Regions') {
-      hotels = hotels.filter((h) => h.region === selectedRegion);
-    }
-    return hotels;
-  }, [selectedCountries, selectedRegion]);
+    if (selectedCountries.length === 0) return HOTELS_DATA;
+    const regions = new Set(COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions));
+    return HOTELS_DATA.filter((h) => regions.has(h.region));
+  }, [selectedCountries]);
 
   const toggleCountry = (label: string) => {
     setSelectedCountries((prev) =>
@@ -88,7 +80,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
       email,
       phone: '',
       decisionRole: (formDataPersona === 'Family' ? 'Parent' : formDataPersona === 'Wedding Planner' ? 'Wedding Planner' : 'Bride') as UserPersona,
-      destinations: selectedCountries.length > 0 ? selectedCountries : [selectedRegion],
+      destinations: selectedCountries,
       selectedHotelIds,
       selectedHotelNames: HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => h.name),
       targetWindow: expectedDate || 'Dates to be finalized',
@@ -220,13 +212,6 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                   })}
                 </div>
               </div>
-              <div>
-                <label className={labelCls}>Region</label>
-                <select value={selectedRegion} onChange={(e) => setSelectedRegion(e.target.value)}
-                  className={inputCls + " cursor-pointer font-medium"}>
-                  {REGION_OPTIONS.map((r) => <option key={r} value={r}>{r}</option>)}
-                </select>
-              </div>
               </div>
             </div>
 
@@ -341,7 +326,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
           <HotelSelectorModal
             isOpen={hotelModalOpen}
             selectedHotelIds={selectedHotelIds}
-            regionFilter={selectedCountries.length > 0 ? COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions) : (selectedRegion !== 'All Regions' ? [selectedRegion] : undefined)}
+            regionFilter={selectedCountries.length > 0 ? COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions) : undefined}
             
           
             onClose={() => setHotelModalOpen(false)}
