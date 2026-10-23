@@ -247,13 +247,13 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   const pillBarRef = useRef<HTMLDivElement>(null);
 
   // Enquiry form state — new lean form (this hotel pre-selected)
-  const COUNTRY_DESTINATIONS = [
-    { label: 'All Destinations', regions: [] as string[] },
-    { label: 'Destination 1', regions: ['North India'] },
-    { label: 'Destination 2', regions: ['West India'] },
-    { label: 'Destination 3', regions: ['South India'] },
-    { label: 'Destination 4', regions: ['East India'] },
+  const COUNTRY_OPTIONS = [
+    { label: 'Country 1', regions: ['North India'] },
+    { label: 'Country 2', regions: ['West India'] },
+    { label: 'Country 3', regions: ['South India'] },
+    { label: 'Country 4', regions: ['East India'] },
   ];
+  const REGION_OPTIONS = ['All Regions', 'North India', 'West India', 'South India', 'East India'];
   const OCCASIONS = ['Occasion 1', 'Occasion 2', 'Occasion 3', 'Occasion 4', 'Occasion 5'];
   const [formDataPersona, setFormDataPersona] = useState<string>('Bride or Groom');
   const [firstName, setFirstName] = useState('');
@@ -263,14 +263,27 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   const [guestCount, setGuestCount] = useState('');
   const [notes, setNotes] = useState('');
   const [occasion, setOccasion] = useState('Occasion 1');
-  const [countryDestination, setCountryDestination] = useState('All Destinations');
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [selectedRegion, setSelectedRegion] = useState('All Regions');
   const [selectedHotelIds, setSelectedHotelIds] = useState<string[]>([hotel.id]);
 
   const availableHotels = useMemo(() => {
-    const chosen = COUNTRY_DESTINATIONS.find((c) => c.label === countryDestination);
-    if (!chosen || chosen.regions.length === 0) return HOTELS_DATA;
-    return HOTELS_DATA.filter((h) => chosen.regions.includes(h.region));
-  }, [countryDestination]);
+    let hotels = HOTELS_DATA;
+    if (selectedCountries.length > 0) {
+      const regions = new Set(COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions));
+      hotels = hotels.filter((h) => regions.has(h.region));
+    }
+    if (selectedRegion !== 'All Regions') {
+      hotels = hotels.filter((h) => h.region === selectedRegion);
+    }
+    return hotels;
+  }, [selectedCountries, selectedRegion]);
+
+  const toggleCountry = (label: string) => {
+    setSelectedCountries((prev) =>
+      prev.includes(label) ? prev.filter((x) => x !== label) : [...prev, label]
+    );
+  };
 
   const toggleHotel = (id: string) => {
     setSelectedHotelIds((prev) =>
@@ -323,7 +336,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
       email,
       phone: '',
       decisionRole: (formDataPersona === 'Family' ? 'Parent' : formDataPersona === 'Wedding Planner' ? 'Wedding Planner' : 'Bride') as UserPersona,
-      destinations: [countryDestination],
+      destinations: selectedCountries.length > 0 ? selectedCountries : [selectedRegion],
       selectedHotelIds,
       selectedHotelNames: HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => h.name),
       targetWindow: expectedDate || 'Dates to be finalized',
@@ -540,13 +553,39 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     </div>
                   </div>
 
-                  {/* 3. Destination filter */}
-                  <div>
-                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Destination</label>
-                    <select value={countryDestination} onChange={(e) => setCountryDestination(e.target.value)}
-                      className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium">
-                      {COUNTRY_DESTINATIONS.map((c) => <option key={c.label} value={c.label}>{c.label}</option>)}
-                    </select>
+                  {/* 3. Destination filters — country (multi-select) + region */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">
+                        Country {selectedCountries.length > 0 && `(${selectedCountries.length} selected)`}
+                      </label>
+                      <div className="flex flex-wrap gap-1.5">
+                        {COUNTRY_OPTIONS.map((c) => {
+                          const active = selectedCountries.includes(c.label);
+                          return (
+                            <button
+                              type="button"
+                              key={c.label}
+                              onClick={() => toggleCountry(c.label)}
+                              className={`px-3 py-1.5 rounded-full border text-[11px] transition-all cursor-pointer ${
+                                active
+                                  ? 'border-black bg-black text-white font-medium'
+                                  : 'border-neutral-200 bg-white text-neutral-700 hover:border-black'
+                              }`}
+                            >
+                              {c.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Region</label>
+                      <select value={selectedRegion} onChange={(e) => setSelectedRegion(e.target.value)}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium">
+                        {REGION_OPTIONS.map((r) => <option key={r} value={r}>{r}</option>)}
+                      </select>
+                    </div>
                   </div>
 
                   {/* 4. Hotels — popup with visual images; this hotel pre-selected */}
@@ -949,6 +988,9 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
       <HotelSelectorModal
         isOpen={hotelModalOpen}
         selectedHotelIds={selectedHotelIds}
+        regionFilter={selectedCountries.length > 0 ? COUNTRY_OPTIONS.filter((c) => selectedCountries.includes(c.label)).flatMap((c) => c.regions) : (selectedRegion !== 'All Regions' ? [selectedRegion] : undefined)}
+        
+      
         onClose={() => setHotelModalOpen(false)}
         onConfirmSelection={(ids) => setSelectedHotelIds(ids)}
       />

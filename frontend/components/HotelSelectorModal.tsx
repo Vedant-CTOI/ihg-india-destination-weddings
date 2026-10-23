@@ -5,6 +5,8 @@ import { HotelProperty } from '../types';
 interface HotelSelectorModalProps {
   isOpen: boolean;
   selectedHotelIds: string[];
+  /** When non-empty, restrict the popup list to these regions (from country filters in the form) */
+  regionFilter?: string[];
   onClose: () => void;
   onConfirmSelection: (selectedIds: string[], selectedNames: string[]) => void;
 }
@@ -12,6 +14,7 @@ interface HotelSelectorModalProps {
 export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
   isOpen,
   selectedHotelIds: initialSelectedIds,
+  regionFilter,
   onClose,
   onConfirmSelection
 }) => {
@@ -28,6 +31,9 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
 
   const filteredHotels = useMemo(() => {
     return HOTELS_DATA.filter((hotel) => {
+      if (regionFilter && regionFilter.length > 0 && !regionFilter.includes(hotel.region)) {
+        return false;
+      }
       if (cityFilter !== 'All' && hotel.city !== cityFilter) {
         return false;
       }
@@ -40,7 +46,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
       }
       return true;
     });
-  }, [cityFilter, searchQuery]);
+  }, [cityFilter, searchQuery, regionFilter]);
 
   if (!isOpen) return null;
 
