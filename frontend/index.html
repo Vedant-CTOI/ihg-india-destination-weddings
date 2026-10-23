@@ -112,6 +112,14 @@
       display: none !important;
     }
 
+    /* ─── DIALOG OVERLAY EXEMPTION — proper dim backdrop for popups ─── */
+    .fixed.inset-0[role="dialog"] {
+      background-color: rgba(0, 0, 0, 0.82) !important;
+    }
+    .fixed.inset-0[role="dialog"] img {
+      visibility: visible !important;
+    }
+
     /* ─── FOOTER EXEMPTION FROM WIREFRAME MODE ───
        Footer images render as real images; footer backgrounds stay black. */
     footer img {
