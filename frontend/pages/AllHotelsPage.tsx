@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { HOTELS_DATA } from '../constants';
 import { HotelProperty } from '../types';
 import { ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react';
+import { COUNTRY_DEST_MAP } from '../components/DestinationDropdown';
 
 interface AllHotelsPageProps {
   initialCity?: string;
@@ -19,6 +20,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
   const [selectedCity, setSelectedCity] = useState<string>(initialCity);
   const [selectedGenre, setSelectedGenre] = useState<string>('All Occasions');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedCountry, setSelectedCountry] = useState<string>('Country 1');
   const [popupHotel, setPopupHotel] = useState<HotelProperty | null>(null);
 
   // Available destinations across IHG's portfolio — display labels map to city data keys
@@ -45,6 +47,12 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
   // Filtered hotels list based on city, genre, and search query
   const filteredHotels = useMemo(() => {
     return HOTELS_DATA.filter((h) => {
+      // 0. Country filter (hotels belonging to the selected country)
+      const countryHotelNames = Object.values(COUNTRY_DEST_MAP[selectedCountry] || {}).flat();
+      if (countryHotelNames.length > 0 && !countryHotelNames.includes(h.name)) {
+        return false;
+      }
+
       // 1. City filter
       if (selectedCity !== 'All Cities' && h.city !== selectedCity) {
         return false;
@@ -69,7 +77,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
 
       return true;
     });
-  }, [selectedCity, selectedGenre, searchQuery]);
+  }, [selectedCity, selectedGenre, searchQuery, selectedCountry]);
 
   const handleOpenFullPage = (hotelId: string) => {
     setPopupHotel(null);
@@ -154,12 +162,34 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
         </div>
 
         {/* Filter Bar: City Filter + Capacity Range Dropdown + Hotel Search Bar */}
-        <div className="bg-neutral-50 p-4 sm:p-5 rounded-2xl border border-neutral-200 space-y-4">
+        <div className="bg-neutral-50 p-3 sm:p-4 rounded-2xl border border-neutral-200 space-y-3">
           
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-end">
             
-            {/* Filter 1: City in India Dropdown (4 cols) */}
-            <div className="md:col-span-4 space-y-1">
+            {/* Filter 0: Country Dropdown (2 cols) */}
+            <div className="md:col-span-2 space-y-1">
+              <label htmlFor="country-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
+                Filter by Country:
+              </label>
+              <div className="relative">
+                <select
+                  id="country-filter-dropdown"
+                  value={selectedCountry}
+                  onChange={(e) => setSelectedCountry(e.target.value)}
+                  className="w-full appearance-none bg-white border border-neutral-300 hover:border-black rounded-xl px-3 py-2.5 pr-9 text-xs font-sans text-black font-medium shadow-2xs focus:outline-none focus:border-black transition-colors cursor-pointer"
+                >
+                  {Object.keys(COUNTRY_DEST_MAP).map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-neutral-500">
+                  <ChevronDown className="w-4 h-4" />
+                </div>
+              </div>
+            </div>
+
+            {/* Filter 1: City in India Dropdown (3 cols) */}
+            <div className="md:col-span-3 space-y-1">
               <label htmlFor="city-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
                 Filter by Destination:
               </label>
@@ -183,7 +213,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
             </div>
 
             {/* Filter 2: Occasion Dropdown (4 cols) */}
-            <div className="md:col-span-4 space-y-1">
+            <div className="md:col-span-3 space-y-1">
               <label htmlFor="genre-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
                 Filter by Occasion:
               </label>
