@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { HOTELS_DATA } from '../constants';
 import { HotelProperty } from '../types';
 import { ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react';
+import { COUNTRY_DEST_MAP, DestinationDropdown } from '../components/DestinationDropdown';
 
 interface GenreListingPageProps {
   onNavigateBack: () => void;
@@ -17,6 +18,8 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
   onNavigateToDestinationProperties
 }) => {
   const [selectedCity, setSelectedCity] = useState<string>('All Cities');
+  const [selectedCountry, setSelectedCountry] = useState<string>('Country 1');
+  const [selectedDestinations, setSelectedDestinations] = useState<string[]>([]);
   const [selectedOccasion, setSelectedOccasion] = useState<string>('All Occasions');
   const [selectedGenre, setSelectedGenre] = useState<string>('All Genres');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -55,7 +58,16 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
 
   // Filtered hotels list based on city, occasion, and search query
   const filteredHotels = useMemo(() => {
+    // 0. Country + Destination filter (same as enquiry form)
+    const destMap = COUNTRY_DEST_MAP[selectedCountry] || {};
+    const allowedHotelNames = selectedDestinations.length === 0
+      ? Object.values(destMap).flat()
+      : selectedDestinations.flatMap((d) => destMap[d] || []);
+
     return HOTELS_DATA.filter((h) => {
+      if (!allowedHotelNames.includes(h.name)) {
+        return false;
+      }
       // 1. City filter
       if (selectedCity !== 'All Cities' && h.city !== selectedCity) {
         return false;
@@ -83,7 +95,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
 
       return true;
     });
-  }, [selectedCity, selectedOccasion, searchQuery]);
+  }, [selectedCity, selectedOccasion, searchQuery, selectedCountry, selectedDestinations]);
 
   const handleOpenDestinationProperties = (hotel: HotelProperty) => {
     onNavigateToDestinationProperties?.(hotel.city);
@@ -101,7 +113,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
     setSearchQuery('');
   };
 
-  const hasActiveFilters = selectedCity !== 'All Cities' || selectedOccasion !== 'All Occasions' || selectedGenre !== 'All Genres' || searchQuery.trim() !== '';
+  const hasActiveFilters = selectedDestinations.length > 0 || selectedCity !== 'All Cities' || selectedOccasion !== 'All Occasions' || selectedGenre !== 'All Genres' || searchQuery.trim() !== '';
 
   return (
     <div className="min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
@@ -160,27 +172,37 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
 
-            {/* Filter 1: City Dropdown (3 cols) */}
-            <div className="md:col-span-3 space-y-1">
-              <label htmlFor="dest-city-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
-                Filter by Destination:
-              </label>
-              <div className="relative">
-                <select
-                  id="dest-city-filter-dropdown"
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  className="w-full appearance-none bg-white border border-neutral-300 hover:border-black rounded-xl px-3.5 py-2.5 pr-9 text-xs font-sans text-black font-medium shadow-2xs focus:outline-none focus:border-black transition-colors cursor-pointer"
-                >
-                  {destinationOptions.map((dest) => (
-                    <option key={dest} value={dest}>
-                      {dest === 'All Cities' ? 'All Destinations' : dest.replace(/^Region (\d+)$/, 'Destination $1')}
-                    </option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-500">
-                  <ChevronDown className="w-4 h-4" />
+            {/* Filter 1: Country Dropdown + Destination multi-checkbox dropdown (6 cols) */}
+            <div className="md:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <label className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
+                  Filter by Country:
+                </label>
+                <div className="relative">
+                  <select
+                    value={selectedCountry}
+                    onChange={(e) => { setSelectedCountry(e.target.value); setSelectedDestinations([]); }}
+                    className="w-full appearance-none bg-white border border-neutral-300 hover:border-black rounded-xl px-3.5 py-2.5 pr-9 text-xs font-sans text-black font-medium shadow-2xs focus:outline-none focus:border-black transition-colors cursor-pointer"
+                  >
+                    {Object.keys(COUNTRY_DEST_MAP).map((c) => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-500">
+                    <ChevronDown className="w-4 h-4" />
+                  </div>
                 </div>
+              </div>
+              <div className="space-y-1">
+                <label className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
+                  Filter by Destination: {selectedDestinations.length > 0 && `(${selectedDestinations.length} selected)`}
+                </label>
+                <DestinationDropdown
+                  selectedCountry={selectedCountry}
+                  selectedDestinations={selectedDestinations}
+                  onChange={setSelectedDestinations}
+                  inputCls="w-full bg-white border border-neutral-300 hover:border-black rounded-xl px-3.5 py-2.5 text-xs font-sans text-black font-medium shadow-2xs focus:outline-none focus:border-black transition-colors"
+                />
               </div>
             </div>
 
