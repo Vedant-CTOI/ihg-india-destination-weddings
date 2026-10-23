@@ -168,13 +168,12 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
 
         {/* Filter Bar: City Filter + Occasion Dropdown + Hotel Search Bar */}
-        <div className="bg-neutral-50 p-4 sm:p-5 rounded-2xl border border-neutral-200 space-y-4">
+        <div className="bg-neutral-50 p-3 sm:p-4 rounded-2xl border border-neutral-200 space-y-3">
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-end">
 
-            {/* Filter 1: Country Dropdown + Destination multi-checkbox dropdown (6 cols) */}
-            <div className="md:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="space-y-1">
+            {/* Filter 1: Country Dropdown (2 cols) */}
+            <div className="md:col-span-2 space-y-1">
                 <label className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
                   Filter by Country:
                 </label>
@@ -192,8 +191,10 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                     <ChevronDown className="w-4 h-4" />
                   </div>
                 </div>
-              </div>
-              <div className="space-y-1">
+            </div>
+
+            {/* Filter 2: Destination multi-checkbox dropdown (2 cols) */}
+            <div className="md:col-span-2 space-y-1">
                 <label className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
                   Filter by Destination: {selectedDestinations.length > 0 && `(${selectedDestinations.length} selected)`}
                 </label>
@@ -203,11 +204,10 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                   onChange={setSelectedDestinations}
                   inputCls="w-full bg-white border border-neutral-300 hover:border-black rounded-xl px-3.5 py-2.5 text-xs font-sans text-black font-medium shadow-2xs focus:outline-none focus:border-black transition-colors"
                 />
-              </div>
             </div>
 
             {/* Filter 2: Occasion Dropdown (3 cols) */}
-            <div className="md:col-span-3 space-y-1">
+            <div className="md:col-span-2 space-y-1">
               <label htmlFor="dest-occasion-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
                 Filter by Occasion:
               </label>
@@ -231,7 +231,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
             </div>
 
             {/* Filter 3: Genre Dropdown (3 cols) */}
-            <div className="md:col-span-3 space-y-1">
+            <div className="md:col-span-2 space-y-1">
               <label htmlFor="dest-genre-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
                 Discover by Genre:
               </label>
@@ -255,7 +255,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
             </div>
 
             {/* Filter 4: Search Bar for Hotels (3 cols) */}
-            <div className="md:col-span-3 space-y-1">
+            <div className="md:col-span-4 space-y-1">
               <label htmlFor="dest-hotel-search-input" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
                 Search Destinations:
               </label>
