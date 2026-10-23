@@ -207,7 +207,10 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
               </label>
               <button
                 type="button"
-                onClick={() => setHotelModalOpen(true)}
+                onClick={() => {
+                  document.getElementById('discovery-form-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  setHotelModalOpen(true);
+                }}
                 className="w-full bg-white border border-neutral-300 hover:border-black rounded-xl p-2.5 text-left text-xs text-black flex items-center justify-between cursor-pointer transition-colors"
               >
                 <span className={selectedHotelIds.length ? 'font-medium' : 'text-neutral-400 font-light'}>
@@ -307,20 +310,19 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
 
           </form>
 
-          {/* Hotel selector popup with visual images */}
-          <HotelSelectorModal
-            isOpen={hotelModalOpen}
-            selectedHotelIds={selectedHotelIds}
-            hotelNameFilter={availableHotels.map((h) => h.name)}
-            onClose={() => setHotelModalOpen(false)}
-            
-          
-            onClose={() => setHotelModalOpen(false)}
-            onConfirmSelection={(ids) => setSelectedHotelIds(ids)}
-          />
+
         </div>
 
       </div>
+
+      {/* Hotel selector popup with visual images — page level */}
+      <HotelSelectorModal
+        isOpen={hotelModalOpen}
+        selectedHotelIds={selectedHotelIds}
+        hotelNameFilter={availableHotels.map((h) => h.name)}
+        onClose={() => setHotelModalOpen(false)}
+        onConfirmSelection={(ids) => setSelectedHotelIds(ids)}
+      />
     </section>
   );
 };

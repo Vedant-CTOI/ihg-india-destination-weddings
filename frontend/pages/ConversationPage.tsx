@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { InquiryFormData, UserPersona } from '../types';
 import { HOTELS_DATA } from '../constants';
 import { HotelSelectorModal } from '../components/HotelSelectorModal';
+import { COUNTRY_DEST_MAP, DestinationDropdown } from '../components/DestinationDropdown';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface ConversationPageProps {
@@ -22,13 +23,20 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
     ? HOTELS_DATA.find((h) => h.name.toLowerCase().includes(prefilledHotel.toLowerCase()))
     : undefined;
 
-  const COUNTRY_OPTIONS = [
-    { label: 'Country 1', regions: ['North India'] },
-    { label: 'Country 2', regions: ['West India'] },
-    { label: 'Country 3', regions: ['South India'] },
-    { label: 'Country 4', regions: ['East India'] },
-  ];
   const OCCASIONS = ['Occasion 1', 'Occasion 2', 'Occasion 3', 'Occasion 4', 'Occasion 5'];
+
+  const [selectedCountry, setSelectedCountry] = useState('Country 1');
+  const [selectedDestinations, setSelectedDestinations] = useState<string[]>([]);
+
+  const availableHotels = useMemo(() => {
+    const destMap = COUNTRY_DEST_MAP[selectedCountry] || {};
+    if (selectedDestinations.length === 0) {
+      const allHotelNames = Object.values(destMap).flat();
+      return HOTELS_DATA.filter((h) => allHotelNames.includes(h.name));
+    }
+    const names = selectedDestinations.flatMap((d) => destMap[d] || []);
+    return HOTELS_DATA.filter((h) => names.includes(h.name));
+  }, [selectedCountry, selectedDestinations]);
 
   const [formDataPersona, setFormDataPersona] = useState<string>('Bride or Groom');
   const [firstName, setFirstName] = useState('');

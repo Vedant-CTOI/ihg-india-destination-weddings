@@ -578,7 +578,10 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     </label>
                     <button
                       type="button"
-                      onClick={() => setHotelModalOpen(true)}
+                      onClick={() => {
+                        document.querySelector('.sticky.top-20')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        setHotelModalOpen(true);
+                      }}
                       className="w-full bg-white border border-neutral-300 hover:border-black rounded-xl p-2.5 text-left text-xs text-black flex items-center justify-between cursor-pointer transition-colors"
                     >
                       <span className={selectedHotelIds.length ? 'font-medium' : 'text-neutral-400 font-light'}>

@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { HOTELS_DATA } from '../constants';
 import { HotelProperty } from '../types';
 
@@ -76,8 +77,9 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
     onClose();
   };
 
-  return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 transition-opacity animate-fade-in font-sans"
+  return createPortal(
+    <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-6 font-sans"
+      style={{ backgroundColor: "rgba(0,0,0,0.82)" }}
       role="dialog"
       aria-modal="true"
       aria-label="Choose Hotels and Palaces"
@@ -85,6 +87,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
     >
     <div 
       className="relative bg-white rounded-3xl max-w-3xl w-full border border-neutral-300 shadow-2xl flex flex-col overflow-hidden my-auto"
+      style={{ maxHeight: '92vh' }}
       onClick={(e) => e.stopPropagation()}
     >
       {/* Overlay Header: Aligned with Form Padding */}
@@ -284,6 +287,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
       </div>
 
     </div>
-    </div>
+    </div>,
+    document.body
   );
 };
