@@ -553,10 +553,12 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     </div>
                   </div>
 
-                  {/* 3. Destination filters — country (multi-select) + region */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* 3. Select Destination — country-level destination (multi-select) that filters hotels */}
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Select Destination</label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">
+                      <label className="block text-[11px] text-neutral-600 font-medium mb-1">
                         Country {selectedCountries.length > 0 && `(${selectedCountries.length} selected)`}
                       </label>
                       <div className="flex flex-wrap gap-1.5">
@@ -585,6 +587,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium">
                         {REGION_OPTIONS.map((r) => <option key={r} value={r}>{r}</option>)}
                       </select>
+                    </div>
                     </div>
                   </div>
 

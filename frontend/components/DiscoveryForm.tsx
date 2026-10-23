@@ -192,10 +192,12 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
               </div>
             </div>
 
-            {/* 3. Destination filters — country (multi-select) + region */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* 3. Select Destination — country-level destination (multi-select) that filters hotels */}
+            <div>
+              <label className={labelCls}>Select Destination</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className={labelCls}>
+                <label className={labelCls + " !text-neutral-600 normal-case tracking-normal font-medium"}>
                   Country {selectedCountries.length > 0 && `(${selectedCountries.length} selected)`}
                 </label>
                 <div className="flex flex-wrap gap-1.5">
@@ -224,6 +226,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                   className={inputCls + " cursor-pointer font-medium"}>
                   {REGION_OPTIONS.map((r) => <option key={r} value={r}>{r}</option>)}
                 </select>
+              </div>
               </div>
             </div>
 
