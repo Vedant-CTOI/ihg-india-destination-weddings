@@ -65,11 +65,15 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
   };
 
   return (
-    <div 
-      className="absolute inset-0 z-40 bg-white rounded-3xl border-2 border-black/80 shadow-2xl flex flex-col justify-between overflow-hidden animate-fade-in font-sans"
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 transition-opacity animate-fade-in font-sans"
       role="dialog"
       aria-modal="true"
       aria-label="Choose Hotels and Palaces"
+      onClick={onClose}
+    >
+    <div 
+      className="relative bg-white rounded-3xl max-w-3xl w-full border border-neutral-300 shadow-2xl flex flex-col overflow-hidden my-auto"
+      onClick={(e) => e.stopPropagation()}
     >
       {/* Overlay Header: Aligned with Form Padding */}
       <div className="p-5 sm:p-7 border-b border-neutral-200 flex items-center justify-between bg-neutral-50 shrink-0">
@@ -267,6 +271,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
         </div>
       </div>
 
+    </div>
     </div>
   );
 };
