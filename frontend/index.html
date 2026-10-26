@@ -621,6 +621,24 @@
   }
   html.layout-mobile #ihg-sticky-submit.ihg-sticky-on { display: block; }
 
+  /* ═══ MOBILE v12 — landing polish ═══ */
+  /* 2. Hero: photo-led — title lower-left over image, eyebrow+counter one thin line */
+  html.layout-mobile #root [aria-roledescription] h1 { font-size: 1.5rem !important; line-height: 1.15 !important; }
+  html.layout-mobile #root [aria-roledescription] p { display: none !important; } /* subtext already hidden; belt */
+  html.layout-mobile #root [aria-roledescription] .text-\[10px\] { font-size: 8px !important; letter-spacing: 0.18em !important; }
+
+  /* 3. Form card density: desktop 48px card padding -> mobile 16px; tighter label gaps */
+  html.layout-mobile #root .relative.bg-white.rounded-3xl { padding: 16px !important; border-radius: 16px !important; }
+  html.layout-mobile #root form.space-y-5, html.layout-mobile #root form.space-y-7 { row-gap: 12px !important; }
+  html.layout-mobile #root form label { margin-bottom: 4px !important; }
+
+  /* 4. Loyalty + About compaction */
+  html.layout-mobile #root section p.text-sm { max-height: 3.2em; overflow: hidden; }
+
+  /* 5. Micro-details: footer links + go-to-top to mobile tap targets */
+  html.layout-mobile #root footer button, html.layout-mobile #root footer li { min-height: 40px !important; display: flex; align-items: center; }
+  html.layout-mobile button[aria-label="Go to top"] { bottom: 64px !important; right: 12px !important; width: 40px !important; height: 40px !important; }
+
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
   html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
