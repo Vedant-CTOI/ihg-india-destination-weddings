@@ -513,6 +513,39 @@
   html.layout-mobile #root .stories-rail-prev { left: 6px !important; right: auto !important; }
   html.layout-mobile #root .stories-rail-next { right: 6px !important; left: auto !important; }
 
+  /* ═══ MOBILE v10 — unify arrows + black hotel overlay + footer columns ═══ */
+  /* All carousel arrows: identical 40px white circles, neutral border, black icon */
+  html.layout-mobile #root section button[aria-label="Previous splash slide"],
+  html.layout-mobile #root section button[aria-label="Next splash slide"],
+  html.layout-mobile #root section button[aria-label="Previous wedding genre"],
+  html.layout-mobile #root section button[aria-label="Next wedding genre"],
+  html.layout-mobile #root section button[aria-label="Previous hotels"],
+  html.layout-mobile #root section button[aria-label="Next hotels"],
+  html.layout-mobile #root section button[aria-label="Previous wedding stories"],
+  html.layout-mobile #root section button[aria-label="Next wedding stories"],
+  html.layout-mobile #root section button.stories-rail-arrow.stories-rail-prev,
+  html.layout-mobile #root section button.stories-rail-arrow.stories-rail-next {
+    background: #ffffff !important; background-color: #ffffff !important;
+    border: 1px solid #d4d4d4 !important;
+    color: #000000 !important; box-shadow: 0 2px 8px rgba(0,0,0,.18) !important;
+    backdrop-filter: none !important; opacity: 1 !important;
+  }
+  html.layout-mobile #root section button[aria-label="Previous hotels"]:disabled,
+  html.layout-mobile #root section button[aria-label="Next hotels"]:disabled { opacity: .4 !important; }
+
+  /* Hotel card: black gradient overlay like destination cards, white dummy text */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) {
+    background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.25) 60%, transparent) !important;
+    color: #ffffff !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) h3 { color: #fff !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) span,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) div { color: #ffffff !important; }
+
+  /* Footer: Contact Us + Governance & Trust side by side (brand block spans full width) */
+  html.layout-mobile #root footer .grid.grid-cols-2.md\:grid-cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  html.layout-mobile #root footer .grid.grid-cols-2.md\:grid-cols-3 > div:first-child { grid-column: 1 / -1 !important; }
+
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
   html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
