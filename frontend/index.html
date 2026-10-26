@@ -560,15 +560,15 @@
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl { border-radius: 12px !important; border-color: #d4d4d4 !important; }
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child { height: 264px !important; min-height: 264px !important; max-height: 264px !important; }
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl img { height: 264px !important; max-height: 264px !important; }
-  /* overlay: white gradient like destinations, black serif text */
+  /* overlay: dark scrim, white text (name + rooms + capacity read on the image) */
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) {
-    background: linear-gradient(to top, rgba(255,255,255,.95), rgba(255,255,255,.40) 55%, transparent) !important;
-    color: #000000 !important;
+    background: linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,0)) !important;
+    color: #ffffff !important;
   }
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) h3,
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) span,
-  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) div { color: #000000 !important; }
-  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) h3 { font-family: Georgia, 'Times New Roman', serif !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) div,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) p { color: #ffffff !important; }
 
   /* Persona: mobile = single-select dropdown; web = the 3 buttons (source renders both, CSS picks) */
   html.layout-mobile #root .persona-buttons-web { display: none !important; }
@@ -664,6 +664,32 @@
   /* F. Persona label hidden (select is self-describing) */
   html.layout-mobile #root form .persona-select-mobile { margin-top: 0 !important; }
   html.layout-mobile #root form label:has(+ .persona-select-mobile) { display: none !important; }
+
+  /* ═══ MOBILE v14 — hotels rail ═══ */
+  /* 1. Hotels rail arrows: light grey circle, dark grey chevron (beats unify rules) */
+  html.layout-mobile #root section button[aria-label="Previous hotels"],
+  html.layout-mobile #root section button[aria-label="Next hotels"] {
+    background: #e5e5e5 !important; background-color: #e5e5e5 !important;
+    border: 1px solid #d4d4d4 !important;
+    box-shadow: none !important;
+  }
+  html.layout-mobile #root section button[aria-label="Previous hotels"] svg,
+  html.layout-mobile #root section button[aria-label="Next hotels"] svg { color: #404040 !important; }
+
+  /* 2. Hotel card: text overlay on image — dark scrim, WHITE text (beats old white-gradient rule) */
+  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child {
+    position: absolute !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+    background: linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0)) !important;
+    background-image: linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0)) !important;
+    color: #ffffff !important; padding: 10px 10px 8px !important; z-index: 2 !important;
+  }
+  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child,
+  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child h3,
+  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child span,
+  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child p,
+  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child h3 *,
+  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child span *,
+  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child p * { color: #ffffff !important; }
 
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
