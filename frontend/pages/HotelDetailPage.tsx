@@ -779,33 +779,6 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               </div>
 
               {/* Venue Jump Pills — sticky index; click scrolls venue to top of viewport */}
-              {(hotel.curatedSpaces || []).length > 6 ? (
-              <div ref={pillBarRef} className="sticky top-[110px] sm:top-[146px] z-20 bg-white/95 backdrop-blur-sm py-2 border-y border-neutral-200 shadow-sm">
-                <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
-                  {(hotel.curatedSpaces || []).map((venue, vIndex) => (
-                    <button
-                      key={vIndex}
-                      type="button"
-                      onClick={() => {
-                        const el = document.getElementById(`venue-anchor-${vIndex}`);
-                        if (!el) return;
-                        const barRect = (pillBarRef.current || {}).getBoundingClientRect ? pillBarRef.current.getBoundingClientRect() : { bottom: 64 };
-                        const offset = Math.max(64, barRect.bottom + 12);
-                        const top = el.getBoundingClientRect().top + window.scrollY - offset;
-                        window.scrollTo({ top, behavior: 'smooth' });
-                      }}
-                      className="shrink-0 rounded-full border border-neutral-300 bg-white hover:border-black hover:bg-neutral-50 transition-colors cursor-pointer group/thmb px-3.5 py-1.5 text-[10px] font-sans font-medium text-neutral-700 group-hover/thmb:text-black whitespace-nowrap"
-                      aria-label={`Jump to Venue ${vIndex + 1}`}
-                    >
-                      <span className="inline-flex items-center gap-1.5">
-                        <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-neutral-300 group-hover/thmb:bg-black transition-colors inline-block"></span>
-                        Venue {vIndex + 1} - {venue.capacity}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-              ) : (
               <div ref={pillBarRef} className="sticky top-[110px] sm:top-[146px] z-20 bg-white/95 backdrop-blur-sm py-2.5 border-y border-neutral-200 shadow-sm">
                 <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5">
                   {(hotel.curatedSpaces || []).map((venue, vIndex) => (
@@ -839,7 +812,6 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                   ))}
                 </div>
               </div>
-              )}
 
               {/* Venue cards — compact: stacked, scrollable, one anchor each */}
               <div className="space-y-5">
