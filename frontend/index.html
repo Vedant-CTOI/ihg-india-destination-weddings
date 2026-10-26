@@ -691,6 +691,13 @@
   html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child span *,
   html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child p * { color: #ffffff !important; }
 
+  /* ═══ MOBILE v16 — hotels rail: image-only cards, no arrows ═══ */
+  /* hotel card text block hidden entirely */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) { display: none !important; }
+  /* hotels rail arrows hidden */
+  html.layout-mobile #root section button[aria-label="Previous hotels"],
+  html.layout-mobile #root section button[aria-label="Next hotels"] { display: none !important; }
+
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
   html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
