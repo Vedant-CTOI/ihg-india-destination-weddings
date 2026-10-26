@@ -376,12 +376,24 @@
     transform: translateX(-50%) !important; margin: 0 !important; z-index: 5;
   }
 
-  /* 2. Destination card: remove black capsule + slide dots row under it */
-  html.layout-mobile #root section:nth-of-type(3) .relative .absolute.bg-black,
-  html.layout-mobile #root section:nth-of-type(3) .snap-start .bg-black,
-  html.layout-mobile #root section:nth-of-type(3) .absolute.rounded-full.bg-black,
-  html.layout-mobile #root section:nth-of-type(3) .flex.items-center.justify-center.gap-2,
-  html.layout-mobile #root section:nth-of-type(3) .bg-black\/85, html.layout-mobile #root section:nth-of-type(3) .bg-black\/80 { display: none !important; }
+  /* 2. Destination card: remove black capsule pill + slide dots row + progress line */
+  html.layout-mobile #root section:nth-of-type(3) span.bg-black.rounded-full { display: none !important; }
+  html.layout-mobile #root section:nth-of-type(3) .flex.justify-center.items-center[class*="space-x-1"] { display: none !important; }
+  html.layout-mobile #root section:nth-of-type(3) .absolute.top-0.h-0\.5 { display: none !important; }
+  /* CTA button: match other section CTAs (View All style, compact) */
+  html.layout-mobile #root section:nth-of-type(3) .flex.items-center.gap-3 > button { min-height: 44px !important; min-width: 200px !important; padding: 11px 20px !important; font-size: 11px !important; justify-content: center !important; }
+
+  /* 3. Hotel cards: name + guests/rooms caption below image; hide region/genre/mandap lines */
+  html.layout-mobile #root .snap-start .group .text-\[10px\], html.layout-mobile #root .snap-start .group .text-\[11px\] { font-size: 10px !important; }
+  html.layout-mobile #root .snap-start .group p { display: none !important; }
+  html.layout-mobile #root .snap-start .group .flex.items-center.gap-4, html.layout-mobile #root .snap-start .group .flex.items-center.space-x-4 { gap: 10px !important; margin-top: 2px !important; }
+
+  /* 4. Stories carousel: text overlaid ON the image (title + region), body text hidden */
+  html.layout-mobile #root section:nth-of-type(5) .grid.md\:grid-cols-3 article { position: relative !important; overflow: hidden !important; }
+  html.layout-mobile #root section:nth-of-type(5) .grid.md\:grid-cols-3 article > div:last-child:not(:first-child) { display: none !important; }
+  html.layout-mobile #root section:nth-of-type(5) .grid.md\:grid-cols-3 article .relative { height: 240px !important; }
+  html.layout-mobile #root section:nth-of-type(5) .grid.md\:grid-cols-3 article .absolute { position: absolute !important; }
+  html.layout-mobile #root section:nth-of-type(5) .grid.md\:grid-cols-3 article .relative .absolute.inset-0 { display: flex !important; flex-direction: column !important; justify-content: flex-end !important; padding: 12px !important; background: linear-gradient(to top, rgba(255,255,255,.92), rgba(255,255,255,.15)) !important; }
 
   /* 3. Hotel cards: name (h3) below card -> overlay title removed, show under image */
   html.layout-mobile #root .snap-start .group .absolute { position: static !important; }
