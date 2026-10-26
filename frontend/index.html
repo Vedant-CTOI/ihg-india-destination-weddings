@@ -692,8 +692,27 @@
   html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child p * { color: #ffffff !important; }
 
   /* ═══ MOBILE v16 — hotels rail: image-only cards, no arrows ═══ */
-  /* hotel card text block hidden entirely */
+  /* hotel card: replicate destination card look — title h3 overlaid at image bottom on dark
+     gradient scrim (white serif); ALL other card text hidden. Structure-agnostic: works wherever
+     the h3 sits inside the card. */
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) { display: none !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl h3 {
+    position: absolute !important; left: 12px !important; bottom: 10px !important;
+    margin: 0 !important; padding: 0 !important; z-index: 4 !important;
+    font-size: 16px !important; line-height: 1.2 !important; color: #ffffff !important;
+    font-family: Georgia, 'Times New Roman', serif !important; text-align: left !important;
+  }
+  /* scrim under the title: pseudo-element on the media box */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child::after {
+    content: '' !important; position: absolute !important; left: 0 !important; right: 0 !important;
+    bottom: 0 !important; height: 64px !important; z-index: 3 !important;
+    background: linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,0)) !important; pointer-events: none !important;
+  }
+  /* hide all text spans/paras inside the card except the h3 and its descendants */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl span,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl p,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl button { display: none !important; }
+
   /* hotels rail arrows hidden */
   html.layout-mobile #root section button[aria-label="Previous hotels"],
   html.layout-mobile #root section button[aria-label="Next hotels"] { display: none !important; }
