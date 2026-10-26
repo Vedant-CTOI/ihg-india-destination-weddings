@@ -484,7 +484,17 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                   {/* 1. Persona */}
                   <div>
                     <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Persona</label>
-                    <div className="grid grid-cols-3 gap-1.5">
+                    <select
+                      value={formDataPersona}
+                      onChange={(e) => setFormDataPersona(e.target.value)}
+                      className="persona-select-mobile w-full border border-neutral-300 rounded-xl px-3 py-2.5 text-sm font-sans bg-white cursor-pointer hidden"
+                      aria-label="Persona"
+                    >
+                      {(['Bride or Groom', 'Family', 'Wedding Planner'] as string[]).map((o) => (
+                        <option key={o} value={o}>{o}</option>
+                      ))}
+                    </select>
+                    <div className="persona-buttons-web grid grid-cols-3 gap-1.5">
                       {(['Bride or Groom', 'Family', 'Wedding Planner'] as string[]).map((persona) => {
                         const isSelected = formDataPersona === persona;
                         return (

@@ -136,7 +136,17 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
             {/* 1. Persona */}
             <div>
               <label className="font-serif text-lg text-black font-normal block mb-2">Persona</label>
-              <div className="grid grid-cols-3 gap-2">
+              <select
+                value={formDataPersona}
+                onChange={(e) => setFormDataPersona(e.target.value)}
+                className="persona-select-mobile w-full border border-neutral-300 rounded-xl px-3 py-2.5 text-sm font-sans bg-white cursor-pointer hidden"
+                aria-label="Persona"
+              >
+                {(['Bride or Groom', 'Family', 'Wedding Planner'] as string[]).map((o) => (
+                  <option key={o} value={o}>{o}</option>
+                ))}
+              </select>
+              <div className="persona-buttons-web grid grid-cols-3 gap-2">
                 {(['Bride or Groom', 'Family', 'Wedding Planner'] as string[]).map((persona) => {
                   const isSelected = formDataPersona === persona;
                   return (
@@ -223,7 +233,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
               </div>
             </div>
 
-            {/* 4. Hotels — multi-select, filtered by destination, pre-filled hotel stays */}
+            {/* 4. Hotels — popup multi-select (same as landing form), filtered by destination */}
             <div>
               <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">
                 Select Hotels {selectedHotelIds.length > 0 && `(${selectedHotelIds.length} selected — enquiry routes to all)`}
@@ -231,24 +241,15 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
               {availableHotels.length === 0 ? (
                 <p className="text-neutral-400 font-light">No hotels in this destination yet.</p>
               ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                  {availableHotels.map((h) => {
-                    const selected = selectedHotelIds.includes(h.id);
-                    return (
-                      <button
-                        type="button"
-                        key={h.id}
-                        onClick={() => toggleHotel(h.id)}
-                        className={`px-3 py-2 rounded-lg border text-left text-[11px] transition-all cursor-pointer ${
-                          selected
-                            ? 'border-black bg-black text-white font-medium'
-                            : 'border-neutral-200 bg-white text-neutral-700 hover:border-black'
-                        }`}
-                      >
-                        {h.name}
-                      </button>
-                    );
-                  })}
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setHotelModalOpen(true)}
+                    className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-left text-black cursor-pointer flex items-center justify-between"
+                  >
+                    <span>{selectedHotelIds.length > 0 ? `${selectedHotelIds.length} selected` : 'Choose properties'}</span>
+                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
+                  </button>
                 </div>
               )}
               {selectedHotelIds.length > 0 && (
@@ -340,7 +341,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
             
           
             onClose={() => setHotelModalOpen(false)}
-            onConfirmSelection={(ids) => setSelectedHotelIds(ids)}
+            onConfirmSelection={(ids, _names) => setSelectedHotelIds(ids)}
           />
 
         </div>
