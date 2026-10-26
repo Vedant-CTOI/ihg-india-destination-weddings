@@ -471,6 +471,20 @@
   html.layout-mobile header { position: sticky !important; top: 0 !important; z-index: 50 !important; }
   html.layout-mobile #root { overflow: visible !important; }
 
+  /* ═══ MOBILE v10 — UNIFIED CTA SYSTEM: black pill, white text, 44px, 11px font ═══ */
+  html.layout-mobile #root section button.bg-black,
+  html.layout-mobile #root section button.border.border-neutral-300,
+  html.layout-mobile #root section button.border.border-black,
+  html.layout-mobile #root section .text-center.mt-10 button,
+  html.layout-mobile #root form button.bg-black {
+    background-color: #000 !important; color: #fff !important;
+    border: 0 !important; border-radius: 9999px !important;
+    min-height: 44px !important; min-width: 200px !important;
+    padding: 11px 22px !important; font-size: 11px !important;
+    box-shadow: none !important;
+    display: inline-flex !important; justify-content: center !important; align-items: center !important;
+  }
+
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
   html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
