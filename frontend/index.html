@@ -301,6 +301,31 @@
   html.layout-mobile #root .p-6 { padding: 14px !important; }
   html.layout-mobile #root .p-8 { padding: 16px !important; }
 
+  /* ═══ MOBILE v4 — LANDING PAGE PASS (selector-verified) ═══ */
+  /* Stories: 3 cards -> compact media+title cards */
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 { gap: 10px !important; }
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article { display: flex !important; flex-direction: column !important; }
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article > div:first-child { height: 200px !important; min-height: 200px !important; max-height: 200px !important; overflow: hidden !important; }
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article img { height: 200px !important; max-height: 200px !important; object-fit: cover !important; }
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article h3 { font-size: 15px !important; margin: 6px 0 2px !important; }
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article button { padding: 6px 12px !important; font-size: 9px !important; }
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article .space-y-2, html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article .space-y-3 { margin: 4px 0 !important; }
+
+  /* About: the lg:grid-cols-12 block — collapse gaps, clamp stats row */
+  html.layout-mobile #root .grid.grid-cols-1.lg\:grid-cols-12 { gap: 18px !important; }
+  html.layout-mobile #root .grid.grid-cols-1.lg\:grid-cols-12 .aspect-\[4\/3\] { aspect-ratio: 3/2 !important; }
+  html.layout-mobile #root .max-w-2xl.mx-auto.mb-12 { margin-bottom: 14px !important; }
+
+  /* Form card: squeeze internal spacing */
+  html.layout-mobile #root .relative.bg-white.rounded-3xl { padding-top: 18px !important; padding-bottom: 18px !important; }
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 { gap: 8px !important; }
+  html.layout-mobile #root form label { font-size: 9px !important; letter-spacing: .06em !important; margin-bottom: 2px !important; }
+  html.layout-mobile #root form input, html.layout-mobile #root form select, html.layout-mobile #root form textarea { padding: 8px 10px !important; font-size: 13px !important; }
+  html.layout-mobile #root form .space-y-3 > * + *, html.layout-mobile #root form .space-y-4 > * + * { margin-top: 7px !important; }
+
+  /* Hotel card buttons slim */
+  html.layout-mobile #root .snap-start .group button { padding: 5px 10px !important; font-size: 9px !important; }
+
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
   html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
