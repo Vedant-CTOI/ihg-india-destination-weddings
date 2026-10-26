@@ -217,10 +217,25 @@
   html.layout-mobile .sticky.w-\[400px\], html.layout-mobile .sticky.w-12 { position: static !important; width: 100% !important; max-width: 100% !important; }
   html.layout-mobile .sticky.top-20 { position: static !important; }
 
-  /* Popup -> bottom sheet */
-  html.layout-mobile .fixed.inset-0.z-50 { align-items: flex-end !important; padding: 0 !important; }
-  html.layout-mobile .fixed.inset-0.z-50 > .max-w-3xl { max-width: 100% !important; width: 100% !important;
-    border-radius: 24px 24px 0 0 !important; max-height: 86vh !important; margin-bottom: 0 !important; }
+  /* Popup -> bottom sheet (constrain EVERY dialog layer to the 430px canvas — the modal's own
+     max-w-3xl + wrapper divs were expanding to viewport width and spilling out) */
+  html.layout-mobile .fixed.inset-0.z-50 { align-items: flex-end !important; padding: 0 !important;
+    width: 430px !important; max-width: 430px !important; left: 50% !important; transform: translateX(-50%) !important; }
+  html.layout-mobile .fixed.inset-0.z-50 * { max-width: 100% !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .relative.bg-white.rounded-3xl,
+  html.layout-mobile .fixed.inset-0.z-50 .max-w-3xl,
+  html.layout-mobile .fixed.inset-0.z-50 > div {
+    max-width: 430px !important; width: 430px !important; margin: 0 auto !important;
+    border-radius: 24px 24px 0 0 !important; max-height: 86vh !important;
+  }
+  /* hotel modal inner rows: stack, no horizontal spill */
+  html.layout-mobile .fixed.inset-0.z-50 .flex.sm\:flex-row { flex-direction: column !important; }
+  /* modal filter/chip row: wrap the chips instead of spilling (targeted — only the row that
+     contains the rounded-full filter pills) */
+  html.layout-mobile .fixed.inset-0.z-50 .flex:has(> button.rounded-full.px-3) { flex-wrap: wrap !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .grid.sm\:grid-cols-2,
+  html.layout-mobile .fixed.inset-0.z-50 .grid.md\:grid-cols-2 { grid-template-columns: 1fr !important; }
+  html.layout-mobile .fixed.inset-0.z-50 img { max-width: 100% !important; height: auto !important; }
 
   /* Persona/segmented rows stack full-width */
 
