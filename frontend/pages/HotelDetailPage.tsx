@@ -89,10 +89,27 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage, co
             <span className="absolute bottom-2 left-3 z-10 text-[9px] font-sans uppercase tracking-widest text-black font-semibold bg-white/85 rounded-full px-2.5 py-1">
               {currentSlide.isDraftDrawing ? 'Draft Layout' : currentSlide.caption}
             </span>
+            {/* Mobile-only prev/next arrows (compact frame) */}
+            <button
+              type="button"
+              onClick={handlePrev}
+              className="venue-arrows-mobile-only hidden absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white border border-neutral-300 shadow-md flex items-center justify-center"
+              aria-label="Previous venue picture"
+            >
+              <span aria-hidden="true" className="text-black text-lg leading-none">&lsaquo;</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleNext}
+              className="venue-arrows-mobile-only hidden absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white border border-neutral-300 shadow-md flex items-center justify-center"
+              aria-label="Next venue picture"
+            >
+              <span aria-hidden="true" className="text-black text-lg leading-none">&rsaquo;</span>
+            </button>
           </div>
 
           {/* Thumbnail strip — cyclic navigation below the main frame */}
-          <div className="flex items-center gap-1.5 px-3 py-2 bg-white border-t border-neutral-200">
+          <div className="venue-thumb-strip flex items-center gap-1.5 px-3 py-2 bg-white border-t border-neutral-200">
             {slides.map((slide, sIdx) => (
               <button
                 key={sIdx}
@@ -177,10 +194,28 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage, co
                 0{currentIndex + 1} / 0{totalSlides}
               </span>
             </div>
+
+            {/* Mobile-only prev/next arrows (page through pictures; CSS shows only in layout-mobile) */}
+            <button
+              type="button"
+              onClick={handlePrev}
+              className="venue-arrows-mobile-only hidden absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white border border-neutral-300 shadow-md flex items-center justify-center"
+              aria-label="Previous venue picture"
+            >
+              <span aria-hidden="true" className="text-black text-lg leading-none">&lsaquo;</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleNext}
+              className="venue-arrows-mobile-only hidden absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white border border-neutral-300 shadow-md flex items-center justify-center"
+              aria-label="Next venue picture"
+            >
+              <span aria-hidden="true" className="text-black text-lg leading-none">&rsaquo;</span>
+            </button>
           </div>
 
           {/* Thumbnails Row under the carousel */}
-          <div className="grid grid-cols-4 gap-2 pt-2">
+          <div className="venue-thumb-strip grid grid-cols-4 gap-2 pt-2">
             {slides.map((s, sIdx) => {
               const isActive = sIdx === currentIndex;
               return (

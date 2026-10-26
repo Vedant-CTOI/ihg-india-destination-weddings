@@ -721,6 +721,10 @@
   /* status strip + chips wrap within canvas */
   html.layout-mobile #root .flex.flex-wrap.items-center.justify-between { flex-wrap: wrap !important; max-width: 100% !important; }
 
+  /* ═══ MOBILE v25 — venue gallery: thumbnail strips removed, prev/next arrows page through pictures ═══ */
+  html.layout-mobile #root .venue-arrows-mobile-only { display: flex !important; }
+  html.layout-mobile #root .venue-thumb-strip { display: none !important; }
+
   /* ═══ MOBILE v24 — individual hotel detail page: mobile-native ═══ */
   /* venue thumbnail strip: pills scroll horizontally INSIDE canvas, not off both edges */
   html.layout-mobile #root .overflow-x-auto { max-width: 100% !important; overflow-x: auto !important; }
