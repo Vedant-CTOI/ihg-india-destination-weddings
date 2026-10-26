@@ -485,6 +485,9 @@
     display: inline-flex !important; justify-content: center !important; align-items: center !important;
   }
 
+  /* Sticky header guaranteed in mobile mode (survives any ancestor overflow quirks) */
+  html.layout-mobile header { position: sticky !important; top: 0 !important; z-index: 50 !important; }
+
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
   html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
