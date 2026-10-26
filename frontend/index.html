@@ -721,6 +721,22 @@
   /* status strip + chips wrap within canvas */
   html.layout-mobile #root .flex.flex-wrap.items-center.justify-between { flex-wrap: wrap !important; max-width: 100% !important; }
 
+  /* ═══ MOBILE v24 — individual hotel detail page: mobile-native ═══ */
+  /* venue thumbnail strip: pills scroll horizontally INSIDE canvas, not off both edges */
+  html.layout-mobile #root .overflow-x-auto { max-width: 100% !important; overflow-x: auto !important; }
+  html.layout-mobile #root .overflow-x-auto > .flex { flex-wrap: nowrap !important; min-width: 0 !important; max-width: 100% !important; }
+  /* venue pill buttons: compact, inside the strip */
+  html.layout-mobile #root button.shrink-0.w-32 { width: 120px !important; min-width: 120px !important; margin: 0 4px 0 0 !important; }
+  /* side rail (lg column) hidden on mobile — its mobile twin (lg:hidden block) carries the CTA */
+  html.layout-mobile #root .hidden.lg\:flex { display: none !important; }
+  html.layout-mobile #root .flex.lg\:hidden { display: flex !important; width: 100% !important; max-width: 100% !important; }
+  /* venue section grids + metric rows collapse & wrap */
+  html.layout-mobile #root .grid.sm\:grid-cols-5 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  /* sticky sub-nav (top-[110px] tab row) scrolls horizontally instead of spilling */
+  html.layout-mobile #root .sticky.top-\[110px\] { width: 100% !important; max-width: 100% !important; overflow-x: auto !important; }
+  /* all fixed-width children inside flex rows fluid */
+  html.layout-mobile #root .flex.items-center.gap-2 { max-width: 100% !important; flex-wrap: nowrap !important; overflow-x: auto !important; }
+
   /* ═══ MOBILE v23 — dedicated Hotels + Real Weddings pages: mobile-native (web logic untouched) ═══ */
   /* both pages share AllHotelsPage/genre-listing-like layouts; cards get evidence-size media +
      compact padding so they read as designed-for-mobile like the Discover page */
