@@ -149,7 +149,47 @@
     .bg-neutral-100 .text-neutral-600 {
       color: #1a1a1a !important;
     }
-  </style>
+    /* ═══ MOBILE LAYOUT MODE (temporary toggle) — html.layout-mobile ═══
+     Same site, phone-canvas geometry. Toggle removes the class and everything reverts. */
+  html.layout-mobile #root { max-width: 430px; margin: 0 auto; min-height: 100vh;
+    box-shadow: 0 0 40px rgba(0,0,0,.08); background: #fff; }
+
+  /* Header: force the compact (mobile) header even on wide screens */
+  html.layout-mobile header > div > div.hidden.lg\:flex { display: none !important; }
+  html.layout-mobile header > div > div.flex.lg\:hidden { display: flex !important; }
+  html.layout-mobile header nav { flex-wrap: wrap; justify-content: flex-start !important; }
+
+  /* Filter bars: one filter per row */
+  html.layout-mobile .grid.md\:grid-cols-12 { display: grid !important; grid-template-columns: 1fr !important; }
+  html.layout-mobile .grid.md\:grid-cols-12 > [class*="md:col-span-"] { grid-column: auto !important; }
+
+  /* Multi-column content grids collapse */
+  html.layout-mobile .grid.grid-cols-3 { grid-template-columns: 1fr !important; }
+  html.layout-mobile .grid.grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  html.layout-mobile .grid.sm\:grid-cols-2 { grid-template-columns: 1fr !important; }
+  html.layout-mobile .grid.sm\:grid-cols-3 { grid-template-columns: 1fr !important; }
+  html.layout-mobile .grid.grid-cols-2 { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Hotel detail side rail: unhook sticky + fixed width, stack inline (covers open+collapsed states) */
+  html.layout-mobile .sticky.w-\[400px\], html.layout-mobile .sticky.w-12 { position: static !important; width: 100% !important; max-width: 100% !important; }
+  html.layout-mobile .sticky.top-20 { position: static !important; }
+
+  /* Hotel selector popup -> bottom sheet */
+  html.layout-mobile .fixed.inset-0.z-50 { align-items: flex-end !important; padding: 0 !important; }
+  html.layout-mobile .fixed.inset-0.z-50 > .max-w-3xl { max-width: 100% !important; width: 100% !important;
+    border-radius: 24px 24px 0 0 !important; max-height: 86vh !important; margin-bottom: 0 !important; }
+
+  /* Personas / segmented buttons stack full-width */
+  html.layout-mobile form .flex.items-center.space-x-2:has(> button) { flex-direction: column; align-items: stretch; }
+  html.layout-mobile form .flex.items-center.space-x-2 > button { width: 100%; }
+
+  /* Hero + carousels: trim height */
+  html.layout-mobile .aspect-\[16\/7\] { aspect-ratio: 16/10 !important; }
+  html.layout-mobile .aspect-\[16\/9\] { aspect-ratio: 3/2 !important; }
+
+  /* Key Highlights: 7-item grid -> 2 cols */
+  html.layout-mobile .grid.grid-cols-4.gap-x-4 { grid-template-columns: repeat(2, 1fr) !important; }
+</style>
 
   </head>
 <body class="bg-white text-black font-body antialiased selection:bg-black selection:text-white">

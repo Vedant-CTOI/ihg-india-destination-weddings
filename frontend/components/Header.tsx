@@ -24,6 +24,33 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigateToLoremPage,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileLayout, setMobileLayout] = useState<boolean>(() => {
+    try { return sessionStorage.getItem('ihg-layout') === 'mobile'; } catch { return false; }
+  });
+
+  React.useEffect(() => {
+    const root = document.documentElement;
+    if (mobileLayout) root.classList.add('layout-mobile');
+    else root.classList.remove('layout-mobile');
+    try { sessionStorage.setItem('ihg-layout', mobileLayout ? 'mobile' : 'web'); } catch {}
+  }, [mobileLayout]);
+
+  const LayoutToggle = (
+    <div className="inline-flex items-center border border-neutral-300 rounded-full overflow-hidden text-[10px] font-sans uppercase tracking-wider font-semibold shrink-0" role="group" aria-label="Layout preview toggle">
+      <button
+        type="button"
+        onClick={() => setMobileLayout(false)}
+        className={`px-3 py-1.5 transition-colors cursor-pointer ${!mobileLayout ? 'bg-black text-white' : 'bg-white text-neutral-500 hover:text-black'}`}
+        aria-pressed={!mobileLayout}
+      >Web</button>
+      <button
+        type="button"
+        onClick={() => setMobileLayout(true)}
+        className={`px-3 py-1.5 transition-colors cursor-pointer ${mobileLayout ? 'bg-black text-white' : 'bg-white text-neutral-500 hover:text-black'}`}
+        aria-pressed={mobileLayout}
+      >Mobile</button>
+    </div>
+  );
   const isHome = currentView.type === 'home';
 
   const navLinks: Array<{ label: string; anchor?: string; page?: string }> = [
@@ -78,8 +105,9 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
             </button>
 
-            {/* Right: Enquire & Back-to-explore Actions with Arrow Icons */}
+            {/* Right: Layout toggle (TEMP) & Enquire & Back-to-explore Actions */}
             <div className="flex items-center space-x-4">
+              {LayoutToggle}
               {!isHome && (
                 <button
                   onClick={() => onNavigateHome()}
@@ -121,6 +149,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Mobile & Small Screen Layout */}
         <div className="flex lg:hidden flex-col justify-center min-h-[88px] py-3">
           <div className="flex items-center justify-between">
+            {LayoutToggle}
             
             {/* Wordmark without Celebrations */}
             <button
