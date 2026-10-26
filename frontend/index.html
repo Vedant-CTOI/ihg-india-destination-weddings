@@ -295,7 +295,9 @@
   html.layout-mobile #root .grid.grid-cols-4.gap-x-4 > div:nth-child(n+5) { display: none !important; }
   html.layout-mobile #root .grid.grid-cols-4.gap-x-4 { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
   /* hide long 'View more / read description' trailing copy inside hotel cards */
-  html.layout-mobile #root .grid.md\:grid-cols-2.lg\:grid-cols-3 p { display: none !important; }
+  html.layout-mobile #root .snap-start .grid.md\:grid-cols-2.lg\:grid-cols-3 p,
+  html.layout-mobile #root .snap-start .grid.md\:grid-cols-2.lg\:grid-cols-3 > div > p { display: none !important; }
+  /* (dedicated Discover page card grids are NOT snap-start: their paragraphs stay visible) */
 
   /* Homepage snap carousels (hotels, genres, stories): full-width slides, no squashing */
   html.layout-mobile #root .flex.overflow-x-auto.snap-x > div.snap-start.shrink-0 { width: 100% !important; min-width: 100% !important; flex: 0 0 100% !important; }
@@ -709,6 +711,20 @@
   /* no scrim needed — clean image */
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child::after { content: none !important; }
   }
+
+  /* ═══ MOBILE v21 — dedicated Discover page: mobile-friendly cards, nothing cut ═══ */
+  /* filter bar: desktop one-line grid collapses to stacked single column on mobile */
+  html.layout-mobile #root .grid.md\:grid-cols-12 { display: grid !important; grid-template-columns: 1fr !important; gap: 10px !important; }
+  html.layout-mobile #root .grid.md\:grid-cols-12 > div { grid-column: auto !important; max-width: 100% !important; }
+  /* card CTA button: was 410px (8px over canvas) -> full width inside card padding */
+  html.layout-mobile #root .grid.md\:grid-cols-2 button { max-width: 100% !important; width: 100% !important; box-sizing: border-box !important; }
+  /* card: compact paddings + media height */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .p-5 { padding: 14px !important; }
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .relative.h-60 { height: 200px !important; }
+  /* paragraphs in card: clamp so lorem copy doesn't balloon the card */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group p { font-size: 11px !important; line-height: 1.45 !important; }
+  /* status strip + chips wrap within canvas */
+  html.layout-mobile #root .flex.flex-wrap.items-center.justify-between { flex-wrap: wrap !important; max-width: 100% !important; }
 
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
