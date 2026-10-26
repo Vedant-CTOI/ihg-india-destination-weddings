@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { HOTELS_DATA } from '../constants';
 import { HotelProperty } from '../types';
-import { ArrowRight, ArrowLeft } from 'lucide-react';
+import { ChevronRight, ChevronLeft, ArrowRight } from 'lucide-react';
 
 interface HotelsExplorationProps {
   onSelectHotel: (hotel: HotelProperty) => void;
@@ -82,7 +82,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
             }`}
             aria-label="Previous hotels"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={() => scrollByCards(1)}
@@ -92,7 +92,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
             }`}
             aria-label="Next hotels"
           >
-            <ArrowRight className="w-4 h-4" />
+            <ChevronRight className="w-4 h-4" />
           </button>
 
           {/* Full Portfolio Carousel — manual swipe, snap-aligned */}
