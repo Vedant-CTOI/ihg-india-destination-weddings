@@ -488,6 +488,31 @@
   /* Sticky header guaranteed in mobile mode (survives any ancestor overflow quirks) */
   html.layout-mobile header { position: sticky !important; top: 0 !important; z-index: 50 !important; }
 
+  /* Carousel arrows: consistent 40px circles, vertically centered on their rails
+     (also fixes the CTA min-width rule whose [class*="px-"] substring accidentally matched
+      the arrows' top-[120px] class) */
+  html.layout-mobile #root section button.stories-rail-arrow, html.layout-mobile #root section button.stories-rail-arrow.stories-rail-prev,
+  html.layout-mobile #root section button.stories-rail-arrow.stories-rail-next,
+  html.layout-mobile #root section button[aria-label="Previous hotels"], html.layout-mobile #root section button[aria-label="Next hotels"],
+  html.layout-mobile #root section button[aria-label="Previous wedding stories"], html.layout-mobile #root section button[aria-label="Next wedding stories"],
+  html.layout-mobile #root section button[aria-label="Previous splash slide"], html.layout-mobile #root section button[aria-label="Next splash slide"] {
+    min-width: 40px !important; width: 40px !important; height: 40px !important; min-height: 40px !important;
+    max-width: 40px !important; padding: 0 !important; font-size: 0 !important;
+  }
+  html.layout-mobile #root section button[aria-label="Previous hotels"],
+  html.layout-mobile #root section button[aria-label="Next hotels"] {
+    top: 50% !important; transform: translateY(-50%) !important; left: 6px !important; right: auto !important;
+    width: 40px !important; height: 40px !important; min-width: 40px !important; min-height: 40px !important;
+    padding: 0 !important;
+  }
+  html.layout-mobile #root section button[aria-label="Next hotels"] { left: auto !important; right: 6px !important; }
+  html.layout-mobile #root .stories-rail-arrow {
+    width: 40px !important; height: 40px !important; min-width: 40px !important; min-height: 40px !important;
+    padding: 0 !important; position: absolute !important; top: 50% !important; transform: translateY(-50%) !important;
+  }
+  html.layout-mobile #root .stories-rail-prev { left: 6px !important; right: auto !important; }
+  html.layout-mobile #root .stories-rail-next { right: 6px !important; left: auto !important; }
+
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
   html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
