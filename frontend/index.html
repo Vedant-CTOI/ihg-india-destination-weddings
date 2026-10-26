@@ -721,6 +721,22 @@
   /* status strip + chips wrap within canvas */
   html.layout-mobile #root .flex.flex-wrap.items-center.justify-between { flex-wrap: wrap !important; max-width: 100% !important; }
 
+  /* ═══ MOBILE v26 — hotel metrics strip: each stat on ONE line (label · value · unit inline) ═══ */
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 { grid-template-columns: 1fr !important; gap: 6px !important; padding: 10px !important; }
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div {
+    display: flex !important; flex-direction: row !important; align-items: baseline !important;
+    gap: 8px !important; padding: 7px 10px !important; max-width: 100% !important;
+    border-bottom: 1px solid rgba(0,0,0,.06) !important;
+  }
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div:last-child { border-bottom: 0 !important; }
+  /* value & unit inline sizes */
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div .font-serif,
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div strong { font-size: 15px !important; line-height: 1.2 !important; }
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div span,
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div p { font-size: 10px !important; line-height: 1.2 !important; margin: 0 !important; }
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div [class*="tracking-widest"],
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div [class*="uppercase"] { letter-spacing: .08em !important; }
+
   /* ═══ MOBILE v25 — venue gallery: thumbnail strips removed, prev/next arrows page through pictures ═══ */
   html.layout-mobile #root .venue-arrows-mobile-only { display: flex !important; }
   html.layout-mobile #root .venue-thumb-strip { display: none !important; }
