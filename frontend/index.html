@@ -343,6 +343,42 @@
   /* Hotel card buttons slim */
   html.layout-mobile #root .snap-start .group button { padding: 5px 10px !important; font-size: 9px !important; }
 
+  /* ═══ MOBILE v5 — SECTION CTAs: end-of-section, centered, mobile-ideal ═══ */
+  /* Section inner containers become flex-col so header-row CTAs drop BELOW content (end of section) */
+  html.layout-mobile #root section > div > div { flex-wrap: wrap !important; }
+  html.layout-mobile #root section .flex.items-center.justify-between,
+  html.layout-mobile #root section .flex.flex-col.md\:flex-row,
+  html.layout-mobile #root section .flex.items-center.gap-3,
+  html.layout-mobile #root section .flex.items-center.space-x-3 { display: flex !important; flex-direction: column !important; align-items: center !important; width: 100% !important; gap: 8px !important; margin-top: 10px !important; }
+  /* the CTA buttons themselves: mobile-ideal size + centered */
+  html.layout-mobile #root section button.bg-black,
+  html.layout-mobile #root section button.border.border-black:not([aria-label]),
+  html.layout-mobile #root section button[class*="rounded-full"][class*="px-"] { min-height: 44px !important; min-width: 200px !important; padding: 11px 20px !important; font-size: 11px !important; width: auto !important; display: inline-flex !important; justify-content: center !important; }
+  /* CTA text shorter labels via font + letter tightening */
+  html.layout-mobile #root section button.bg-black { letter-spacing: .12em !important; }
+  /* left-aligned CTA containers -> center (About bottom block, Loyalty row) */
+  html.layout-mobile #root .pt-4.border-t.border-neutral-200 { display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important; }
+  html.layout-mobile #root .flex.flex-col.sm\:flex-row { flex-direction: column !important; align-items: center !important; text-align: center !important; }
+  /* kill leftover bottom padding so end CTAs sit flush at section end */
+  html.layout-mobile #root section { padding-bottom: 24px !important; }
+  /* About grid: images col first, text+CTA col last so the CTA ends the section */
+  html.layout-mobile #root section:nth-of-type(2) .grid.lg\:grid-cols-12 > div:first-child { order: 2 !important; }
+  html.layout-mobile #root section:nth-of-type(2) .grid.lg\:grid-cols-12 > div:last-child { order: 1 !important; }
+  /* Stories (4th section): its header CTA duplicates the end 'Explore' CTA -> hide on mobile */
+  html.layout-mobile #root section:nth-of-type(5) .flex.items-center.space-x-3 { display: none !important; }
+  /* Discover & Hotels: pin the header CTA to the section end, centered */
+  html.layout-mobile #root section { position: relative !important; }
+  html.layout-mobile #root section .flex.items-center.gap-3 > button[class*="bg-black"],
+  html.layout-mobile #root section .flex.items-center.space-x-3 > button.bg-black {
+    position: absolute !important;
+    bottom: 18px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    margin: 0 !important;
+  }
+  /* reserve room at section bottom so content doesn't collide with the pinned CTA */
+  html.layout-mobile #root section > div.max-w-7xl { padding-bottom: 64px !important; }
+
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
   html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
