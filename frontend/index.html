@@ -289,6 +289,23 @@
 
   /* Homepage snap carousels (hotels, genres, stories): full-width slides, no squashing */
   html.layout-mobile #root .flex.overflow-x-auto.snap-x > div.snap-start.shrink-0 { width: 100% !important; min-width: 100% !important; flex: 0 0 100% !important; }
+  /* Destination cards: fixed 30rem height -> compact hotel-card-like height */
+  html.layout-mobile #root .h-\[30rem\], html.layout-mobile #root [class*="h-[30rem]"] { height: 264px !important; min-height: 264px !important; }
+  html.layout-mobile #root .relative.h-\[30rem\] .absolute.inset-0 { padding: 12px !important; }
+  /* destination card inner meta rows tighten */
+  html.layout-mobile #root .relative.bg-white.rounded-xl .text-xs, html.layout-mobile #root .relative.bg-white.rounded-xl .text-\[11px\] { font-size: 10px !important; }
+  html.layout-mobile #root .relative.bg-white.rounded-xl h3 { font-size: 17px !important; margin: 4px 0 !important; }
+
+  /* Destination + all snap cards: media capped at 200px like hotel cards (uniform evidence size) */
+  html.layout-mobile #root .flex.overflow-x-auto .snap-start .group > div:first-child,
+  html.layout-mobile #root .flex.overflow-x-auto .snap-start > div:first-child:not(.group) { height: 200px !important; min-height: 200px !important; max-height: 200px !important; overflow: hidden !important; }
+  html.layout-mobile #root .flex.overflow-x-auto .snap-start img { height: 200px !important; max-height: 200px !important; object-fit: cover !important; }
+
+  /* About stats: single horizontal line, smaller text */
+  html.layout-mobile #root .grid.grid-cols-3.gap-4 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 8px !important; padding: 4px 0 !important; }
+  html.layout-mobile #root .grid.grid-cols-3.gap-4 > div { text-align: center !important; }
+  html.layout-mobile #root .grid.grid-cols-3.gap-4 span { font-size: 9px !important; line-height: 1.2 !important; }
+  html.layout-mobile #root .grid.grid-cols-3.gap-4 .font-serif, html.layout-mobile #root .grid.grid-cols-3.gap-4 strong { font-size: 15px !important; line-height: 1.1 !important; }
   /* hotel card media shrinks to evidence size; text block tight */
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl * .aspect-\[4\/3\],
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .aspect-\[4\/3\],
