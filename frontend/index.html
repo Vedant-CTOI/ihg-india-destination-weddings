@@ -641,6 +641,30 @@
   html.layout-mobile #root footer button, html.layout-mobile #root footer li { min-height: 40px !important; display: flex; align-items: center; }
   html.layout-mobile button[aria-label="Go to top"] { bottom: 64px !important; right: 12px !important; width: 40px !important; height: 40px !important; }
 
+  /* ═══ MOBILE v13 — shorter form ═══ */
+  /* A. Full Name single field (web keeps First/Last) */
+  html.layout-mobile #root .mobile-fullname-wrap { display: block !important; }
+  html.layout-mobile #root .mobile-fullname-wrap + div { display: none !important; }         /* First Name */
+  html.layout-mobile #root .mobile-fullname-wrap + div + div { display: none !important; }   /* Last Name */
+
+  /* B+C. Date+Guests / Country+Destination share rows: their parent grids become block,
+     the four wrappers flow inline-block at 49% */
+  html.layout-mobile #root .grid:has(> .form-field-date), html.layout-mobile #root .grid:has(> .form-field-country) { display: block !important; grid-template-columns: none !important; }
+  html.layout-mobile #root .grid:has(> .form-field-date) > .form-field-date,
+  html.layout-mobile #root .grid:has(> .form-field-date) > .form-field-guests,
+  html.layout-mobile #root .grid:has(> .form-field-country) > .form-field-country,
+  html.layout-mobile #root .grid:has(> .form-field-country) > .form-field-destination { display: inline-block !important; width: 49% !important; vertical-align: top; padding-right: 1%; box-sizing: border-box; }
+
+  /* D. Notes textarea -> 2 rows */
+  html.layout-mobile #root form textarea { min-height: 0 !important; height: 66px !important; }
+
+  /* E. Consent text clamps to 2 lines (tap target = whole label, unchanged interaction) */
+  html.layout-mobile #root form label:has(> input[type="checkbox"]) span { display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; line-height: 1.35 !important; }
+
+  /* F. Persona label hidden (select is self-describing) */
+  html.layout-mobile #root form .persona-select-mobile { margin-top: 0 !important; }
+  html.layout-mobile #root form label:has(+ .persona-select-mobile) { display: none !important; }
+
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
   html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }

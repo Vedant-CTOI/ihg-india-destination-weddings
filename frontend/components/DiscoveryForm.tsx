@@ -154,6 +154,17 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
 
             {/* 2. Core fields — First / Last name, Email */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="mobile-fullname-wrap">
+                <label className={labelCls}>Full Name *</label>
+                <input type="text" required placeholder="Full name"
+                  value={[firstName, lastName].filter(Boolean).join(' ')}
+                  onChange={(e) => {
+                    const parts = e.target.value.trim().split(/\s+/);
+                    setFirstName(parts[0] || '');
+                    setLastName(parts.slice(1).join(' ') || '');
+                  }}
+                  className={inputCls} />
+              </div>
               <div>
                 <label className={labelCls}>First Name *</label>
                 <input type="text" required placeholder="First name" value={firstName}
@@ -176,12 +187,12 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                   {OCCASIONS.map((o) => <option key={o} value={o}>{o}</option>)}
                 </select>
               </div>
-              <div>
+              <div className="form-field-date">
                 <label className={labelCls}>Expected Date</label>
                 <input type="date" min="2025-01-01" max="2028-12-31" value={expectedDate}
                   onChange={(e) => setExpectedDate(e.target.value)} className={inputCls + " cursor-pointer font-medium"} />
               </div>
-              <div>
+              <div className="form-field-guests">
                 <label className={labelCls}>Number of Guests</label>
                 <input type="number" min="20" max="2000" placeholder="e.g. 250" value={guestCount}
                   onChange={(e) => setGuestCount(e.target.value)} className={inputCls} />
@@ -190,7 +201,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
 
             {/* 3. Select Destination — Country dropdown + Destination multi-checkbox dropdown */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
+              <div className="form-field-country">
                 <label className={labelCls}>Country</label>
                 <select
                   value={selectedCountry}
@@ -200,7 +211,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                   {Object.keys(COUNTRY_DEST_MAP).map((c) => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
-              <div>
+              <div className="form-field-destination">
                 <label className={labelCls}>Destination {selectedDestinations.length > 0 && `(${selectedDestinations.length} selected)`}</label>
                 <DestinationDropdown
                   selectedCountry={selectedCountry}
