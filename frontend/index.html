@@ -546,6 +546,20 @@
   html.layout-mobile #root footer .grid.grid-cols-2.md\:grid-cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
   html.layout-mobile #root footer .grid.grid-cols-2.md\:grid-cols-3 > div:first-child { grid-column: 1 / -1 !important; }
 
+  /* Hotel thumbnails match destination cards: same radius, border, height, white-gradient overlay */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl { border-radius: 12px !important; border-color: #d4d4d4 !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child { height: 264px !important; min-height: 264px !important; max-height: 264px !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl img { height: 264px !important; max-height: 264px !important; }
+  /* overlay: white gradient like destinations, black serif text */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) {
+    background: linear-gradient(to top, rgba(255,255,255,.95), rgba(255,255,255,.40) 55%, transparent) !important;
+    color: #000000 !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) h3,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) span,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) div { color: #000000 !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) h3 { font-family: Georgia, 'Times New Roman', serif !important; }
+
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
   html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
