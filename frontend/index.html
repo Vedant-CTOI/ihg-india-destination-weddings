@@ -672,20 +672,22 @@
   html.layout-mobile #root section button[aria-label="Previous hotels"] svg,
   html.layout-mobile #root section button[aria-label="Next hotels"] svg { color: #404040 !important; }
 
-  /* 2. Hotel card: text overlay on image — dark scrim, WHITE text (beats old white-gradient rule) */
-  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child {
+  /* 2. Hotel card: text overlay on image — dark scrim, WHITE text.
+     Scoped to landing snap-start rails ONLY: the dedicated Discover page card CTA (also a
+     div:last-child) must stay in normal flow at the bottom of its card. */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child {
     position: absolute !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
     background: linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0)) !important;
     background-image: linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0)) !important;
     color: #ffffff !important; padding: 10px 10px 8px !important; z-index: 2 !important;
   }
-  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child,
-  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child h3,
-  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child span,
-  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child p,
-  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child h3 *,
-  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child span *,
-  html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child p * { color: #ffffff !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child h3,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child span,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child p,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child h3 *,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child span *,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child p * { color: #ffffff !important; }
 
   /* ═══ MOBILE v19 — hotel cards = pure view cards: image only, circular arrows, no text, no capsules ═══ */
   /* arrows: removed entirely (swipe-only carousel) */
@@ -704,7 +706,6 @@
 
   /* no scrim needed — clean image */
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child::after { content: none !important; }
-  }
 
   /* ═══ MOBILE v21 — dedicated Discover page: mobile-friendly cards, nothing cut ═══ */
   /* filter bar: desktop one-line grid collapses to stacked single column on mobile */
