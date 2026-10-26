@@ -150,18 +150,9 @@
       color: #1a1a1a !important;
     }
 
-  /* Venue chip hover image — Hotel 1 compact pills. Exempt from wireframe img-hiding; 40x30 = 4:3 */
-  .venue-chip:hover .venue-chip-img { width: 40px !important; margin-right: 2px; }
-  .venue-chip-img {
-    width: 0 !important; height: 30px !important; max-width: 40px !important;
-    transition: width .2s ease, margin .2s ease;
-    border-radius: 4px;
-    display: inline-block !important; visibility: visible !important; opacity: 1 !important;
-    overflow: hidden; flex-shrink: 0; vertical-align: middle;
-    background-color: #1a1a1a;
-    background-image: repeating-linear-gradient(45deg, #2a2a2a 0 4px, #222 4px 8px);
-  }
-  .venue-chip-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* Venue chip hover image — Hotel 1 compact pills */
+  .venue-chip:hover .venue-chip-img { width: 40px; margin-right: 2px; }
+  .venue-chip-img { width: 0; height: 30px; transition: width .2s ease, margin .2s ease; object-fit: cover; border-radius: 4px; display: block; overflow: hidden; }
 </style>
 
   </head>

@@ -798,14 +798,12 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                       aria-label={`Jump to Venue ${vIndex + 1}`}
                     >
                       <span className="inline-flex items-center gap-1.5">
-                        <span className="venue-chip-img overflow-hidden">
-                          <img
-                            src={(venue.gallery && venue.gallery[0]) || ''}
-                            alt=""
-                            className="w-full h-full object-cover filter grayscale contrast-110"
-                            onError={(e) => { (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2230%22%3E%3Crect%20width%3D%2240%22%20height%3D%2230%22%20fill%3D%22%231a1a1a%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%232a2a2a%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M0%2030L40%200M-10%2040L50%20-10%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E'; }}
-                          />
-                        </span>
+                        <img
+                          src={(venue.gallery && venue.gallery[0]) || ''}
+                          alt=""
+                          className="venue-chip-img filter grayscale contrast-110"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
                         <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-neutral-300 group-hover/thmb:bg-black transition-colors inline-block"></span>
                         Venue {vIndex + 1} - {venue.capacity}
                       </span>
