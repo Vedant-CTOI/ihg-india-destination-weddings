@@ -100,7 +100,7 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <span className="text-[10px] uppercase tracking-wider font-sans text-neutral-300 block">
-                      {wedding.location}
+                      Story {visibleWeddings.indexOf(wedding) + 1} - Placeholder text
                     </span>
                     <h3 className="font-serif text-xl font-normal text-white">
                       {wedding.couple}

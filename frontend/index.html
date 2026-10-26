@@ -340,6 +340,15 @@
   html.layout-mobile #root form input, html.layout-mobile #root form select, html.layout-mobile #root form textarea { padding: 8px 10px !important; font-size: 13px !important; }
   html.layout-mobile #root form .space-y-3 > * + *, html.layout-mobile #root form .space-y-4 > * + * { margin-top: 7px !important; }
 
+  /* Hotel card: name + guests/rooms overlaid ON the image (dummy text on image) */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl { position: relative !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) {
+    position: absolute !important; bottom: 0 !important; left: 0 !important; right: 0 !important;
+    background: linear-gradient(to top, rgba(255,255,255,.94), rgba(255,255,255,.25)) !important;
+    padding: 10px 12px 8px !important; z-index: 3;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) h3 { margin: 0 0 3px !important; font-size: 15px !important; }
+
   /* Hotel card buttons slim */
   html.layout-mobile #root .snap-start .group button { padding: 5px 10px !important; font-size: 9px !important; }
 
@@ -440,6 +449,17 @@
   }
   /* reserve room at section bottom so content doesn't collide with the pinned CTA */
   html.layout-mobile #root section > div.max-w-7xl { padding-bottom: 64px !important; }
+
+  /* Form: mobile-friendly final pass — larger inputs, thumb-friendly, submit pinned style */
+  html.layout-mobile #root form input, html.layout-mobile #root form select, html.layout-mobile #root form textarea {
+    min-height: 44px !important; font-size: 15px !important; padding: 10px 12px !important; border-radius: 10px !important;
+  }
+  html.layout-mobile #root form button { min-height: 44px !important; }
+  html.layout-mobile #root form label { font-size: 10px !important; margin-bottom: 4px !important; }
+  html.layout-mobile #root form .space-y-3 > * + *, html.layout-mobile #root form .space-y-4 > * + * { margin-top: 10px !important; }
+  html.layout-mobile #root form button[type="submit"], html.layout-mobile #root form .bg-black {
+    width: 100% !important; justify-content: center !important; font-size: 12px !important;
+  }
 
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
