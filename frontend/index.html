@@ -467,6 +467,10 @@
   /* About: single paragraph on mobile (hide the 2nd) */
   html.layout-mobile #root section:nth-of-type(2) .space-y-4 > p:nth-of-type(2) { display: none !important; }
 
+  /* Sticky mobile header */
+  html.layout-mobile header { position: sticky !important; top: 0 !important; z-index: 50 !important; }
+  html.layout-mobile #root { overflow: visible !important; }
+
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
   html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
