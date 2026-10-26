@@ -361,6 +361,43 @@
   html.layout-mobile #root .flex.flex-col.sm\:flex-row { flex-direction: column !important; align-items: center !important; text-align: center !important; }
   /* kill leftover bottom padding so end CTAs sit flush at section end */
   html.layout-mobile #root section { padding-bottom: 24px !important; }
+  /* ═══ MOBILE v6 — landing fixes ═══ */
+  /* 1. About: text first, images after text, CTA after images (already: text col has CTA inside;
+     grid order swap puts images col BEFORE text. Revert that swap so text -> images -> CTA? No —
+     CTA is inside text col. Need: text para -> images -> CTA. Move CTA block to bottom via order
+     within text col? Simplest: un-swap columns (text first), and push the CTA wrapper below the
+     images column by making grid a column flex with images col order 2. But CTA is INSIDE text
+     col... instead: pin the About CTA like Discover/Hotels: absolute at section end. */
+  html.layout-mobile #root section:nth-of-type(2) .grid.lg\:grid-cols-12 > div:first-child { order: 0 !important; }
+  html.layout-mobile #root section:nth-of-type(2) .grid.lg\:grid-cols-12 > div:last-child { order: 0 !important; }
+  html.layout-mobile #root section:nth-of-type(2) .pt-4.border-t.border-neutral-200 { display: block !important; }
+  html.layout-mobile #root section:nth-of-type(2) .pt-4.border-t.border-neutral-200 button.bg-black {
+    position: absolute !important; bottom: 18px !important; left: 50% !important;
+    transform: translateX(-50%) !important; margin: 0 !important; z-index: 5;
+  }
+
+  /* 2. Destination card: remove black capsule + slide dots row under it */
+  html.layout-mobile #root section:nth-of-type(3) .relative .absolute.bg-black,
+  html.layout-mobile #root section:nth-of-type(3) .snap-start .bg-black,
+  html.layout-mobile #root section:nth-of-type(3) .absolute.rounded-full.bg-black,
+  html.layout-mobile #root section:nth-of-type(3) .flex.items-center.justify-center.gap-2,
+  html.layout-mobile #root section:nth-of-type(3) .bg-black\/85, html.layout-mobile #root section:nth-of-type(3) .bg-black\/80 { display: none !important; }
+
+  /* 3. Hotel cards: name (h3) below card -> overlay title removed, show under image */
+  html.layout-mobile #root .snap-start .group .absolute { position: static !important; }
+  html.layout-mobile #root .snap-start .group h3 { font-size: 14px !important; margin: 6px 0 2px !important; order: 99 !important; }
+  html.layout-mobile #root .snap-start .group { display: flex !important; flex-direction: column !important; }
+  html.layout-mobile #root .snap-start .group .absolute.bottom-0 { position: static !important; padding: 0 !important; }
+
+  /* 4. Stories: horizontal snap carousel like hotels */
+  html.layout-mobile #root section:nth-of-type(5) .grid.grid-cols-1.md\:grid-cols-3 {
+    display: flex !important; flex-direction: row !important; overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important; gap: 10px !important;
+  }
+  html.layout-mobile #root section:nth-of-type(5) .grid.grid-cols-1.md\:grid-cols-3 > article {
+    flex: 0 0 100% !important; scroll-snap-align: start !important;
+  }
+
   /* De-clutter repetitive per-card CTAs (cards are tappable; section CTA covers the rest) */
   html.layout-mobile #root .snap-start .group button { display: none !important; }          /* FULL PAGE x8 */
   html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article button { display: none !important; }  /* READ FULL STORY x3 */
