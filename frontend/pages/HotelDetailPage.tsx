@@ -91,18 +91,25 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({ venue, onPreviewImage, co
             </span>
           </div>
 
-          {/* Minimal position dots — replaces the thumbnail strip */}
-          <div className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white border-t border-neutral-200">
+          {/* Thumbnail strip — cyclic navigation below the main frame */}
+          <div className="flex items-center gap-1.5 px-3 py-2 bg-white border-t border-neutral-200">
             {slides.map((slide, sIdx) => (
               <button
                 key={sIdx}
                 type="button"
                 onClick={() => setCurrentIndex(sIdx)}
-                className={`w-1.5 h-1.5 rounded-full transition-all cursor-pointer ${
-                  sIdx === currentIndex ? 'bg-black w-4' : 'bg-neutral-300 hover:bg-neutral-400'
+                className={`shrink-0 w-16 aspect-video rounded-md overflow-hidden border transition-all cursor-pointer ${
+                  sIdx === currentIndex ? 'border-black opacity-100' : 'border-neutral-300 opacity-60 hover:opacity-90'
                 }`}
                 aria-label={`Show slide ${sIdx + 1}: ${slide.caption}`}
-              />
+              >
+                <img
+                  src={slide.url}
+                  alt=""
+                  className="w-full h-full object-cover filter grayscale"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+              </button>
             ))}
           </div>
         </div>
