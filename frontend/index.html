@@ -692,17 +692,9 @@
   html.layout-mobile #root .group.bg-white.rounded-2xl > div:last-child p * { color: #ffffff !important; }
 
   /* ═══ MOBILE v19 — hotel cards = pure view cards: image only, circular arrows, no text, no capsules ═══ */
-  /* arrows: circular, page-style (white circle, black chevron) — strictly rounded */
+  /* arrows: removed entirely (swipe-only carousel) */
   html.layout-mobile #root section button[aria-label="Previous hotels"],
-  html.layout-mobile #root section button[aria-label="Next hotels"] {
-    display: flex !important; align-items: center; justify-content: center !important;
-    width: 40px !important; height: 40px !important; border-radius: 9999px !important;
-    background: #ffffff !important; background-color: #ffffff !important;
-    border: 1px solid #d4d4d4 !important; padding: 0 !important;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.12) !important;
-  }
-  html.layout-mobile #root section button[aria-label="Previous hotels"] svg,
-  html.layout-mobile #root section button[aria-label="Next hotels"] svg { color: #000000 !important; }
+  html.layout-mobile #root section button[aria-label="Next hotels"] { display: none !important; }
 
   /* ALL text on hotel cards hidden: overlay block, FULL PAGE button, mandap, stats */
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2),
