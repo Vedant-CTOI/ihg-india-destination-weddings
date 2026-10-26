@@ -33,8 +33,19 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
 
   const cities = ['All', 'Region 1', 'Region 2', 'Region 3', 'Region 4', 'Region 5', 'Region 6'];
 
+  // Selector-only dummy entries so the mobile sheet lists 10 hotels total (not in global data)
+  const EXTRA_SELECTOR_HOTELS: HotelProperty[] = HOTELS_DATA.slice(0, 2).map((base, i) => ({
+    ...base,
+    id: `hotel-9${i}`,
+    name: i === 0 ? 'Hotel 9' : 'Hotel 10',
+    city: HOTELS_DATA[i].city,
+    region: HOTELS_DATA[i].region,
+    location: HOTELS_DATA[i].location,
+  }));
+  const allListedHotels = [...HOTELS_DATA, ...EXTRA_SELECTOR_HOTELS];
+
   const filteredHotels = useMemo(() => {
-    return HOTELS_DATA.filter((hotel) => {
+    return allListedHotels.filter((hotel) => {
       if (hotelNameFilter && hotelNameFilter.length > 0 && !hotelNameFilter.includes(hotel.name)) {
         return false;
       }
@@ -53,7 +64,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
       }
       return true;
     });
-  }, [cityFilter, searchQuery, regionFilter, hotelNameFilter]);
+  }, [cityFilter, searchQuery, regionFilter, hotelNameFilter, allListedHotels]);
 
   if (!isOpen) return null;
 
@@ -64,7 +75,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
   };
 
   const handleSelectAll = () => {
-    setSelectedIds(HOTELS_DATA.map((h) => h.id));
+    setSelectedIds(allListedHotels.map((h) => h.id));
   };
 
   const handleClearAll = () => {
@@ -72,7 +83,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
   };
 
   const handleSave = () => {
-    const selectedNames = HOTELS_DATA.filter((h) => selectedIds.includes(h.id)).map((h) => h.name);
+    const selectedNames = allListedHotels.filter((h) => selectedIds.includes(h.id)).map((h) => h.name);
     onConfirmSelection(selectedIds, selectedNames);
     onClose();
   };
@@ -119,7 +130,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
       <div className="px-5 py-3.5 sm:px-7 sm:py-4 border-b border-neutral-200 bg-white space-y-3 shrink-0">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           {/* Search Box */}
-          <div className="relative flex-1">
+          <div className="relative flex-1 hotel-modal-search">
             <input
               type="text"
               placeholder="Search hotel name, location or brand..."
@@ -140,7 +151,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
           </div>
 
           {/* Quick Select Actions */}
-          <div className="flex items-center space-x-2.5 text-xs shrink-0">
+          <div className="flex items-center space-x-2.5 text-xs shrink-0 hotel-modal-quickselect">
             <button
               type="button"
               onClick={handleSelectAll}
@@ -160,7 +171,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
         </div>
 
         {/* City Filter Pills */}
-        <div className="flex space-x-1.5 overflow-x-auto no-scrollbar pt-0.5">
+        <div className="flex space-x-1.5 overflow-x-auto no-scrollbar pt-0.5 hotel-modal-pills">
           {cities.map((c) => {
             const active = cityFilter === c;
             return (
@@ -190,7 +201,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
             <p className="text-xs font-light">Try resetting search filters or city presets.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 hotel-modal-grid">
             {filteredHotels.map((hotel) => {
               const isChecked = selectedIds.includes(hotel.id);
               return (

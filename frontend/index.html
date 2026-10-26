@@ -233,7 +233,6 @@
   /* modal filter/chip row: wrap the chips instead of spilling (targeted — only the row that
      contains the rounded-full filter pills) */
   html.layout-mobile .fixed.inset-0.z-50 .flex:has(> button.rounded-full.px-3) { flex-wrap: wrap !important; }
-  html.layout-mobile .fixed.inset-0.z-50 .grid.sm\:grid-cols-2,
   html.layout-mobile .fixed.inset-0.z-50 .grid.md\:grid-cols-2 { grid-template-columns: 1fr !important; }
   html.layout-mobile .fixed.inset-0.z-50 img { max-width: 100% !important; height: auto !important; }
 
@@ -574,6 +573,17 @@
   /* Persona: mobile = single-select dropdown; web = the 3 buttons (source renders both, CSS picks) */
   html.layout-mobile #root .persona-buttons-web { display: none !important; }
   html.layout-mobile #root .persona-select-mobile { display: block !important; }
+
+  /* Hotel selector sheet: 2-col thumbnails, no pills, no search (mobile only) */
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 8px !important; }
+  html.layout-mobile body > .fixed.inset-0.z-50 .hotel-modal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-search { display: none !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-pills { display: none !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-quickselect { width: 100% !important; justify-content: center !important; }
+  /* compact 2-up cards: smaller thumb + trimmed text */
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-grid > div { padding: 6px !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-grid .relative.h-28 { height: 84px !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-grid h4 { font-size: 11px !important; }
 
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
