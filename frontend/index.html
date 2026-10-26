@@ -401,13 +401,19 @@
   html.layout-mobile #root .snap-start .group { display: flex !important; flex-direction: column !important; }
   html.layout-mobile #root .snap-start .group .absolute.bottom-0 { position: static !important; padding: 0 !important; }
 
-  /* 4. Stories: horizontal snap carousel like hotels */
+  /* 4. Stories: horizontal snap carousel like hotels — hardened against the generic grid-collapse
+     rule (which forces grid-template-columns:1fr and keeps the old 3-row height) */
   html.layout-mobile #root section:nth-of-type(5) .grid.grid-cols-1.md\:grid-cols-3 {
-    display: flex !important; flex-direction: row !important; overflow-x: auto !important;
+    display: flex !important; grid-template-columns: unset !important; grid-template-rows: unset !important;
+    flex-direction: row !important; flex-wrap: nowrap !important; overflow-x: auto !important;
     scroll-snap-type: x mandatory !important; gap: 10px !important;
+    height: auto !important; min-height: 0 !important; align-items: stretch !important;
+    -webkit-overflow-scrolling: touch;
   }
   html.layout-mobile #root section:nth-of-type(5) .grid.grid-cols-1.md\:grid-cols-3 > article {
-    flex: 0 0 100% !important; scroll-snap-align: start !important;
+    flex: 0 0 100% !important; width: 100% !important; max-width: 100% !important;
+    height: 242px !important; max-height: 242px !important;
+    scroll-snap-align: start !important; margin: 0 !important;
   }
 
   /* De-clutter repetitive per-card CTAs (cards are tappable; section CTA covers the rest) */
