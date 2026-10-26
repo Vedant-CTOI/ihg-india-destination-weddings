@@ -402,9 +402,7 @@
   html.layout-mobile #root .snap-start .group button { display: none !important; }          /* FULL PAGE x8 */
   html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article button { display: none !important; }  /* READ FULL STORY x3 */
 
-  /* About grid: images col first, text+CTA col last so the CTA ends the section */
-  html.layout-mobile #root section:nth-of-type(2) .grid.lg\:grid-cols-12 > div:first-child { order: 2 !important; }
-  html.layout-mobile #root section:nth-of-type(2) .grid.lg\:grid-cols-12 > div:last-child { order: 1 !important; }
+
   /* Stories (4th section): its header CTA duplicates the end 'Explore' CTA -> hide on mobile */
   html.layout-mobile #root section:nth-of-type(5) .flex.items-center.space-x-3 { display: none !important; }
   /* Discover & Hotels: pin the header CTA to the section end, centered */
