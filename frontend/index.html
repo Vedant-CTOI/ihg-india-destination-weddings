@@ -223,10 +223,6 @@
     border-radius: 24px 24px 0 0 !important; max-height: 86vh !important; margin-bottom: 0 !important; }
 
   /* Persona/segmented rows stack full-width */
-  html.layout-mobile #root form .flex.items-center.space-x-2:has(> button),
-  html.layout-mobile #root form .flex.items-center.gap-2:has(> button) { flex-direction: column; align-items: stretch; }
-  html.layout-mobile #root form .flex.items-center.space-x-2 > button,
-  html.layout-mobile #root form .flex.items-center.gap-2 > button { width: 100%; }
 
   /* Media ratios trimmed for taller phone feel */
   html.layout-mobile .aspect-\[16\/7\] { aspect-ratio: 16/10 !important; }
@@ -559,6 +555,10 @@
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) span,
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) div { color: #000000 !important; }
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) h3 { font-family: Georgia, 'Times New Roman', serif !important; }
+
+  /* Persona: mobile = single-select dropdown; web = the 3 buttons (source renders both, CSS picks) */
+  html.layout-mobile #root .persona-buttons-web { display: none !important; }
+  html.layout-mobile #root .persona-select-mobile { display: block !important; }
 
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }

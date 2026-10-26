@@ -120,7 +120,18 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
               <label className="font-serif text-base text-black font-normal block mb-2">
                 Persona
               </label>
-              <div className="grid grid-cols-3 gap-2">
+              {/* Mobile-only: persona as single-select dropdown (CSS toggles button row vs select) */}
+              <select
+                value={formDataPersona}
+                onChange={(e) => setFormDataPersona(e.target.value)}
+                className="persona-select-mobile w-full border border-neutral-300 rounded-xl px-3 py-2.5 text-sm font-sans bg-white cursor-pointer hidden"
+                aria-label="Persona"
+              >
+                {(['Bride or Groom', 'Family', 'Wedding Planner'] as string[]).map((p) => (
+                  <option key={p} value={p}>{p}</option>
+                ))}
+              </select>
+              <div className="persona-buttons-web grid grid-cols-3 gap-2">
                 {(['Bride or Groom', 'Family', 'Wedding Planner'] as string[]).map((persona) => {
                   const isSelected = formDataPersona === persona;
                   return (
