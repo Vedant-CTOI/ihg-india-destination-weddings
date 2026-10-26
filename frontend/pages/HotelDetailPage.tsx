@@ -794,16 +794,18 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         const top = el.getBoundingClientRect().top + window.scrollY - offset;
                         window.scrollTo({ top, behavior: 'smooth' });
                       }}
-                      className="venue-chip shrink-0 rounded-full border border-neutral-300 bg-white hover:border-black hover:bg-neutral-50 transition-all cursor-pointer group/thmb py-1.5 pr-3.5 text-[10px] font-sans font-medium text-neutral-700 hover:text-black whitespace-nowrap overflow-hidden"
+                      className="shrink-0 rounded-full border border-neutral-300 bg-white hover:border-black hover:bg-neutral-50 transition-all cursor-pointer group/thmb py-1.5 pr-3.5 text-[10px] font-sans font-medium text-neutral-700 group-hover/thmb:text-black whitespace-nowrap overflow-hidden"
                       aria-label={`Jump to Venue ${vIndex + 1}`}
                     >
                       <span className="inline-flex items-center gap-1.5">
-                        <img
-                          src={(venue.gallery && venue.gallery[0]) || ''}
-                          alt=""
-                          className="venue-chip-img filter grayscale contrast-110"
-                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                        />
+                        <span className="w-0 h-7 rounded-full overflow-hidden transition-all duration-200 group-hover/thmb:w-9 inline-block shrink-0">
+                          <img
+                            src={(venue.gallery && venue.gallery[0]) || ''}
+                            alt=""
+                            className="w-full h-full object-cover filter grayscale contrast-110"
+                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                          />
+                        </span>
                         <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-neutral-300 group-hover/thmb:bg-black transition-colors inline-block"></span>
                         Venue {vIndex + 1} - {venue.capacity}
                       </span>
