@@ -91,8 +91,22 @@ export const HeroSection: React.FC = () => {
     setCurrentIndex(idx);
   };
 
+  // Touch swipe: swipe left -> next slide, swipe right -> previous (mobile-native browsing)
+  const touchStartX = useRef<number | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) handleNext(); else handlePrev();
+    }
+    touchStartX.current = null;
+  };
+
   return (
     <section 
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       className="relative overflow-hidden min-h-[85vh] lg:min-h-[90vh] flex items-center bg-black text-white border-b border-neutral-800 select-none group"

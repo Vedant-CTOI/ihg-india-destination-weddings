@@ -461,6 +461,14 @@
     width: 100% !important; justify-content: center !important; font-size: 12px !important;
   }
 
+  /* Hero: remove arrows + 01-05 jump buttons on mobile — pure swipe (touch handlers in HeroSection) */
+  html.layout-mobile #root button[aria-label="Previous splash slide"],
+  html.layout-mobile #root button[aria-label="Next splash slide"],
+  html.layout-mobile #root button[aria-label^="Jump to slide"] { display: none !important; }
+
+  /* About: single paragraph on mobile (hide the 2nd) */
+  html.layout-mobile #root section:nth-of-type(2) .space-y-4 > p:nth-of-type(2) { display: none !important; }
+
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
   html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
