@@ -361,6 +361,10 @@
   html.layout-mobile #root .flex.flex-col.sm\:flex-row { flex-direction: column !important; align-items: center !important; text-align: center !important; }
   /* kill leftover bottom padding so end CTAs sit flush at section end */
   html.layout-mobile #root section { padding-bottom: 24px !important; }
+  /* De-clutter repetitive per-card CTAs (cards are tappable; section CTA covers the rest) */
+  html.layout-mobile #root .snap-start .group button { display: none !important; }          /* FULL PAGE x8 */
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article button { display: none !important; }  /* READ FULL STORY x3 */
+
   /* About grid: images col first, text+CTA col last so the CTA ends the section */
   html.layout-mobile #root section:nth-of-type(2) .grid.lg\:grid-cols-12 > div:first-child { order: 2 !important; }
   html.layout-mobile #root section:nth-of-type(2) .grid.lg\:grid-cols-12 > div:last-child { order: 1 !important; }
