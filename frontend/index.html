@@ -613,8 +613,10 @@
 
   /* Sticky Submit Query bar (mobile; visible only while form in view via .ihg-sticky-on) */
   #ihg-sticky-submit {
-    display: none; position: fixed; bottom: 0; left: 0; right: 0;
+    display: none; position: fixed; bottom: 0; left: 50%;
+    width: 430px; max-width: 430px; margin-left: -215px;
     height: 52px; z-index: 40; border: none; cursor: pointer;
+    box-sizing: border-box; border-radius: 14px 14px 0 0;
     background: #000; color: #fff; font-size: 12px; font-weight: 500;
     letter-spacing: 0.12em; text-transform: uppercase; font-family: inherit;
     box-shadow: 0 -6px 18px rgba(0,0,0,0.18);
