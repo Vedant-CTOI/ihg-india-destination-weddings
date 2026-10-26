@@ -150,45 +150,100 @@
       color: #1a1a1a !important;
     }
     /* ═══ MOBILE LAYOUT MODE (temporary toggle) — html.layout-mobile ═══
-     Same site, phone-canvas geometry. Toggle removes the class and everything reverts. */
-  html.layout-mobile #root { max-width: 430px; margin: 0 auto; min-height: 100vh;
-    box-shadow: 0 0 40px rgba(0,0,0,.08); background: #fff; }
+     Same site, phone-canvas geometry. Toggle removes the class and everything reverts.
+     Hard-overrides Tailwind responsive classes (they're viewport-based, so they stay active
+     inside the 430px canvas) so content genuinely reflows instead of getting cut. */
 
-  /* Header: force the compact (mobile) header even on wide screens */
+  /* Canvas */
+  html.layout-mobile #root { width: 430px; max-width: 430px; margin: 0 auto; min-height: 100vh;
+    box-shadow: 0 0 40px rgba(0,0,0,.08); background: #fff; overflow-x: hidden; }
+  html.layout-mobile body { overflow-x: hidden; }
+  html.layout-mobile #root img { max-width: 100% !important; }
+  html.layout-mobile #root .aspect-\[16\/7\], html.layout-mobile #root .aspect-\[16\/9\],
+  html.layout-mobile #root .aspect-\[4\/3\] { overflow: hidden !important; }
+
+  /* Header: force compact header, tighten spacing */
   html.layout-mobile header > div > div.hidden.lg\:flex { display: none !important; }
   html.layout-mobile header > div > div.flex.lg\:hidden { display: flex !important; }
-  html.layout-mobile header nav { flex-wrap: wrap; justify-content: flex-start !important; }
+  html.layout-mobile header .max-w-7xl { max-width: 100% !important; padding-left: 12px !important; padding-right: 12px !important; }
+  html.layout-mobile header nav { flex-wrap: wrap !important; justify-content: flex-start !important; gap: 10px 14px !important; }
 
-  /* Filter bars: one filter per row */
-  html.layout-mobile .grid.md\:grid-cols-12 { display: grid !important; grid-template-columns: 1fr !important; }
-  html.layout-mobile .grid.md\:grid-cols-12 > [class*="md:col-span-"] { grid-column: auto !important; }
+  /* Global: every section container becomes fluid */
+  html.layout-mobile .max-w-7xl { max-width: 100% !important; padding-left: 14px !important; padding-right: 14px !important; }
+  html.layout-mobile .max-w-6xl, html.layout-mobile .max-w-5xl, html.layout-mobile .max-w-4xl,
+  html.layout-mobile .max-w-3xl, html.layout-mobile .max-w-2xl, html.layout-mobile .max-w-xl { max-width: 100% !important; }
 
-  /* Multi-column content grids collapse */
-  html.layout-mobile .grid.grid-cols-3 { grid-template-columns: 1fr !important; }
-  html.layout-mobile .grid.grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; }
-  html.layout-mobile .grid.sm\:grid-cols-2 { grid-template-columns: 1fr !important; }
-  html.layout-mobile .grid.sm\:grid-cols-3 { grid-template-columns: 1fr !important; }
-  html.layout-mobile .grid.grid-cols-2 { grid-template-columns: repeat(2, 1fr) !important; }
+  /* ALL fixed widths become fluid inside the canvas */
+  html.layout-mobile #root [class*="w-[400px]"], html.layout-mobile #root [class*="w-[300px]"],
+  html.layout-mobile #root [class*="w-[500px]"], html.layout-mobile #root [class*="w-[600px]"],
+  html.layout-mobile #root [class*="w-[800px]"], html.layout-mobile #root .w-96, html.layout-mobile #root .w-80,
+  html.layout-mobile #root .w-72, html.layout-mobile #root .w-64, html.layout-mobile #root .w-full-fixed { width: 100% !important; max-width: 100% !important; }
 
-  /* Hotel detail side rail: unhook sticky + fixed width, stack inline (covers open+collapsed states) */
+  /* ALL multi-column grids -> 1 column (except tiny utility grids handled below) */
+  html.layout-mobile #root .grid.grid-cols-2, html.layout-mobile #root .grid.grid-cols-3,
+  html.layout-mobile #root .grid.grid-cols-4, html.layout-mobile #root .grid.grid-cols-5,
+  html.layout-mobile #root .grid.md\:grid-cols-2, html.layout-mobile #root .grid.md\:grid-cols-12,
+  html.layout-mobile #root .grid.lg\:grid-cols-3, html.layout-mobile #root .grid.lg\:grid-cols-12,
+  html.layout-mobile #root .grid.sm\:grid-cols-2, html.layout-mobile #root .grid.sm\:grid-cols-3,
+  html.layout-mobile #root .grid.sm\:grid-cols-5,
+  html.layout-mobile #root [class*="lg:grid-cols"], html.layout-mobile #root [class*="md:grid-cols"],
+  html.layout-mobile #root [class*="sm:grid-cols"] {
+    grid-template-columns: 1fr !important;
+  }
+  /* Persona / segmented 3-up rows stack full-width (labels were cutting at 95px) */
+  html.layout-mobile #root form .grid.grid-cols-3, html.layout-mobile #root .grid.grid-cols-3.gap-2:has(> button) {
+    grid-template-columns: 1fr !important;
+  }
+  html.layout-mobile #root .grid.grid-cols-2.gap-2, html.layout-mobile #root .grid.grid-cols-2.gap-3 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  /* Hotel metrics strip (grid-cols-2 sm:grid-cols-5) -> 2 cols */
+  html.layout-mobile #root .grid.sm\:grid-cols-5 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  /* Key Highlights (grid-cols-4 gap-x-4) -> 2 cols */
+  html.layout-mobile #root .grid.grid-cols-4.gap-x-4 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+
+  /* Flex rows that split columns -> stack */
+  html.layout-mobile #root .grid.md\:grid-cols-12 > [class*="md:col-span-"] { grid-column: auto !important; }
+
+  /* Text blocks: force wrapping + word-break so nothing overflows the canvas */
+  html.layout-mobile #root h1, html.layout-mobile #root h2, html.layout-mobile #root h3,
+  html.layout-mobile #root h4, html.layout-mobile #root p, html.layout-mobile #root span,
+  html.layout-mobile #root li, html.layout-mobile #root label, html.layout-mobile #root button,
+  html.layout-mobile #root div { overflow-wrap: break-word; word-break: break-word; }
+
+  /* Long horizontal rows (logo strips, genre pills, hotel carousel rows) scroll instead of cut */
+  html.layout-mobile #root .overflow-x-auto, html.layout-mobile #root .overflow-x-auto > div,
+  html.layout-mobile #root .overflow-x-auto > div > div { max-width: 100%; }
+
+  /* Sticky side rail: unhook + fluid (both open & collapsed states) */
   html.layout-mobile .sticky.w-\[400px\], html.layout-mobile .sticky.w-12 { position: static !important; width: 100% !important; max-width: 100% !important; }
   html.layout-mobile .sticky.top-20 { position: static !important; }
 
-  /* Hotel selector popup -> bottom sheet */
+  /* Popup -> bottom sheet */
   html.layout-mobile .fixed.inset-0.z-50 { align-items: flex-end !important; padding: 0 !important; }
   html.layout-mobile .fixed.inset-0.z-50 > .max-w-3xl { max-width: 100% !important; width: 100% !important;
     border-radius: 24px 24px 0 0 !important; max-height: 86vh !important; margin-bottom: 0 !important; }
 
-  /* Personas / segmented buttons stack full-width */
-  html.layout-mobile form .flex.items-center.space-x-2:has(> button) { flex-direction: column; align-items: stretch; }
-  html.layout-mobile form .flex.items-center.space-x-2 > button { width: 100%; }
+  /* Persona/segmented rows stack full-width */
+  html.layout-mobile #root form .flex.items-center.space-x-2:has(> button),
+  html.layout-mobile #root form .flex.items-center.gap-2:has(> button) { flex-direction: column; align-items: stretch; }
+  html.layout-mobile #root form .flex.items-center.space-x-2 > button,
+  html.layout-mobile #root form .flex.items-center.gap-2 > button { width: 100%; }
 
-  /* Hero + carousels: trim height */
+  /* Media ratios trimmed for taller phone feel */
   html.layout-mobile .aspect-\[16\/7\] { aspect-ratio: 16/10 !important; }
   html.layout-mobile .aspect-\[16\/9\] { aspect-ratio: 3/2 !important; }
+  html.layout-mobile .aspect-\[4\/3\] { aspect-ratio: 4/3 !important; }
 
-  /* Key Highlights: 7-item grid -> 2 cols */
-  html.layout-mobile .grid.grid-cols-4.gap-x-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  /* Big type scales down a touch on the narrow canvas */
+  html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
+  html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
+  html.layout-mobile #root h3 { font-size: 1.05rem !important; }
+  html.layout-mobile #root .text-5xl, html.layout-mobile #root .text-4xl { font-size: 1.8rem !important; }
+  html.layout-mobile #root .text-3xl { font-size: 1.45rem !important; }
+  html.layout-mobile #root .text-2xl { font-size: 1.2rem !important; }
+
+  /* Horizontal paddings tighten so content breathes on 430px */
+  html.layout-mobile #root section { padding-left: 0 !important; padding-right: 0 !important; }
+  html.layout-mobile #root section > .max-w-7xl { padding-left: 14px !important; padding-right: 14px !important; }
 </style>
 
   </head>
