@@ -585,6 +585,32 @@
   html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-grid .relative.h-28 { height: 84px !important; }
   html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-grid h4 { font-size: 11px !important; }
 
+  /* ═══ MOBILE v11 — form buttons + cross icons ═══ */
+  /* Destination + hotel trigger buttons: match the form's inputs exactly (white box, 10px radius, 44px) */
+  html.layout-mobile #root form button.w-full.bg-white,
+  html.layout-mobile #root form div.relative > button.bg-black,
+  html.layout-mobile #root form button[class*="rounded-full"][class*="bg-black"] {
+    background-color: #ffffff !important; background-image: none !important;
+    border: 1px solid #d4d4d4 !important; border-radius: 10px !important;
+    color: #000000 !important; min-height: 44px !important; height: 44px !important;
+    width: 100% !important; padding: 10px 12px !important; font-size: 15px !important;
+    box-shadow: none !important; justify-content: space-between !important;
+    letter-spacing: normal !important; text-transform: none !important;
+  }
+
+  /* Cross / icon substitute boxes: the wireframe's empty bordered spans inside buttons become
+     clean glyphs — a real ✕ for close buttons, hidden elsewhere */
+  html.layout-mobile .fixed.inset-0.z-50 button[aria-label="Close selector"],
+  html.layout-mobile #root button[aria-label*="lose"] { font-size: 0 !important; }
+  html.layout-mobile .fixed.inset-0.z-50 button[aria-label="Close selector"]::after,
+  html.layout-mobile #root button[aria-label*="lose"]::after {
+    content: '\00D7' !important; font-size: 22px !important; line-height: 1 !important;
+    font-weight: 300 !important; color: #000 !important;
+  }
+  /* hide the empty bordered icon-box spans inside buttons on mobile (they read as odd shapes) */
+  html.layout-mobile #root form button > span[aria-hidden="true"],
+  html.layout-mobile .fixed.inset-0.z-50 button > span[aria-hidden="true"] { display: none !important; }
+
   /* Big type scales down a touch on the narrow canvas */
   html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
   html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
