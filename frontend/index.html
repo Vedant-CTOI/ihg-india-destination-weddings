@@ -721,6 +721,20 @@
   /* status strip + chips wrap within canvas */
   html.layout-mobile #root .flex.flex-wrap.items-center.justify-between { flex-wrap: wrap !important; max-width: 100% !important; }
 
+  /* ═══ MOBILE v23 — dedicated Hotels + Real Weddings pages: mobile-native (web logic untouched) ═══ */
+  /* both pages share AllHotelsPage/genre-listing-like layouts; cards get evidence-size media +
+     compact padding so they read as designed-for-mobile like the Discover page */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .relative.h-56,
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .relative.h-60 { height: 200px !important; min-height: 200px !important; max-height: 200px !important; overflow: hidden !important; }
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .p-5 { padding: 14px !important; }
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group h3 { font-size: 17px !important; margin: 2px 0 4px !important; }
+  /* card CTA: mobile-ideal tap height, full width, no clipping */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group button { min-height: 44px !important; width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; font-size: 11px !important; justify-content: center !important; }
+  /* card images fluid */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group img { height: 200px !important; max-height: 200px !important; object-fit: cover !important; }
+  /* the web stats strips inside cards wrap to one compact line */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .flex.items-center.space-x-4 { gap: 10px !important; margin-top: 4px !important; }
+
   /* ═══ MOBILE v22 — PERMANENT grid fix: viewport-responsive md:/lg: grids break inside the 430px
      canvas (they see the wide viewport, not the phone). Force EVERY grid in the canvas to a single
      column and every col-span child to span it; overrides all Tailwind responsive variants. ═══ */
