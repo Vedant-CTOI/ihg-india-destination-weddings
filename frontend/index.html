@@ -416,6 +416,11 @@
     scroll-snap-align: start !important; margin: 0 !important;
   }
 
+  /* Stories rail arrows: only in mobile mode (web grid needs no arrows) */
+  html.layout-mobile #root .stories-rail-arrow { display: flex !important; }
+  html.layout-mobile #root .stories-rail-prev { left: 6px !important; }
+  html.layout-mobile #root .stories-rail-next { right: 6px !important; }
+
   /* De-clutter repetitive per-card CTAs (cards are tappable; section CTA covers the rest) */
   html.layout-mobile #root .snap-start .group button { display: none !important; }          /* FULL PAGE x8 */
   html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article button { display: none !important; }  /* READ FULL STORY x3 */

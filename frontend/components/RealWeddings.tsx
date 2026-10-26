@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { REAL_WEDDINGS_DATA } from '../constants';
 import { RealWeddingCase } from '../types';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface RealWeddingsProps {
   onSelectStory: (wedding: RealWeddingCase) => void;
@@ -24,6 +24,11 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
   });
 
   const visibleWeddings = showAllStories ? filteredWeddings : filteredWeddings.slice(0, 3);
+
+  // Mobile-mode carousel arrows (hidden in web mode via CSS)
+  const railRef = useRef<HTMLDivElement>(null);
+  const railPrev = () => railRef.current?.scrollBy({ left: -(railRef.current.clientWidth - 20), behavior: 'smooth' });
+  const railNext = () => railRef.current?.scrollBy({ left: railRef.current.clientWidth - 20, behavior: 'smooth' });
 
   return (
     <section id="real-weddings" className="py-20 bg-neutral-50 border-b border-neutral-200">
@@ -65,8 +70,17 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
           </div>
         </div>
 
-        {/* Minimal Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Minimal Cards Grid — mobile: horizontal rail with arrows */}
+        <div className="relative">
+          <button type="button" onClick={railPrev} aria-label="Previous wedding stories"
+            className="stories-rail-arrow stories-rail-prev absolute left-1 top-[120px] -translate-y-1/2 z-40 w-10 h-10 rounded-full border border-neutral-300 bg-white/90 hover:bg-white shadow-2xs text-black items-center justify-center cursor-pointer hidden">
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <button type="button" onClick={railNext} aria-label="Next wedding stories"
+            className="stories-rail-arrow stories-rail-next absolute right-1 top-[120px] -translate-y-1/2 z-40 w-10 h-10 rounded-full border border-neutral-300 bg-white/90 hover:bg-white shadow-2xs text-black items-center justify-center cursor-pointer hidden">
+            <ChevronRight className="w-4 h-4" />
+          </button>
+          <div ref={railRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {visibleWeddings.map((wedding) => (
             <article
               key={wedding.id}
@@ -124,6 +138,7 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
 
             </article>
           ))}
+          </div>
         </div>
 
         {/* View More Stories Toggle / CTA */}
