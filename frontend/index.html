@@ -239,6 +239,16 @@
     }
     @media (prefers-reduced-motion: reduce) { html:not(.layout-mobile) [data-wm="curtain"] > * { clip-path: none !important; transition: none !important; } }
     /* ===== /DESIGN TRANSFER step 3 ===== */
+    /* ===== TYPE SYSTEM (WEB VERSION, LANDING PAGE ONLY) — Arpona titles + Menca information =====
+       Fonts are Adobe Fonts activated on this Mac (Creative Cloud). Hero banner, header and footer are
+       deliberately NOT included yet (hero awaits sign-off). Mobile view keeps Inter. */
+    html:not(.layout-mobile) .landing-home section:not([aria-label="IHG Weddings Splash Screen Carousel"]),
+    html:not(.layout-mobile) .landing-home section:not([aria-label="IHG Weddings Splash Screen Carousel"]) * {
+      font-family: "Menca", "Inter", sans-serif !important; }
+    html:not(.layout-mobile) .landing-home section:not([aria-label="IHG Weddings Splash Screen Carousel"]) h2,
+    html:not(.layout-mobile) .landing-home section:not([aria-label="IHG Weddings Splash Screen Carousel"]) h2 * {
+      font-family: "Arpona", "Bodoni Moda", serif !important; font-weight: 400 !important; }
+    /* ===== /TYPE SYSTEM ===== */
 
     /* ─── DIALOG OVERLAY EXEMPTION — proper dim backdrop for popups ─── */
     .fixed.inset-0[role="dialog"] {

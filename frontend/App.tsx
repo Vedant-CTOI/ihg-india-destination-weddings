@@ -149,7 +149,7 @@ export const App: React.FC = () => {
         )}
 
         {currentView.type === 'home' && (
-          <div className="animate-fade-in">
+          <div className="animate-fade-in landing-home">
             {/* Hero Section (Splash Screen Carousel) */}
             <HeroSection />
 
