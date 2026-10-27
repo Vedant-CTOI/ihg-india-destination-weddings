@@ -918,6 +918,49 @@
   html.layout-mobile #root section .mt-10:has(> button) { display: none !important; }
   /* the section's reserved bottom padding shrinks with the pinned-CTA space no longer needed */
   html.layout-mobile #root section:has(.grid.grid-cols-1.md\:grid-cols-3 article) > div.max-w-7xl { padding-bottom: 28px !important; }
+
+  /* v36 — FINAL hotels rail state (overrides v19 stripping + all stale rules):
+     view cards with hotel name + capacity + rooms, circular 40px prev/next arrows */
+  /* text block: visible, below image, clean */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:has(> h3),
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl div:has(> h3) { display: block !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl h3 { display: block !important; font-size: 15px !important; margin: 6px 0 2px !important; color: #000 !important; }
+  /* keep name/capacity/rooms; hide region/genre/mandap + FULL PAGE + pills */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl p { display: none !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .text-\[10px\]:first-child,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .text-\[10px\]:nth-of-type(1) { display: none !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl button { display: none !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl span.absolute { display: none !important; }
+  /* card: image top, text block in normal flow (not absolute overlay) */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child { position: static !important; background: none !important; padding: 8px 12px 10px !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl { display: flex !important; flex-direction: column !important; }
+  /* arrows: BOTH visible as 40px circles, vertically centered on the rail, beating every older rule */
+  html.layout-mobile #root section button[aria-label="Previous hotels"],
+  html.layout-mobile #root section button[aria-label="Next hotels"],
+  html.layout-mobile #root section .flex button[aria-label="Previous hotels"],
+  html.layout-mobile #root section .flex button[aria-label="Next hotels"],
+  html.layout-mobile #root section button[aria-label="Previous hotels"][class*="rounded-full"],
+  html.layout-mobile #root section button[aria-label="Next hotels"][class*="rounded-full"] {
+    display: flex !important;
+    position: absolute !important; top: 100px !important; transform: none !important;
+    width: 40px !important; height: 40px !important; min-width: 40px !important; max-width: 40px !important;
+    min-height: 40px !important; border-radius: 9999px !important;
+    background: #fff !important; border: 1px solid #d4d4d4 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,.2) !important;
+    align-items: center !important; justify-content: center !important;
+    padding: 0 !important; z-index: 6 !important; font-size: 0 !important;
+  }
+  html.layout-mobile #root section button[aria-label="Previous hotels"] { left: 6px !important; }
+  html.layout-mobile #root section button[aria-label="Next hotels"] { right: 6px !important; }
+  html.layout-mobile #root section button[aria-label="Previous hotels"] svg,
+  html.layout-mobile #root section button[aria-label="Next hotels"] svg { color: #000 !important; width: 18px !important; height: 18px !important; }
+
+  /* v37 — genre text hidden on hotel cards (mobile): hide the eyebrow span above the h3 */
+  html.layout-mobile #root .snap-start .group .space-y-0\.5 > span:first-child,
+  html.layout-mobile #root .snap-start .group span.text-\[10px\] { display: none !important; }
+  /* same on the dedicated hotels + discover listing cards */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group span.uppercase,
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .text-\[10px\] { display: none !important; }
 </style>
 
   </head>

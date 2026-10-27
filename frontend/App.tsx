@@ -22,7 +22,6 @@ import { StoryDetailPage } from './pages/StoryDetailPage';
 import { AllStoriesPage } from './pages/AllStoriesPage';
 import { ConversationPage } from './pages/ConversationPage';
 import { SitemapPage } from './pages/SitemapPage';
-import { CommentToolbar, CommentPinLayer, useComments, pageKeyFor, exportCommentsFile, importCommentsFile } from './components/CommentOverlay';
 import { LegalInfoPage } from './pages/LegalInfoPage';
 import { GoToTopButton } from './components/GoToTopButton';
 
@@ -31,12 +30,9 @@ export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<PageView>({ type: 'home' });
 
   // --- Client commenting system (prototype-only overlay) ---
-  const pageKey = pageKeyFor(currentView as unknown as { type: string; [k: string]: unknown });
-  const comments = useComments(pageKey);
   // Tracks which genre the homepage carousel is currently showing (for header nav)
   const genreIndexRef = useRef<number>(0);
   // Re-render the layer when a comment is added outside React state (e.g. screenshot attach)
-  const [commentTick, setCommentTick] = useState<number>(0);
 
   // Post-submission Consent & Notification popup states
   const [pendingInquiryData, setPendingInquiryData] = useState<InquiryFormData | null>(null);
@@ -321,29 +317,6 @@ export const App: React.FC = () => {
 
       {/* 5. Floating Go-to-Top Button — on all pages */}
       <GoToTopButton />
-
-      {/* 6. CLIENT COMMENTING OVERLAY — SHIFT+click to pin; persists in localStorage */}
-      <CommentToolbar
-        commentCount={comments.comments.length}
-        onExport={exportCommentsFile}
-        onImport={(file) => {
-          importCommentsFile(file).then((n) => {
-            window.alert(`Imported ${n} comment${n === 1 ? '' : 's'}.`);
-            setCommentTick((t) => t + 1);
-          }).catch(() => {
-            window.alert('Could not read that file. Please use a feedback JSON exported from this site.');
-          });
-        }}
-      />
-      <CommentPinLayer
-        key={`${pageKey}-${commentTick}`}
-        comments={comments.comments}
-        onAdd={comments.addComment}
-        onUpdate={comments.updateComment}
-        onDelete={comments.deleteComment}
-        onToggleResolved={comments.toggleResolved}
-        onCommentsChanged={() => setCommentTick((t) => t + 1)}
-      />
 
     </div>
   );
