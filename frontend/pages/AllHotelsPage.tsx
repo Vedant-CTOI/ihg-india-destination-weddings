@@ -47,12 +47,6 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
   // Filtered hotels list based on city, genre, and search query
   const filteredHotels = useMemo(() => {
     return HOTELS_DATA.filter((h) => {
-      // 0. Country filter (hotels belonging to the selected country)
-      const countryHotelNames = Object.values(COUNTRY_DEST_MAP[selectedCountry] || {}).flat();
-      if (countryHotelNames.length > 0 && !countryHotelNames.includes(h.name)) {
-        return false;
-      }
-
       // 1. City filter
       if (selectedCity !== 'All Cities' && h.city !== selectedCity) {
         return false;

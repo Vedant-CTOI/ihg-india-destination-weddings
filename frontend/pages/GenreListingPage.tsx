@@ -58,11 +58,13 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
 
   // Filtered hotels list based on city, occasion, and search query
   const filteredHotels = useMemo(() => {
-    // 0. Country + Destination filter (same as enquiry form)
-    const destMap = COUNTRY_DEST_MAP[selectedCountry] || {};
+    // 0. Destination filter (multi) across ALL countries — Country filter removed
     const allowedHotelNames = selectedDestinations.length === 0
-      ? Object.values(destMap).flat()
-      : selectedDestinations.flatMap((d) => destMap[d] || []);
+      ? HOTELS_DATA.map((h) => h.name)
+      : selectedDestinations.flatMap((d) => {
+          for (const c of Object.values(COUNTRY_DEST_MAP)) { if (c[d]) return c[d]; }
+          return [];
+        });
 
     return HOTELS_DATA.filter((h) => {
       if (!allowedHotelNames.includes(h.name)) {
@@ -171,27 +173,6 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
         <div className="bg-neutral-50 p-3 sm:p-4 rounded-2xl border border-neutral-200 space-y-3">
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-end">
-
-            {/* Filter 1: Country Dropdown (2 cols) */}
-            <div className="md:col-span-2 space-y-1">
-                <label className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
-                  Filter by Country:
-                </label>
-                <div className="relative">
-                  <select
-                    value={selectedCountry}
-                    onChange={(e) => { setSelectedCountry(e.target.value); setSelectedDestinations([]); }}
-                    className="w-full appearance-none bg-white border border-neutral-300 hover:border-black rounded-xl px-3.5 py-2.5 pr-9 text-xs font-sans text-black font-medium shadow-2xs focus:outline-none focus:border-black transition-colors cursor-pointer"
-                  >
-                    {Object.keys(COUNTRY_DEST_MAP).map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-500">
-                    <ChevronDown className="w-4 h-4" />
-                  </div>
-                </div>
-            </div>
 
             {/* Filter 2: Destination multi-checkbox dropdown (2 cols) */}
             <div className="md:col-span-2 space-y-1">

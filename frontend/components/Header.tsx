@@ -57,8 +57,8 @@ export const Header: React.FC<HeaderProps> = ({
     { label: 'About', page: 'about' },
     { label: 'Discover by Destination', page: 'genre' },
     { label: 'Hotels', page: 'hotels' },
-    { label: 'Real Weddings', page: 'stories' },
     { label: 'Loyalty Packages', page: 'lorem' },
+    { label: 'Real Weddings', page: 'stories' },
   ];
 
   const handleLinkClick = (link: { label: string; anchor?: string; page?: string }) => {
