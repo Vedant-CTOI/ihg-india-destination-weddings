@@ -911,6 +911,13 @@
   }
   html.layout-mobile #root .stories-rail-arrow.stories-rail-prev { left: 6px !important; }
   html.layout-mobile #root .stories-rail-arrow.stories-rail-next { right: 6px !important; }
+
+  /* v35 — stories section: single CTA (bottom 'Explore All' removed on mobile), height tightened */
+  html.layout-mobile #root section button:has(> span:first-child) { /* no-op guard */ }
+  html.layout-mobile #root .text-center.mt-10 { display: none !important; }
+  html.layout-mobile #root section .mt-10:has(> button) { display: none !important; }
+  /* the section's reserved bottom padding shrinks with the pinned-CTA space no longer needed */
+  html.layout-mobile #root section:has(.grid.grid-cols-1.md\:grid-cols-3 article) > div.max-w-7xl { padding-bottom: 28px !important; }
 </style>
 
   </head>
