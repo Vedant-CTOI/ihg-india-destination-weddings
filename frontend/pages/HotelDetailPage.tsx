@@ -289,7 +289,8 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [expectedDate, setExpectedDate] = useState('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
   const [guestCount, setGuestCount] = useState('');
   const [notes, setNotes] = useState('');
   const [occasion, setOccasion] = useState('Occasion 1');
@@ -367,7 +368,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
       destinations: selectedDestinations.length > 0 ? selectedDestinations : [selectedCountry],
       selectedHotelIds,
       selectedHotelNames: HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => h.name),
-      targetWindow: expectedDate || 'Dates to be finalized',
+      targetWindow: (dateFrom && dateTo) ? `${dateFrom} to ${dateTo}` : (dateFrom || dateTo || 'Dates to be finalized'),
       guestRange: guestCount || 'To be confirmed',
       estimatedGuests: Number(guestCount) || 0,
       ceremonyTraditions: [occasion],
@@ -578,9 +579,13 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                       </select>
                     </div>
                     <div>
-                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Expected Date</label>
-                      <input type="date" min="2025-01-01" max="2028-12-31" value={expectedDate}
-                        onChange={(e) => setExpectedDate(e.target.value)}
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Date From</label>
+                      <input type="date" min="2025-01-01" max="2028-12-31" value={dateFrom}
+                        onChange={(e) => setDateFrom(e.target.value)}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium" />
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Date To</label>
+                      <input type="date" min={dateFrom || "2025-01-01"} max="2028-12-31" value={dateTo}
+                        onChange={(e) => setDateTo(e.target.value)}
                         className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium" />
                     </div>
                     <div>

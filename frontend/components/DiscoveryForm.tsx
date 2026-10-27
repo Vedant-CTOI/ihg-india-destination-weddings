@@ -33,7 +33,8 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [expectedDate, setExpectedDate] = useState('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
   const [guestCount, setGuestCount] = useState('');
   const [notes, setNotes] = useState('');
   const [occasion, setOccasion] = useState('Occasion 1');
@@ -76,7 +77,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
       destinations: selectedDestinations.length > 0 ? selectedDestinations : [selectedCountry],
       selectedHotelIds,
       selectedHotelNames: HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => h.name),
-      targetWindow: expectedDate || 'Dates to be finalized',
+      targetWindow: (dateFrom && dateTo) ? `${dateFrom} to ${dateTo}` : (dateFrom || dateTo || 'Dates to be finalized'),
       guestRange: guestCount || 'To be confirmed',
       estimatedGuests: Number(guestCount) || 0,
       ceremonyTraditions: [occasion],
@@ -188,9 +189,12 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                 </select>
               </div>
               <div className="form-field-date">
-                <label className={labelCls}>Expected Date</label>
-                <input type="date" min="2025-01-01" max="2028-12-31" value={expectedDate}
-                  onChange={(e) => setExpectedDate(e.target.value)} className={inputCls + " cursor-pointer font-medium"} />
+                <label className={labelCls}>Date From</label>
+                <input type="date" min="2025-01-01" max="2028-12-31" value={dateFrom}
+                  onChange={(e) => setDateFrom(e.target.value)} className={inputCls + " cursor-pointer font-medium"} />
+                <label className={labelCls + ' ihtm-lbl'}>Date To</label>
+                <input type="date" min={dateFrom || "2025-01-01"} max="2028-12-31" value={dateTo}
+                  onChange={(e) => setDateTo(e.target.value)} className={inputCls + " cursor-pointer font-medium"} />
               </div>
               <div className="form-field-guests">
                 <label className={labelCls}>Number of Guests</label>
