@@ -640,13 +640,17 @@
   html.layout-mobile #root .mobile-fullname-wrap + div { display: none !important; }         /* First Name */
   html.layout-mobile #root .mobile-fullname-wrap + div + div { display: none !important; }   /* Last Name */
 
-  /* B+C. Date+Guests / Country+Destination share rows: their parent grids become block,
-     the four wrappers flow inline-block at 49% */
-  html.layout-mobile #root .grid:has(> .form-field-date), html.layout-mobile #root .grid:has(> .form-field-country) { display: block !important; grid-template-columns: none !important; }
-  html.layout-mobile #root .grid:has(> .form-field-date) > .form-field-date,
-  html.layout-mobile #root .grid:has(> .form-field-date) > .form-field-guests,
-  html.layout-mobile #root .grid:has(> .form-field-country) > .form-field-country,
-  html.layout-mobile #root .grid:has(> .form-field-country) > .form-field-destination { display: inline-block !important; width: 49% !important; vertical-align: top; padding-right: 1%; box-sizing: border-box; }
+  /* B+C. Date+Guests / Country+Destination share rows via proper 2-col grid tracks */
+  html.layout-mobile #root .grid:has(> .form-field-date),
+  html.layout-mobile #root .grid:has(> .form-field-country) {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+  html.layout-mobile #root .grid:has(> .form-field-date) > .form-field-date { grid-column: 1 !important; }
+  html.layout-mobile #root .grid:has(> .form-field-date) > .form-field-guests { grid-column: 2 !important; }
+  html.layout-mobile #root .grid:has(> .form-field-country) > .form-field-country { grid-column: 1 !important; }
+  html.layout-mobile #root .grid:has(> .form-field-country) > .form-field-destination { grid-column: 2 !important; }
 
   /* D. Notes textarea -> 2 rows */
   html.layout-mobile #root form textarea { min-height: 0 !important; height: 66px !important; }
@@ -722,16 +726,7 @@
      Full Name single field, First/Last hidden, Date+Guests share a row ═══ */
   html.layout-mobile #root .form-field-firstname,
   html.layout-mobile #root .form-field-lastname { display: none !important; }
-  html.layout-mobile #root .form-field-date { grid-column: 1 !important; }
-  html.layout-mobile #root .form-field-guests { grid-column: 2 !important; }
-  html.layout-mobile #root .form-field-date,
-  html.layout-mobile #root .form-field-guests { width: 100% !important; box-sizing: border-box !important; }
-  /* their parent grid gets 2 equal columns for this row only */
-  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2,
-  html.layout-mobile #root form .grid.sm\:grid-cols-2 {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
+
 
   /* ═══ MOBILE v29 — Loyalty package cards: stack image over text, both proportionate ═══ */
   html.layout-mobile #root .bg-neutral-50.border.border-neutral-200.rounded-2xl.overflow-hidden.flex {
@@ -833,6 +828,49 @@
   html.layout-mobile #root section { padding-left: 0 !important; padding-right: 0 !important; }
   html.layout-mobile #root section > .max-w-7xl { padding-left: 14px !important; padding-right: 14px !important; }
 
+  /* ═══ MOBILE v31 — enquiry form layout: utilise full canvas width ═══ */
+  /* every input/control fills its column completely */
+  html.layout-mobile #root form input[type="text"],
+  html.layout-mobile #root form input[type="email"],
+  html.layout-mobile #root form select,
+  html.layout-mobile #root form textarea,
+  html.layout-mobile #root form input[type="date"],
+  html.layout-mobile #root form input[type="number"] {
+    width: 100% !important; box-sizing: border-box !important;
+  }
+  /* the paired-row grid cells fill their track */
+  html.layout-mobile #root form .form-field-date,
+  html.layout-mobile #root form .form-field-guests { width: 100% !important; padding: 0 4px 0 0 / 0 0 0 0; }
+  /* trigger buttons + persona select full width too */
+  html.layout-mobile #root form button,
+  html.layout-mobile #root form .persona-select-mobile { width: 100% !important; box-sizing: border-box !important; max-width: 100% !important; }
+  /* the form card inner padding tighter so fields get max width */
+  html.layout-mobile #root form .p-6, html.layout-mobile #root form .p-8 { padding: 12px !important; }
+  /* label spacing compact */
+  html.layout-mobile #root form label { margin-bottom: 3px !important; }
+  /* rows gap tightened */
+  html.layout-mobile #root form .space-y-4 > * + *, html.layout-mobile #root form .space-y-3 > * + * { margin-top: 9px !important; }
+
+  /* v31b — real fix: widen the form column itself (was 332 inside a 366 card) */
+  html.layout-mobile #root form .space-y-5,
+  html.layout-mobile #root form > div,
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 { width: 100% !important; max-width: 100% !important; }
+  html.layout-mobile #root form .relative.bg-white.rounded-3xl { padding: 14px !important; }
+  /* date + number inputs: fill their grid cells (were intrinsic 78px) */
+  html.layout-mobile #root form input[type="date"],
+  html.layout-mobile #root form input[type="number"] { width: 100% !important; min-width: 0 !important; box-sizing: border-box !important; }
+  /* field wrapper divs inside form grids fill their tracks */
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > div { min-width: 0 !important; max-width: 100% !important; }
+
+
+
+  /* paired-row grid: 2 equal columns */
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2,
+  html.layout-mobile #root form .grid.sm\:grid-cols-2 {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
   /* v30 final: paired rows on the Enquire CTA form (date+guests) — placed last to beat the
      blanket 1/-1 rule */
   html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-date { grid-column: 1 !important; }
@@ -841,6 +879,7 @@
   html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-fullname { grid-column: 1 / -1 !important; }
   html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-firstname,
   html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-lastname { display: none !important; grid-column: auto !important; }
+
 </style>
 
   </head>
