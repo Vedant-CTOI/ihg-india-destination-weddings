@@ -855,9 +855,10 @@
         var b2 = forms[j].querySelector('button[type="submit"]');
         if (b2 && /submit/i.test(b2.textContent) && forms[j].offsetParent !== null) { orig = b2; break; }
       }
-      // sticky while the form is on screen; release when the button's real position is visible
+      // sticky once the user scrolls past the enquiry form (button's real position off-screen);
+      // releases only when the button's real spot is visible (end of form reached)
       var makeSticky = false;
-      if (visible && orig) {
+      if (orig) {
         var ob = orig.getBoundingClientRect();
         makeSticky = ob.bottom < 90 || ob.top > window.innerHeight - 90;
       }
