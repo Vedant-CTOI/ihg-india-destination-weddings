@@ -22,9 +22,20 @@ const POOL = [
   '1787831536189-aa3bea3049eb', '1787831536285-534e63115355', '1779253806487-401be91cc024',
   '1545126178-862cdb469409', '1784460843252-0957395d2888'
 ].map((id) => uimg(id, 1600));
-const venueGallery = (vIndex: number) => [0, 1, 2].map((k) => POOL[(vIndex * 3 + k) % POOL.length]);
+// Venue 1 uses the client's photos (order as supplied); focus keeps mandap/tables in the 16:9 crop
+const VENUE1: { url: string; pos: string }[] = [
+  { url: '/venues/hotel1-venue1-1.jpg', pos: '50% 72%' },
+  { url: '/venues/hotel1-venue1-2.jpg', pos: '50% 68%' },
+  { url: '/venues/hotel1-venue1-3.jpg', pos: '50% 55%' },
+  { url: '/venues/hotel1-venue1-4.jpg', pos: '50% 82%' },
+  { url: '/venues/hotel1-venue1-5.jpg', pos: '50% 62%' },
+  { url: '/venues/hotel1-venue1-6.jpg', pos: '50% 62%' }
+];
+const venuePhotos = (vIndex: number): { url: string; pos: string }[] =>
+  vIndex === 0 ? VENUE1 : [0, 1, 2].map((k) => ({ url: POOL[(vIndex * 3 + k) % POOL.length], pos: '50% 50%' }));
+const venueGallery = (vIndex: number) => venuePhotos(vIndex).map((p) => p.url);
 
-type Slide = { url: string; caption: string; isDraftDrawing: boolean; notes?: string };
+type Slide = { url: string; caption: string; isDraftDrawing: boolean; notes?: string; pos?: string };
 type PreviewFn = (i: number, slides: Slide[]) => void;
 
 const INK = '#3a0618'; // deep maroon type on the light bands
@@ -116,7 +127,7 @@ const LineCarousel: React.FC<{ slides: Slide[]; alt: string; onPreview: PreviewF
       {slides.map((s, k) => (
         <img key={s.url + k} src={s.url} alt={`${alt} — ${s.caption}`}
              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${k === i ? 'about-drift' : ''}`}
-             style={{ opacity: k === i ? 1 : 0, background: s.isDraftDrawing ? '#f4efe8' : undefined, objectFit: s.isDraftDrawing ? 'contain' : 'cover' }} />
+             style={{ opacity: k === i ? 1 : 0, background: s.isDraftDrawing ? '#f4efe8' : undefined, objectFit: s.isDraftDrawing ? 'contain' : 'cover', objectPosition: s.pos || '50% 50%' }} />
       ))}
       <div className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,.55), transparent)' }} />
       <div className="absolute inset-x-0 bottom-0 p-5 flex items-end gap-5 text-white" onClick={(e) => e.stopPropagation()}>
@@ -125,8 +136,8 @@ const LineCarousel: React.FC<{ slides: Slide[]; alt: string; onPreview: PreviewF
             <button key={k} type="button" onClick={() => go(k)} className="flex-1 py-3 cursor-pointer" aria-label={`Show picture ${k + 1}`}>
               <span className="block h-px bg-white/30 overflow-hidden">
                 {k === i
-                  ? <span key={`b-${cycle}`} className="hero-progress block h-full bg-white"
-                          style={{ animationDuration: `${CYCLE_MS}ms`, animationPlayState: paused ? 'paused' : 'running' }}
+                  ? <span key={`b-${cycle}`} className="hero-progress block h-full"
+                          style={{ background: PALETTE.marigold, animationDuration: `${CYCLE_MS}ms`, animationPlayState: paused ? 'paused' : 'running' }}
                           onAnimationEnd={() => go(i + 1)} />
                   : <span className={`block h-full bg-white origin-left ${k < i ? 'opacity-40' : 'scale-x-0'}`} />}
               </span>
@@ -225,7 +236,7 @@ export const FeatureBody: React.FC<{
       </section>
 
       {/* C. About — marigold band split in half; photo fills the right half edge to edge */}
-      <section className="relative grid grid-cols-1 lg:grid-cols-2" style={{ backgroundColor: PALETTE.marigold, color: INK }}>
+      <section className="relative grid grid-cols-1 lg:grid-cols-2" style={{ backgroundColor: '#fff', color: INK }}>
         <div className="px-4 sm:px-6 lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:pr-12 py-10 lg:py-12 space-y-4 self-center">
           <Eyebrow>About Us — {hotel.name}</Eyebrow>
           <h2 className="text-[clamp(1.6rem,2.3vw,2.3rem)] leading-[1.05] tracking-[-0.015em]">
@@ -234,7 +245,7 @@ export const FeatureBody: React.FC<{
           <p data-wm="" style={{ ['--d' as any]: '300ms', opacity: 0.85 }} className="text-[13.5px] leading-[1.65] max-w-xl">
             {hotel.aboutUs || hotel.overview}
           </p>
-          <div data-wm="" style={{ ['--d' as any]: '450ms' }} className="pt-3 border-t flex items-baseline justify-between gap-6 max-w-xl" >
+          <div data-wm="" style={{ ['--d' as any]: '450ms', borderColor: 'rgba(58,6,24,.2)' }} className="pt-3 border-t flex items-baseline justify-between gap-6 max-w-xl">
             <span className="text-[10px] uppercase tracking-[0.28em]" style={{ opacity: 0.7 }}>Signature Mandap Spec</span>
             <span className="font-arpona text-lg">{hotel.mandapType}</span>
           </div>
@@ -247,7 +258,7 @@ export const FeatureBody: React.FC<{
       </section>
 
       {/* D + E. Venues — saffron band, open alternating rows separated by hairlines */}
-      <section style={{ backgroundColor: PALETTE.saffron, color: INK }}>
+      <section style={{ backgroundColor: '#fff', color: INK, borderTop: '1px solid rgba(58,6,24,.12)' }}>
         <div className={`${W} pt-20 pb-10`}>
           <Eyebrow>Celebration Grounds</Eyebrow>
           <h3 className="mt-6 font-arpona text-[clamp(2.2rem,3.6vw,3.6rem)] leading-[1.02] tracking-[-0.015em]">
@@ -259,32 +270,39 @@ export const FeatureBody: React.FC<{
         </div>
 
         {/* jump bar — venue numbers on a hairline; current one underlined */}
-        <div ref={jumpRef} className="sticky top-[146px] z-20" style={{ backgroundColor: PALETTE.saffron }}>
+        <div ref={jumpRef} className="sticky top-[146px] z-20" style={{ backgroundColor: 'rgba(255,255,255,.97)' }}>
           <div className={`${W} border-y flex items-start gap-7 overflow-x-auto overflow-y-hidden no-scrollbar`} style={{ borderColor: 'rgba(58,6,24,.2)' }}>
             {venues.map((venue, v) => {
-              const hov = hovered === v;
+              const shown = current === v || hovered === v; // selected venue always shows its photo
+              const ph = venuePhotos(v)[0];
               return (
               <button key={v} type="button" onClick={() => jump(v)} aria-label={`Venue ${v + 1} - ${venue.capacity}`}
+                      aria-current={current === v ? 'true' : undefined}
                       onMouseEnter={() => canHover && setHovered(v)} onMouseLeave={() => setHovered((h) => (h === v ? null : h))}
-                      className="relative shrink-0 text-left text-[11px] uppercase tracking-[0.28em] cursor-pointer"
+                      className="relative shrink-0 h-[96px] text-left text-[11px] uppercase tracking-[0.28em] cursor-pointer"
                       style={{
-                        height: hov ? 92 : 48, minWidth: hov ? 120 : 0,
-                        opacity: current === v || hov ? 1 : 0.55,
-                        transition: `height 500ms ${EASE}, min-width 500ms ${EASE}, opacity 500ms ${EASE}`
+                        width: shown ? 120 : 76,
+                        opacity: shown ? 1 : 0.55,
+                        transition: `width 500ms ${EASE}, opacity 500ms ${EASE}`
                       }}>
-                {/* label slides up and away */}
-                <span className="block leading-[48px] whitespace-nowrap"
-                      style={{ transform: hov ? 'translateY(-100%)' : 'none', opacity: hov ? 0 : 1, transition: `transform 500ms ${EASE}, opacity 500ms ${EASE}` }}>
+                {/* text label (centred) — slides up and away when the photo shows */}
+                <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 whitespace-nowrap"
+                      style={{ opacity: shown ? 0 : 1, transform: `translateY(${shown ? '-120%' : '-50%'})`, transition: `transform 500ms ${EASE}, opacity 500ms ${EASE}` }}>
                   Venue {v + 1}
                 </span>
-                {/* venue photo rises in with the shutter wipe */}
-                <span aria-hidden="true" className="absolute left-0 top-3 w-[120px] h-[68px] overflow-hidden pointer-events-none"
-                      style={{ clipPath: hov ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)', transition: `clip-path 500ms ${WIPE}` }}>
-                  <img src={venueGallery(v)[0]} alt="" className="w-full h-full object-cover"
-                       style={{ transform: hov ? 'scale(1)' : 'scale(1.12)', transition: `transform 900ms ${EASE}` }} />
+                {/* venue photo (16:9) rises in with the shutter wipe */}
+                <span aria-hidden="true" className="absolute left-0 top-[8px] w-[120px] h-[68px] overflow-hidden pointer-events-none"
+                      style={{ clipPath: shown ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)', transition: `clip-path 500ms ${WIPE}` }}>
+                  <img src={ph.url} alt="" className="w-full h-full object-cover"
+                       style={{ objectPosition: ph.pos, transform: shown ? 'scale(1)' : 'scale(1.12)', transition: `transform 900ms ${EASE}` }} />
+                </span>
+                {/* small number under the photo */}
+                <span aria-hidden="true" className="absolute left-0 bottom-[4px] text-[9px] tracking-[0.28em] whitespace-nowrap"
+                      style={{ opacity: shown ? 0.8 : 0, transition: `opacity 500ms ${EASE}` }}>
+                  Venue {v + 1}
                 </span>
                 <span className="absolute left-0 right-0 bottom-[-1px] h-px origin-left transition-transform duration-700"
-                      style={{ background: INK, transform: `scaleX(${current === v ? 1 : 0})` }} />
+                      style={{ background: PALETTE.maroon, transform: `scaleX(${current === v ? 1 : 0})` }} />
               </button>
               );
             })}
@@ -294,7 +312,7 @@ export const FeatureBody: React.FC<{
         <div className={`${W} pb-24`}>
           {venues.map((venue, v) => {
             const slides: Slide[] = [
-              ...venueGallery(v).map((url, k) => ({ url, caption: `Ceremony Vista 0${k + 1}`, isDraftDrawing: false })),
+              ...venuePhotos(v).map((ph, k) => ({ url: ph.url, pos: ph.pos, caption: `Ceremony Vista 0${k + 1}`, isDraftDrawing: false })),
               {
                 url: venue.draftLayoutImage || '',
                 caption: venue.draftLayoutTitle || 'Draft Drawing Layout & Seating Architecture',
