@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageView } from '../types';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 
@@ -52,6 +52,16 @@ export const Header: React.FC<HeaderProps> = ({
     </div>
   );
   const isHome = currentView.type === 'home';
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  // Web version only: over the home hero the header is fixed + transparent with white type; solid after 40px
+  const cinematic = isHome && !mobileLayout;
+  const overHero = cinematic && !scrolled && !mobileMenuOpen;
 
   const navLinks: Array<{ label: string; anchor?: string; page?: string }> = [
     { label: 'About', page: 'about' },
@@ -81,7 +91,9 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-black/10">
+    <header className={`${cinematic ? 'fixed inset-x-0' : 'sticky'} top-0 z-30 transition-[background-color,border-color,color] duration-700 ${
+      overHero ? 'bg-transparent border-b border-white/15 text-white' : 'bg-white/95 backdrop-blur-md border-b border-black/10 text-black'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Desktop: Double-Height Header (h-36 / 144px) */}
@@ -96,10 +108,10 @@ export const Header: React.FC<HeaderProps> = ({
               className="group text-left cursor-pointer"
             >
               <div>
-                <div className="font-serif text-2xl tracking-widest text-black font-normal leading-none">
+                <div className={`font-serif text-2xl tracking-widest font-normal leading-none transition-colors duration-700 ${overHero ? 'text-white' : 'text-black'}`}>
                   IHG
                 </div>
-                <div className="text-[10px] uppercase font-sans tracking-[0.32em] text-neutral-500 font-medium mt-1">
+                <div className={`text-[10px] uppercase font-sans tracking-[0.32em] font-medium mt-1 transition-colors duration-700 ${overHero ? 'text-white/60' : 'text-neutral-500'}`}>
                   Hotels & Resorts India
                 </div>
               </div>
@@ -120,7 +132,7 @@ export const Header: React.FC<HeaderProps> = ({
 
               <button
                 onClick={handleEnquireClick}
-                className="bg-black hover:bg-neutral-800 text-white text-xs uppercase tracking-widest font-medium px-6 py-2.5 rounded-full transition-all flex items-center space-x-1.5 border border-black shadow-xs cursor-pointer"
+                className={`text-xs uppercase tracking-widest font-medium px-6 py-2.5 rounded-full transition-all duration-700 flex items-center space-x-1.5 border shadow-xs cursor-pointer ${overHero ? 'bg-white text-black border-white hover:bg-neutral-200' : 'bg-black hover:bg-neutral-800 text-white border-black'}`}
               >
                 <span>Enquire</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
@@ -130,13 +142,13 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Lower Tier: Centered Nav Anchor Links */}
-          <div className="border-t border-neutral-200 pt-3">
-            <nav className="flex items-center justify-center space-x-20 lg:space-x-28 text-xs font-sans uppercase tracking-[0.26em] text-neutral-600 font-medium">
+          <div className={`border-t pt-3 transition-colors duration-700 ${overHero ? 'border-white/15' : 'border-neutral-200'}`}>
+            <nav className={`flex items-center justify-center space-x-20 lg:space-x-28 text-xs font-sans uppercase tracking-[0.26em] font-medium transition-colors duration-700 ${overHero ? 'text-white/75' : 'text-neutral-600'}`}>
               {navLinks.map((link) => (
                 <button
                   key={link.label}
                   onClick={() => handleLinkClick(link)}
-                  className="hover:text-black transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-px after:bg-black hover:after:w-full after:transition-all cursor-pointer whitespace-nowrap"
+                  className={`transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-px hover:after:w-full after:transition-all cursor-pointer whitespace-nowrap ${overHero ? 'hover:text-white after:bg-white' : 'hover:text-black after:bg-black'}`}
                 >
                   {link.label}
                 </button>

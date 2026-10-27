@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { HeroSectionClassic } from './HeroSectionClassic';
+import { useMobileLayout } from './useMobileLayout';
 
 interface HeroSlide {
   id: string;
@@ -9,9 +11,13 @@ interface HeroSlide {
   subtitle: string;
   locationLabel: string;
   image: string;
+  focus?: string; // object-position for the crop
 }
 
-export const HeroSection: React.FC = () => {
+const SLIDE_MS = 7000;
+
+/* Web version — cinematic hero (design transfer from v1-local). Mobile layout keeps HeroSectionClassic. */
+const HeroSectionCinematic: React.FC = () => {
   const slides: HeroSlide[] = [
     {
       id: 'banner-1',
@@ -60,74 +66,113 @@ export const HeroSection: React.FC = () => {
     }
   ];
 
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [isPaused, setIsPaused] = useState<boolean>(false);
-  const timerRef = useRef<any>(null);
-
   const totalSlides = slides.length;
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [prevIndex, setPrevIndex] = useState<number | null>(null);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [cycle, setCycle] = useState<number>(0); // re-keys animations on every change
+
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const imageLayerRef = useRef<HTMLDivElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
   const currentSlide = slides[currentIndex];
+  const nextSlide = slides[(currentIndex + 1) % totalSlides];
 
-  // Auto-advance splash screen carousel every 5.2 seconds, pause on hover
-  useEffect(() => {
-    if (!isPaused) {
-      timerRef.current = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % totalSlides);
-      }, 5200);
-    }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [isPaused, totalSlides]);
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % totalSlides);
-  };
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
-  };
-
-  const handleSelectSlide = (idx: number) => {
+  const goTo = (idx: number) => {
+    if (idx === currentIndex) return;
+    setPrevIndex(currentIndex);
     setCurrentIndex(idx);
+    setCycle((c) => c + 1);
   };
+  const handleNext = () => goTo((currentIndex + 1) % totalSlides);
+  const handlePrev = () => goTo((currentIndex - 1 + totalSlides) % totalSlides);
 
-  // Touch swipe: swipe left -> next slide, swipe right -> previous (mobile-native browsing)
+  // Touch swipe (existing behaviour): left -> next, right -> previous
   const touchStartX = useRef<number | null>(null);
   const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
   const onTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null) return;
     const dx = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(dx) > 40) {
-      if (dx < 0) handleNext(); else handlePrev();
-    }
+    if (Math.abs(dx) > 40) { if (dx < 0) handleNext(); else handlePrev(); }
     touchStartX.current = null;
   };
 
+  // Preload all slide images so the wipe never reveals a blank frame
+  useEffect(() => {
+    slides.forEach((s) => { const i = new Image(); i.src = s.image; });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Scroll parallax (image drifts slower than the page, copy lifts & fades) + pointer drift
+  useEffect(() => {
+    let raf = 0;
+    let pointerX = 0, pointerY = 0, curX = 0, curY = 0;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const tick = () => {
+      const sec = sectionRef.current;
+      if (sec) {
+        const h = sec.offsetHeight || 1;
+        const y = Math.min(Math.max(window.scrollY, 0), h);
+        curX += (pointerX - curX) * 0.06;
+        curY += (pointerY - curY) * 0.06;
+        if (imageLayerRef.current) {
+          imageLayerRef.current.style.transform =
+            `translate3d(${curX * -14}px, ${y * 0.32 + curY * -10}px, 0) scale(1.06)`;
+        }
+        if (contentRef.current) {
+          const p = y / h;
+          contentRef.current.style.transform = `translate3d(0, ${y * -0.12}px, 0)`;
+          contentRef.current.style.opacity = String(Math.max(1 - p * 1.6, 0));
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    const onMove = (e: PointerEvent) => {
+      pointerX = e.clientX / window.innerWidth - 0.5;
+      pointerY = e.clientY / window.innerHeight - 0.5;
+    };
+    if (!reduce) {
+      raf = requestAnimationFrame(tick);
+      window.addEventListener('pointermove', onMove, { passive: true });
+    }
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('pointermove', onMove);
+    };
+  }, []);
+
   return (
-    <section 
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
+    <section
+      ref={sectionRef}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="relative overflow-hidden min-h-[85vh] lg:min-h-[90vh] flex items-center bg-black text-white border-b border-neutral-800 select-none group"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      className="cine grain relative overflow-hidden h-[100svh] min-h-[640px] text-white select-none"
+      style={{ backgroundColor: '#000' }}
       aria-label="IHG Weddings Splash Screen Carousel"
     >
-      {/* Background Slides: Stacked Layers with Cross-Fade Transitions */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      {/* ── Image stack: previous slide stays underneath, active slide wipes up over it ── */}
+      <div ref={imageLayerRef} className="absolute inset-0 z-0 pointer-events-none will-change-transform">
         {slides.map((slide, idx) => {
           const isActive = idx === currentIndex;
+          const isPrev = idx === prevIndex;
+          if (!isActive && !isPrev) return null;
           return (
             <div
-              key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              key={isActive ? `${slide.id}-${cycle}` : `${slide.id}-prev`}
+              className={`absolute inset-0 overflow-hidden ${isActive ? 'z-10' : 'z-0'} ${
+                isActive && prevIndex !== null ? 'hero-wipe-in' : ''
               }`}
             >
               <img
                 src={slide.image}
                 alt={`${slide.tagline} - ${slide.locationLabel}`}
-                className={`w-full h-full object-cover object-center filter grayscale contrast-125 brightness-90 ${
-                  isActive ? 'animate-ken-burns scale-105' : 'scale-100'
+                style={{ objectPosition: slide.focus || 'center' }}
+                className={`w-full h-full object-cover grayscale contrast-[1.1] brightness-[0.92] ${
+                  isActive ? 'hero-zoom' : ''
                 }`}
                 onError={(e) => {
                   (e.target as HTMLImageElement).src =
@@ -137,105 +182,125 @@ export const HeroSection: React.FC = () => {
             </div>
           );
         })}
-
-        {/* Light Monochrome Washes — keep image bright so black text reads */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/60 sm:via-white/40 to-white/10 z-20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-white/70 via-transparent to-white/30 z-20" />
       </div>
 
-      {/* Main Foreground Editorial Content */}
-      <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
-        <div className="max-w-xl lg:max-w-2xl animate-fade-in" key={currentSlide.id}>
-          
-          {/* Eyebrow & Sanctuary Indicator */}
-          <div className="inline-flex items-center space-x-2 text-[11px] uppercase tracking-[0.28em] text-neutral-600 mb-6 font-sans">
-            <span className="inline-block w-2 h-2 border border-neutral-500 shrink-0" />
-            <span>{currentSlide.tagline}</span>
-            <span className="text-neutral-400 hidden sm:inline">•</span>
-            <span className="text-neutral-500 hidden sm:inline text-[10px] tracking-wider">
-              {currentSlide.locationLabel}
-            </span>
-          </div>
+      {/* Readability layers — work for ANY photograph (bright, colour or monochrome):
+          1. a uniform 35% black veil over the whole image sets a guaranteed contrast floor for white type
+          2. a bottom gradient deepens the zone where the headline, copy and CTA sit
+          3. a top gradient keeps the white header legible */}
+      <div className="absolute inset-0 z-20 pointer-events-none" style={{ background: 'rgba(0,0,0,0.35)' }} />
+      <div className="absolute inset-x-0 bottom-0 h-[70%] z-20 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4) 50%, transparent)' }} />
+      <div className="absolute inset-x-0 top-0 h-64 z-20 pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.3) 50%, transparent)' }} />
 
-          {/* Dynamic Headline with Italic Accent */}
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal leading-[1.12] text-black mb-6 tracking-tight">
-            {currentSlide.titlePrefix} <br />
-            <span className="italic text-neutral-700 font-light">
-              {currentSlide.titleItalic}
-            </span>
+      {/* ── Foreground ── */}
+      <div ref={contentRef} className="relative z-30 h-full max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-14 flex flex-col will-change-transform">
+
+        {/* Top meta row (sits below the transparent header) */}
+        <div className="pt-[124px] lg:pt-[176px] flex items-start justify-between">
+          <div key={`eyebrow-${cycle}`} className="soft-rise flex items-center gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.32em] text-white/75 font-sans">
+            <span className="block w-8 h-px bg-white/60" />
+            <span>{currentSlide.tagline}</span>
+            <span className="text-white/30 hidden sm:inline">•</span>
+            <span className="text-white/50 hidden sm:inline tracking-[0.2em]">{currentSlide.locationLabel}</span>
+          </div>
+        </div>
+
+        {/* Headline block — bottom-anchored */}
+        <div className="mt-auto pb-36 sm:pb-40 lg:pb-44 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-end">
+          <h1 key={`h1-${cycle}`} className="lg:col-span-8 font-display font-normal text-white leading-[0.95] tracking-[-0.02em] text-[clamp(2.75rem,6.3vw,7.5rem)]">
+            <span className="mask-line"><span>{currentSlide.titlePrefix}</span></span>
+            <span className="mask-line"><span className="italic text-white/80" style={{ animationDelay: '120ms' }}>{currentSlide.titleItalic}</span></span>
           </h1>
 
-          {/* Concise Subtext */}
-          <p className="font-sans text-sm sm:text-base text-neutral-700 font-light leading-relaxed mb-9 max-w-md">
-            {currentSlide.subtitle}
-          </p>
+          <div key={`sub-${cycle}`} className="lg:col-span-4 lg:pb-4 max-w-sm soft-rise" style={{ animationDelay: '320ms' }}>
+            <p className="font-sans text-sm sm:text-[15px] text-white/75 font-light leading-relaxed">
+              {currentSlide.subtitle}
+            </p>
 
-          {/* Slide Meta (CTA removed) */}
-          <div className="flex items-center space-x-4 text-xs font-sans">
-            <div className="hidden sm:flex items-center space-x-2 text-[11px] text-neutral-600 font-light tracking-wide">
-              <span>{currentIndex + 1} of {totalSlides}</span>
-              <span>•</span>
-              <span className="truncate max-w-[200px]">{currentSlide.locationLabel.split('•')[0]}</span>
-            </div>
           </div>
-
         </div>
       </div>
 
-      {/* Splash Screen Carousel Navigation & Progress Bars (Bottom Strip) */}
-      <div className="absolute bottom-6 left-0 right-0 z-30 pointer-events-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          
-          {/* Segmented Progress Indicators */}
-          <div className="flex items-center space-x-2 w-full sm:w-auto">
+      {/* ── Bottom control strip: timed chapters · arrows · next-slide preview ── */}
+      <div className="absolute bottom-0 inset-x-0 z-30">
+        <div className="max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-14 pb-6 sm:pb-8 flex items-end gap-6 lg:gap-10">
+
+          {/* Chapters — progress bar timing drives the auto-advance */}
+          <div className="flex-1 grid grid-cols-5 gap-3 sm:gap-5">
             {slides.map((slide, idx) => {
               const isActive = idx === currentIndex;
+              const isDone = idx < currentIndex;
               return (
                 <button
                   key={slide.id}
-                  onClick={() => handleSelectSlide(idx)}
-                  className="flex-1 sm:flex-none py-2 cursor-pointer group/bar focus:outline-none"
+                  onClick={() => goTo(idx)}
+                  className="text-left cursor-pointer group/bar focus:outline-none"
                   aria-label={`Jump to slide ${idx + 1}: ${slide.tagline}`}
                 >
-                  <div className="w-12 sm:w-16 h-1 bg-black/15 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full bg-black transition-all ${
-                        isActive
-                          ? 'w-full duration-500'
-                          : 'w-0 group-hover/bar:w-1/3'
-                      }`}
-                    />
-                  </div>
-                  <span className={`text-[9px] uppercase tracking-wider font-mono hidden md:block mt-1 text-left ${
-                    isActive ? 'text-black' : 'text-neutral-500'
-                  }`}>
-                    0{idx + 1}
+                  <span className="block py-3">
+                  <span className="block h-px bg-white/25 group-hover/bar:bg-white/50 transition-colors overflow-hidden">
+                    {isActive ? (
+                      <span
+                        key={`bar-${cycle}`}
+                        className="hero-progress block h-full bg-white"
+                        style={{ animationDuration: `${SLIDE_MS}ms`, animationPlayState: isPaused ? 'paused' : 'running' }}
+                        onAnimationEnd={handleNext}
+                      />
+                    ) : (
+                      <span className={`block h-full bg-white transition-transform duration-700 origin-left ${isDone ? 'scale-x-100 opacity-40' : 'scale-x-0'}`} />
+                    )}
+                  </span>
                   </span>
                 </button>
               );
             })}
           </div>
 
-          {/* Carousel Arrow Controls */}
-          <div className="flex items-center space-x-2 text-xs font-sans">
+          {/* Arrows */}
+          <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={handlePrev}
-              className="w-9 h-9 rounded-full border border-black/20 hover:border-black text-black/70 hover:text-black flex items-center justify-center transition-colors cursor-pointer backdrop-blur-xs bg-white/60 hover:bg-white"
+              className="w-11 h-11 rounded-full border border-white/30 hover:border-white hover:bg-white hover:text-black text-white flex items-center justify-center transition-all duration-300 cursor-pointer"
               aria-label="Previous splash slide"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={handleNext}
-              className="w-9 h-9 rounded-full border border-black/20 hover:border-black text-black/70 hover:text-black flex items-center justify-center transition-colors cursor-pointer backdrop-blur-xs bg-white/60 hover:bg-white"
+              className="w-11 h-11 rounded-full border border-white/30 hover:border-white hover:bg-white hover:text-black text-white flex items-center justify-center transition-all duration-300 cursor-pointer"
               aria-label="Next splash slide"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
+          {/* Next preview — a window onto the following chapter */}
+          <button
+            onClick={handleNext}
+            className="hidden lg:block relative w-44 h-28 shrink-0 overflow-hidden cursor-pointer group/next"
+            aria-label={`Next: ${nextSlide.tagline}`}
+          >
+            <img
+              key={`next-${cycle}`}
+              src={nextSlide.image}
+              alt=""
+              style={{ objectPosition: nextSlide.focus || 'center' }}
+              className="soft-rise absolute inset-0 w-full h-full object-cover grayscale contrast-125 brightness-75 transition-transform duration-[1200ms] group-hover/next:scale-110"
+            />
+            <span className="absolute inset-0 bg-black/30 group-hover/next:bg-black/10 transition-colors duration-500" />
+          </button>
         </div>
+      </div>
+
+      {/* Scroll cue */}
+      <div className="hidden lg:flex absolute z-30 left-1/2 -translate-x-1/2 bottom-28 flex-col items-center gap-2 pointer-events-none">
+        <span className="block w-px h-10 bg-white/20 overflow-hidden"><span className="scroll-cue block w-full h-full bg-white" /></span>
       </div>
     </section>
   );
+};
+
+export const HeroSection: React.FC = () => {
+  const mobile = useMobileLayout();
+  return mobile ? <HeroSectionClassic /> : <HeroSectionCinematic />;
 };
