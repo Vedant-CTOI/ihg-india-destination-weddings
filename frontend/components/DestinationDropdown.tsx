@@ -40,7 +40,8 @@ export const DestinationDropdown: React.FC<DestinationDropdownProps> = ({
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  const options = Object.keys(COUNTRY_DEST_MAP[selectedCountry] || {});
+  // Country field removed: show ALL destinations across countries
+  const options = Array.from(new Set(Object.values(COUNTRY_DEST_MAP).flatMap((d) => Object.keys(d))));
 
   const toggle = (d: string) => {
     onChange(selectedDestinations.includes(d)

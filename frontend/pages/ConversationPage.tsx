@@ -3,6 +3,7 @@ import { InquiryFormData, UserPersona } from '../types';
 import { HOTELS_DATA } from '../constants';
 import { HotelSelectorModal } from '../components/HotelSelectorModal';
 import { COUNTRY_DEST_MAP, DestinationDropdown } from '../components/DestinationDropdown';
+import { OccasionDropdown } from '../components/OccasionDropdown';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface ConversationPageProps {
@@ -28,15 +29,15 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
   const [selectedCountry, setSelectedCountry] = useState('Country 1');
   const [selectedDestinations, setSelectedDestinations] = useState<string[]>([]);
 
+  // Destinations filter (multi) across ALL countries — Country field removed
   const availableHotels = useMemo(() => {
-    const destMap = COUNTRY_DEST_MAP[selectedCountry] || {};
-    if (selectedDestinations.length === 0) {
-      const allHotelNames = Object.values(destMap).flat();
-      return HOTELS_DATA.filter((h) => allHotelNames.includes(h.name));
-    }
-    const names = selectedDestinations.flatMap((d) => destMap[d] || []);
+    if (selectedDestinations.length === 0) return HOTELS_DATA;
+    const names = selectedDestinations.flatMap((d) => {
+      for (const c of Object.values(COUNTRY_DEST_MAP)) { if (c[d]) return c[d]; }
+      return [];
+    });
     return HOTELS_DATA.filter((h) => names.includes(h.name));
-  }, [selectedCountry, selectedDestinations]);
+  }, [selectedDestinations]);
 
   const [formDataPersona, setFormDataPersona] = useState<string>('Bride or Groom');
   const [firstName, setFirstName] = useState('');
@@ -46,7 +47,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
   const [dateTo, setDateTo] = useState('');
   const [guestCount, setGuestCount] = useState('');
   const [notes, setNotes] = useState(prefilledHotel ? `Inquiry initiated for ${prefilledHotel}.` : '');
-  const [occasion, setOccasion] = useState('Occasion 1');
+  const [occasion, setOccasion] = useState<string[]>([]);
   const [selectedHotelIds, setSelectedHotelIds] = useState<string[]>(
     matchedHotel ? [matchedHotel.id] : []
   );
@@ -201,11 +202,12 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
                   className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
               </div>
               <div>
-                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Occasion</label>
-                <select value={occasion} onChange={(e) => setOccasion(e.target.value)}
-                  className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium">
-                  {OCCASIONS.map((o) => <option key={o} value={o}>{o}</option>)}
-                </select>
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Occasion{occasion.length > 0 && ` (${occasion.length} selected)`}</label>
+                <OccasionDropdown
+                  selectedOccasions={occasion}
+                  onChange={setOccasion}
+                  inputCls={"w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"}
+                />
               </div>
               <div className="form-field-date">
                 <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Date From</label>

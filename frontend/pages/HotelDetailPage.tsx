@@ -3,6 +3,7 @@ import { HotelProperty, InquiryFormData, UserPersona, HotelVenueSpace } from '..
 import { HOTELS_DATA } from '../constants';
 import { HotelSelectorModal } from '../components/HotelSelectorModal';
 import { COUNTRY_DEST_MAP, DestinationDropdown } from '../components/DestinationDropdown';
+import { OccasionDropdown } from '../components/OccasionDropdown';
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface HotelDetailPageProps {
@@ -293,20 +294,19 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   const [dateTo, setDateTo] = useState('');
   const [guestCount, setGuestCount] = useState('');
   const [notes, setNotes] = useState('');
-  const [occasion, setOccasion] = useState('Occasion 1');
+  const [occasion, setOccasion] = useState<string[]>([]);
   const [selectedCountry, setSelectedCountry] = useState('Country 1');
   const [selectedDestinations, setSelectedDestinations] = useState<string[]>([]);
   const [selectedHotelIds, setSelectedHotelIds] = useState<string[]>([hotel.id]);
 
   const availableHotels = useMemo(() => {
-    const destMap = COUNTRY_DEST_MAP[selectedCountry] || {};
-    if (selectedDestinations.length === 0) {
-      const allHotelNames = Object.values(destMap).flat();
-      return HOTELS_DATA.filter((h) => allHotelNames.includes(h.name));
-    }
-    const names = selectedDestinations.flatMap((d) => destMap[d] || []);
+    if (selectedDestinations.length === 0) return HOTELS_DATA;
+    const names = selectedDestinations.flatMap((d) => {
+      for (const c of Object.values(COUNTRY_DEST_MAP)) { if (c[d]) return c[d]; }
+      return [];
+    });
     return HOTELS_DATA.filter((h) => names.includes(h.name));
-  }, [selectedCountry, selectedDestinations]);
+  }, [selectedDestinations]);
 
   const toggleCountry = (label: string) => {
     setSelectedCountries((prev) =>
@@ -365,7 +365,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
       email,
       phone: '',
       decisionRole: (formDataPersona === 'Family' ? 'Parent' : formDataPersona === 'Wedding Planner' ? 'Wedding Planner' : 'Bride') as UserPersona,
-      destinations: selectedDestinations.length > 0 ? selectedDestinations : [selectedCountry],
+      destinations: selectedDestinations,
       selectedHotelIds,
       selectedHotelNames: HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => h.name),
       targetWindow: (dateFrom && dateTo) ? `${dateFrom} to ${dateTo}` : (dateFrom || dateTo || 'Dates to be finalized'),
@@ -573,10 +573,11 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     </div>
                     <div>
                       <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Occasion</label>
-                      <select value={occasion} onChange={(e) => setOccasion(e.target.value)}
-                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium">
-                        {OCCASIONS.map((o) => <option key={o} value={o}>{o}</option>)}
-                      </select>
+                      <OccasionDropdown
+                        selectedOccasions={occasion}
+                        onChange={setOccasion}
+                        inputCls={"w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"}
+                      />
                     </div>
                     <div>
                       <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Date From</label>
@@ -598,16 +599,6 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
                   {/* 3. Select Destination — Country dropdown + Destination multi-checkbox dropdown */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Country</label>
-                      <select
-                        value={selectedCountry}
-                        onChange={(e) => { setSelectedCountry(e.target.value); setSelectedDestinations([]); }}
-                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium"
-                      >
-                        {Object.keys(COUNTRY_DEST_MAP).map((c) => <option key={c} value={c}>{c}</option>)}
-                      </select>
-                    </div>
                     <div>
                       <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">
                         Destination {selectedDestinations.length > 0 && `(${selectedDestinations.length} selected)`}

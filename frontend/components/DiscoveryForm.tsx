@@ -4,6 +4,7 @@ import { HOTELS_DATA } from '../constants';
 import { ArrowRight } from 'lucide-react';
 import { HotelSelectorModal } from './HotelSelectorModal';
 import { COUNTRY_DEST_MAP, DestinationDropdown } from './DestinationDropdown';
+import { OccasionDropdown } from './OccasionDropdown';
 
 interface DiscoveryFormProps {
   onSubmitSuccess?: (data: InquiryFormData) => void;
@@ -37,7 +38,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
   const [dateTo, setDateTo] = useState('');
   const [guestCount, setGuestCount] = useState('');
   const [notes, setNotes] = useState('');
-  const [occasion, setOccasion] = useState('Occasion 1');
+  const [occasion, setOccasion] = useState<string[]>([]);
   const [selectedCountry, setSelectedCountry] = useState('Country 1');
   const [selectedDestinations, setSelectedDestinations] = useState<string[]>([]);
 
@@ -45,16 +46,15 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
     preselectedHotel ? [preselectedHotel.id] : []
   );
 
-  // Two filters combine: selected countries (multi) AND region (single)
+  // Destinations filter (multi) across ALL countries — Country field removed
   const availableHotels = useMemo(() => {
-    const destMap = COUNTRY_DEST_MAP[selectedCountry] || {};
-    if (selectedDestinations.length === 0) {
-      const allHotelNames = Object.values(destMap).flat();
-      return HOTELS_DATA.filter((h) => allHotelNames.includes(h.name));
-    }
-    const names = selectedDestinations.flatMap((d) => destMap[d] || []);
+    if (selectedDestinations.length === 0) return HOTELS_DATA;
+    const names = selectedDestinations.flatMap((d) => {
+      for (const c of Object.values(COUNTRY_DEST_MAP)) { if (c[d]) return c[d]; }
+      return [];
+    });
     return HOTELS_DATA.filter((h) => names.includes(h.name));
-  }, [selectedCountry, selectedDestinations]);
+  }, [selectedDestinations]);
 
 
   const toggleHotel = (id: string) => {
@@ -182,11 +182,12 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                   onChange={(e) => setEmail(e.target.value)} className={inputCls} />
               </div>
               <div>
-                <label className={labelCls}>Occasion</label>
-                <select value={occasion} onChange={(e) => setOccasion(e.target.value)}
-                  className={inputCls + " cursor-pointer font-medium"}>
-                  {OCCASIONS.map((o) => <option key={o} value={o}>{o}</option>)}
-                </select>
+                <label className={labelCls}>Occasion{occasion.length > 0 && ` (${occasion.length} selected)`}</label>
+                <OccasionDropdown
+                  selectedOccasions={occasion}
+                  onChange={setOccasion}
+                  inputCls={inputCls}
+                />
               </div>
               <div className="form-field-date">
                 <label className={labelCls}>Date From</label>
@@ -205,16 +206,6 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
 
             {/* 3. Select Destination — Country dropdown + Destination multi-checkbox dropdown */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="form-field-country">
-                <label className={labelCls}>Country</label>
-                <select
-                  value={selectedCountry}
-                  onChange={(e) => { setSelectedCountry(e.target.value); setSelectedDestinations([]); }}
-                  className={inputCls + " cursor-pointer font-medium"}
-                >
-                  {Object.keys(COUNTRY_DEST_MAP).map((c) => <option key={c} value={c}>{c}</option>)}
-                </select>
-              </div>
               <div className="form-field-destination">
                 <label className={labelCls}>Destination {selectedDestinations.length > 0 && `(${selectedDestinations.length} selected)`}</label>
                 <DestinationDropdown

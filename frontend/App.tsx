@@ -168,12 +168,6 @@ export const App: React.FC = () => {
               onViewAll={() => handleNavigateToAllHotels()}
             />
 
-            {/* Section 3: Real Weddings Cultural Confluence */}
-            <RealWeddings
-              onSelectStory={(wedding) => handleNavigateToStory(wedding.id)}
-              onViewAllStories={() => handleNavigateToAllStories()}
-            />
-
             {/* Section 4: Loyalty Packages teaser */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 border-t border-neutral-200">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -194,6 +188,12 @@ export const App: React.FC = () => {
                 </button>
               </div>
             </section>
+
+            {/* Section 3: Real Weddings Cultural Confluence */}
+            <RealWeddings
+              onSelectStory={(wedding) => handleNavigateToStory(wedding.id)}
+              onViewAllStories={() => handleNavigateToAllStories()}
+            />
 
             {/* Section 5: Begin the Conversation Form */}
             <DiscoveryForm
