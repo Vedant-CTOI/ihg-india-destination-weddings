@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import { REAL_WEDDINGS_DATA } from '../constants';
 import { RealWeddingCase } from '../types';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useWeb, SplitText, PALETTE } from './webMotion';
+import { DUMMY_STORIES, pick } from './landingDummyImages';
 
 interface RealWeddingsProps {
   onSelectStory: (wedding: RealWeddingCase) => void;
@@ -11,6 +13,7 @@ interface RealWeddingsProps {
 export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onViewAllStories }) => {
   const [selectedFilter, setSelectedFilter] = useState<string>('All');
   const [showAllStories, setShowAllStories] = useState<boolean>(false);
+  const web = useWeb(); // WEB VERSION ONLY styling/motion below
 
   const filters = ['All', 'Royal Heritage', 'Beachside', 'Temple & Waterway', 'Foothills'];
 
@@ -31,19 +34,19 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
   const railNext = () => railRef.current?.scrollBy({ left: railRef.current.clientWidth - 20, behavior: 'smooth' });
 
   return (
-    <section id="real-weddings" className="py-20 bg-neutral-50 border-b border-neutral-200">
+    <section id="real-weddings" className={`py-20 bg-neutral-50 border-b border-neutral-200 ${web ? 'cine' : ''}`} data-tone={web ? 'dark' : undefined} style={web ? { backgroundColor: PALETTE.maroon, borderColor: 'transparent' } : undefined}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Minimal Header with Section CTAs */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div className="sec-head flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div className="max-w-2xl">
-            <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-sans font-medium block mb-2">
+            <span data-wm={web ? '' : undefined} className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-sans font-medium block mb-2">
               Case Studies
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-black font-normal mb-2">
-              Placeholder Text (Real Wedding Stories)
+              {web ? <SplitText text="Placeholder Text (Real Wedding Stories)" /> : 'Placeholder Text (Real Wedding Stories)'}
             </h2>
-            <p className="font-sans text-neutral-600 text-sm font-light">
+            <p data-wm={web ? '' : undefined} style={{ ['--d' as any]: '300ms' }} className="font-sans text-neutral-600 text-sm font-light">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
             </p>
           </div>
@@ -81,18 +84,20 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
             <ChevronRight className="w-4 h-4" />
           </button>
           <div ref={railRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {visibleWeddings.map((wedding) => (
+          {visibleWeddings.map((wedding, wi) => (
             <article
               key={wedding.id}
+              data-wm={web ? '' : undefined}
+              style={{ ['--d' as any]: `${wi * 160}ms` }}
               onClick={() => onSelectStory(wedding)}
               className="bg-white rounded-2xl border border-neutral-200 overflow-hidden flex flex-col justify-between hover:border-black transition-colors cursor-pointer group shadow-2xs hover:shadow-md"
             >
               <div>
                 <div className="relative h-60 overflow-hidden bg-neutral-900">
                   <img
-                    src={wedding.coverImage}
+                    src={web ? pick(DUMMY_STORIES, wi) : wedding.coverImage}
                     alt={wedding.couple}
-                    className="w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"
+                    className={web ? 'w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)]' : 'w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500'}
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(wedding.couple);
                     }}
@@ -142,7 +147,7 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
         </div>
 
         {/* View More Stories Toggle / CTA */}
-        <div className="text-center mt-10">
+        <div data-wm={web ? '' : undefined} className="text-center mt-10">
           {onViewAllStories ? (
             <button
               type="button"

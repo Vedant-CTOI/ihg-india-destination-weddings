@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { WEDDING_GENRES_DATA } from '../constants';
 import { WeddingGenreInfo } from '../types';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useWeb, SplitText, PALETTE } from './webMotion';
+import { DUMMY_DESTINATIONS, pick } from './landingDummyImages';
 
 interface DestinationDiscoveryProps {
   onOpenDetail?: () => void;
@@ -11,6 +13,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const timerRef = useRef<any>(null);
+  const web = useWeb(); // WEB VERSION ONLY styling/motion below
 
   const totalGenres = WEDDING_GENRES_DATA.length;
   const activeGenre = WEDDING_GENRES_DATA[currentIndex] || WEDDING_GENRES_DATA[0];
@@ -42,25 +45,25 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
   };
 
   return (
-    <section id="destinations" className="py-14 sm:py-16 bg-neutral-50 border-b border-neutral-200">
+    <section id="destinations" className={`py-14 sm:py-16 bg-neutral-50 border-b border-neutral-200 ${web ? 'cine' : ''}`} data-tone={web ? 'light' : undefined} style={web ? { backgroundColor: PALETTE.marigold, borderColor: 'transparent' } : undefined}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header — CTA top right, like other sections */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-3">
+        <div className="sec-head flex flex-col md:flex-row md:items-end justify-between mb-6 gap-3">
           <div className="max-w-xl">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-sans font-medium block mb-1">
+            <span data-wm={web ? '' : undefined} className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-sans font-medium block mb-1">
               Curated Wedding Types
             </span>
             <h2 className="font-serif text-2xl sm:text-3xl text-black font-normal mb-1.5">
-              Placeholder Text (Discover by Destination)
+              {web ? <SplitText text="Placeholder Text (Discover by Destination)" /> : 'Placeholder Text (Discover by Destination)'}
             </h2>
-            <p className="font-sans text-neutral-500 text-xs font-light leading-relaxed">
+            <p data-wm={web ? '' : undefined} style={{ ['--d' as any]: '300ms' }} className="font-sans text-neutral-500 text-xs font-light leading-relaxed">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
             </p>
           </div>
 
           {/* Explore CTA top right */}
-          <div className="flex items-center gap-3 text-xs font-sans text-neutral-500">
+          <div data-wm={web ? '' : undefined} style={{ ['--d' as any]: '450ms' }} className="flex items-center gap-3 text-xs font-sans text-neutral-500">
             <button
               type="button"
               onClick={handleOpenDetail}
@@ -76,6 +79,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
         <div
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          data-wm={web ? 'curtain' : undefined}
           className="relative bg-white rounded-xl border border-neutral-300 overflow-hidden shadow-2xs group"
         >
           {/* Subtle Carousel Progress Line */}
@@ -111,9 +115,9 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
           >
             <img
               key={activeGenre.id}
-              src={activeGenre.image}
+              src={web ? pick(DUMMY_DESTINATIONS, currentIndex) : activeGenre.image}
               alt={`${activeGenre.genre} Wedding Type`}
-              className="absolute inset-0 w-full h-full object-cover filter grayscale contrast-115 group-hover:scale-103 transition-transform duration-700 animate-fade-in"
+              className={web ? 'absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] dest-fade' : 'absolute inset-0 w-full h-full object-cover filter grayscale contrast-115 group-hover:scale-103 transition-transform duration-700 animate-fade-in'}
               onError={(e) => {
                 (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(activeGenre.genre);
               }}

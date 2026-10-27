@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { PageView, InquiryFormData, LegalTab } from './types';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
+import { WebMotionDirector, PALETTE } from './components/webMotion';
+import { useMobileLayout } from './components/useMobileLayout';
 import { AboutUs } from './components/AboutUs';
 import { DestinationDiscovery } from './components/DestinationDiscovery';
 import { HotelsExploration } from './components/HotelsExploration';
@@ -35,6 +37,7 @@ export const App: React.FC = () => {
   // Re-render the layer when a comment is added outside React state (e.g. screenshot attach)
 
   // Post-submission Consent & Notification popup states
+  const mobileLayout = useMobileLayout(); // Web/Mobile toggle — web-only landing styling keys off this
   const [pendingInquiryData, setPendingInquiryData] = useState<InquiryFormData | null>(null);
   const [consentFlowStep, setConsentFlowStep] = useState<'none' | 'notification'>('none');
 
@@ -165,8 +168,8 @@ export const App: React.FC = () => {
             />
 
             {/* Section 4: Loyalty Packages teaser */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 border-t border-neutral-200">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <section className={`loyalty-band ${mobileLayout ? 'max-w-7xl mx-auto border-t border-neutral-200' : ''} px-4 sm:px-6 lg:px-8 py-14`} data-tone={!mobileLayout ? 'light' : undefined} style={!mobileLayout ? { backgroundColor: PALETTE.saffron } : undefined}>
+              <div data-wm={!mobileLayout ? '' : undefined} className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                   <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1">
                     Loyalty Packages
@@ -317,6 +320,7 @@ export const App: React.FC = () => {
 
       {/* 5. Floating Go-to-Top Button — on all pages */}
       <GoToTopButton />
+      <WebMotionDirector />
 
     </div>
   );

@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { HOTELS_DATA } from '../constants';
 import { HotelProperty } from '../types';
 import { ChevronRight, ChevronLeft, ArrowRight } from 'lucide-react';
+import { useWeb, SplitText, PALETTE } from './webMotion';
+import { DUMMY_HOTELS, pick } from './landingDummyImages';
 
 interface HotelsExplorationProps {
   onSelectHotel: (hotel: HotelProperty) => void;
@@ -15,6 +17,7 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
   const [canScrollRight, setCanScrollRight] = useState<boolean>(true);
+  const web = useWeb(); // WEB VERSION ONLY styling/motion below
 
   const updateArrows = () => {
     const el = scrollRef.current;
@@ -43,24 +46,24 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
   };
 
   return (
-    <section id="hotels-exploration" className="py-20 bg-white border-b border-neutral-200">
+    <section id="hotels-exploration" className={`py-20 bg-white border-b border-neutral-200 ${web ? 'cine' : ''}`} data-tone={web ? 'dark' : undefined} style={web ? { backgroundColor: PALETTE.red, borderColor: 'transparent' } : undefined}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header with 'View All' CTA */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div className="sec-head flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
           <div>
-            <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-sans font-medium block mb-2">
+            <span data-wm={web ? '' : undefined} className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-sans font-medium block mb-2">
               Portfolio
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-black font-normal mb-1">
-              Placeholder Text (List of Hotels)</h2>
-            <p className="text-xs text-neutral-500 font-sans font-light">
+              {web ? <SplitText text="Placeholder Text (List of Hotels)" /> : 'Placeholder Text (List of Hotels)'}</h2>
+            <p data-wm={web ? '' : undefined} style={{ ['--d' as any]: '300ms' }} className="text-xs text-neutral-500 font-sans font-light">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
             </p>
           </div>
 
           {/* View All CTA top right */}
-          <div className="flex items-center space-x-3">
+          <div data-wm={web ? '' : undefined} style={{ ['--d' as any]: '450ms' }} className="flex items-center space-x-3">
             <button
               onClick={onViewAll}
               className="inline-flex items-center space-x-2 text-xs font-sans uppercase tracking-widest bg-black text-white px-6 py-2.5 rounded-full hover:bg-neutral-800 transition-colors shadow-2xs font-medium cursor-pointer"
@@ -101,10 +104,12 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
             onScroll={updateArrows}
             className="flex overflow-x-auto no-scrollbar snap-x snap-mandatory gap-6 pb-2 -mx-4 px-4 sm:mx-0 sm:px-0"
           >
-          {carouselHotels.map((hotel) => (
+          {carouselHotels.map((hotel, hi) => (
             <div
               key={hotel.id}
               data-carousel-card
+              data-wm={web && hi < 4 ? '' : undefined}
+              style={{ ['--d' as any]: `${hi * 140}ms` }}
               className="snap-start shrink-0 w-[85%] sm:w-[46%] lg:w-[calc((100%-3rem)/4)]"
             >
             <div
@@ -117,9 +122,9 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                   className="relative h-56 overflow-hidden bg-neutral-900 cursor-pointer"
                 >
                   <img
-                    src={hotel.image}
+                    src={web ? pick(DUMMY_HOTELS, hi) : hotel.image}
                     alt={hotel.name}
-                    className="w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"
+                    className={web ? 'w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)]' : 'w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500'}
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(hotel.name);
                     }}

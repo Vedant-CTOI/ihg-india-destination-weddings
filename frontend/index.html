@@ -179,6 +179,63 @@
     .cine img { visibility: visible !important; background-color: transparent !important; }
     .cine div:has(> img:only-child) { background-color: transparent !important; }
     /* ===== /DESIGN TRANSFER ===== */
+    /* ===== DESIGN TRANSFER step 3 (WEB VERSION ONLY — html.layout-mobile never matches) =====
+       Pear-inspired motion + client palette (#600B2A maroon, #AF2E33 red, #F2A638 marigold, #ED8C0C saffron).
+       data-wm elements rise in on entering view and reset when scrolled back above (reversible). */
+    html:not(.layout-mobile) [data-wm] { opacity: 0; transform: translate3d(0, 34px, 0);
+      transition: opacity 1.3s cubic-bezier(0.16,1,0.3,1), transform 1.3s cubic-bezier(0.16,1,0.3,1);
+      transition-delay: var(--d, 0ms); }
+    html:not(.layout-mobile) [data-wm][data-wm-in] { opacity: 1; transform: none; }
+    /* Curtain: large image panels open with the hero's shutter wipe */
+    html:not(.layout-mobile) [data-wm="curtain"] { opacity: 1; transform: none; clip-path: inset(100% 0 0 0);
+      transition: clip-path 1.6s cubic-bezier(0.77,0,0.18,1); }
+    html:not(.layout-mobile) [data-wm="curtain"][data-wm-in] { clip-path: inset(0 0 0 0); }
+    /* Letter-by-letter heading (Pear): each glyph settles from a soft blur, 28ms apart */
+    html:not(.layout-mobile) [data-wm="split"] { opacity: 1; transform: none; transition: none; }
+    .split-w { display: inline-block; white-space: nowrap; }
+    .split-c { display: inline-block; opacity: 0; filter: blur(8px); transform: translate3d(0, 0.35em, 0);
+      transition: opacity 1.1s cubic-bezier(0.16,1,0.3,1), filter 1.1s cubic-bezier(0.16,1,0.3,1), transform 1.1s cubic-bezier(0.16,1,0.3,1);
+      transition-delay: calc(var(--ci) * 28ms); }
+    [data-wm="split"][data-wm-in] .split-c { opacity: 1; filter: blur(0); transform: none; }
+    /* Destination slides cross-dissolve slowly instead of snapping */
+    @keyframes dest-fade { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: scale(1); } }
+    .dest-fade { animation: dest-fade 1.6s cubic-bezier(0.16,1,0.3,1) both; }
+
+    /* Typography system on the coloured sections: Bodoni display headings + hairline eyebrows */
+    html:not(.layout-mobile) [data-tone] .sec-head h2 { font-family: "Bodoni Moda", serif !important; font-weight: 400;
+      letter-spacing: -0.015em; line-height: 1.02; }
+    html:not(.layout-mobile) [data-tone] .sec-head span[data-wm]:not([data-wm="split"]) { display: inline-flex; align-items: center; gap: 12px;
+      letter-spacing: 0.32em !important; }
+    html:not(.layout-mobile) [data-tone] .sec-head span[data-wm]:not([data-wm="split"])::before { content: ''; display: block; width: 32px; height: 1px; background: currentColor; opacity: .6; }
+    html:not(.layout-mobile) .text-center.sec-head span[data-wm]:not([data-wm="split"]) { justify-content: center; }
+    html:not(.layout-mobile) [data-tone] .sec-head p { line-height: 1.7 !important; }
+
+    /* Dark tone (maroon / red): white type in the section header + section-level controls */
+    html:not(.layout-mobile) [data-tone="dark"] .sec-head h2 { color: #fff !important; }
+    html:not(.layout-mobile) [data-tone="dark"] .sec-head span:not([data-wm="split"]):not(.split-w):not(.split-c) { color: rgba(255,255,255,.72) !important; }
+    html:not(.layout-mobile) [data-tone="dark"] .sec-head p { color: rgba(255,255,255,.78) !important; }
+    html:not(.layout-mobile) [data-tone="dark"] .sec-head button { background: #fff !important; color: #000 !important; }
+    html:not(.layout-mobile) [data-tone="dark"] .sec-head button:hover { background: #f2f2f2 !important; }
+    /* Light tone (marigold / saffron): deep-maroon type for warmth + contrast */
+    html:not(.layout-mobile) [data-tone="light"] .sec-head h2 { color: #3a0618 !important; }
+    html:not(.layout-mobile) [data-tone="light"] .sec-head span:not([data-wm="split"]):not(.split-w):not(.split-c), html:not(.layout-mobile) [data-tone="light"] .sec-head p,
+    html:not(.layout-mobile) .loyalty-band span, html:not(.layout-mobile) .loyalty-band p { color: #3a0618 !important; }
+    html:not(.layout-mobile) [data-tone="light"] .sec-head p, html:not(.layout-mobile) .loyalty-band p { opacity: .82; }
+    html:not(.layout-mobile) [data-tone="light"] .sec-head button, html:not(.layout-mobile) .loyalty-band button { background: #600B2A !important; color: #fff !important; }
+    html:not(.layout-mobile) [data-tone="light"] .sec-head button:hover, html:not(.layout-mobile) .loyalty-band button:hover { background: #3a0618 !important; }
+    /* Destination carousel dots + Real Weddings bottom CTA on the coloured grounds */
+    html:not(.layout-mobile) #destinations button[aria-label^="Go to slide"] { background: rgba(58,6,24,.25); }
+    html:not(.layout-mobile) #destinations button[aria-label^="Go to slide"].w-6 { background: #600B2A; }
+
+    /* Coloured sections show their dummy photographs + overlays (exempt from the wireframe grey-block rule) */
+    html:not(.layout-mobile) .cine [class*="bg-gradient"] { display: block !important; }
+    html:not(.layout-mobile) .cine [class*="bg-neutral-900"]:has(img) { background-color: #1a0a10 !important; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html:not(.layout-mobile) [data-wm], .split-c, .dest-fade { opacity: 1 !important; transform: none !important; filter: none !important;
+        clip-path: none !important; transition: none !important; animation: none !important; }
+    }
+    /* ===== /DESIGN TRANSFER step 3 ===== */
 
     /* ─── DIALOG OVERLAY EXEMPTION — proper dim backdrop for popups ─── */
     .fixed.inset-0[role="dialog"] {

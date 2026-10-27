@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import { HotelSelectorModal } from './HotelSelectorModal';
 import { COUNTRY_DEST_MAP, DestinationDropdown } from './DestinationDropdown';
 import { OccasionDropdown } from './OccasionDropdown';
+import { useWeb, SplitText, PALETTE } from './webMotion';
 
 interface DiscoveryFormProps {
   onSubmitSuccess?: (data: InquiryFormData) => void;
@@ -21,6 +22,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
   onSubmitSuccess,
   preselectedHotelId,
 }) => {
+  const web = useWeb(); // WEB VERSION ONLY styling/motion (form fields + logic untouched)
   const [formDataPersona, setFormDataPersona] = useState<string>('Bride or Groom');
   const [consentMandatory, setConsentMandatory] = useState<boolean>(false);
   const [consentNewsletter, setConsentNewsletter] = useState<boolean>(false);
@@ -94,24 +96,26 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
   const labelCls = "block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5";
 
   return (
-    <section id="contact" className="py-20 lg:py-24 bg-neutral-50 border-b border-neutral-200">
+    <section id="contact" className="py-20 lg:py-24 bg-neutral-50 border-b border-neutral-200" data-tone={web ? 'light' : undefined} style={web ? { backgroundColor: PALETTE.marigold, borderColor: 'transparent' } : undefined}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Title & Description */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-sans font-medium block mb-2">
+        <div className="sec-head text-center max-w-2xl mx-auto mb-12">
+          <span data-wm={web ? '' : undefined} className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-sans font-medium block mb-2">
             Consultation &amp; Reservation
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl text-black font-normal mb-3">
-            Placeholder Text (Lead Form Capture)
+            {web ? <SplitText text="Placeholder Text (Lead Form Capture)" /> : 'Placeholder Text (Lead Form Capture)'}
           </h2>
-          <p className="font-sans text-neutral-600 text-sm font-light leading-relaxed">
+          <p data-wm={web ? '' : undefined} style={{ ['--d' as any]: '300ms' }} className="font-sans text-neutral-600 text-sm font-light leading-relaxed">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
           </p>
         </div>
 
         <div
           id="discovery-form-card"
+          data-wm={web ? '' : undefined}
+          style={{ ['--d' as any]: '400ms' }}
           className="relative bg-white rounded-3xl border border-neutral-300 p-5 sm:p-8 shadow-sm font-sans text-xs"
         >
           <form onSubmit={handleSubmit} className="space-y-5">

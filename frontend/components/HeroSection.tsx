@@ -283,22 +283,6 @@ const HeroSectionCinematic: React.FC = () => {
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
-
-          {/* Next preview — a window onto the following chapter */}
-          <button
-            onClick={handleNext}
-            className="hidden lg:block relative w-44 h-28 shrink-0 overflow-hidden cursor-pointer group/next"
-            aria-label={`Next: ${nextSlide.tagline}`}
-          >
-            <img
-              key={`next-${cycle}`}
-              src={nextSlide.image}
-              alt=""
-              style={{ objectPosition: nextSlide.focus || 'center' }}
-              className={`soft-rise absolute inset-0 w-full h-full object-cover ${nextSlide.trueColour ? '' : 'grayscale contrast-125 brightness-75'} transition-transform duration-[1200ms] group-hover/next:scale-110`}
-            />
-            <span className="absolute inset-0 bg-black/30 group-hover/next:bg-black/10 transition-colors duration-500" />
-          </button>
         </div>
       </div>
 
