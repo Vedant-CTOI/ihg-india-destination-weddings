@@ -721,6 +721,10 @@
   /* status strip + chips wrap within canvas */
   html.layout-mobile #root .flex.flex-wrap.items-center.justify-between { flex-wrap: wrap !important; max-width: 100% !important; }
 
+  /* ═══ MOBILE v28 — dedicated-page hero banners (About/Discover/Hotels/Real Weddings/Loyalty):
+     440px tall web banner -> compact 200px mobile banner so the page scroll is short ═══ */
+  html.layout-mobile #root .relative.h-\[380px\] { height: 200px !important; min-height: 200px !important; max-height: 200px !important; }
+
   /* ═══ MOBILE v27 — destination cards: remove the quote/lorem line under the title ═══ */
   html.layout-mobile #root section:nth-of-type(3) .relative .absolute.inset-0 p { display: none !important; }
 
