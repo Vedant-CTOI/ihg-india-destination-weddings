@@ -384,10 +384,10 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   const activeLightboxSlide = activePreviewSlides[activePreviewIndex] || activePreviewSlides[0];
 
   return (
-    <div className={`min-h-screen bg-white text-black font-sans animate-fade-in ${feature ? 'hotel-feature' : 'pb-24'}`}>
+    <div className={`min-h-screen bg-white text-black font-sans animate-fade-in ${feature ? 'hotel-feature relative' : 'pb-24'}`}>
       
       {/* Top Breadcrumb Bar */}
-      <div className="border-b border-neutral-200 bg-neutral-50 py-3 sticky top-0 z-30 backdrop-blur-md bg-neutral-50/95">
+      <div className={feature ? 'hf-crumb absolute inset-x-0 top-0 z-30 py-4' : 'border-b border-neutral-200 bg-neutral-50 py-3 sticky top-0 z-30 backdrop-blur-md bg-neutral-50/95'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-xs">
           <div className="flex items-center space-x-2 text-neutral-500">
             <button onClick={onNavigateBack} className="hover:text-black cursor-pointer">Exploration</button>
@@ -505,7 +505,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
             {/* Form body — only rendered when open */}
             {sideFormOpen && (
-              <div className="flex-1 overflow-y-auto p-5 font-sans text-xs">
+              <div className={`flex-1 overflow-y-auto ${feature ? 'hf-form p-6' : 'p-5'} font-sans text-xs`}>
                 {/* Form Title */}
                 <div className="mb-5 pb-4 border-b border-neutral-200 space-y-1">
                   <div className="flex items-center space-x-1.5 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">

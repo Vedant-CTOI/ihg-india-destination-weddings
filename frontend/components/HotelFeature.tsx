@@ -67,7 +67,7 @@ export const FeatureHero: React.FC<{ hotel: HotelProperty; onExpand: () => void 
 
   return (
     <div ref={secRef} className="grain relative w-full overflow-hidden text-white"
-         style={{ height: 'max(440px, calc(100svh - 188px))', backgroundColor: '#000' }}>
+         style={{ height: 'max(480px, calc(100svh - 145px))', backgroundColor: '#000' }}>
       <div ref={imgRef} className="absolute inset-0 will-change-transform">
         <img src={FEATURE_HERO} alt={hotel.name} className="w-full h-full object-cover hero-zoom" />
       </div>
@@ -77,7 +77,7 @@ export const FeatureHero: React.FC<{ hotel: HotelProperty; onExpand: () => void 
 
       {/* existing control, restyled as a round outline button */}
       <button type="button" onClick={onExpand}
-              className="absolute top-6 right-6 z-20 h-11 pl-5 pr-2 rounded-full border border-white/30 hover:border-white hover:bg-white hover:text-black text-white text-[10px] uppercase tracking-[0.28em] flex items-center gap-3 transition-all duration-500 cursor-pointer">
+              className="absolute top-20 right-6 z-20 h-11 pl-5 pr-2 rounded-full border border-white/30 hover:border-white hover:bg-white hover:text-black text-white text-[10px] uppercase tracking-[0.28em] flex items-center gap-3 transition-all duration-500 cursor-pointer">
         <span>Expand Hero Visual</span>
         <span className="w-7 h-7 rounded-full border border-current flex items-center justify-center"><ArrowRight className="w-3 h-3" /></span>
       </button>
@@ -192,12 +192,12 @@ export const FeatureBody: React.FC<{
   const transitTime = hotel.airportDistance ? hotel.airportDistance.split('from')[0].trim() : 'International Hub';
   const transitFrom = hotel.airportDistance ? hotel.airportDistance.split('from')[1]?.trim() || 'Nearest Hub' : 'Arrival Gate';
 
-  const facts: { label: string; value: React.ReactNode; sub: string }[] = [
+  const facts: { label: string; value: React.ReactNode; sub: string; word?: boolean }[] = [
     { label: 'Capacity', value: <><CountUp to={hotel.capacityMin} duration={1400} />–<CountUp to={hotel.capacityMax} duration={2000} /></>, sub: 'Guests' },
     { label: 'Total Rooms', value: <CountUp to={hotel.roomsCount} duration={1800} delay={180} />, sub: 'Keys, Suites & Villas' },
     { label: 'No of Venues', value: <CountUp to={venues.length} duration={1400} delay={360} />, sub: 'Curated Spaces' },
-    { label: 'Setting', value: hotel.genre, sub: hotel.city },
-    { label: 'Transit', value: transitTime, sub: transitFrom }
+    { label: 'Setting', value: hotel.genre, sub: hotel.city, word: true },
+    { label: 'Transit', value: transitTime, sub: transitFrom, word: true }
   ];
 
   const W = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8';
@@ -212,7 +212,11 @@ export const FeatureBody: React.FC<{
               <div key={f.label} data-wm="" style={{ ['--d' as any]: `${k * 140}ms` }}
                    className={`pt-7 pb-2 ${k > 0 ? 'sm:pl-7' : ''} ${k < facts.length - 1 ? 'sm:pr-7 sm:border-r border-white/20' : ''}`}>
                 <span className="block text-[10px] uppercase tracking-[0.28em] text-white/60 mb-4">{f.label}</span>
-                <div className="font-arpona text-[clamp(1.6rem,2.6vw,2.6rem)] leading-none truncate">{f.value}</div>
+                <div className="h-[clamp(2.4rem,3.4vw,3.2rem)] flex items-end">
+                  <div className={f.word
+                    ? 'font-arpona text-[clamp(1.05rem,1.35vw,1.35rem)] leading-[1.15] line-clamp-2'
+                    : 'font-arpona text-[clamp(2rem,3.2vw,3.2rem)] leading-none whitespace-nowrap'}>{f.value}</div>
+                </div>
                 <span className="block mt-3 text-[11px] text-white/65 truncate">{f.sub}</span>
               </div>
             ))}
