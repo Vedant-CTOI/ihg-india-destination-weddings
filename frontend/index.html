@@ -239,28 +239,14 @@
     }
     @media (prefers-reduced-motion: reduce) { html:not(.layout-mobile) [data-wm="curtain"] > * { clip-path: none !important; transition: none !important; } }
     /* ===== /DESIGN TRANSFER step 3 ===== */
-    /* ===== HOTEL 1 FEATURE PAGE (WEB VERSION ONLY) — .hotel-feature is only set for Hotel 1 in Web view ===== */
-    .hotel-feature img { visibility: visible !important; background-color: transparent !important; filter: none !important; }
+    /* ===== HOTEL 1 FEATURE PAGE (WEB VERSION ONLY) — .hotel-feature is set only for Hotel 1 in Web view =====
+       Landing-page language: full-bleed bands, hairlines, no containers. Photos exempt from the wireframe rule. */
+    .hotel-feature img { visibility: visible !important; background-color: transparent !important; filter: none !important; min-width: 0; min-height: 0; }
     .hotel-feature div:has(> img:only-child) { background-color: transparent !important; }
-    .hotel-feature [class*="bg-gradient"] { display: block !important; }
-    .hotel-feature [class*="bg-neutral-900"]:has(img) { background-color: #1a0a10 !important; }
-    /* Facts bar on maroon: white figures, soft labels */
-    .hotel-feature .hf-facts, .hotel-feature .hf-facts * { color: #fff !important; }
-    .hotel-feature .hf-facts span.text-\[9px\] { color: rgba(255,255,255,.62) !important; letter-spacing: .28em !important; }
-    .hotel-feature .hf-facts span.text-\[10px\] { color: rgba(255,255,255,.72) !important; }
-    .hotel-feature .hf-facts .font-serif { font-size: 22px !important; font-weight: 400 !important; }
-    /* About on marigold: deep-maroon type */
-    .hotel-feature .hf-about > div > div:first-child span, .hotel-feature .hf-about p, .hotel-feature .hf-about h2 { color: #3a0618 !important; }
-    .hotel-feature .hf-about p { line-height: 1.7 !important; opacity: .85; }
-    .hotel-feature .hf-about h2 { font-size: clamp(2rem, 3.2vw, 3rem) !important; line-height: 1.04 !important; }
-    .hotel-feature .hf-about [style*="175, 46, 51"] *, .hotel-feature .hf-about [style*="AF2E33"] * { color: #fff !important; }
-    /* Venues on saffron: deep-maroon header, white cards stay */
-    .hotel-feature .hf-venues > div:first-child span, .hotel-feature .hf-venues > div:first-child h3,
-    .hotel-feature .hf-venues > div:first-child p { color: #3a0618 !important; }
-    .hotel-feature .hf-venues > div:first-child h3 { font-family: "Arpona", "Bodoni Moda", serif !important; font-size: clamp(1.8rem, 2.8vw, 2.6rem) !important; line-height: 1.05; }
-    .hotel-feature .hf-venues > div:first-child h3 * { font-family: "Arpona", "Bodoni Moda", serif !important; }
-    .hotel-feature .hf-venues .sticky { background: rgba(237,140,12,.96) !important; border-color: rgba(58,6,24,.15) !important; }
-    .hotel-feature .hf-venues [id^="venue-anchor-"] { background: #fff !important; }
+    html:not(.layout-mobile) .hotel-feature .font-arpona, html:not(.layout-mobile) .hotel-feature .font-arpona *,
+    html:not(.layout-mobile) .hotel-feature-body h3, html:not(.layout-mobile) .hotel-feature-body h3 *,
+    html:not(.layout-mobile) .hotel-feature-body h4, html:not(.layout-mobile) .hotel-feature-body h4 * {
+      font-family: "Arpona", "Bodoni Moda", serif !important; font-weight: 400 !important; }
     /* ===== /HOTEL 1 FEATURE PAGE ===== */
     /* ===== TYPE SYSTEM (WEB VERSION — whole site: header, landing, inner pages, footer) =====
        Arpona = main titles (h1, h2; hero line 2 stays italic). Menca = all other information.
