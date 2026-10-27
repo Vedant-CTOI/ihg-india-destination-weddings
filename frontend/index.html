@@ -721,6 +721,9 @@
   /* status strip + chips wrap within canvas */
   html.layout-mobile #root .flex.flex-wrap.items-center.justify-between { flex-wrap: wrap !important; max-width: 100% !important; }
 
+  /* ═══ MOBILE v27 — destination cards: remove the quote/lorem line under the title ═══ */
+  html.layout-mobile #root section:nth-of-type(3) .relative .absolute.inset-0 p { display: none !important; }
+
   /* ═══ MOBILE v26 — hotel metrics strip: each stat on ONE line (label · value · unit inline) ═══ */
   html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 { grid-template-columns: 1fr !important; gap: 6px !important; padding: 10px !important; }
   html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div {
