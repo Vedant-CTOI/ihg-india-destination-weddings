@@ -1027,6 +1027,10 @@
     color: #000 !important; margin: 0 !important; padding: 0 !important; border: 0 !important;
   }
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .p-5 span { color: #000 !important; }
+
+  /* v40 cleanup — inline 'View more.' link inside consent label: compact text link (was 44px tall
+     form button, overlapping the consent checkbox below it) */
+  html.layout-mobile #root form label button { min-height: 0 !important; height: auto !important; padding: 0 !important; display: inline !important; background: none !important; border: 0 !important; text-decoration: underline !important; font-size: 10px !important; }
 </style>
 
   </head>
