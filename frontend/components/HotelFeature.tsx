@@ -41,7 +41,7 @@ type PreviewFn = (i: number, slides: Slide[]) => void;
 const INK = '#3a0618'; // deep maroon type on the light bands
 const CYCLE_MS = 5000;
 const SAFFRON = PALETTE.saffron; // festive accent (garland-on-velvet)
-const SAFFRON_BAND_VENUE = 1;     // Venue 2 shows the bolder 'saffron band' option for comparison
+const LINE = 'rgba(58,6,24,.35)'; // venue-row hairlines (slightly stronger)
 const EASE = 'cubic-bezier(0.16,1,0.3,1)';
 const WIPE = 'cubic-bezier(0.77,0,0.18,1)';
 
@@ -218,7 +218,7 @@ export const FeatureBody: React.FC<{
   return (
     <div className="hotel-feature-body">
       {/* B. Facts — full-bleed maroon band, figures between hairline dividers */}
-      <section className="text-white" style={{ backgroundColor: PALETTE.maroon, borderTop: `1px solid ${SAFFRON}`, borderBottom: `1px solid ${SAFFRON}` }}>
+      <section className="text-white" style={{ backgroundColor: PALETTE.maroon, borderTop: '1px solid #fff', borderBottom: '1px solid #fff' }}>
         <div className={`${W} py-16`}>
           <div className="border-t border-white/20 grid grid-cols-2 sm:grid-cols-5">
             {facts.map((f, k) => (
@@ -229,7 +229,7 @@ export const FeatureBody: React.FC<{
                   <div className={f.word
                     ? 'font-arpona text-[clamp(1.05rem,1.35vw,1.35rem)] leading-[1.15] line-clamp-2'
                     : 'font-arpona text-[clamp(2rem,3.2vw,3.2rem)] leading-none whitespace-nowrap'}
-                       style={{ color: SAFFRON }}>{f.value}</div>
+                       style={{ color: '#fff' }}>{f.value}</div>
                 </div>
                 <span className="block mt-3 text-[11px] text-white/65 truncate">{f.sub}</span>
               </div>
@@ -299,7 +299,7 @@ export const FeatureBody: React.FC<{
                   <img src={ph.url} alt="" className="w-full h-full object-cover"
                        style={{ objectPosition: ph.pos, transform: shown ? 'scale(1)' : 'scale(1.12)', transition: `transform 900ms ${EASE}` }} />
                   <span className="absolute inset-0 pointer-events-none"
-                        style={{ boxShadow: `inset 0 0 0 2px ${SAFFRON}`, opacity: current === v ? 1 : 0, transition: `opacity 500ms ${EASE}` }} />
+                        style={{ boxShadow: 'inset 0 0 0 2px #fff', opacity: current === v ? 1 : 0, transition: `opacity 500ms ${EASE}` }} />
                 </span>
                 {/* small number under the photo */}
                 <span aria-hidden="true" className="absolute left-0 bottom-[4px] text-[9px] tracking-[0.28em] whitespace-nowrap"
@@ -326,13 +326,10 @@ export const FeatureBody: React.FC<{
               }
             ];
             const flip = v % 2 === 1;
-            const band = v === SAFFRON_BAND_VENUE; // option 2 preview: full-bleed saffron band behind this venue
             return (
               <article key={v} id={`venue-anchor-${v}`} data-v={v}
                        className="scroll-mt-28 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 py-14 border-b items-center"
-                       style={band
-                         ? { backgroundColor: SAFFRON, boxShadow: `0 0 0 100vmax ${SAFFRON}`, clipPath: 'inset(0 -100vmax)', borderColor: 'transparent', color: INK }
-                         : { borderColor: 'rgba(58,6,24,.2)' }}>
+                       style={{ borderColor: LINE }}>
                 <div data-wm="curtain" className={`lg:col-span-7 relative aspect-video self-center ${flip ? 'lg:order-2' : ''}`}>
                   <div className="absolute inset-0">
                     <LineCarousel slides={slides} alt={venue.name} onPreview={onPreview} />
@@ -340,8 +337,8 @@ export const FeatureBody: React.FC<{
                 </div>
                 <div className={`lg:col-span-5 flex flex-col justify-center ${flip ? 'lg:order-1' : ''}`}>
                   <div data-wm="" className="flex items-center gap-3 text-[11px] uppercase tracking-[0.32em]"
-                       style={{ color: band ? INK : SAFFRON, fontWeight: 500 }}>
-                    <span className="block w-8 h-px" style={{ background: band ? INK : SAFFRON }} />
+                       style={{ color: SAFFRON, fontWeight: 500 }}>
+                    <span className="block w-8 h-px" style={{ background: SAFFRON }} />
                     <span>{venue.capacity}</span>
                   </div>
                   <h4 data-wm="" style={{ ['--d' as any]: '120ms' }} className="mt-5 font-arpona text-[clamp(1.8rem,2.6vw,2.6rem)] leading-[1.04]">
@@ -350,9 +347,9 @@ export const FeatureBody: React.FC<{
                   <p data-wm="" style={{ ['--d' as any]: '240ms', opacity: 0.85 }} className="mt-4 text-[14px] leading-[1.7]">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
                   </p>
-                  <dl data-wm="" style={{ ['--d' as any]: '360ms', borderColor: band ? 'rgba(58,6,24,.35)' : 'rgba(58,6,24,.2)' }} className="mt-8 border-t grid grid-cols-2">
+                  <dl data-wm="" style={{ ['--d' as any]: '360ms', borderColor: LINE }} className="mt-8 border-t grid grid-cols-2">
                     {HIGHLIGHTS.map(([k, val], h) => (
-                      <div key={k} className={`py-3.5 border-b ${h % 2 === 0 ? 'pr-5 border-r' : 'pl-5'}`} style={{ borderColor: band ? 'rgba(58,6,24,.35)' : 'rgba(58,6,24,.2)' }}>
+                      <div key={k} className={`py-3.5 border-b ${h % 2 === 0 ? 'pr-5 border-r' : 'pl-5'}`} style={{ borderColor: LINE }}>
                         <dt className="text-[10px] uppercase tracking-[0.22em]" style={{ opacity: 0.65 }}>{k}</dt>
                         <dd className="mt-1 text-[13px]">{val}</dd>
                       </div>
@@ -366,7 +363,7 @@ export const FeatureBody: React.FC<{
       </section>
 
       {/* F. Wedding Director — full-bleed maroon closing band (compact) */}
-      <section className="text-white" style={{ backgroundColor: PALETTE.maroon, borderTop: `1px solid ${SAFFRON}`, borderBottom: `1px solid ${SAFFRON}` }}>
+      <section className="text-white" style={{ backgroundColor: PALETTE.maroon, borderTop: '1px solid #fff', borderBottom: '1px solid #fff' }}>
         <div className={`${W} py-14`}>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
             <div className="lg:col-span-7">
