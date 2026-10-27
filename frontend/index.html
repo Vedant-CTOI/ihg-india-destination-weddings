@@ -961,6 +961,44 @@
   /* same on the dedicated hotels + discover listing cards */
   html.layout-mobile #root .grid.md\:grid-cols-2 .group span.uppercase,
   html.layout-mobile #root .grid.md\:grid-cols-2 .group .text-\[10px\] { display: none !important; }
+
+  /* v38 — hotel card text FIX: card grows to fit its text; text sits in the white area below the
+     image; strictly name + capacity + rooms only */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl {
+    height: auto !important; max-height: none !important; overflow: visible !important;
+  }
+  /* media fixed 200px */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child,
+  html.layout-mobile #root .snap-start .group .relative.overflow-hidden.h-60,
+  html.layout-mobile #root .snap-start .group div[class*="h-60"] { height: 200px !important; min-height: 200px !important; max-height: 200px !important; }
+  /* text block: in normal flow, white background, compact */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child {
+    position: static !important; background: #fff !important; color: #000 !important;
+    padding: 10px 14px 12px !important; margin: 0 !important; max-height: none !important;
+    overflow: visible !important; display: block !important;
+  }
+  /* strictly: h3 (name) + the capacity/rooms row; everything else already hidden */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl h3 {
+    display: block !important; color: #000 !important; font-size: 16px !important; margin: 0 0 4px !important;
+  }
+  html.layout-mobile #root .snap-start .group .flex.items-center.space-x-4 { display: flex !important; }
+
+  /* v38b — force the FULL chain: card > wrapper > details all auto-height, text in flow */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div {
+    height: auto !important; max-height: none !important; overflow: visible !important; display: block !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child > div:first-child {
+    height: 200px !important; min-height: 200px !important; max-height: 200px !important; overflow: hidden !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .p-5 { padding: 10px 14px 12px !important; }
+
+  /* v38c — card min-height fits content; rail slides align-items: flex-start */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl {
+    height: auto !important; min-height: 314px !important; max-height: none !important;
+    display: flex !important; flex-direction: column !important; overflow: visible !important;
+  }
+  html.layout-mobile #root .flex.overflow-x-auto.snap-x { align-items: flex-start !important; }
 </style>
 
   </head>
