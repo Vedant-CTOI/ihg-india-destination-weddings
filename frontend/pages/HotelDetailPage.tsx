@@ -308,12 +308,6 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
     return HOTELS_DATA.filter((h) => names.includes(h.name));
   }, [selectedDestinations]);
 
-  const toggleCountry = (label: string) => {
-    setSelectedCountries((prev) =>
-      prev.includes(label) ? prev.filter((x) => x !== label) : [...prev, label]
-    );
-  };
-
   const toggleHotel = (id: string) => {
     setSelectedHotelIds((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]

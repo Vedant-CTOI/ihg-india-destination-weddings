@@ -880,6 +880,37 @@
   html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-firstname,
   html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-lastname { display: none !important; grid-column: auto !important; }
 
+
+  /* v34 — stories (real weddings) rail on mobile: SINGLE visible card + arrows.
+     Hardened: horizontal snap flex, one 100%-wide card at a time. */
+  html.layout-mobile #root section:nth-of-type(6) .grid.grid-cols-1.md\:grid-cols-3,
+  html.layout-mobile #root .stories-rail,
+  html.layout-mobile #root section .grid.grid-cols-1.md\:grid-cols-3:has(article) {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    grid-template-columns: unset !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  html.layout-mobile #root section .grid.grid-cols-1.md\:grid-cols-3:has(article) > article {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    scroll-snap-align: start !important;
+    margin: 0 !important;
+  }
+  /* arrows: 40px circles pinned on the rail edges, vertically centered */
+  html.layout-mobile #root .stories-rail-arrow {
+    position: absolute !important; top: 50% !important; transform: translateY(-50%) !important;
+    width: 40px !important; height: 40px !important; border-radius: 9999px !important;
+    background: #fff !important; border: 1px solid #d4d4d4 !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,.18) !important; z-index: 5 !important;
+  }
+  html.layout-mobile #root .stories-rail-arrow.stories-rail-prev { left: 6px !important; }
+  html.layout-mobile #root .stories-rail-arrow.stories-rail-next { right: 6px !important; }
 </style>
 
   </head>

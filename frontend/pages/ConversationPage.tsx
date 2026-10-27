@@ -230,16 +230,6 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
             {/* 3. Select Destination — Country dropdown + Destination multi-checkbox dropdown */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Country</label>
-                <select
-                  value={selectedCountry}
-                  onChange={(e) => { setSelectedCountry(e.target.value); setSelectedDestinations([]); }}
-                  className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium"
-                >
-                  {Object.keys(COUNTRY_DEST_MAP).map((c) => <option key={c} value={c}>{c}</option>)}
-                </select>
-              </div>
-              <div>
                 <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">
                   Destination {selectedDestinations.length > 0 && `(${selectedDestinations.length} selected)`}
                 </label>

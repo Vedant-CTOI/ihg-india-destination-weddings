@@ -160,28 +160,6 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-end">
             
-            {/* Filter 0: Country Dropdown (2 cols) */}
-            <div className="md:col-span-2 space-y-1">
-              <label htmlFor="country-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
-                Filter by Country:
-              </label>
-              <div className="relative">
-                <select
-                  id="country-filter-dropdown"
-                  value={selectedCountry}
-                  onChange={(e) => setSelectedCountry(e.target.value)}
-                  className="w-full appearance-none bg-white border border-neutral-300 hover:border-black rounded-xl px-3 py-2.5 pr-9 text-xs font-sans text-black font-medium shadow-2xs focus:outline-none focus:border-black transition-colors cursor-pointer"
-                >
-                  {Object.keys(COUNTRY_DEST_MAP).map((c) => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-neutral-500">
-                  <ChevronDown className="w-4 h-4" />
-                </div>
-              </div>
-            </div>
-
             {/* Filter 1: City in India Dropdown (3 cols) */}
             <div className="md:col-span-3 space-y-1">
               <label htmlFor="city-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
