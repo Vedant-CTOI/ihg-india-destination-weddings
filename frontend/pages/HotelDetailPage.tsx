@@ -5,6 +5,26 @@ import { HotelSelectorModal } from '../components/HotelSelectorModal';
 import { COUNTRY_DEST_MAP, DestinationDropdown } from '../components/DestinationDropdown';
 import { OccasionDropdown } from '../components/OccasionDropdown';
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useWeb, SplitText, PALETTE, CountUp } from '../components/webMotion';
+
+/* ── FEATURE PAGE (WEB VERSION ONLY): Hotel 1 gets motion, dummy colour photos and the client palette.
+      Every other hotel, and the Mobile view, render exactly as before. Data in constants.ts is untouched. ── */
+const FEATURE_HOTEL_ID = 'six-senses-fort-barwara';
+const uimg = (id: string, w = 1600) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
+const FEATURE_HERO = uimg('1545126178-862cdb469409', 2400);   // palace at night
+const FEATURE_ABOUT = uimg('1784460843252-0957395d2888', 1600); // courtyard through a carved doorway
+const FEATURE_VENUE_POOL = [
+  '1744805624890-9931ebb50428', '1754782915842-aa4fca6c203a', '1744804298093-07e5cb188a5f',
+  '1791233176122-eb6067a2cc51', '1582510003544-4d00b7f74220', '1788026187470-1c78e51047d5',
+  '1787831536851-7b8e9ef4a18c', '1760080839097-eff1408e48d8', '1787831082627-e7f0dae60c64',
+  '1787831536189-aa3bea3049eb', '1787831536285-534e63115355', '1779253806487-401be91cc024',
+  '1545126178-862cdb469409', '1784460843252-0957395d2888'
+].map((id) => uimg(id, 1400));
+const featureVenue = (venue: HotelVenueSpace, vIndex: number): HotelVenueSpace => ({
+  ...venue,
+  gallery: [0, 1, 2].map((k) => FEATURE_VENUE_POOL[(vIndex * 3 + k) % FEATURE_VENUE_POOL.length])
+});
+
 
 interface HotelDetailPageProps {
   hotelId: string;
@@ -276,6 +296,33 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 }) => {
   const hotel: HotelProperty =
     HOTELS_DATA.find((h) => h.id === hotelId) || HOTELS_DATA[0];
+  const web = useWeb();
+  const feature = web && hotel.id === FEATURE_HOTEL_ID; // Hotel 1, Web view only
+  const vView = (venue: HotelVenueSpace, vIndex: number) => (feature ? featureVenue(venue, vIndex) : venue);
+
+  // Feature hero: scroll parallax on the photo, copy lifts and fades as it scrolls away
+  const heroRef = useRef<HTMLDivElement | null>(null);
+  const heroImgRef = useRef<HTMLDivElement | null>(null);
+  const heroCopyRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!feature || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let raf = 0;
+    const tick = () => {
+      const sec = heroRef.current;
+      if (sec) {
+        const r = sec.getBoundingClientRect();
+        const y = Math.min(Math.max(-r.top, 0), r.height);
+        if (heroImgRef.current) heroImgRef.current.style.transform = `translate3d(0, ${y * 0.32}px, 0) scale(1.06)`;
+        if (heroCopyRef.current) {
+          heroCopyRef.current.style.transform = `translate3d(0, ${y * -0.12}px, 0)`;
+          heroCopyRef.current.style.opacity = String(Math.max(1 - (y / r.height) * 1.6, 0));
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [feature]);
 
   // Gallery Preview Lightbox Overlay Modal State
   const [previewModalOpen, setPreviewModalOpen] = useState<boolean>(false);
@@ -379,7 +426,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   const activeLightboxSlide = activePreviewSlides[activePreviewIndex] || activePreviewSlides[0];
 
   return (
-    <div className="min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
+    <div className={`min-h-screen bg-white text-black font-sans pb-24 animate-fade-in ${feature ? 'hotel-feature' : ''}`}>
       
       {/* Top Breadcrumb Bar */}
       <div className="border-b border-neutral-200 bg-neutral-50 py-3 sticky top-0 z-30 backdrop-blur-md bg-neutral-50/95">
@@ -403,30 +450,45 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
       </div>
 
       {/* Hero Banner (Grayscale Luxury) with Quick Preview trigger */}
-      <div className="relative h-[440px] lg:h-[520px] w-full overflow-hidden bg-black group/banner">
+      <div
+        ref={heroRef}
+        className={feature ? 'grain relative w-full overflow-hidden group/banner' : 'relative h-[440px] lg:h-[520px] w-full overflow-hidden bg-black group/banner'}
+        style={feature ? { height: 'max(440px, calc(100svh - 188px))', backgroundColor: '#000' } : undefined}
+      >
+        <div ref={heroImgRef} className={feature ? 'absolute inset-0 will-change-transform' : 'contents'}>
         <img
-          src={hotel.image}
+          src={feature ? FEATURE_HERO : hotel.image}
           alt={hotel.name}
-          className="w-full h-full object-cover filter grayscale contrast-115"
+          className={feature ? 'w-full h-full object-cover hero-zoom' : 'w-full h-full object-cover filter grayscale contrast-115'}
           onError={(e) => {
             (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(hotel.name);
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+        </div>
+        {feature ? (
+          <>
+            {/* Readability layers — survive any photograph */}
+            <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.35)' }} />
+            <div className="absolute inset-x-0 bottom-0 h-[70%] pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4) 50%, transparent)' }} />
+            <div className="absolute inset-x-0 top-0 h-48 pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.5), transparent)' }} />
+          </>
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+        )}
         
         {/* Banner Click to Preview Button */}
         <button
           type="button"
-          onClick={() => handleOpenPreview(0, [{ url: hotel.image, caption: `${hotel.name} Exterior Sanctuary`, isDraftDrawing: false }])}
+          onClick={() => handleOpenPreview(0, [{ url: feature ? FEATURE_HERO : hotel.image, caption: `${hotel.name} Exterior Sanctuary`, isDraftDrawing: false }])}
           className="absolute top-6 right-6 z-20 bg-black/60 hover:bg-black text-white px-3.5 py-1.5 rounded-full text-xs font-sans font-medium flex items-center space-x-1.5 backdrop-blur-xs border border-white/20 transition-all cursor-pointer shadow-sm"
         >
           <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
           <span>Expand Hero Visual</span>
         </button>
 
-        <div className="absolute bottom-8 left-0 right-0">
+        <div ref={heroCopyRef} className={feature ? 'absolute bottom-14 left-0 right-0 z-10 will-change-transform' : 'absolute bottom-8 left-0 right-0'}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-            <div className="flex items-center space-x-2 text-xs uppercase tracking-wider font-semibold mb-2.5">
+            <div className={`flex items-center space-x-2 text-xs uppercase tracking-wider font-semibold mb-2.5 ${feature ? 'soft-rise' : ''}`} style={feature ? { animationDelay: '500ms' } : undefined}>
               <span className="bg-white text-black px-3 py-1 rounded-full">
                 {hotel.brand}
               </span>
@@ -438,11 +500,11 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               </span>
             </div>
 
-            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white mb-2">
-              {hotel.name}
+            <h1 className={feature ? 'font-normal text-white mb-3 leading-[0.95] tracking-[-0.02em] text-[clamp(3rem,7vw,7rem)]' : 'font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white mb-2'}>
+              {feature ? <span className="mask-line"><span>{hotel.name}</span></span> : hotel.name}
             </h1>
 
-            <p className="text-xs sm:text-sm text-neutral-300 flex items-center space-x-2 font-light">
+            <p className={`text-xs sm:text-sm text-neutral-300 flex items-center space-x-2 font-light ${feature ? 'soft-rise' : ''}`} style={feature ? { animationDelay: '700ms' } : undefined}>
               <span aria-hidden="true" className="w-4 h-4  shrink-0 inline-block border border-current"></span>
               <span>{hotel.location}</span>
             </p>
@@ -481,7 +543,8 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               <button
                 type="button"
                 onClick={() => setSideFormOpen(true)}
-                className="w-12 shrink-0 flex-1 bg-black hover:bg-neutral-800 text-white transition-colors cursor-pointer flex items-start justify-center pt-5"
+                className={`w-12 shrink-0 flex-1 ${feature ? 'hover:opacity-90' : 'bg-black hover:bg-neutral-800'} text-white transition-colors cursor-pointer flex items-start justify-center pt-5`}
+                style={feature ? { backgroundColor: PALETTE.maroon } : undefined}
                 aria-expanded={sideFormOpen}
                 aria-label="Open enquiry form"
                 title="Open enquiry form"
@@ -731,35 +794,36 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
             <div className="space-y-14">
 
             {/* Quick Metrics Bar — Capacity / Total Rooms / No of Venues / Setting / Transit */}
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 bg-neutral-50 p-4 rounded-2xl border border-neutral-200 text-center">
-              <div>
+            <div className={`grid grid-cols-2 sm:grid-cols-5 gap-3 bg-neutral-50 p-4 rounded-2xl border border-neutral-200 text-center ${feature ? 'hf-facts' : ''}`}
+                 style={feature ? { backgroundColor: PALETTE.maroon, borderColor: 'transparent', padding: '28px 20px' } : undefined}>
+              <div data-wm={feature ? '' : undefined} style={{ ['--d' as any]: '0ms' }}>
                 <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">Capacity</span>
                 <div className="font-serif text-sm font-bold text-black flex items-center justify-center space-x-1">
                   <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                  <span>{hotel.capacityMin}–{hotel.capacityMax}</span>
+                  <span>{feature ? <><CountUp to={hotel.capacityMin} duration={1400} />–<CountUp to={hotel.capacityMax} duration={2000} /></> : <>{hotel.capacityMin}–{hotel.capacityMax}</>}</span>
                 </div>
                 <span className="text-[10px] text-neutral-500">Guests</span>
               </div>
 
-              <div>
+              <div data-wm={feature ? '' : undefined} style={{ ['--d' as any]: '140ms' }}>
                 <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">Total Rooms</span>
                 <div className="font-serif text-sm font-bold text-black flex items-center justify-center space-x-1">
                   <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                  <span>{hotel.roomsCount}</span>
+                  <span>{feature ? <CountUp to={hotel.roomsCount} duration={1800} delay={180} /> : hotel.roomsCount}</span>
                 </div>
                 <span className="text-[10px] text-neutral-500">Keys, Suites &amp; Villas</span>
               </div>
 
-              <div>
+              <div data-wm={feature ? '' : undefined} style={{ ['--d' as any]: '280ms' }}>
                 <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">No of Venues</span>
                 <div className="font-serif text-sm font-bold text-black flex items-center justify-center space-x-1">
                   <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                  <span>{(hotel.curatedSpaces || []).length}</span>
+                  <span>{feature ? <CountUp to={(hotel.curatedSpaces || []).length} duration={1400} delay={360} /> : (hotel.curatedSpaces || []).length}</span>
                 </div>
                 <span className="text-[10px] text-neutral-500">Curated Spaces</span>
               </div>
 
-              <div>
+              <div data-wm={feature ? '' : undefined} style={{ ['--d' as any]: '420ms' }}>
                 <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">Setting</span>
                 <div className="font-serif text-[11px] font-semibold text-black mt-1 truncate px-1">
                   {hotel.genre}
@@ -767,7 +831,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 <span className="text-[10px] text-neutral-500">{hotel.city}</span>
               </div>
 
-              <div>
+              <div data-wm={feature ? '' : undefined} style={{ ['--d' as any]: '560ms' }}>
                 <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">Transit</span>
                 <div className="font-serif text-[11px] font-semibold text-black mt-1 truncate px-1">
                   {hotel.airportDistance ? hotel.airportDistance.split('from')[0].trim() : 'International Hub'}
@@ -779,21 +843,23 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
             </div>
 
             {/* 1. ABOUT US SECTION FOR THIS SPECIFIC HOTEL */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2 text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">
+            <div className={feature ? 'hf-about grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 rounded-2xl p-6 sm:p-10 items-stretch' : 'space-y-4'}
+                 style={feature ? { backgroundColor: PALETTE.marigold } : undefined}>
+             <div className={feature ? 'space-y-5 self-center' : 'contents'}>
+              <div data-wm={feature ? '' : undefined} className="flex items-center space-x-2 text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">
                 <span className="inline-block w-2 h-2 border border-neutral-400 shrink-0" />
                 <span>About Us — {hotel.name}</span>
               </div>
 
               <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black leading-tight">
-                An Architectural Sanctuary of Sacred Romance
+                {feature ? <SplitText text="An Architectural Sanctuary of Sacred Romance" /> : 'An Architectural Sanctuary of Sacred Romance'}
               </h2>
 
-              <p className="text-xs sm:text-sm text-neutral-700 font-light leading-relaxed">
+              <p data-wm={feature ? '' : undefined} style={{ ['--d' as any]: '300ms' }} className="text-xs sm:text-sm text-neutral-700 font-light leading-relaxed">
                 {hotel.aboutUs || hotel.overview}
               </p>
 
-              <div className="bg-black text-white p-5 rounded-2xl flex items-center justify-between">
+              <div data-wm={feature ? '' : undefined} style={feature ? { ['--d' as any]: '450ms', backgroundColor: PALETTE.red } : undefined} className={`${feature ? '' : 'bg-black'} text-white p-5 rounded-2xl flex items-center justify-between`}>
                 <div>
                   <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-semibold block mb-0.5">
                     Signature Mandap Spec
@@ -804,18 +870,27 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 </div>
                 <span aria-hidden="true" className="w-5 h-5  shrink-0 inline-block border border-current"></span>
               </div>
+             </div>
+              {feature && (
+                <div data-wm="curtain" className="relative min-h-[320px] rounded-xl overflow-hidden">
+                  <div className="absolute inset-0">
+                    <img src={FEATURE_ABOUT} alt={`${hotel.name} courtyard`} className="w-full h-full object-cover about-drift" />
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* 2. VENUE 1, VENUE 2, VENUE 3 DETAILED BREAKDOWN WITH AUTOMATIC CAROUSELS & POPUP PREVIEWS */}
-            <div className="space-y-8 pt-4 border-t border-neutral-200">
+            <div className={feature ? 'hf-venues space-y-8 rounded-2xl p-6 sm:p-10' : 'space-y-8 pt-4 border-t border-neutral-200'}
+                 style={feature ? { backgroundColor: PALETTE.saffron } : undefined}>
               <div>
-                <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1">
+                <span data-wm={feature ? '' : undefined} className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1">
                   Celebration Grounds
                 </span>
                 <h3 className="font-serif text-2xl font-normal text-black">
-                  Curated Venues &amp; Architectural Spaces
+                  {feature ? <SplitText text="Curated Venues & Architectural Spaces" /> : <>Curated Venues &amp; Architectural Spaces</>}
                 </h3>
-                <p className="text-xs text-neutral-500 font-light mt-0.5">
+                <p data-wm={feature ? '' : undefined} style={{ ['--d' as any]: '300ms' }} className="text-xs text-neutral-500 font-light mt-0.5">
                   Each venue space features an automatic rotating photo carousel paired with technical draft drawing layouts and verified capacity metrics. Click any image to view in full-screen popup overlay.
                 </p>
               </div>
@@ -839,7 +914,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     >
                       <div className="aspect-[4/3] w-full bg-neutral-900 relative overflow-hidden">
                         <img
-                          src={(venue.gallery && venue.gallery[0]) || ''}
+                          src={(vView(venue, vIndex).gallery && vView(venue, vIndex).gallery[0]) || ''}
                           alt={`${venue.name} thumbnail`}
                           className="w-full h-full object-cover filter grayscale contrast-110 group-hover/thmb:scale-105 transition-transform"
                           onError={(e) => {
@@ -861,6 +936,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                   <div 
                     key={vIndex} 
                     id={`venue-anchor-${vIndex}`}
+                    data-wm={feature ? '' : undefined}
                     className="scroll-mt-28 bg-neutral-50 rounded-2xl border border-neutral-200 overflow-hidden flex flex-col"
                   >
                     {/* TOP: venue title + one-line description */}
@@ -874,9 +950,9 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     </div>
 
                     {/* MIDDLE: 16:9 carousel media, full card width */}
-                    <div>
+                    <div data-wm={feature ? 'curtain' : undefined}>
                       <VenueCarousel 
-                        venue={venue} 
+                        venue={vView(venue, vIndex)} 
                         onPreviewImage={handleOpenPreview}
                         compact
                       />
@@ -944,11 +1020,12 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
             </div>
 
             {/* Your Dedicated Wedding Director — dummy contact card */}
-            <div className="pt-4 border-t border-neutral-200">
-              <div className="bg-black text-white p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div data-wm={feature ? '' : undefined} className={feature ? '' : 'pt-4 border-t border-neutral-200'}>
+              <div className={`${feature ? '' : 'bg-black'} text-white p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6`}
+                   style={feature ? { backgroundColor: PALETTE.maroon } : undefined}>
                 <div className="flex items-center space-x-4">
                   {/* Monogram avatar */}
-                  <div className="w-14 h-14 rounded-full border border-white/40 flex items-center justify-center bg-neutral-900 shrink-0">
+                  <div className={`w-14 h-14 rounded-full border border-white/40 flex items-center justify-center ${feature ? 'bg-white/10' : 'bg-neutral-900'} shrink-0`}>
                     <span className="font-serif text-lg tracking-wider">
                       {(() => {
                         const parts = hotel.name.replace(/^(Six Senses|Crowne Plaza|InterContinental|Holiday Inn Resort|Holiday Inn|voco)\s+/i, '').trim();

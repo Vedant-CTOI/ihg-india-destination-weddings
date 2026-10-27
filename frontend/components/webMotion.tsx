@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useMobileLayout } from './useMobileLayout';
 
 /** WEB VERSION ONLY helpers for the landing-page motion system (Mobile view never uses these). */
@@ -70,4 +70,37 @@ export const WebMotionDirector: React.FC = () => {
     return () => { io.disconnect(); mo.disconnect(); };
   }, [web]);
   return null;
+};
+
+/** Count-up figure (easeOutExpo, tabular numerals). Counts when it enters view; resets when scrolled back above. */
+export const CountUp: React.FC<{ to: number; duration?: number; delay?: number }> = ({ to, duration = 1800, delay = 0 }) => {
+  const ref = useRef<HTMLSpanElement | null>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let raf = 0;
+    let running = false;
+    const ease = (t: number) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && running) return;
+      cancelAnimationFrame(raf);
+      if (e.isIntersecting) {
+        running = true;
+        const start = performance.now() + delay;
+        const step = (now: number) => {
+          const t = Math.min(Math.max((now - start) / duration, 0), 1);
+          el.textContent = Math.round(to * ease(t)).toLocaleString('en-US');
+          if (t < 1) raf = requestAnimationFrame(step); else running = false;
+        };
+        raf = requestAnimationFrame(step);
+      } else {
+        running = false;
+        if (e.boundingClientRect.top > 0) el.textContent = '0';
+        else el.textContent = to.toLocaleString('en-US'); // scrolled past: show the final figure
+      }
+    }, { threshold: 0.4 });
+    io.observe(el);
+    return () => { io.disconnect(); cancelAnimationFrame(raf); };
+  }, [to, duration, delay]);
+  return <span ref={ref} className="tabular-nums">{to.toLocaleString('en-US')}</span>;
 };
