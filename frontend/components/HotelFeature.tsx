@@ -29,6 +29,8 @@ type PreviewFn = (i: number, slides: Slide[]) => void;
 
 const INK = '#3a0618'; // deep maroon type on the light bands
 const CYCLE_MS = 5000;
+const EASE = 'cubic-bezier(0.16,1,0.3,1)';
+const WIPE = 'cubic-bezier(0.77,0,0.18,1)';
 
 const Eyebrow: React.FC<{ children: React.ReactNode; light?: boolean; d?: number }> = ({ children, light, d = 0 }) => (
   <div data-wm="" style={{ ['--d' as any]: `${d}ms`, color: light ? 'rgba(255,255,255,.72)' : INK }}
@@ -164,6 +166,9 @@ export const FeatureBody: React.FC<{
 }> = ({ hotel, onPreview, onNavigateToInquiry }) => {
   const venues: HotelVenueSpace[] = hotel.curatedSpaces || [];
   const [current, setCurrent] = useState(0);
+  // Hover swap (venue label -> small photo). Pointer devices only; touch keeps the text labels.
+  const [hovered, setHovered] = useState<number | null>(null);
+  const canHover = typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const jumpRef = useRef<HTMLDivElement | null>(null);
 
   // underline the venue currently in view
@@ -251,16 +256,34 @@ export const FeatureBody: React.FC<{
 
         {/* jump bar — venue numbers on a hairline; current one underlined */}
         <div ref={jumpRef} className="sticky top-[146px] z-20" style={{ backgroundColor: PALETTE.saffron }}>
-          <div className={`${W} border-y flex items-center gap-7 overflow-x-auto no-scrollbar`} style={{ borderColor: 'rgba(58,6,24,.2)' }}>
-            {venues.map((venue, v) => (
+          <div className={`${W} border-y flex items-start gap-7 overflow-x-auto overflow-y-hidden no-scrollbar`} style={{ borderColor: 'rgba(58,6,24,.2)' }}>
+            {venues.map((venue, v) => {
+              const hov = hovered === v;
+              return (
               <button key={v} type="button" onClick={() => jump(v)} aria-label={`Venue ${v + 1} - ${venue.capacity}`}
-                      className="relative shrink-0 py-4 text-[11px] uppercase tracking-[0.28em] cursor-pointer transition-opacity duration-500"
-                      style={{ opacity: current === v ? 1 : 0.55 }}>
-                Venue {v + 1}
+                      onMouseEnter={() => canHover && setHovered(v)} onMouseLeave={() => setHovered((h) => (h === v ? null : h))}
+                      className="relative shrink-0 text-left text-[11px] uppercase tracking-[0.28em] cursor-pointer"
+                      style={{
+                        height: hov ? 104 : 48, minWidth: hov ? 120 : 0,
+                        opacity: current === v || hov ? 1 : 0.55,
+                        transition: `height 500ms ${EASE}, min-width 500ms ${EASE}, opacity 500ms ${EASE}`
+                      }}>
+                {/* label slides up and away */}
+                <span className="block leading-[48px] whitespace-nowrap"
+                      style={{ transform: hov ? 'translateY(-100%)' : 'none', opacity: hov ? 0 : 1, transition: `transform 500ms ${EASE}, opacity 500ms ${EASE}` }}>
+                  Venue {v + 1}
+                </span>
+                {/* venue photo rises in with the shutter wipe */}
+                <span aria-hidden="true" className="absolute left-0 top-3 w-[120px] h-[80px] overflow-hidden pointer-events-none"
+                      style={{ clipPath: hov ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)', transition: `clip-path 500ms ${WIPE}` }}>
+                  <img src={venueGallery(v)[0]} alt="" className="w-full h-full object-cover"
+                       style={{ transform: hov ? 'scale(1)' : 'scale(1.12)', transition: `transform 900ms ${EASE}` }} />
+                </span>
                 <span className="absolute left-0 right-0 bottom-[-1px] h-px origin-left transition-transform duration-700"
                       style={{ background: INK, transform: `scaleX(${current === v ? 1 : 0})` }} />
               </button>
-            ))}
+              );
+            })}
           </div>
         </div>
 
