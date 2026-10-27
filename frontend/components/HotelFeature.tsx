@@ -110,7 +110,7 @@ const LineCarousel: React.FC<{ slides: Slide[]; alt: string; onPreview: PreviewF
   const [cycle, setCycle] = useState(0);
   const go = (n: number) => { setI(((n % slides.length) + slides.length) % slides.length); setCycle((c) => c + 1); };
   return (
-    <div className="relative w-full h-full min-h-[300px] overflow-hidden group/lc cursor-pointer"
+    <div className="relative w-full h-full overflow-hidden group/lc cursor-pointer"
          onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
          onClick={() => onPreview(i, slides)} title="Click to preview full size">
       {slides.map((s, k) => (
@@ -226,20 +226,20 @@ export const FeatureBody: React.FC<{
 
       {/* C. About — marigold band split in half; photo fills the right half edge to edge */}
       <section className="relative grid grid-cols-1 lg:grid-cols-2" style={{ backgroundColor: PALETTE.marigold, color: INK }}>
-        <div className="px-4 sm:px-6 lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:pr-14 py-20 lg:py-28 space-y-7 self-center">
+        <div className="px-4 sm:px-6 lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:pr-12 py-10 lg:py-12 space-y-4 self-center">
           <Eyebrow>About Us — {hotel.name}</Eyebrow>
-          <h2 className="text-[clamp(2.2rem,3.6vw,3.6rem)] leading-[1.02] tracking-[-0.015em]">
+          <h2 className="text-[clamp(1.6rem,2.3vw,2.3rem)] leading-[1.05] tracking-[-0.015em]">
             <SplitText text="An Architectural Sanctuary of Sacred Romance" />
           </h2>
-          <p data-wm="" style={{ ['--d' as any]: '300ms', opacity: 0.85 }} className="text-[15px] leading-[1.7] max-w-xl">
+          <p data-wm="" style={{ ['--d' as any]: '300ms', opacity: 0.85 }} className="text-[13.5px] leading-[1.65] max-w-xl">
             {hotel.aboutUs || hotel.overview}
           </p>
-          <div data-wm="" style={{ ['--d' as any]: '450ms' }} className="pt-5 border-t flex items-baseline justify-between gap-6 max-w-xl" >
+          <div data-wm="" style={{ ['--d' as any]: '450ms' }} className="pt-3 border-t flex items-baseline justify-between gap-6 max-w-xl" >
             <span className="text-[10px] uppercase tracking-[0.28em]" style={{ opacity: 0.7 }}>Signature Mandap Spec</span>
-            <span className="font-arpona text-xl">{hotel.mandapType}</span>
+            <span className="font-arpona text-lg">{hotel.mandapType}</span>
           </div>
         </div>
-        <div data-wm="curtain" className="relative min-h-[420px] lg:min-h-[640px]">
+        <div data-wm="curtain" className="relative min-h-[260px] lg:min-h-[340px]">
           <div className="absolute inset-0 overflow-hidden">
             <img src={FEATURE_ABOUT} alt={`${hotel.name} courtyard`} className="w-full h-full object-cover about-drift" />
           </div>
@@ -268,7 +268,7 @@ export const FeatureBody: React.FC<{
                       onMouseEnter={() => canHover && setHovered(v)} onMouseLeave={() => setHovered((h) => (h === v ? null : h))}
                       className="relative shrink-0 text-left text-[11px] uppercase tracking-[0.28em] cursor-pointer"
                       style={{
-                        height: hov ? 104 : 48, minWidth: hov ? 120 : 0,
+                        height: hov ? 92 : 48, minWidth: hov ? 120 : 0,
                         opacity: current === v || hov ? 1 : 0.55,
                         transition: `height 500ms ${EASE}, min-width 500ms ${EASE}, opacity 500ms ${EASE}`
                       }}>
@@ -278,7 +278,7 @@ export const FeatureBody: React.FC<{
                   Venue {v + 1}
                 </span>
                 {/* venue photo rises in with the shutter wipe */}
-                <span aria-hidden="true" className="absolute left-0 top-3 w-[120px] h-[80px] overflow-hidden pointer-events-none"
+                <span aria-hidden="true" className="absolute left-0 top-3 w-[120px] h-[68px] overflow-hidden pointer-events-none"
                       style={{ clipPath: hov ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)', transition: `clip-path 500ms ${WIPE}` }}>
                   <img src={venueGallery(v)[0]} alt="" className="w-full h-full object-cover"
                        style={{ transform: hov ? 'scale(1)' : 'scale(1.12)', transition: `transform 900ms ${EASE}` }} />
@@ -305,9 +305,9 @@ export const FeatureBody: React.FC<{
             const flip = v % 2 === 1;
             return (
               <article key={v} id={`venue-anchor-${v}`} data-v={v}
-                       className="scroll-mt-28 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 py-14 border-b items-stretch"
+                       className="scroll-mt-28 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 py-14 border-b items-center"
                        style={{ borderColor: 'rgba(58,6,24,.2)' }}>
-                <div data-wm="curtain" className={`lg:col-span-7 relative aspect-[16/10] lg:aspect-auto lg:min-h-[440px] ${flip ? 'lg:order-2' : ''}`}>
+                <div data-wm="curtain" className={`lg:col-span-7 relative aspect-video self-center ${flip ? 'lg:order-2' : ''}`}>
                   <div className="absolute inset-0">
                     <LineCarousel slides={slides} alt={venue.name} onPreview={onPreview} />
                   </div>
@@ -338,33 +338,35 @@ export const FeatureBody: React.FC<{
         </div>
       </section>
 
-      {/* F. Wedding Director — full-bleed maroon closing band */}
+      {/* F. Wedding Director — full-bleed maroon closing band (compact) */}
       <section className="text-white" style={{ backgroundColor: PALETTE.maroon }}>
-        <div className={`${W} py-20`}>
-          <Eyebrow light>Your Dedicated Wedding Director &amp; Stylist</Eyebrow>
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
+        <div className={`${W} py-14`}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
             <div className="lg:col-span-7">
-              <h4 data-wm="" style={{ ['--d' as any]: '120ms' }} className="font-arpona text-[clamp(2.2rem,3.6vw,3.6rem)] leading-[1.02]">
+              <Eyebrow light>Your Dedicated Wedding Director &amp; Stylist</Eyebrow>
+              <h4 data-wm="" style={{ ['--d' as any]: '120ms' }} className="mt-3 font-arpona text-[clamp(1.5rem,2.1vw,2.1rem)] leading-[1.05]">
                 Wedding Director — {hotel.name}
               </h4>
-              <p data-wm="" style={{ ['--d' as any]: '240ms' }} className="mt-5 text-[15px] leading-[1.7] text-white/75 max-w-xl">
+              <p data-wm="" style={{ ['--d' as any]: '240ms' }} className="mt-2 text-[13px] leading-[1.6] text-white/75 max-w-xl">
                 Curating celebrations at {hotel.name} for over a decade. Your single point of contact from first call to farewell brunch.
               </p>
             </div>
-            <div data-wm="" style={{ ['--d' as any]: '360ms' }} className="lg:col-span-5 border-t border-white/20 text-[13px]">
-              <a href="tel:+919****3210" className="flex justify-between py-4 border-b border-white/20 hover:text-white text-white/85 transition-colors">
-                <span className="text-white/55">✆</span><span>+91 98765 43210</span>
-              </a>
-              <a href="mailto:weddings@ihg.com" className="flex justify-between py-4 border-b border-white/20 hover:text-white text-white/85 transition-colors">
-                <span className="text-white/55">✉</span><span>weddings@ihg.com</span>
-              </a>
-              <div className="flex justify-between py-4 border-b border-white/20 text-white/85">
-                <span aria-hidden="true" className="w-3 h-3 inline-block border border-white/50 self-center"></span><span>Mon–Sat · 09:00–19:00 IST</span>
+            <div data-wm="" style={{ ['--d' as any]: '360ms' }} className="lg:col-span-5 flex flex-col gap-4">
+              <div className="border-t border-white/20 text-[12px] grid grid-cols-1 sm:grid-cols-3">
+                <a href="tel:+919****3210" className="flex items-center gap-2 pt-3 sm:pr-3 text-white/85 hover:text-white transition-colors whitespace-nowrap">
+                  <span className="text-white/55">✆</span><span>+91 98765 43210</span>
+                </a>
+                <a href="mailto:weddings@ihg.com" className="flex items-center gap-2 pt-3 sm:px-3 sm:border-l border-white/20 text-white/85 hover:text-white transition-colors whitespace-nowrap">
+                  <span className="text-white/55">✉</span><span>weddings@ihg.com</span>
+                </a>
+                <div className="flex items-center gap-2 pt-3 sm:pl-3 sm:border-l border-white/20 text-white/85 whitespace-nowrap">
+                  <span aria-hidden="true" className="w-3 h-3 inline-block border border-white/50"></span><span>Mon–Sat · 09:00–19:00 IST</span>
+                </div>
               </div>
               <button type="button" onClick={() => onNavigateToInquiry(hotel.name)}
-                      className="group/cta mt-7 bg-white text-black pl-7 pr-2 py-2 rounded-full tracking-[0.18em] uppercase text-[11px] inline-flex items-center gap-4 transition-colors hover:bg-neutral-200 cursor-pointer">
+                      className="group/cta self-start bg-white text-black pl-6 pr-1.5 py-1.5 rounded-full tracking-[0.18em] uppercase text-[10px] inline-flex items-center gap-3 transition-colors hover:bg-neutral-200 cursor-pointer">
                 <span>Begin the Conversation</span>
-                <span className="w-9 h-9 rounded-full bg-black text-white flex items-center justify-center transition-transform duration-500 group-hover/cta:translate-x-1">
+                <span className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center transition-transform duration-500 group-hover/cta:translate-x-1">
                   <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </button>
