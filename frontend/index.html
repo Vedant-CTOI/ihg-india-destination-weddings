@@ -721,6 +721,20 @@
   /* status strip + chips wrap within canvas */
   html.layout-mobile #root .flex.flex-wrap.items-center.justify-between { flex-wrap: wrap !important; max-width: 100% !important; }
 
+  /* ═══ MOBILE v29 — Loyalty package cards: stack image over text, both proportionate ═══ */
+  html.layout-mobile #root .bg-neutral-50.border.border-neutral-200.rounded-2xl.overflow-hidden.flex {
+    flex-direction: column !important;
+  }
+  html.layout-mobile #root .bg-neutral-50.border.border-neutral-200.rounded-2xl > .sm\:w-3\/5 {
+    width: 100% !important; max-width: 100% !important; aspect-ratio: 16/9 !important; height: auto !important;
+  }
+  html.layout-mobile #root .bg-neutral-50.border.border-neutral-200.rounded-2xl > .sm\:w-2\/5 {
+    width: 100% !important; max-width: 100% !important; padding: 14px 16px !important;
+  }
+  html.layout-mobile #root .bg-neutral-50.border.border-neutral-200.rounded-2xl h2 { font-size: 18px !important; margin: 0 0 6px !important; }
+  html.layout-mobile #root .bg-neutral-50.border.border-neutral-200.rounded-2xl p { font-size: 11px !important; line-height: 1.5 !important; }
+  html.layout-mobile #root .bg-neutral-50.border.border-neutral-200.rounded-2xl img { height: 100% !important; object-fit: cover !important; }
+
   /* ═══ MOBILE v28 — dedicated-page hero banners (About/Discover/Hotels/Real Weddings/Loyalty):
      440px tall web banner -> compact 200px mobile banner so the page scroll is short ═══ */
   html.layout-mobile #root .relative.h-\[380px\] { height: 200px !important; min-height: 200px !important; max-height: 200px !important; }
