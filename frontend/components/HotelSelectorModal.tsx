@@ -222,10 +222,6 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
                         alt={hotel.name}
                         className="w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"
                       /><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span>
-                      <span className="absolute top-2 left-2 bg-white/95 text-black text-[9px] uppercase tracking-wider px-2 py-0.5 rounded font-medium">
-                        {hotel.city}
-                      </span>
-
                       {/* Checkbox indicator */}
                       <div
                         className={`w-5 h-5 rounded-md border flex items-center justify-center absolute top-2 right-2 transition-colors ${
@@ -240,9 +236,6 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
 
                     {/* Info */}
                     <div className="space-y-0.5">
-                      <span className="text-[9px] uppercase tracking-widest text-neutral-400 font-semibold block">
-                        {hotel.genre}
-                      </span>
                       <h4 className="font-serif text-sm font-normal text-black leading-snug truncate">
                         {hotel.name}
                       </h4>

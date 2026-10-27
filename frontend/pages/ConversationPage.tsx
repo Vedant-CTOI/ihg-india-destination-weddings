@@ -169,13 +169,25 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
 
             {/* 2. Core fields */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
+              {/* Full Name (mobile single field; splits on last word for submit like landing form) */}
+              <div className="form-field-fullname">
+                <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Full Name *</label>
+                <input type="text" required placeholder="Full name"
+                  onChange={(e) => {
+                    const parts = e.target.value.trim().split(/\s+/);
+                    const first = parts.slice(0, 1).join(' ');
+                    const last = parts.slice(1).join(' ');
+                    setFirstName(first); setLastName(last);
+                  }}
+                  className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
+              </div>
+              <div className="form-field-firstname">
                 <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">First Name *</label>
                 <input type="text" required placeholder="First name" value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
               </div>
-              <div>
+              <div className="form-field-lastname">
                 <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Last Name *</label>
                 <input type="text" required placeholder="Last name" value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
@@ -194,13 +206,13 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
                   {OCCASIONS.map((o) => <option key={o} value={o}>{o}</option>)}
                 </select>
               </div>
-              <div>
+              <div className="form-field-date">
                 <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Expected Date</label>
                 <input type="date" min="2025-01-01" max="2028-12-31" value={expectedDate}
                   onChange={(e) => setExpectedDate(e.target.value)}
                   className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium" />
               </div>
-              <div>
+              <div className="form-field-guests">
                 <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">Number of Guests</label>
                 <input type="number" min="20" max="2000" placeholder="e.g. 250" value={guestCount}
                   onChange={(e) => setGuestCount(e.target.value)}
