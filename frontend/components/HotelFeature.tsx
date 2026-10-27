@@ -45,10 +45,10 @@ const LINE = 'rgba(58,6,24,.35)'; // venue-row hairlines (slightly stronger)
 const EASE = 'cubic-bezier(0.16,1,0.3,1)';
 const WIPE = 'cubic-bezier(0.77,0,0.18,1)';
 
-const Eyebrow: React.FC<{ children: React.ReactNode; light?: boolean; d?: number }> = ({ children, light, d = 0 }) => (
+const Eyebrow: React.FC<{ children: React.ReactNode; light?: boolean; d?: number; line?: string }> = ({ children, light, d = 0, line }) => (
   <div data-wm="" style={{ ['--d' as any]: `${d}ms`, color: light ? 'rgba(255,255,255,.72)' : INK }}
        className="flex items-center gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.32em]">
-    <span className="block w-8 h-px" style={{ background: SAFFRON }} />
+    <span className="block w-8 h-px" style={{ background: line || SAFFRON }} />
     <span>{children}</span>
   </div>
 );
@@ -239,17 +239,17 @@ export const FeatureBody: React.FC<{
       </section>
 
       {/* C. About — marigold band split in half; photo fills the right half edge to edge */}
-      <section className="relative grid grid-cols-1 lg:grid-cols-2" style={{ backgroundColor: '#fff', color: INK }}>
+      <section className="relative grid grid-cols-1 lg:grid-cols-2" style={{ backgroundColor: SAFFRON, color: INK }}>
         <div className="px-4 sm:px-6 lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:pr-12 py-10 lg:py-12 space-y-4 self-center">
-          <Eyebrow>About Us — {hotel.name}</Eyebrow>
+          <Eyebrow line={INK}>About Us — {hotel.name}</Eyebrow>
           <h2 className="text-[clamp(1.6rem,2.3vw,2.3rem)] leading-[1.05] tracking-[-0.015em]">
             <SplitText text="An Architectural Sanctuary of Sacred Romance" />
           </h2>
-          <p data-wm="" style={{ ['--d' as any]: '300ms', opacity: 0.85 }} className="text-[13.5px] leading-[1.65] max-w-xl">
+          <p data-wm="" style={{ ['--d' as any]: '300ms', opacity: 0.92 }} className="text-[13.5px] leading-[1.65] max-w-xl">
             {hotel.aboutUs || hotel.overview}
           </p>
-          <div data-wm="" style={{ ['--d' as any]: '450ms', borderColor: 'rgba(58,6,24,.2)' }} className="pt-3 border-t flex items-baseline justify-between gap-6 max-w-xl">
-            <span className="text-[10px] uppercase tracking-[0.28em]" style={{ opacity: 0.7 }}>Signature Mandap Spec</span>
+          <div data-wm="" style={{ ['--d' as any]: '450ms', borderColor: 'rgba(58,6,24,.45)' }} className="pt-3 border-t flex items-baseline justify-between gap-6 max-w-xl">
+            <span className="text-[10px] uppercase tracking-[0.28em]" style={{ opacity: 0.85 }}>Signature Mandap Spec</span>
             <span className="font-arpona text-lg">{hotel.mandapType}</span>
           </div>
         </div>
