@@ -608,15 +608,12 @@
   html.layout-mobile .fixed.inset-0.z-50 button > span[aria-hidden="true"] { display: none !important; }
 
   /* Sticky Submit Query bar (mobile; visible only while form in view via .ihg-sticky-on) */
-  #ihg-sticky-submit {
-    display: none; position: fixed; bottom: 0; left: 50%;
-    width: 430px; max-width: 430px; margin-left: -215px;
-    height: 52px; z-index: 40; border: none; cursor: pointer;
-    box-sizing: border-box; border-radius: 14px 14px 0 0;
-    background: #000; color: #fff; font-size: 12px; font-weight: 500;
-    letter-spacing: 0.12em; text-transform: uppercase; font-family: inherit;
-    box-shadow: 0 -6px 18px rgba(0,0,0,0.18);
+  button.ihg-sticky-on {
+    position: fixed !important; bottom: 0 !important; left: 50% !important; transform: translateX(-50%) !important;
+    width: 430px !important; max-width: 430px !important; z-index: 60 !important;
+    border-radius: 14px 14px 0 0 !important; margin: 0 !important;
   }
+  html.layout-mobile button.ihg-sticky-on { display: inline-flex !important; }
   html.layout-mobile #ihg-sticky-submit.ihg-sticky-on { display: block; }
 
   /* ═══ MOBILE v12 — landing polish ═══ */
@@ -835,8 +832,11 @@
     function update() {
       ticking = false;
       var isMobile = document.documentElement.classList.contains('layout-mobile');
-      var bar = document.getElementById('ihg-sticky-submit');
-      if (!isMobile) { if (bar) bar.classList.remove('ihg-sticky-on'); return; }
+      if (!isMobile) {
+        var prev = document.querySelector('button.ihg-sticky-on');
+        if (prev) prev.classList.remove('ihg-sticky-on');
+        return;
+      }
       // any visible enquiry form? (landing #contact form, or dedicated conversation page form)
       var forms = Array.from(document.querySelectorAll('#root form'));
       var visible = false;
@@ -847,9 +847,21 @@
         var btn = f.querySelector('button[type="submit"]');
         if (!btn || !/submit/i.test(btn.textContent)) continue;
         var r = f.getBoundingClientRect();
-        if (r.bottom > 120 && r.top < (window.innerHeight - 140)) { visible = true; break; }
+        if (r.bottom > 0 && r.top < window.innerHeight) { visible = true; break; }
       }
-      if (bar) bar.classList.toggle('ihg-sticky-on', visible);
+      // The ORIGINAL submit button (inside the form) becomes the sticky button itself.
+      var orig = null;
+      for (var j = 0; j < forms.length; j++) {
+        var b2 = forms[j].querySelector('button[type="submit"]');
+        if (b2 && /submit/i.test(b2.textContent) && forms[j].offsetParent !== null) { orig = b2; break; }
+      }
+      // sticky while the form is on screen; release when the button's real position is visible
+      var makeSticky = false;
+      if (visible && orig) {
+        var ob = orig.getBoundingClientRect();
+        makeSticky = ob.bottom < 90 || ob.top > window.innerHeight - 90;
+      }
+      if (orig) orig.classList.toggle('ihg-sticky-on', !!makeSticky);
     }
     function onScroll() {
       if (!ticking) { requestAnimationFrame(update); ticking = true; }
@@ -860,28 +872,9 @@
     setInterval(update, 800); // cheap catch-up for mode toggles
     update();
   }
-  // ensure the bar element exists (create once DOM ready)
-  function ensureBar() {
-    if (document.getElementById('ihg-sticky-submit')) return;
-    var bar = document.createElement('button');
-    bar.id = 'ihg-sticky-submit';
-    bar.type = 'button';
-    bar.textContent = 'SUBMIT QUERY';
-    bar.addEventListener('click', function () {
-      var forms = Array.from(document.querySelectorAll('#root form'));
-      for (var i = 0; i < forms.length; i++) {
-        var f = forms[i];
-        var btn = f.querySelector('button[type="submit"]');
-        if (btn && /submit/i.test(btn.textContent) && f.offsetParent !== null) {
-          btn.click(); return;
-        }
-      }
-    });
-    document.body.appendChild(bar);
-  }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { ensureBar(); setupStickySubmit(); });
-  } else { ensureBar(); setupStickySubmit(); }
+    document.addEventListener('DOMContentLoaded', function () { setupStickySubmit(); });
+  } else { setupStickySubmit(); }
 })();
 </script>
 </body>
