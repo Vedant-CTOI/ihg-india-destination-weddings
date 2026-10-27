@@ -999,6 +999,34 @@
     display: flex !important; flex-direction: column !important; overflow: visible !important;
   }
   html.layout-mobile #root .flex.overflow-x-auto.snap-x { align-items: flex-start !important; }
+
+  /* v39 — hotel card replicates the destination card (mobile): 266px total, text overlaid on image
+     bottom in destination-card style (dark text on light scrim), rounded-xl, neutral border */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl {
+    height: 266px !important; min-height: 266px !important; max-height: 266px !important;
+    overflow: hidden !important; border-radius: 12px !important;
+    border: 1px solid #d4d4d4 !important;
+  }
+  /* image fills the whole card */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child > div:first-child {
+    height: 266px !important; min-height: 266px !important; max-height: 266px !important;
+  }
+  /* text block: absolute overlay pinned to card bottom, destination-style scrim */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .p-5 {
+    position: absolute !important; bottom: 0 !important; left: 0 !important; right: 0 !important;
+    top: auto !important;
+    background: linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0.55)) !important;
+    padding: 10px 12px 10px !important; margin: 0 !important; z-index: 3 !important;
+    display: block !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .p-5 h3 {
+    color: #000 !important; font-size: 17px !important; margin: 0 0 4px !important; order: 0 !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .p-5 .flex.items-center.space-x-4 {
+    color: #000 !important; margin: 0 !important; padding: 0 !important; border: 0 !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .p-5 span { color: #000 !important; }
 </style>
 
   </head>
