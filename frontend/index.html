@@ -855,12 +855,14 @@
         var b2 = forms[j].querySelector('button[type="submit"]');
         if (b2 && /submit/i.test(b2.textContent) && forms[j].offsetParent !== null) { orig = b2; break; }
       }
-      // sticky once the user scrolls past the enquiry form (button's real position off-screen);
-      // releases only when the button's real spot is visible (end of form reached)
+      // sticky while ON the form (button below viewport, form visible) OR after scrolling PAST it
+      // (button above viewport); releases when the button's natural spot is on screen (form end)
       var makeSticky = false;
       if (orig) {
         var ob = orig.getBoundingClientRect();
-        makeSticky = ob.bottom < 90 || ob.top > window.innerHeight - 90;
+        var aboveViewport = ob.bottom < 90;
+        var belowViewport = ob.top > window.innerHeight - 90;
+        makeSticky = aboveViewport || (belowViewport && visible);
       }
       if (orig) orig.classList.toggle('ihg-sticky-on', !!makeSticky);
     }
