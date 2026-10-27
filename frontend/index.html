@@ -187,9 +187,11 @@
       transition-delay: var(--d, 0ms); }
     html:not(.layout-mobile) [data-wm][data-wm-in] { opacity: 1; transform: none; }
     /* Curtain: large image panels open with the hero's shutter wipe */
-    html:not(.layout-mobile) [data-wm="curtain"] { opacity: 1; transform: none; clip-path: inset(100% 0 0 0);
+    /* (the frame itself stays visible so the viewport observer can see it; its contents do the wipe) */
+    html:not(.layout-mobile) [data-wm="curtain"] { opacity: 1; transform: none; transition: none; }
+    html:not(.layout-mobile) [data-wm="curtain"] > * { clip-path: inset(100% 0 0 0);
       transition: clip-path 1.6s cubic-bezier(0.77,0,0.18,1); }
-    html:not(.layout-mobile) [data-wm="curtain"][data-wm-in] { clip-path: inset(0 0 0 0); }
+    html:not(.layout-mobile) [data-wm="curtain"][data-wm-in] > * { clip-path: inset(0 0 0 0); }
     /* Letter-by-letter heading (Pear): each glyph settles from a soft blur, 28ms apart */
     html:not(.layout-mobile) [data-wm="split"] { opacity: 1; transform: none; transition: none; }
     .split-w { display: inline-block; white-space: nowrap; }
@@ -235,6 +237,7 @@
       html:not(.layout-mobile) [data-wm], .split-c, .dest-fade { opacity: 1 !important; transform: none !important; filter: none !important;
         clip-path: none !important; transition: none !important; animation: none !important; }
     }
+    @media (prefers-reduced-motion: reduce) { html:not(.layout-mobile) [data-wm="curtain"] > * { clip-path: none !important; transition: none !important; } }
     /* ===== /DESIGN TRANSFER step 3 ===== */
 
     /* ─── DIALOG OVERLAY EXEMPTION — proper dim backdrop for popups ─── */
