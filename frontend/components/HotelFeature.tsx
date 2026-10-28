@@ -79,7 +79,7 @@ const LINE = 'rgba(58,6,24,.35)'; // venue-row hairlines (slightly stronger)
 const EASE = 'cubic-bezier(0.16,1,0.3,1)';
 const VENUE_TINT = '#FDF4E7';
 const BAND = '#F9E3C4'; // saffron ~25% — band shown around photos that are not 16:9
-const PAD = '18px 18px 64px'; // padding around the photo; bottom leaves room for the progress lines + arrows
+// photos fill the 16:9 frame's full height; any non-16:9 photo leaves BAND visible at the sides
 // VENUE_TINT = saffron #ED8C0C at 10% on white — light band behind the venues section
 const WIPE = 'cubic-bezier(0.77,0,0.18,1)';
 
@@ -187,29 +187,30 @@ const LineCarousel: React.FC<{ slides: Slide[]; alt: string; onPreview: PreviewF
       {slides.map((s, k) => (
         <img key={s.url + k} src={s.url} alt={`${alt} — ${s.caption}`}
              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${k === i ? 'about-drift' : ''}`}
-             style={{ opacity: k === i ? 1 : 0, objectFit: 'contain', objectPosition: '50% 50%', padding: PAD, boxSizing: 'border-box', background: 'transparent' }} />
+             style={{ opacity: k === i ? 1 : 0, objectFit: 'contain', objectPosition: '50% 50%', background: 'transparent' }} />
       ))}
-      <div className="absolute inset-x-0 bottom-0 px-5 pb-3 flex items-end gap-5" style={{ color: INK }} onClick={(e) => e.stopPropagation()}>
+      <div className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,.5), transparent)' }} />
+      <div className="absolute inset-x-0 bottom-0 p-5 flex items-end gap-5 text-white" onClick={(e) => e.stopPropagation()}>
         <div className="flex-1 flex gap-3">
           {slides.map((_, k) => (
             <button key={k} type="button" onClick={() => go(k)} className="flex-1 py-3 cursor-pointer" aria-label={`Show picture ${k + 1}`}>
-              <span className="block h-px overflow-hidden" style={{ background: 'rgba(58,6,24,.22)' }}>
+              <span className="block h-px bg-white/35 overflow-hidden">
                 {k === i
                   ? <span key={`b-${cycle}`} className="hero-progress block h-full"
                           style={{ background: SAFFRON, animationDuration: `${CYCLE_MS}ms`, animationPlayState: paused ? 'paused' : 'running' }}
                           onAnimationEnd={() => go(i + 1)} />
-                  : <span className={`block h-full origin-left ${k < i ? 'opacity-40' : 'scale-x-0'}`} style={{ background: INK }} />}
+                  : <span className={`block h-full bg-white origin-left ${k < i ? 'opacity-40' : 'scale-x-0'}`} />}
               </span>
             </button>
           ))}
         </div>
         <div className="flex gap-2 shrink-0">
           <button type="button" onClick={() => go(i - 1)} aria-label="Previous venue picture"
-                  className="w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-500 cursor-pointer hover:bg-[#3a0618] hover:text-white" style={{ borderColor: 'rgba(58,6,24,.4)' }}>
+                  className="w-10 h-10 rounded-full border border-white/50 flex items-center justify-center transition-all duration-500 cursor-pointer hover:bg-white hover:text-[#3a0618]">
             <ChevronLeft {...IC} className="w-4 h-4" />
           </button>
           <button type="button" onClick={() => go(i + 1)} aria-label="Next venue picture"
-                  className="w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-500 cursor-pointer hover:bg-[#3a0618] hover:text-white" style={{ borderColor: 'rgba(58,6,24,.4)' }}>
+                  className="w-10 h-10 rounded-full border border-white/50 flex items-center justify-center transition-all duration-500 cursor-pointer hover:bg-white hover:text-[#3a0618]">
             <ChevronRight {...IC} className="w-4 h-4" />
           </button>
         </div>
