@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 export const COUNTRY_DEST_MAP: Record<string, Record<string, string[]>> = {
   'Country 1': {
-    'Destination 1': ['Hotel 1', 'Hotel 2'],
+    'Destination 1': ['Crowne Plaza Today', 'Hotel 2'],
     'Destination 2': ['Hotel 5', 'Hotel 8'],
   },
   'Country 2': {

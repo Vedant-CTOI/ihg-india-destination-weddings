@@ -44,9 +44,9 @@ export const HOTEL_COPY = {
   capacity: 200,            // single figure (no range)
   roomsCount: 236,
   genre: 'City',
-  airportDistance: '45 mins from Jaipur Airport',
+  airportDistance: 'Lorem ipsum from Lorem ipsum', // placeholder until the airport is confirmed
+  aboutHeading: 'Weddings at Crowne Plaza Today Gurugram',
   aboutUs: [
-    'Weddings at Crowne Plaza Today Gurugram',
     'Every wedding tells a unique story, and at Crowne Plaza Today Gurugram, we bring your vision to life with elegant venues, bespoke culinary experiences and thoughtful hospitality. Set in the heart of Gurugram, the hotel offers a sophisticated setting for celebrating love, family and the beginning of a beautiful new chapter.',
     'From vibrant haldi and mehendi ceremonies to glamorous sangeet evenings, engagement celebrations and grand wedding receptions, our versatile event spaces provide the perfect backdrop for every occasion. Whether you are planning an intimate gathering or a larger celebration, our venues can be tailored to reflect your style, traditions and personal preferences.',
     'Food is at the heart of every Indian wedding. Our culinary team curates bespoke menus featuring an extensive selection of Indian and international cuisines, thoughtfully crafted to complement each celebration and delight guests across generations.',
@@ -208,7 +208,7 @@ const VENUE_COPY: Record<number, VenueCopy> = {
     description: 'Spanning 1,356 sq. ft., this versatile indoor venue offers a refined setting for intimate celebrations, social gatherings, corporate events and pre-wedding functions. Designed to accommodate a range of event formats, the space combines comfort and functionality, ensuring a seamless experience for hosts and guests. An additional breakout area provides flexibility for smaller gatherings, private discussions, pre-function arrangements or dedicated event activities. Whether hosting an engagement ceremony, an intimate family celebration or a professional gathering, the venue can be tailored to suit the occasion. With adaptable layouts and essential event facilities, it offers a practical yet elegant space for memorable experiences.',
     highlights: {
       'Venue Size': '1356 sq. ft.',
-      'Seating Capacity': '70 pax in theatte style, 36 pax in cluster style, 30 pax in classroom style, 30 pax in u-shape'
+      'Seating Capacity': '70 pax in theatre style, 36 pax in cluster style, 30 pax in classroom style, 30 pax in u-shape'
     }
   },
   1: {
@@ -234,7 +234,7 @@ const VENUE_COPY: Record<number, VenueCopy> = {
   3: {
     onlySupplied: true,
     name: 'Petal Lawn',
-    description: 'Set amidst lush green surroundings, our open-air lawn offers a picturesque setting for weddings, pre-wedding festivities and memorable social celebrations. Featuring a thoughtfully designed cabana and a separate entry for added exclusivity, the venue provides a beautiful canvas for hosting bespoke events under the open sky. From vibrant mehendi and haldi ceremonies to elegant sundowners, intimate wedding functions and grand outdoor celebrations, the versatile space can be transformed to complement every occasion and vision. The natural greenery, open-air ambience and thoughtfully planned layout create an inviting atmosphere for guests to celebrate and connect. Whether envisioned as a charming daytime celebration or an enchanting evening affair, the lawn lends itself to customised décor, curated dining experiences and personalised event setups',
+    description: 'Set amidst lush green surroundings, our open-air lawn offers a picturesque setting for weddings, pre-wedding festivities and memorable social celebrations. Featuring a thoughtfully designed cabana and a separate entry for added exclusivity, the venue provides a beautiful canvas for hosting bespoke events under the open sky. From vibrant mehendi and haldi ceremonies to elegant sundowners, intimate wedding functions and grand outdoor celebrations, the versatile space can be transformed to complement every occasion and vision. The natural greenery, open-air ambience and thoughtfully planned layout create an inviting atmosphere for guests to celebrate and connect. Whether envisioned as a charming daytime celebration or an enchanting evening affair, the lawn lends itself to customised décor, curated dining experiences and personalised event setups.',
     highlights: {
       'Venue Size': '7440 sq. ft.',
       'Seating Capacity': '250 pax in round tables setup, 500 pax in theatre setup',
@@ -243,6 +243,34 @@ const VENUE_COPY: Record<number, VenueCopy> = {
   }
 };
 const copyFor = (v: number): VenueCopy => VENUE_COPY[v] || {};
+
+/* About copy: first paragraph shown; "Read more" opens the rest with a slow height reveal (reversible). */
+const AboutText: React.FC<{ text: string }> = ({ text }) => {
+  const paras = text.split(/\n\n+/).filter(Boolean);
+  const [open, setOpen] = useState(false);
+  const rest = paras.slice(1);
+  return (
+    <div data-wm="" style={{ ['--d' as any]: '300ms' }} className="max-w-xl">
+      <div className="text-[13.5px] leading-[1.65] space-y-3" style={{ opacity: 0.92 }}>
+        {paras[0] && <p>{paras[0]}</p>}
+        {rest.length > 0 && (
+          <div className="grid" style={{ gridTemplateRows: open ? '1fr' : '0fr', transition: `grid-template-rows 1200ms ${EASE}` }}>
+            <div className="overflow-hidden space-y-3" style={{ opacity: open ? 1 : 0, transition: `opacity 1200ms ${EASE}` }} aria-hidden={!open}>
+              {rest.map((para, k) => <p key={k}>{para}</p>)}
+            </div>
+          </div>
+        )}
+      </div>
+      {rest.length > 0 && (
+        <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open}
+                className="group/rm mt-4 inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.28em] cursor-pointer">
+          <span className="block w-8 h-px transition-all duration-700 group-hover/rm:w-12" style={{ background: INK }} />
+          <span>{open ? 'Read less' : 'Read more'}</span>
+        </button>
+      )}
+    </div>
+  );
+};
 
 /* ── Body ─────────────────────────────────────────────────────────────────────────────── */
 export const FeatureBody: React.FC<{
@@ -317,11 +345,9 @@ export const FeatureBody: React.FC<{
         <div className="px-4 sm:px-6 lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:pr-12 py-10 lg:py-12 space-y-4 self-center">
           <Eyebrow line={INK}>About Us — {hotel.name}</Eyebrow>
           <h2 className="text-[clamp(1.6rem,2.3vw,2.3rem)] leading-[1.05] tracking-[-0.015em]">
-            <SplitText text="An Architectural Sanctuary of Sacred Romance" />
+            <SplitText text={HOTEL_COPY.aboutHeading} />
           </h2>
-          <div data-wm="" style={{ ['--d' as any]: '300ms', opacity: 0.92 }} className="text-[13.5px] leading-[1.65] max-w-xl space-y-3">
-            {(hotel.aboutUs || hotel.overview || '').split(/\n\n+/).map((para, k) => <p key={k}>{para}</p>)}
-          </div>
+          <AboutText text={hotel.aboutUs || hotel.overview || ''} />
           <div data-wm="" style={{ ['--d' as any]: '450ms', borderColor: 'rgba(58,6,24,.45)' }} className="pt-3 border-t flex items-baseline justify-between gap-6 max-w-xl">
             <span className="text-[10px] uppercase tracking-[0.28em]" style={{ opacity: 0.85 }}>Signature Mandap Spec</span>
             <span className="font-arpona text-lg">{hotel.mandapType}</span>

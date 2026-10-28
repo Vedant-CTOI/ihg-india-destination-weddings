@@ -404,7 +404,7 @@ export const DESTINATIONS_DATA: Destination[] = [
 export const HOTELS_DATA: HotelProperty[] = [
   {
     id: 'six-senses-fort-barwara',
-    name: 'Hotel 1',
+    name: 'Crowne Plaza Today',
     brand: 'Brand A',
     location: 'Region 1, North India',
     city: 'Region 1',
