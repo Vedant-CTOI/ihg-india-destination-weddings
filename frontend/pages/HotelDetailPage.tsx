@@ -6,7 +6,7 @@ import { COUNTRY_DEST_MAP, DestinationDropdown } from '../components/Destination
 import { OccasionDropdown } from '../components/OccasionDropdown';
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useWeb, PALETTE } from '../components/webMotion';
-import { FEATURE_HOTEL_ID, FEATURE_HERO, FeatureHero, FeatureBody } from '../components/HotelFeature';
+import { FEATURE_HOTEL_ID, FEATURE_HERO, FeatureHero, FeatureBody, withHotelCopy } from '../components/HotelFeature';
 
 interface HotelDetailPageProps {
   hotelId: string;
@@ -281,6 +281,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   // Hotel 1 in Web view gets the feature design (landing-page language). Everything else is unchanged.
   const web = useWeb();
   const feature = web && hotel.id === FEATURE_HOTEL_ID;
+  const shown = feature ? withHotelCopy(hotel) : hotel; // client copy, display only
 
   // Gallery Preview Lightbox Overlay Modal State
   const [previewModalOpen, setPreviewModalOpen] = useState<boolean>(false);
@@ -394,7 +395,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
             <span>/</span>
             <button onClick={onNavigateBack} className="hover:text-black cursor-pointer">Sanctuaries</button>
             <span>/</span>
-            <span className="text-black font-medium">{hotel.name}</span>
+            <span className="text-black font-medium">{shown.name}</span>
           </div>
 
           <button
@@ -408,7 +409,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
       </div>
 
       {feature && (
-        <FeatureHero hotel={hotel} onExpand={() => handleOpenPreview(0, [{ url: FEATURE_HERO, caption: `${hotel.name} Exterior Sanctuary`, isDraftDrawing: false }])} />
+        <FeatureHero hotel={shown} onExpand={() => handleOpenPreview(0, [{ url: FEATURE_HERO, caption: `${hotel.name} Exterior Sanctuary`, isDraftDrawing: false }])} />
       )}
       {/* Hero Banner (Grayscale Luxury) with Quick Preview trigger */}
       {!feature && (
@@ -516,7 +517,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     Begin the Conversation
                   </h3>
                   <p className="text-[11px] text-neutral-500 font-light">
-                    Preliminary blueprint for <strong className="text-black font-medium">{hotel.name}</strong>.
+                    Preliminary blueprint for <strong className="text-black font-medium">{shown.name}</strong>.
                   </p>
                 </div>
 
@@ -739,7 +740,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
         {/* Main content — dynamically spreads when the side form collapses */}
         <div className={`transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${sideFormOpen ? 'lg:pr-[400px]' : 'lg:pr-0'}`}>
           {feature ? (
-            <FeatureBody hotel={hotel} onPreview={handleOpenPreview} onNavigateToInquiry={onNavigateToInquiry} />
+            <FeatureBody hotel={shown} onPreview={handleOpenPreview} onNavigateToInquiry={() => onNavigateToInquiry(hotel.name)} />
           ) : (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="space-y-14">

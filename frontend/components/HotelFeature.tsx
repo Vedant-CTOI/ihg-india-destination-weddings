@@ -34,6 +34,38 @@ const venuePhotos = (vIndex: number): { url: string; pos: string }[] =>
   VENUE_PHOTOS[vIndex] || [0, 1, 2].map((k) => ({ url: POOL[(vIndex * 3 + k) % POOL.length], pos: '50% 50%' }));
 const venueGallery = (vIndex: number) => venuePhotos(vIndex).map((p) => p.url);
 
+/* Client copy for Hotel 1's page (Web only). Text is verbatim as supplied; blank fields keep the current text.
+   The site data (constants.ts) is untouched, so other pages and the Mobile view still show "Hotel 1". */
+export const HOTEL_COPY = {
+  name: 'Crowne Plaza Today',
+  brand: 'Crowne Plaza',
+  city: 'Gurugram',
+  location: 'Crowne Plaza Today Gurgaon, Sector 29, National Highway-8, Gurgaon – 122001, New Delhi(NCR), India',
+  capacity: 200,            // single figure (no range)
+  roomsCount: 236,
+  genre: 'City',
+  airportDistance: '45 mins from Jaipur Airport',
+  aboutUs: [
+    'Weddings at Crowne Plaza Today Gurugram',
+    'Every wedding tells a unique story, and at Crowne Plaza Today Gurugram, we bring your vision to life with elegant venues, bespoke culinary experiences and thoughtful hospitality. Set in the heart of Gurugram, the hotel offers a sophisticated setting for celebrating love, family and the beginning of a beautiful new chapter.',
+    'From vibrant haldi and mehendi ceremonies to glamorous sangeet evenings, engagement celebrations and grand wedding receptions, our versatile event spaces provide the perfect backdrop for every occasion. Whether you are planning an intimate gathering or a larger celebration, our venues can be tailored to reflect your style, traditions and personal preferences.',
+    'Food is at the heart of every Indian wedding. Our culinary team curates bespoke menus featuring an extensive selection of Indian and international cuisines, thoughtfully crafted to complement each celebration and delight guests across generations.',
+    'Our dedicated events team works closely with you to bring every detail together, from venue styling and seating arrangements to customised menus and seamless event coordination. With contemporary guest accommodation, attentive service and a focus on personalised experiences, we ensure that your family and guests feel equally well cared for throughout the festivities.',
+    'At Crowne Plaza Today Gurugram, every celebration is an opportunity to create lasting memories. Let us set the stage for your special moments, bringing together cherished traditions, contemporary elegance and the people who matter most for a wedding that is truly yours.'
+  ],
+  mandapType: 'Banquet and Lawns',
+  venuesHeading: 'Curated Venues & Banquet Spaces',
+  venuesParagraph: 'Lorem ispum paragraph'
+};
+/** Hotel 1 with the client copy applied (display only). */
+export const withHotelCopy = (h: HotelProperty): HotelProperty => ({
+  ...h,
+  name: HOTEL_COPY.name, brand: HOTEL_COPY.brand, city: HOTEL_COPY.city, location: HOTEL_COPY.location,
+  capacityMin: HOTEL_COPY.capacity, capacityMax: HOTEL_COPY.capacity, roomsCount: HOTEL_COPY.roomsCount,
+  genre: HOTEL_COPY.genre, airportDistance: HOTEL_COPY.airportDistance, mandapType: HOTEL_COPY.mandapType,
+  aboutUs: HOTEL_COPY.aboutUs.join('\n\n')
+});
+
 type Slide = { url: string; caption: string; isDraftDrawing: boolean; notes?: string; pos?: string };
 type PreviewFn = (i: number, slides: Slide[]) => void;
 
@@ -247,7 +279,7 @@ export const FeatureBody: React.FC<{
   const transitFrom = hotel.airportDistance ? hotel.airportDistance.split('from')[1]?.trim() || 'Nearest Hub' : 'Arrival Gate';
 
   const facts: { label: string; value: React.ReactNode; sub: string; word?: boolean }[] = [
-    { label: 'Capacity', value: <><CountUp to={hotel.capacityMin} duration={1400} />–<CountUp to={hotel.capacityMax} duration={2000} /></>, sub: 'Guests' },
+    { label: 'Capacity', value: hotel.capacityMin === hotel.capacityMax ? <CountUp to={hotel.capacityMax} duration={1800} /> : <><CountUp to={hotel.capacityMin} duration={1400} />–<CountUp to={hotel.capacityMax} duration={2000} /></>, sub: 'Guests' },
     { label: 'Total Rooms', value: <CountUp to={hotel.roomsCount} duration={1800} delay={180} />, sub: 'Keys, Suites & Villas' },
     { label: 'No of Venues', value: <CountUp to={venues.length} duration={1400} delay={360} />, sub: 'Curated Spaces' },
     { label: 'Setting', value: hotel.genre, sub: hotel.city, word: true },
@@ -286,9 +318,9 @@ export const FeatureBody: React.FC<{
           <h2 className="text-[clamp(1.6rem,2.3vw,2.3rem)] leading-[1.05] tracking-[-0.015em]">
             <SplitText text="An Architectural Sanctuary of Sacred Romance" />
           </h2>
-          <p data-wm="" style={{ ['--d' as any]: '300ms', opacity: 0.92 }} className="text-[13.5px] leading-[1.65] max-w-xl">
-            {hotel.aboutUs || hotel.overview}
-          </p>
+          <div data-wm="" style={{ ['--d' as any]: '300ms', opacity: 0.92 }} className="text-[13.5px] leading-[1.65] max-w-xl space-y-3">
+            {(hotel.aboutUs || hotel.overview || '').split(/\n\n+/).map((para, k) => <p key={k}>{para}</p>)}
+          </div>
           <div data-wm="" style={{ ['--d' as any]: '450ms', borderColor: 'rgba(58,6,24,.45)' }} className="pt-3 border-t flex items-baseline justify-between gap-6 max-w-xl">
             <span className="text-[10px] uppercase tracking-[0.28em]" style={{ opacity: 0.85 }}>Signature Mandap Spec</span>
             <span className="font-arpona text-lg">{hotel.mandapType}</span>
@@ -306,10 +338,10 @@ export const FeatureBody: React.FC<{
         <div className={`${W} pt-20 pb-10`}>
           <Eyebrow>Celebration Grounds</Eyebrow>
           <h3 className="mt-6 font-arpona text-[clamp(2.2rem,3.6vw,3.6rem)] leading-[1.02] tracking-[-0.015em]">
-            <SplitText text="Curated Venues & Architectural Spaces" />
+            <SplitText text={HOTEL_COPY.venuesHeading} />
           </h3>
           <p data-wm="" style={{ ['--d' as any]: '300ms', opacity: 0.85 }} className="mt-5 text-[15px] leading-[1.7] max-w-2xl">
-            Each venue space features an automatic rotating photo carousel paired with technical draft drawing layouts and verified capacity metrics. Click any image to view in full-screen popup overlay.
+            {HOTEL_COPY.venuesParagraph}
           </p>
         </div>
 
