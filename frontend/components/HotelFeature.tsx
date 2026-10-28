@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, ArrowRight, Phone, Mail, Clock, MapPin, Maximize2, Armchair, Layers, Plus, Minus, Building2, X } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { ChevronLeft, ChevronRight, ArrowRight, Phone, Mail, Clock, MapPin, Maximize2, Armchair, Layers, Plus, Minus, Building2, X, Users } from 'lucide-react';
 /* Icon style for the Hotel 1 page: thin outline (Lucide), 1.25 stroke, inherits the surrounding text colour. */
 const IC = { strokeWidth: 1.25, 'aria-hidden': true } as const;
 import { HotelProperty, HotelVenueSpace } from '../types';
@@ -155,21 +156,27 @@ const Lightbox: React.FC<{ slides: Slide[]; start: number; alt: string; onClose:
     return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
   }, []);
   const btn = 'w-11 h-11 rounded-full border border-white/40 text-white flex items-center justify-center transition-all duration-500 hover:bg-white hover:text-[#3a0618] cursor-pointer';
-  return (
-    <div role="dialog" aria-modal="true" aria-label={`${alt} photos`} className="hf-lightbox fixed inset-0 z-[100] flex items-center justify-center animate-fade-in"
+  // Rendered straight into <body> so it always covers the screen (not the animated section it was opened from).
+  return createPortal(
+    <div role="dialog" aria-modal="true" aria-label={`${alt} photos`}
+         className="hf-lightbox fixed inset-0 z-[200] flex flex-col items-center justify-center gap-5 p-6 animate-fade-in"
          style={{ backgroundColor: 'rgba(58,6,24,.94)' }} onClick={onClose}>
-      <button type="button" aria-label="Close photo" onClick={onClose} className={`group/x absolute top-6 right-6 ${btn}`}>
-        <X {...IC} className="w-5 h-5 transition-transform duration-700 group-hover/x:rotate-90" />
-      </button>
-      <div className="relative w-[min(86vw,1200px)] h-[78vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
-        <img key={n} src={slides[n].url} alt={alt} className="max-w-full max-h-full object-contain soft-rise" />
+      {/* photo, centred on screen, with the close button on its top-right corner */}
+      <div className="relative inline-block" onClick={(e) => e.stopPropagation()}>
+        <img key={n} src={slides[n].url} alt={alt} className="block object-contain soft-rise"
+             style={{ maxWidth: 'min(88vw, 1200px)', maxHeight: 'calc(100vh - 150px)' }} />
+        <button type="button" aria-label="Close photo" onClick={onClose}
+                className={`group/x absolute -top-5 -right-5 ${btn}`} style={{ backgroundColor: 'rgba(58,6,24,.9)' }}>
+          <X {...IC} className="w-5 h-5 transition-transform duration-700 group-hover/x:rotate-90" />
+        </button>
       </div>
-      <div className="absolute bottom-6 inset-x-0 flex items-center justify-center gap-6 text-white" onClick={(e) => e.stopPropagation()}>
+      <div className="flex items-center justify-center gap-6 text-white" onClick={(e) => e.stopPropagation()}>
         <button type="button" aria-label="Previous photo" onClick={() => step(-1)} className={btn}><ChevronLeft {...IC} className="w-5 h-5" /></button>
         <span className="text-[11px] tracking-[0.3em] tabular-nums">{n + 1} / {slides.length}</span>
         <button type="button" aria-label="Next photo" onClick={() => step(1)} className={btn}><ChevronRight {...IC} className="w-5 h-5" /></button>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
@@ -219,7 +226,7 @@ const LineCarousel: React.FC<{ slides: Slide[]; alt: string; onPreview: PreviewF
   </>);
 };
 
-const DETAIL_ICON: Record<string, React.FC<any>> = { 'Venue Size': Maximize2, 'Seating Capacity': Armchair, 'Location': Building2 };
+const DETAIL_ICON: Record<string, React.FC<any>> = { 'Venue Size': Maximize2, 'Seating Capacity': Armchair, 'Floating Capacity': Users, 'Location': Building2 };
 const BULLETED = ['Seating Capacity', 'Floating Capacity'];
 const HIGHLIGHTS: [string, string][] = [
   ['Venue Size', 'Lorem ipsum sq.ft'],
