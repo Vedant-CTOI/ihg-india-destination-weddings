@@ -545,7 +545,7 @@ export const FeatureBody: React.FC<{
         <div className={`${W} py-14`}>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
             <div className="lg:col-span-7">
-              <Eyebrow light>Contact Us</Eyebrow>
+              <Eyebrow light>Get in Touch</Eyebrow>
               <h4 data-wm="" style={{ ['--d' as any]: '120ms' }} className="mt-3 font-arpona text-[clamp(1.5rem,2.1vw,2.1rem)] leading-[1.05]">
                 Contact Us — {hotel.name}
               </h4>
