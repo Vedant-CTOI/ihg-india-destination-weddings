@@ -13,7 +13,7 @@ import { SplitText, PALETTE, CountUp } from './webMotion';
 export const FEATURE_HOTEL_ID = 'six-senses-fort-barwara';
 
 const uimg = (id: string, w = 1600) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
-export const FEATURE_HERO = uimg('1545126178-862cdb469409', 2400);
+export const FEATURE_HERO = '/hero/hotel1-hero.jpg'; // client photo: lawn set for dinner at dusk
 const FEATURE_ABOUT = uimg('1784460843252-0957395d2888', 1800);
 const POOL = [
   '1744805624890-9931ebb50428', '1754782915842-aa4fca6c203a', '1744804298093-07e5cb188a5f',
@@ -113,7 +113,7 @@ export const FeatureHero: React.FC<{ hotel: HotelProperty; onExpand: () => void 
     <div ref={secRef} className="grain relative w-full overflow-hidden text-white"
          style={{ height: 'max(480px, calc(100svh - 145px))', backgroundColor: '#000' }}>
       <div ref={imgRef} className="absolute inset-0 will-change-transform">
-        <img src={FEATURE_HERO} alt={hotel.name} className="w-full h-full object-cover hero-zoom" />
+        <img src={FEATURE_HERO} alt={hotel.name} className="w-full h-full object-cover hero-zoom" style={{ objectPosition: '50% 62%' }} />
       </div>
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.35)' }} />
       <div className="absolute inset-x-0 bottom-0 h-[70%] pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4) 50%, transparent)' }} />
