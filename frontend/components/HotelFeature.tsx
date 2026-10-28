@@ -14,7 +14,7 @@ export const FEATURE_HOTEL_ID = 'six-senses-fort-barwara';
 
 const uimg = (id: string, w = 1600) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
 export const FEATURE_HERO = '/hero/hotel1-hero.jpg'; // client photo: lawn set for dinner at dusk
-const FEATURE_ABOUT = uimg('1784460843252-0957395d2888', 1800);
+const FEATURE_ABOUT = '/hero/hotel1-about.jpg'; // client photo: hotel facade + lawn setup
 const POOL = [
   '1744805624890-9931ebb50428', '1754782915842-aa4fca6c203a', '1744804298093-07e5cb188a5f',
   '1791233176122-eb6067a2cc51', '1582510003544-4d00b7f74220', '1788026187470-1c78e51047d5',
@@ -328,7 +328,7 @@ export const FeatureBody: React.FC<{
         </div>
         <div data-wm="curtain" className="relative min-h-[260px] lg:min-h-[340px]">
           <div className="absolute inset-0 overflow-hidden">
-            <img src={FEATURE_ABOUT} alt={`${hotel.name} courtyard`} className="w-full h-full object-cover about-drift" />
+            <img src={FEATURE_ABOUT} alt={`${hotel.name} lawn and hotel`} className="w-full h-full object-cover about-drift" style={{ objectPosition: '42% 50%' }} />
           </div>
         </div>
       </section>
