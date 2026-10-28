@@ -188,6 +188,26 @@ const VENUE_COPY: Record<number, VenueCopy> = {
       'Seating Capacity': '120 pax in theatre style, 64 pax in cluster, 45 pax in U-Shape, 60 pax in classroom',
       'Location': 'Ground'
     }
+  },
+  2: {
+    onlySupplied: true,
+    name: 'Tulip Ballroom',
+    description: 'The Tulip Ballroom offers a lavish and versatile setting for grand weddings, elegant receptions and distinguished social celebrations. Designed to create memorable experiences, the expansive venue combines sophisticated ambience with thoughtful functionality, making it ideal for hosting celebrations of varying scales. Complemented by three dedicated breakout spaces, the ballroom offers flexibility for multiple event formats, private gatherings and customised arrangements. A dedicated pre-function area provides an inviting space for guest welcomes, curated experiences and seamless event transitions. The impressive ceiling height enhances the sense of grandeur, offering ample scope for spectacular décor, statement installations and immersive event designs. Equipped with modern technology and essential audio-visual facilities, the venue ensures a seamless experience for hosts and guests alike. With a dedicated entry through De Peter, the Tulip Ballroom offers a distinctive arrival experience, bringing together elegance, convenience and versatility for weddings, receptions and special occasions that deserve an extraordinary setting.',
+    highlights: {
+      'Venue Size': '5100 sq. ft.',
+      'Seating Capacity': '500 pax in theatre, 224 pax in cluster, 230 pax in classroom, 145 pax in u-shape',
+      'Location': 'Ground'
+    }
+  },
+  3: {
+    onlySupplied: true,
+    name: 'Petal Lawn',
+    description: 'Set amidst lush green surroundings, our open-air lawn offers a picturesque setting for weddings, pre-wedding festivities and memorable social celebrations. Featuring a thoughtfully designed cabana and a separate entry for added exclusivity, the venue provides a beautiful canvas for hosting bespoke events under the open sky. From vibrant mehendi and haldi ceremonies to elegant sundowners, intimate wedding functions and grand outdoor celebrations, the versatile space can be transformed to complement every occasion and vision. The natural greenery, open-air ambience and thoughtfully planned layout create an inviting atmosphere for guests to celebrate and connect. Whether envisioned as a charming daytime celebration or an enchanting evening affair, the lawn lends itself to customised décor, curated dining experiences and personalised event setups',
+    highlights: {
+      'Venue Size': '7440 sq. ft.',
+      'Seating Capacity': '250 pax in round tables setup, 500 pax in theatre setup',
+      'Location': 'Ground'
+    }
   }
 };
 const copyFor = (v: number): VenueCopy => VENUE_COPY[v] || {};
@@ -306,7 +326,7 @@ export const FeatureBody: React.FC<{
                       onMouseEnter={() => canHover && setHovered(v)} onMouseLeave={() => setHovered((h) => (h === v ? null : h))}
                       className="relative shrink-0 h-[96px] text-left text-[11px] uppercase tracking-[0.28em] cursor-pointer"
                       style={{
-                        width: shown ? 120 : 76,
+                        width: shown ? 120 : Math.max(76, (copyFor(v).name || `Venue ${v + 1}`).length * 10 + 6), // fit longer names
                         opacity: shown ? 1 : 0.55,
                         transition: `width 500ms ${EASE}, opacity 500ms ${EASE}`
                       }}>
