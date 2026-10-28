@@ -22,17 +22,16 @@ const POOL = [
   '1787831536189-aa3bea3049eb', '1787831536285-534e63115355', '1779253806487-401be91cc024',
   '1545126178-862cdb469409', '1784460843252-0957395d2888'
 ].map((id) => uimg(id, 1600));
-// Venue 1 uses the client's photos (order as supplied); focus keeps mandap/tables in the 16:9 crop
-const VENUE1: { url: string; pos: string }[] = [
-  { url: '/venues/hotel1-venue1-1.jpg', pos: '50% 72%' },
-  { url: '/venues/hotel1-venue1-2.jpg', pos: '50% 68%' },
-  { url: '/venues/hotel1-venue1-3.jpg', pos: '50% 55%' },
-  { url: '/venues/hotel1-venue1-4.jpg', pos: '50% 82%' },
-  { url: '/venues/hotel1-venue1-5.jpg', pos: '50% 62%' },
-  { url: '/venues/hotel1-venue1-6.jpg', pos: '50% 62%' }
-];
+// Client venue photos (folder order; pre-cropped to true 16:9, 1920×1080 max). Dummy pool only as a fallback.
+const set = (slug: string, n: number) => Array.from({ length: n }, (_, k) => ({ url: `/venues/hotel1-${slug}-${k + 1}.jpg`, pos: '50% 50%' }));
+const VENUE_PHOTOS: Record<number, { url: string; pos: string }[]> = {
+  0: set('lotus', 4),
+  1: set('orchid', 4),
+  2: set('tulip', 8),
+  3: set('petal', 8)
+};
 const venuePhotos = (vIndex: number): { url: string; pos: string }[] =>
-  vIndex === 0 ? VENUE1 : [0, 1, 2].map((k) => ({ url: POOL[(vIndex * 3 + k) % POOL.length], pos: '50% 50%' }));
+  VENUE_PHOTOS[vIndex] || [0, 1, 2].map((k) => ({ url: POOL[(vIndex * 3 + k) % POOL.length], pos: '50% 50%' }));
 const venueGallery = (vIndex: number) => venuePhotos(vIndex).map((p) => p.url);
 
 type Slide = { url: string; caption: string; isDraftDrawing: boolean; notes?: string; pos?: string };
