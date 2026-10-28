@@ -208,7 +208,8 @@ const VENUE_COPY: Record<number, VenueCopy> = {
     description: 'Spanning 1,356 sq. ft., this versatile indoor venue offers a refined setting for intimate celebrations, social gatherings, corporate events and pre-wedding functions. Designed to accommodate a range of event formats, the space combines comfort and functionality, ensuring a seamless experience for hosts and guests. An additional breakout area provides flexibility for smaller gatherings, private discussions, pre-function arrangements or dedicated event activities. Whether hosting an engagement ceremony, an intimate family celebration or a professional gathering, the venue can be tailored to suit the occasion. With adaptable layouts and essential event facilities, it offers a practical yet elegant space for memorable experiences.',
     highlights: {
       'Venue Size': '1356 sq. ft.',
-      'Seating Capacity': '70 pax in theatre style, 36 pax in cluster style, 30 pax in classroom style, 30 pax in u-shape'
+      'Seating Capacity': '70 pax in theatre style, 36 pax in cluster style, 30 pax in classroom style, 30 pax in u-shape',
+      'Location': 'First Floor'
     }
   },
   1: {
@@ -218,7 +219,7 @@ const VENUE_COPY: Record<number, VenueCopy> = {
     highlights: {
       'Venue Size': '1506 sq. ft.',
       'Seating Capacity': '120 pax in theatre style, 64 pax in cluster, 45 pax in U-Shape, 60 pax in classroom',
-      'Location': 'Ground'
+      'Location': 'Ground Floor'
     }
   },
   2: {
@@ -228,7 +229,7 @@ const VENUE_COPY: Record<number, VenueCopy> = {
     highlights: {
       'Venue Size': '5100 sq. ft.',
       'Seating Capacity': '500 pax in theatre, 224 pax in cluster, 230 pax in classroom, 145 pax in u-shape',
-      'Location': 'Ground'
+      'Location': 'Ground Floor'
     }
   },
   3: {
@@ -238,7 +239,7 @@ const VENUE_COPY: Record<number, VenueCopy> = {
     highlights: {
       'Venue Size': '7440 sq. ft.',
       'Seating Capacity': '250 pax in round tables setup, 500 pax in theatre setup',
-      'Location': 'Ground'
+      'Location': 'Ground Floor'
     }
   }
 };
