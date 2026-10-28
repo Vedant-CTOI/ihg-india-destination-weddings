@@ -165,6 +165,23 @@ const HIGHLIGHTS: [string, string][] = [
   ['Venue Timing Slots', 'Lorem ipsum']
 ];
 
+/* Client copy per venue (Hotel 1, web). Blank/missing fields keep the current text. Text is verbatim as supplied. */
+type VenueCopy = { name?: string; capacity?: string; description?: string; highlights?: Partial<Record<string, string>>;
+  draftTitle?: string; draftNotes?: string;
+  onlySupplied?: boolean }; // true = hide every field the client left blank
+const VENUE_COPY: Record<number, VenueCopy> = {
+  0: {
+    onlySupplied: true,
+    name: 'Lotus',
+    description: 'Spanning 1,356 sq. ft., this versatile indoor venue offers a refined setting for intimate celebrations, social gatherings, corporate events and pre-wedding functions. Designed to accommodate a range of event formats, the space combines comfort and functionality, ensuring a seamless experience for hosts and guests. An additional breakout area provides flexibility for smaller gatherings, private discussions, pre-function arrangements or dedicated event activities. Whether hosting an engagement ceremony, an intimate family celebration or a professional gathering, the venue can be tailored to suit the occasion. With adaptable layouts and essential event facilities, it offers a practical yet elegant space for memorable experiences.',
+    highlights: {
+      'Venue Size': '1356 sq. ft.',
+      'Seating Capacity': '70 pax in theatte style, 36 pax in cluster style, 30 pax in classroom style, 30 pax in u-shape'
+    }
+  }
+};
+const copyFor = (v: number): VenueCopy => VENUE_COPY[v] || {};
+
 /* ── Body ─────────────────────────────────────────────────────────────────────────────── */
 export const FeatureBody: React.FC<{
   hotel: HotelProperty;
@@ -286,7 +303,7 @@ export const FeatureBody: React.FC<{
                 {/* text label (centred) — slides up and away when the photo shows */}
                 <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 whitespace-nowrap"
                       style={{ opacity: shown ? 0 : 1, transform: `translateY(${shown ? '-120%' : '-50%'})`, transition: `transform 500ms ${EASE}, opacity 500ms ${EASE}` }}>
-                  Venue {v + 1}
+                  {copyFor(v).name || `Venue ${v + 1}`}
                 </span>
                 {/* venue photo (16:9) rises in with the shutter wipe */}
                 <span aria-hidden="true" className="absolute left-0 top-[8px] w-[120px] h-[68px] overflow-hidden pointer-events-none"
@@ -299,7 +316,7 @@ export const FeatureBody: React.FC<{
                 {/* small number under the photo */}
                 <span aria-hidden="true" className="absolute left-0 bottom-[4px] text-[9px] tracking-[0.28em] whitespace-nowrap"
                       style={{ opacity: shown ? 0.8 : 0, transition: `opacity 500ms ${EASE}` }}>
-                  Venue {v + 1}
+                  {copyFor(v).name || `Venue ${v + 1}`}
                 </span>
                 <span className="absolute left-0 right-0 bottom-[-1px] h-px origin-left transition-transform duration-700"
                       style={{ background: SAFFRON, height: 2, transform: `scaleX(${current === v ? 1 : 0})` }} />
@@ -315,9 +332,9 @@ export const FeatureBody: React.FC<{
               ...venuePhotos(v).map((ph, k) => ({ url: ph.url, pos: ph.pos, caption: `Ceremony Vista 0${k + 1}`, isDraftDrawing: false })),
               {
                 url: venue.draftLayoutImage || '',
-                caption: venue.draftLayoutTitle || 'Draft Drawing Layout & Seating Architecture',
+                caption: copyFor(v).onlySupplied ? (copyFor(v).draftTitle || '') : (copyFor(v).draftTitle || venue.draftLayoutTitle || 'Draft Drawing Layout & Seating Architecture'),
                 isDraftDrawing: true,
-                notes: venue.layoutNotes || 'Technical draft drawing showing staging, mandap orientation, and guest flow.'
+                notes: copyFor(v).onlySupplied ? (copyFor(v).draftNotes || '') : (copyFor(v).draftNotes || venue.layoutNotes || 'Technical draft drawing showing staging, mandap orientation, and guest flow.')
               }
             ];
             const flip = v % 2 === 1;
@@ -331,24 +348,26 @@ export const FeatureBody: React.FC<{
                   </div>
                 </div>
                 <div className={`lg:col-span-5 flex flex-col justify-center ${flip ? 'lg:order-1' : ''}`}>
+                  {!(copyFor(v).onlySupplied && !copyFor(v).capacity) && (
                   <div data-wm="" className="flex items-center gap-3 text-[11px] uppercase tracking-[0.32em]"
                        style={{ color: SAFFRON, fontWeight: 500 }}>
                     <span className="block w-8 h-px" style={{ background: SAFFRON }} />
-                    <span>{venue.capacity}</span>
+                    <span>{copyFor(v).capacity || venue.capacity}</span>
                   </div>
-                  <h4 data-wm="" style={{ ['--d' as any]: '120ms' }} className="mt-5 font-arpona text-[clamp(1.8rem,2.6vw,2.6rem)] leading-[1.04]">
-                    Venue {v + 1} - Placeholder Text
+                  )}
+                  <h4 data-wm="" style={{ ['--d' as any]: '120ms' }} className={`${copyFor(v).onlySupplied && !copyFor(v).capacity ? '' : 'mt-5'} font-arpona text-[clamp(1.8rem,2.6vw,2.6rem)] leading-[1.04]`}>
+                    Venue {v + 1} - {copyFor(v).name || 'Placeholder Text'}
                   </h4>
-                  <p data-wm="" style={{ ['--d' as any]: '240ms', opacity: 0.85 }} className="mt-4 text-[14px] leading-[1.7]">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
+                  <p data-wm="" style={{ ['--d' as any]: '240ms', opacity: 0.85 }} className={`mt-4 ${(copyFor(v).description || '').length > 300 ? 'text-[13px] leading-[1.6]' : 'text-[14px] leading-[1.7]'}`}>
+                    {copyFor(v).description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.'}
                   </p>
-                  <dl data-wm="" style={{ ['--d' as any]: '360ms', borderColor: LINE }} className="mt-8 border-t grid grid-cols-2">
-                    {HIGHLIGHTS.map(([k, val], h) => (
-                      <div key={k} className={`py-3.5 border-b ${h % 2 === 0 ? 'pr-5 border-r' : 'pl-5'}`} style={{ borderColor: LINE }}>
+                  <dl data-wm="" style={{ ['--d' as any]: '360ms', borderColor: LINE }} className={`${copyFor(v).onlySupplied ? 'mt-6' : 'mt-8'} border-t grid grid-cols-2`}>
+                    {(copyFor(v).onlySupplied ? HIGHLIGHTS.filter(([k]) => copyFor(v).highlights?.[k]) : HIGHLIGHTS).map(([k, fallback], h, list) => { const val = copyFor(v).highlights?.[k] || fallback; const single = list.length <= 2; return (
+                      <div key={k} className={`py-3.5 border-b ${single ? 'col-span-2' : h % 2 === 0 ? 'pr-5 border-r' : 'pl-5'}`} style={{ borderColor: LINE }}>
                         <dt className="text-[10px] uppercase tracking-[0.22em]" style={{ opacity: 0.65 }}>{k}</dt>
                         <dd className="mt-1 text-[13px]">{val}</dd>
                       </div>
-                    ))}
+                    ); })}
                   </dl>
                 </div>
               </article>
