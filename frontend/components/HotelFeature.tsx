@@ -178,6 +178,16 @@ const VENUE_COPY: Record<number, VenueCopy> = {
       'Venue Size': '1356 sq. ft.',
       'Seating Capacity': '70 pax in theatte style, 36 pax in cluster style, 30 pax in classroom style, 30 pax in u-shape'
     }
+  },
+  1: {
+    onlySupplied: true,
+    name: 'Orchid',
+    description: 'An elegant banquet space designed for intimate pre-wedding celebrations and special gatherings, complemented by an attached pre-function area for a seamless guest experience. Ideal for hosting engagements, mehendi, haldi, cocktail evenings and close-knit family functions, the versatile venue offers the perfect setting for creating cherished memories. Equipped with modern technology and essential event facilities, it ensures a smooth and effortless celebration. With flexible arrangements to accommodate diverse themes and décor preferences, the space brings together comfort, functionality and sophistication, making it an ideal choice for couples and families seeking a stylish, intimate setting for their special occasions.',
+    highlights: {
+      'Venue Size': '1506 sq. ft.',
+      'Seating Capacity': '120 pax in theatre style, 64 pax in cluster, 45 pax in U-Shape, 60 pax in classroom',
+      'Location': 'Ground'
+    }
   }
 };
 const copyFor = (v: number): VenueCopy => VENUE_COPY[v] || {};
@@ -362,7 +372,7 @@ export const FeatureBody: React.FC<{
                     {copyFor(v).description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.'}
                   </p>
                   <dl data-wm="" style={{ ['--d' as any]: '360ms', borderColor: LINE }} className={`${copyFor(v).onlySupplied ? 'mt-6' : 'mt-8'} border-t grid grid-cols-2`}>
-                    {(copyFor(v).onlySupplied ? HIGHLIGHTS.filter(([k]) => copyFor(v).highlights?.[k]) : HIGHLIGHTS).map(([k, fallback], h, list) => { const val = copyFor(v).highlights?.[k] || fallback; const single = list.length <= 2; return (
+                    {(copyFor(v).onlySupplied ? HIGHLIGHTS.filter(([k]) => copyFor(v).highlights?.[k]) : HIGHLIGHTS).map(([k, fallback], h, list) => { const val = copyFor(v).highlights?.[k] || fallback; const single = copyFor(v).onlySupplied ? list.length <= 3 : false; return (
                       <div key={k} className={`py-3.5 border-b ${single ? 'col-span-2' : h % 2 === 0 ? 'pr-5 border-r' : 'pl-5'}`} style={{ borderColor: LINE }}>
                         <dt className="text-[10px] uppercase tracking-[0.22em]" style={{ opacity: 0.65 }}>{k}</dt>
                         <dd className="mt-1 text-[13px]">{val}</dd>
