@@ -128,7 +128,7 @@ export const FeatureHero: React.FC<{ hotel: HotelProperty; onExpand: () => void 
             <span>{hotel.city}</span><span className="text-white/35">·</span>
             <span>{hotel.priceBand}</span>
           </div>
-          <h1 className="font-normal leading-[0.95] tracking-[-0.02em] text-[clamp(3rem,7vw,7rem)]">
+          <h1 className="font-normal leading-[0.95] tracking-[-0.02em] text-[clamp(2.5rem,5.6vw,5.6rem)]">
             <span className="mask-line"><span>{hotel.name}</span></span>
           </h1>
           <div className="soft-rise mt-6 pt-5 border-t border-white/20 flex items-center justify-between text-[11px] uppercase tracking-[0.28em] text-white/70" style={{ animationDelay: '700ms' }}>
