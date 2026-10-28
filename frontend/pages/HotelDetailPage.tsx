@@ -4,7 +4,7 @@ import { HOTELS_DATA } from '../constants';
 import { HotelSelectorModal } from '../components/HotelSelectorModal';
 import { COUNTRY_DEST_MAP, DestinationDropdown } from '../components/DestinationDropdown';
 import { OccasionDropdown } from '../components/OccasionDropdown';
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useWeb, PALETTE } from '../components/webMotion';
 import { FEATURE_HOTEL_ID, FEATURE_HERO, FeatureHero, FeatureBody, withHotelCopy } from '../components/HotelFeature';
 
@@ -483,8 +483,10 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 aria-label="Collapse lead form"
                 title="Collapse"
               >
-                <span className="flex items-center space-x-1.5 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">
-                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
+                <span className="group/x flex items-center space-x-1.5 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">
+                  {feature
+                    ? <X strokeWidth={1.25} aria-hidden="true" className="w-4 h-4 transition-transform duration-700 group-hover/x:rotate-90" />
+                    : <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>}
                   <span>Close Form</span>
                 </span>
               </button>
@@ -1063,10 +1065,12 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 <button
                   type="button"
                   onClick={() => setPreviewModalOpen(false)}
-                  className="p-1.5 rounded-full hover:bg-neutral-200 text-neutral-600 hover:text-black transition-colors cursor-pointer"
+                  className="group/x p-1.5 rounded-full hover:bg-neutral-200 text-neutral-600 hover:text-black transition-colors cursor-pointer"
                   aria-label="Close image preview overlay"
                 >
-                  <span aria-hidden="true" className="w-5 h-5 inline-block border border-current"></span>
+                  {feature
+                    ? <X strokeWidth={1.25} aria-hidden="true" className="w-5 h-5 transition-transform duration-700 group-hover/x:rotate-90" />
+                    : <span aria-hidden="true" className="w-5 h-5 inline-block border border-current"></span>}
                 </button>
               </div>
             </div>

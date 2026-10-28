@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight, Phone, Mail, Clock, MapPin, Maximize2, Armchair, Layers, Plus, Minus } from 'lucide-react';
+/* Icon style for the Hotel 1 page: thin outline (Lucide), 1.25 stroke, inherits the surrounding text colour. */
+const IC = { strokeWidth: 1.25, 'aria-hidden': true } as const;
 import { HotelProperty, HotelVenueSpace } from '../types';
 import { SplitText, PALETTE, CountUp } from './webMotion';
 
@@ -134,7 +136,7 @@ export const FeatureHero: React.FC<{ hotel: HotelProperty; onExpand: () => void 
             <span className="mask-line"><span>{hotel.name}</span></span>
           </h1>
           <div className="soft-rise mt-6 pt-5 border-t border-white/20 flex items-center justify-between text-[11px] uppercase tracking-[0.28em] text-white/70" style={{ animationDelay: '700ms' }}>
-            <span>{hotel.location}</span>
+            <span className="flex items-center gap-2.5"><MapPin {...IC} className="w-4 h-4 shrink-0 text-white/80" /><span>{hotel.location}</span></span>
             <span className="hidden sm:block w-px h-10 bg-white/20 overflow-hidden"><span className="scroll-cue block w-full h-full bg-white" /></span>
           </div>
         </div>
@@ -188,6 +190,7 @@ const LineCarousel: React.FC<{ slides: Slide[]; alt: string; onPreview: PreviewF
   );
 };
 
+const DETAIL_ICON: Record<string, React.FC<any>> = { 'Venue Size': Maximize2, 'Seating Capacity': Armchair, 'Location': Layers };
 const HIGHLIGHTS: [string, string][] = [
   ['Venue Size', 'Lorem ipsum sq.ft'],
   ['Seating Capacity', 'Cluster · Classroom · Theatre'],
@@ -273,8 +276,8 @@ const ClampText: React.FC<{ text: string; className?: string; lines?: number }> 
       {needs && (
         <button type="button" onClick={(e) => { e.stopPropagation(); setOpen((o) => !o); }} aria-expanded={open}
                 className="group/rm mt-3 inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.28em] cursor-pointer">
-          <span className="block w-8 h-px transition-all duration-700 group-hover/rm:w-12" style={{ background: INK }} />
           <span>{open ? 'Read less' : 'Read more'}</span>
+          <span className="w-5 h-5 rounded-full border flex items-center justify-center transition-transform duration-700 group-hover/rm:rotate-90" style={{ borderColor: 'rgba(58,6,24,.35)' }}>{open ? <Minus {...IC} className="w-3 h-3" /> : <Plus {...IC} className="w-3 h-3" />}</span>
         </button>
       )}
     </div>
@@ -301,8 +304,8 @@ const AboutText: React.FC<{ text: string }> = ({ text }) => {
       {rest.length > 0 && (
         <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open}
                 className="group/rm mt-4 inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.28em] cursor-pointer">
-          <span className="block w-8 h-px transition-all duration-700 group-hover/rm:w-12" style={{ background: INK }} />
           <span>{open ? 'Read less' : 'Read more'}</span>
+          <span className="w-5 h-5 rounded-full border flex items-center justify-center transition-transform duration-700 group-hover/rm:rotate-90" style={{ borderColor: 'rgba(58,6,24,.35)' }}>{open ? <Minus {...IC} className="w-3 h-3" /> : <Plus {...IC} className="w-3 h-3" />}</span>
         </button>
       )}
     </div>
@@ -492,7 +495,7 @@ export const FeatureBody: React.FC<{
                   <dl data-wm="" style={{ ['--d' as any]: '360ms', borderColor: LINE }} className={`${copyFor(v).onlySupplied ? 'mt-6' : 'mt-8'} border-t grid grid-cols-2`}>
                     {(copyFor(v).onlySupplied ? HIGHLIGHTS.filter(([k]) => copyFor(v).highlights?.[k]) : HIGHLIGHTS).map(([k, fallback], h, list) => { const val = copyFor(v).highlights?.[k] || fallback; const single = copyFor(v).onlySupplied ? list.length <= 3 : false; return (
                       <div key={k} className={`py-3.5 border-b ${single ? 'col-span-2' : h % 2 === 0 ? 'pr-5 border-r' : 'pl-5'}`} style={{ borderColor: LINE }}>
-                        <dt className="text-[10px] uppercase tracking-[0.22em]" style={{ opacity: 0.65 }}>{k}</dt>
+                        <dt className="text-[10px] uppercase tracking-[0.22em] flex items-center gap-2" style={{ opacity: 0.65 }}>{(() => { const I = DETAIL_ICON[k]; return I ? <I {...IC} className="w-3.5 h-3.5 shrink-0" /> : null; })()}<span>{k}</span></dt>
                         <dd className="mt-1 text-[13px]">{val}</dd>
                       </div>
                     ); })}
@@ -520,13 +523,13 @@ export const FeatureBody: React.FC<{
             <div data-wm="" style={{ ['--d' as any]: '360ms' }} className="lg:col-span-5 flex flex-col gap-4">
               <div className="border-t border-white/20 text-[12px] grid grid-cols-1 sm:grid-cols-3">
                 <a href="tel:+919****3210" className="flex items-center gap-2 pt-3 sm:pr-3 text-white/85 hover:text-white transition-colors whitespace-nowrap">
-                  <span className="text-white/55">✆</span><span>+91 98765 43210</span>
+                  <Phone {...IC} className="w-3.5 h-3.5 shrink-0 text-white/60" /><span>+91 98765 43210</span>
                 </a>
                 <a href="mailto:weddings@ihg.com" className="flex items-center gap-2 pt-3 sm:px-3 sm:border-l border-white/20 text-white/85 hover:text-white transition-colors whitespace-nowrap">
-                  <span className="text-white/55">✉</span><span>weddings@ihg.com</span>
+                  <Mail {...IC} className="w-3.5 h-3.5 shrink-0 text-white/60" /><span>weddings@ihg.com</span>
                 </a>
                 <div className="flex items-center gap-2 pt-3 sm:pl-3 sm:border-l border-white/20 text-white/85 whitespace-nowrap">
-                  <span aria-hidden="true" className="w-3 h-3 inline-block border border-white/50"></span><span>Mon–Sat · 09:00–19:00 IST</span>
+                  <Clock {...IC} className="w-3.5 h-3.5 shrink-0 text-white/60" /><span>Mon–Sat · 09:00–19:00 IST</span>
                 </div>
               </div>
               <button type="button" onClick={() => onNavigateToInquiry(hotel.name)}
