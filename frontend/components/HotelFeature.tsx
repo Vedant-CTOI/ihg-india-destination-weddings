@@ -55,7 +55,7 @@ export const HOTEL_COPY = {
   ],
   mandapType: 'Banquet and Lawns',
   venuesHeading: 'Curated Venues & Banquet Spaces',
-  venuesParagraph: 'Lorem ispum paragraph'
+  venuesParagraph: '' // removed at client request
 };
 /** Hotel 1 with the client copy applied (display only). */
 export const withHotelCopy = (h: HotelProperty): HotelProperty => ({
@@ -340,9 +340,11 @@ export const FeatureBody: React.FC<{
           <h3 className="mt-6 font-arpona text-[clamp(2.2rem,3.6vw,3.6rem)] leading-[1.02] tracking-[-0.015em]">
             <SplitText text={HOTEL_COPY.venuesHeading} />
           </h3>
+          {HOTEL_COPY.venuesParagraph && (
           <p data-wm="" style={{ ['--d' as any]: '300ms', opacity: 0.85 }} className="mt-5 text-[15px] leading-[1.7] max-w-2xl">
             {HOTEL_COPY.venuesParagraph}
           </p>
+          )}
         </div>
 
         {/* jump bar — venue numbers on a hairline; current one underlined */}
@@ -391,12 +393,13 @@ export const FeatureBody: React.FC<{
           {venues.map((venue, v) => {
             const slides: Slide[] = [
               ...venuePhotos(v).map((ph, k) => ({ url: ph.url, pos: ph.pos, caption: `Ceremony Vista 0${k + 1}`, isDraftDrawing: false })),
-              {
-                url: venue.draftLayoutImage || '',
+              // draft layout slide only when a real drawing file exists (placeholder graphics are skipped)
+              ...(venue.draftLayoutImage && !venue.draftLayoutImage.startsWith('data:') ? [{
+                url: venue.draftLayoutImage,
                 caption: copyFor(v).onlySupplied ? (copyFor(v).draftTitle || '') : (copyFor(v).draftTitle || venue.draftLayoutTitle || 'Draft Drawing Layout & Seating Architecture'),
                 isDraftDrawing: true,
                 notes: copyFor(v).onlySupplied ? (copyFor(v).draftNotes || '') : (copyFor(v).draftNotes || venue.layoutNotes || 'Technical draft drawing showing staging, mandap orientation, and guest flow.')
-              }
+              }] : [])
             ];
             const flip = v % 2 === 1;
             return (
