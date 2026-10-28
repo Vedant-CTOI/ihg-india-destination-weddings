@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, ArrowRight, Phone, Mail, Clock, MapPin, Maximize2, Armchair, Layers, Plus, Minus } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight, Phone, Mail, Clock, MapPin, Maximize2, Armchair, Layers, Plus, Minus, Building2, X } from 'lucide-react';
 /* Icon style for the Hotel 1 page: thin outline (Lucide), 1.25 stroke, inherits the surrounding text colour. */
 const IC = { strokeWidth: 1.25, 'aria-hidden': true } as const;
 import { HotelProperty, HotelVenueSpace } from '../types';
@@ -77,7 +77,10 @@ const CYCLE_MS = 5000;
 const SAFFRON = PALETTE.saffron; // festive accent (garland-on-velvet)
 const LINE = 'rgba(58,6,24,.35)'; // venue-row hairlines (slightly stronger)
 const EASE = 'cubic-bezier(0.16,1,0.3,1)';
-const VENUE_TINT = '#FDF4E7'; // saffron #ED8C0C at 10% on white — light band behind the venues section
+const VENUE_TINT = '#FDF4E7';
+const BAND = '#F9E3C4'; // saffron ~25% — band shown around photos that are not 16:9
+const PAD = '18px 18px 64px'; // padding around the photo; bottom leaves room for the progress lines + arrows
+// VENUE_TINT = saffron #ED8C0C at 10% on white — light band behind the venues section
 const WIPE = 'cubic-bezier(0.77,0,0.18,1)';
 
 const Eyebrow: React.FC<{ children: React.ReactNode; light?: boolean; d?: number; line?: string }> = ({ children, light, d = 0, line }) => (
@@ -141,51 +144,82 @@ export const FeatureHero: React.FC<{ hotel: HotelProperty; onExpand: () => void 
 };
 
 /* ── Venue carousel: slow cross-fade, thin progress lines, round outline arrows ─────────── */
+/* Venue photo popup: maroon backdrop, whole photo (uncropped), round outline ✕ and arrows. Closes on ✕, Esc or backdrop click. */
+const Lightbox: React.FC<{ slides: Slide[]; start: number; alt: string; onClose: () => void }> = ({ slides, start, alt, onClose }) => {
+  const [n, setN] = useState(start);
+  const step = (d: number) => setN((x) => (x + d + slides.length) % slides.length);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1); };
+    window.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow; document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
+  }, []);
+  const btn = 'w-11 h-11 rounded-full border border-white/40 text-white flex items-center justify-center transition-all duration-500 hover:bg-white hover:text-[#3a0618] cursor-pointer';
+  return (
+    <div role="dialog" aria-modal="true" aria-label={`${alt} photos`} className="hf-lightbox fixed inset-0 z-[100] flex items-center justify-center animate-fade-in"
+         style={{ backgroundColor: 'rgba(58,6,24,.94)' }} onClick={onClose}>
+      <button type="button" aria-label="Close photo" onClick={onClose} className={`group/x absolute top-6 right-6 ${btn}`}>
+        <X {...IC} className="w-5 h-5 transition-transform duration-700 group-hover/x:rotate-90" />
+      </button>
+      <div className="relative w-[min(86vw,1200px)] h-[78vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+        <img key={n} src={slides[n].url} alt={alt} className="max-w-full max-h-full object-contain soft-rise" />
+      </div>
+      <div className="absolute bottom-6 inset-x-0 flex items-center justify-center gap-6 text-white" onClick={(e) => e.stopPropagation()}>
+        <button type="button" aria-label="Previous photo" onClick={() => step(-1)} className={btn}><ChevronLeft {...IC} className="w-5 h-5" /></button>
+        <span className="text-[11px] tracking-[0.3em] tabular-nums">{n + 1} / {slides.length}</span>
+        <button type="button" aria-label="Next photo" onClick={() => step(1)} className={btn}><ChevronRight {...IC} className="w-5 h-5" /></button>
+      </div>
+    </div>
+  );
+};
+
 const LineCarousel: React.FC<{ slides: Slide[]; alt: string; onPreview: PreviewFn; light?: boolean }> = ({ slides, alt, onPreview }) => {
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
   const [cycle, setCycle] = useState(0);
   const go = (n: number) => { setI(((n % slides.length) + slides.length) % slides.length); setCycle((c) => c + 1); };
-  return (
-    <div className="relative w-full h-full overflow-hidden group/lc cursor-pointer"
+  const [box, setBox] = useState<number | null>(null);
+  return (<>
+    {box !== null && <Lightbox slides={slides} start={box} alt={alt} onClose={() => setBox(null)} />}
+    <div className="relative w-full h-full overflow-hidden group/lc cursor-pointer" style={{ backgroundColor: BAND }}
          onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
-         onClick={() => onPreview(i, slides)} title="Click to preview full size">
+         onClick={() => setBox(i)} title="Click to enlarge">
       {slides.map((s, k) => (
         <img key={s.url + k} src={s.url} alt={`${alt} — ${s.caption}`}
              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${k === i ? 'about-drift' : ''}`}
-             style={{ opacity: k === i ? 1 : 0, background: s.isDraftDrawing ? '#f4efe8' : undefined, objectFit: s.isDraftDrawing ? 'contain' : 'cover', objectPosition: s.pos || '50% 50%' }} />
+             style={{ opacity: k === i ? 1 : 0, objectFit: 'contain', objectPosition: '50% 50%', padding: PAD, boxSizing: 'border-box', background: 'transparent' }} />
       ))}
-      <div className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,.55), transparent)' }} />
-      <div className="absolute inset-x-0 bottom-0 p-5 flex items-end gap-5 text-white" onClick={(e) => e.stopPropagation()}>
+      <div className="absolute inset-x-0 bottom-0 px-5 pb-3 flex items-end gap-5" style={{ color: INK }} onClick={(e) => e.stopPropagation()}>
         <div className="flex-1 flex gap-3">
           {slides.map((_, k) => (
             <button key={k} type="button" onClick={() => go(k)} className="flex-1 py-3 cursor-pointer" aria-label={`Show picture ${k + 1}`}>
-              <span className="block h-px bg-white/30 overflow-hidden">
+              <span className="block h-px overflow-hidden" style={{ background: 'rgba(58,6,24,.22)' }}>
                 {k === i
                   ? <span key={`b-${cycle}`} className="hero-progress block h-full"
                           style={{ background: SAFFRON, animationDuration: `${CYCLE_MS}ms`, animationPlayState: paused ? 'paused' : 'running' }}
                           onAnimationEnd={() => go(i + 1)} />
-                  : <span className={`block h-full bg-white origin-left ${k < i ? 'opacity-40' : 'scale-x-0'}`} />}
+                  : <span className={`block h-full origin-left ${k < i ? 'opacity-40' : 'scale-x-0'}`} style={{ background: INK }} />}
               </span>
             </button>
           ))}
         </div>
         <div className="flex gap-2 shrink-0">
           <button type="button" onClick={() => go(i - 1)} aria-label="Previous venue picture"
-                  className="w-10 h-10 rounded-full border border-white/40 hover:border-white hover:bg-white hover:text-black flex items-center justify-center transition-all duration-500 cursor-pointer">
-            <ChevronLeft className="w-4 h-4" />
+                  className="w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-500 cursor-pointer hover:bg-[#3a0618] hover:text-white" style={{ borderColor: 'rgba(58,6,24,.4)' }}>
+            <ChevronLeft {...IC} className="w-4 h-4" />
           </button>
           <button type="button" onClick={() => go(i + 1)} aria-label="Next venue picture"
-                  className="w-10 h-10 rounded-full border border-white/40 hover:border-white hover:bg-white hover:text-black flex items-center justify-center transition-all duration-500 cursor-pointer">
-            <ChevronRight className="w-4 h-4" />
+                  className="w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-500 cursor-pointer hover:bg-[#3a0618] hover:text-white" style={{ borderColor: 'rgba(58,6,24,.4)' }}>
+            <ChevronRight {...IC} className="w-4 h-4" />
           </button>
         </div>
       </div>
     </div>
-  );
+  </>);
 };
 
-const DETAIL_ICON: Record<string, React.FC<any>> = { 'Venue Size': Maximize2, 'Seating Capacity': Armchair, 'Location': Layers };
+const DETAIL_ICON: Record<string, React.FC<any>> = { 'Venue Size': Maximize2, 'Seating Capacity': Armchair, 'Location': Building2 };
+const BULLETED = ['Seating Capacity', 'Floating Capacity'];
 const HIGHLIGHTS: [string, string][] = [
   ['Venue Size', 'Lorem ipsum sq.ft'],
   ['Seating Capacity', 'Cluster · Classroom · Theatre'],
@@ -208,6 +242,7 @@ const VENUE_COPY: Record<number, VenueCopy> = {
     highlights: {
       'Venue Size': '1356 sq. ft.',
       'Seating Capacity': '70 pax in theatre style, 36 pax in cluster style, 30 pax in classroom style, 30 pax in u-shape',
+      'Floating Capacity': 'Lorem ipsum, Lorem ipsum',
       'Location': 'First Floor'
     }
   },
@@ -218,6 +253,7 @@ const VENUE_COPY: Record<number, VenueCopy> = {
     highlights: {
       'Venue Size': '1506 sq. ft.',
       'Seating Capacity': '120 pax in theatre style, 64 pax in cluster, 45 pax in U-Shape, 60 pax in classroom',
+      'Floating Capacity': 'Lorem ipsum, Lorem ipsum',
       'Location': 'Ground Floor'
     }
   },
@@ -228,6 +264,7 @@ const VENUE_COPY: Record<number, VenueCopy> = {
     highlights: {
       'Venue Size': '5100 sq. ft.',
       'Seating Capacity': '500 pax in theatre, 224 pax in cluster, 230 pax in classroom, 145 pax in u-shape',
+      'Floating Capacity': 'Lorem ipsum, Lorem ipsum',
       'Location': 'Ground Floor'
     }
   },
@@ -238,6 +275,7 @@ const VENUE_COPY: Record<number, VenueCopy> = {
     highlights: {
       'Venue Size': '7440 sq. ft.',
       'Seating Capacity': '250 pax in round tables setup, 500 pax in theatre setup',
+      'Floating Capacity': 'Lorem ipsum, Lorem ipsum',
       'Location': 'Ground Floor'
     }
   }
@@ -409,7 +447,7 @@ export const FeatureBody: React.FC<{
 
         {/* jump bar — venue numbers on a hairline; current one underlined */}
         <div ref={jumpRef} className="sticky top-[146px] z-20" style={{ backgroundColor: 'rgba(253,244,231,.97)' }}>
-          <div className={`${W} border-y flex items-start gap-7 overflow-x-auto overflow-y-hidden no-scrollbar`} style={{ borderColor: 'rgba(58,6,24,.2)' }}>
+          <div className={`${W} border-y flex items-start justify-center gap-7 overflow-x-auto overflow-y-hidden no-scrollbar`} style={{ borderColor: 'rgba(58,6,24,.2)' }}>
             {venues.map((venue, v) => {
               const shown = current === v || hovered === v; // selected venue always shows its photo
               const ph = venuePhotos(v)[0];
@@ -485,10 +523,13 @@ export const FeatureBody: React.FC<{
                   <ClampText className={`mt-4 ${(copyFor(v).description || '').length > 300 ? 'text-[13px] leading-[1.6]' : 'text-[14px] leading-[1.7]'}`}
                              text={copyFor(v).description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.'} />
                   <dl data-wm="" style={{ ['--d' as any]: '360ms', borderColor: LINE }} className={`${copyFor(v).onlySupplied ? 'mt-6' : 'mt-8'} border-t grid grid-cols-2`}>
-                    {(copyFor(v).onlySupplied ? HIGHLIGHTS.filter(([k]) => copyFor(v).highlights?.[k]) : HIGHLIGHTS).map(([k, fallback], h, list) => { const val = copyFor(v).highlights?.[k] || fallback; const single = copyFor(v).onlySupplied ? list.length <= 3 : false; return (
+                    {(copyFor(v).onlySupplied ? HIGHLIGHTS.filter(([k]) => copyFor(v).highlights?.[k]) : HIGHLIGHTS).map(([k, fallback], h, list) => { const val = copyFor(v).highlights?.[k] || fallback; const single = copyFor(v).onlySupplied ? (list.length <= 3 || BULLETED.includes(k) || k === 'Venue Size' || k === 'Location') : false; return (
                       <div key={k} className={`py-3.5 border-b ${single ? 'col-span-2' : h % 2 === 0 ? 'pr-5 border-r' : 'pl-5'}`} style={{ borderColor: LINE }}>
                         <dt className="text-[10px] uppercase tracking-[0.22em] flex items-center gap-2" style={{ opacity: 0.65 }}>{(() => { const I = DETAIL_ICON[k]; return I ? <I {...IC} className="w-3.5 h-3.5 shrink-0" /> : null; })()}<span>{k}</span></dt>
-                        <dd className="mt-1 text-[13px]">{val}</dd>
+                        <dd className="mt-1 text-[13px]">{BULLETED.includes(k)
+                          ? <ul className="flex flex-wrap gap-x-4 gap-y-1">{val.split(/\s*,\s*/).filter(Boolean).map((it, b) => (
+                              <li key={b} className="flex items-center gap-2"><span aria-hidden="true" className="w-1 h-1 rounded-full shrink-0" style={{ background: SAFFRON }} />{it}</li>))}</ul>
+                          : val}</dd>
                       </div>
                     ); })}
                   </dl>
@@ -499,18 +540,15 @@ export const FeatureBody: React.FC<{
         </div>
       </section>
 
-      {/* F. Wedding Director — full-bleed maroon closing band (compact) */}
+      {/* F. Contact Us — full-bleed maroon closing band (replaces Wedding Director) */}
       <section className="text-white" style={{ backgroundColor: PALETTE.maroon, borderTop: '1px solid #fff', borderBottom: '1px solid #fff' }}>
         <div className={`${W} py-14`}>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
             <div className="lg:col-span-7">
-              <Eyebrow light>Your Dedicated Wedding Director &amp; Stylist</Eyebrow>
+              <Eyebrow light>Contact Us</Eyebrow>
               <h4 data-wm="" style={{ ['--d' as any]: '120ms' }} className="mt-3 font-arpona text-[clamp(1.5rem,2.1vw,2.1rem)] leading-[1.05]">
-                Wedding Director — {hotel.name}
+                Contact Us — {hotel.name}
               </h4>
-              <p data-wm="" style={{ ['--d' as any]: '240ms' }} className="mt-2 text-[13px] leading-[1.6] text-white/75 max-w-xl">
-                Curating celebrations at {hotel.name} for over a decade. Your single point of contact from first call to farewell brunch.
-              </p>
             </div>
             <div data-wm="" style={{ ['--d' as any]: '360ms' }} className="lg:col-span-5 flex flex-col gap-4">
               <div className="border-t border-white/20 text-[12px] grid grid-cols-1 sm:grid-cols-3">

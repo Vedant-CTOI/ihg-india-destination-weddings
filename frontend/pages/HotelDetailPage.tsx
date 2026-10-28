@@ -470,8 +470,8 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
             sideFormOpen ? 'w-[400px]' : 'w-12'
           }`}
         >
-          <div className={`sticky top-20 bg-white border-l border-neutral-200 ${feature ? '' : 'shadow-lg'} flex flex-col overflow-hidden`}
-               style={{ height: sideFormOpen ? 'calc(100vh - 5rem)' : '15rem' }}>
+          <div className={`sticky ${feature ? (sideFormOpen ? 'top-[146px]' : 'top-[260px]') : 'top-20'} bg-white border-l border-neutral-200 ${feature ? '' : 'shadow-lg'} flex flex-col overflow-hidden`}
+               style={{ height: sideFormOpen ? (feature ? 'calc(100vh - 146px)' : 'calc(100vh - 5rem)') : '15rem', transition: 'top 700ms cubic-bezier(0.16,1,0.3,1)' }}>
 
             {/* Collapse state: vertical black tab pinned to the right margin; Open state: slim close bar */}
             {sideFormOpen ? (
