@@ -75,6 +75,7 @@ const CYCLE_MS = 5000;
 const SAFFRON = PALETTE.saffron; // festive accent (garland-on-velvet)
 const LINE = 'rgba(58,6,24,.35)'; // venue-row hairlines (slightly stronger)
 const EASE = 'cubic-bezier(0.16,1,0.3,1)';
+const VENUE_TINT = '#FDF4E7'; // saffron #ED8C0C at 10% on white — light band behind the venues section
 const WIPE = 'cubic-bezier(0.77,0,0.18,1)';
 
 const Eyebrow: React.FC<{ children: React.ReactNode; light?: boolean; d?: number; line?: string }> = ({ children, light, d = 0, line }) => (
@@ -398,7 +399,7 @@ export const FeatureBody: React.FC<{
       </section>
 
       {/* D + E. Venues — saffron band, open alternating rows separated by hairlines */}
-      <section style={{ backgroundColor: '#fff', color: INK, borderTop: '1px solid rgba(58,6,24,.12)' }}>
+      <section style={{ backgroundColor: VENUE_TINT, color: INK, borderTop: '1px solid rgba(58,6,24,.12)' }}>
         <div className={`${W} pt-20 pb-10`}>
           <Eyebrow>Celebration Grounds</Eyebrow>
           <h3 className="mt-6 font-arpona text-[clamp(2.2rem,3.6vw,3.6rem)] leading-[1.02] tracking-[-0.015em]">
@@ -412,7 +413,7 @@ export const FeatureBody: React.FC<{
         </div>
 
         {/* jump bar — venue numbers on a hairline; current one underlined */}
-        <div ref={jumpRef} className="sticky top-[146px] z-20" style={{ backgroundColor: 'rgba(255,255,255,.97)' }}>
+        <div ref={jumpRef} className="sticky top-[146px] z-20" style={{ backgroundColor: 'rgba(253,244,231,.97)' }}>
           <div className={`${W} border-y flex items-start gap-7 overflow-x-auto overflow-y-hidden no-scrollbar`} style={{ borderColor: 'rgba(58,6,24,.2)' }}>
             {venues.map((venue, v) => {
               const shown = current === v || hovered === v; // selected venue always shows its photo
