@@ -321,19 +321,20 @@ export const FeatureBody: React.FC<{
     <div className="hotel-feature-body">
       {/* B. Facts — full-bleed maroon band, figures between hairline dividers */}
       <section className="text-white" style={{ backgroundColor: PALETTE.maroon, borderTop: '1px solid #fff', borderBottom: '1px solid #fff' }}>
-        <div className={`${W} py-16`}>
-          <div className="border-t border-white/20 grid grid-cols-2 sm:grid-cols-5">
+        <div className={`${W} py-14`}>
+          {/* no top hairline; five equal columns, each centred, split by thin vertical lines */}
+          <div className="grid grid-cols-2 sm:grid-cols-5">
             {facts.map((f, k) => (
               <div key={f.label} data-wm="" style={{ ['--d' as any]: `${k * 140}ms` }}
-                   className={`pt-7 pb-2 ${k > 0 ? 'sm:pl-7' : ''} ${k < facts.length - 1 ? 'sm:pr-7 sm:border-r border-white/20' : ''}`}>
+                   className={`px-4 py-2 text-center flex flex-col items-center ${k < facts.length - 1 ? 'sm:border-r border-white/20' : ''}`}>
                 <span className="block text-[10px] uppercase tracking-[0.28em] text-white/60 mb-4">{f.label}</span>
-                <div className="h-[clamp(2.4rem,3.4vw,3.2rem)] flex items-end">
+                <div className="h-[clamp(2.4rem,3.4vw,3.2rem)] flex items-center justify-center">
                   <div className={f.word
                     ? 'font-arpona text-[clamp(1.05rem,1.35vw,1.35rem)] leading-[1.15] line-clamp-2'
                     : 'font-arpona text-[clamp(2rem,3.2vw,3.2rem)] leading-none whitespace-nowrap'}
                        style={{ color: '#fff' }}>{f.value}</div>
                 </div>
-                <span className="block mt-3 text-[11px] text-white/65 truncate">{f.sub}</span>
+                <span className="block mt-3 text-[11px] text-white/65 truncate max-w-full">{f.sub}</span>
               </div>
             ))}
           </div>
