@@ -244,6 +244,41 @@ const VENUE_COPY: Record<number, VenueCopy> = {
 };
 const copyFor = (v: number): VenueCopy => VENUE_COPY[v] || {};
 
+/* Venue copy: first 4 lines shown with a soft fade; "Read more" opens the full paragraph (same text, nothing reworded). */
+const ClampText: React.FC<{ text: string; className?: string; lines?: number }> = ({ text, className = '', lines = 4 }) => {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const [open, setOpen] = useState(false);
+  const [h, setH] = useState<{ closed: number; full: number }>({ closed: 0, full: 0 });
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const measure = () => {
+      const lh = parseFloat(getComputedStyle(el).lineHeight) || 20;
+      setH({ closed: Math.round(lh * lines), full: el.scrollHeight });
+    };
+    measure();
+    const ro = new ResizeObserver(measure); ro.observe(el);
+    return () => ro.disconnect();
+  }, [text, lines]);
+  const needs = h.full > h.closed + 2;
+  const fade = 'linear-gradient(to bottom, #000 55%, transparent)';
+  return (
+    <div data-wm="" style={{ ['--d' as any]: '240ms' }}>
+      <p ref={ref} className={`${className} overflow-hidden`}
+         style={{ opacity: 0.85, maxHeight: needs ? (open ? h.full : h.closed) : undefined, transition: `max-height 1200ms ${EASE}`,
+                  WebkitMaskImage: needs && !open ? fade : undefined, maskImage: needs && !open ? fade : undefined }}>
+        {text}
+      </p>
+      {needs && (
+        <button type="button" onClick={(e) => { e.stopPropagation(); setOpen((o) => !o); }} aria-expanded={open}
+                className="group/rm mt-3 inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.28em] cursor-pointer">
+          <span className="block w-8 h-px transition-all duration-700 group-hover/rm:w-12" style={{ background: INK }} />
+          <span>{open ? 'Read less' : 'Read more'}</span>
+        </button>
+      )}
+    </div>
+  );
+};
+
 /* About copy: first paragraph shown; "Read more" opens the rest with a slow height reveal (reversible). */
 const AboutText: React.FC<{ text: string }> = ({ text }) => {
   const paras = text.split(/\n\n+/).filter(Boolean);
@@ -450,9 +485,8 @@ export const FeatureBody: React.FC<{
                   <h4 data-wm="" style={{ ['--d' as any]: '120ms' }} className={`${copyFor(v).onlySupplied && !copyFor(v).capacity ? '' : 'mt-5'} font-arpona text-[clamp(1.8rem,2.6vw,2.6rem)] leading-[1.04]`}>
                     Venue {v + 1} - {copyFor(v).name || 'Placeholder Text'}
                   </h4>
-                  <p data-wm="" style={{ ['--d' as any]: '240ms', opacity: 0.85 }} className={`mt-4 ${(copyFor(v).description || '').length > 300 ? 'text-[13px] leading-[1.6]' : 'text-[14px] leading-[1.7]'}`}>
-                    {copyFor(v).description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.'}
-                  </p>
+                  <ClampText className={`mt-4 ${(copyFor(v).description || '').length > 300 ? 'text-[13px] leading-[1.6]' : 'text-[14px] leading-[1.7]'}`}
+                             text={copyFor(v).description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.'} />
                   <dl data-wm="" style={{ ['--d' as any]: '360ms', borderColor: LINE }} className={`${copyFor(v).onlySupplied ? 'mt-6' : 'mt-8'} border-t grid grid-cols-2`}>
                     {(copyFor(v).onlySupplied ? HIGHLIGHTS.filter(([k]) => copyFor(v).highlights?.[k]) : HIGHLIGHTS).map(([k, fallback], h, list) => { const val = copyFor(v).highlights?.[k] || fallback; const single = copyFor(v).onlySupplied ? list.length <= 3 : false; return (
                       <div key={k} className={`py-3.5 border-b ${single ? 'col-span-2' : h % 2 === 0 ? 'pr-5 border-r' : 'pl-5'}`} style={{ borderColor: LINE }}>
