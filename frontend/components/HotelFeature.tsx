@@ -126,12 +126,7 @@ export const FeatureHero: React.FC<{ hotel: HotelProperty; onExpand: () => void 
 
       <div ref={copyRef} className="absolute inset-x-0 bottom-0 z-10 will-change-transform">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
-          <div className="soft-rise flex items-center gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.32em] text-white/75 mb-5" style={{ animationDelay: '500ms' }}>
-            <span className="block w-8 h-px bg-white/60" />
-            {[hotel.brand, hotel.city, hotel.priceBand].filter(Boolean).map((part, k) => (
-              <React.Fragment key={k}>{k > 0 && <span className="text-white/35">·</span>}<span>{part}</span></React.Fragment>
-            ))}
-          </div>
+          {/* small brand · city label removed at client request */}
           <h1 className="font-normal leading-[0.95] tracking-[-0.02em] text-[clamp(2.5rem,5.6vw,5.6rem)]">
             <span className="mask-line"><span>{hotel.name}</span></span>
           </h1>
@@ -389,10 +384,7 @@ export const FeatureBody: React.FC<{
             <SplitText text={HOTEL_COPY.aboutHeading} />
           </h2>
           <AboutText text={hotel.aboutUs || hotel.overview || ''} />
-          <div data-wm="" style={{ ['--d' as any]: '450ms', borderColor: 'rgba(58,6,24,.45)' }} className="pt-3 border-t flex items-baseline justify-between gap-6 max-w-xl">
-            <span className="text-[10px] uppercase tracking-[0.28em]" style={{ opacity: 0.85 }}>Signature Mandap Spec</span>
-            <span className="font-arpona text-lg">{hotel.mandapType}</span>
-          </div>
+          {/* Signature Mandap Spec line removed at client request */}
         </div>
         <div data-wm="curtain" className="relative min-h-[260px] lg:min-h-[340px]">
           <div className="absolute inset-0 overflow-hidden">
