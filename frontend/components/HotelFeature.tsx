@@ -88,12 +88,6 @@ export const FeatureHero: React.FC<{ hotel: HotelProperty; onExpand: () => void 
       <div className="absolute inset-x-0 bottom-0 h-[70%] pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4) 50%, transparent)' }} />
       <div className="absolute inset-x-0 top-0 h-48 pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.5), transparent)' }} />
 
-      {/* existing control, restyled as a round outline button */}
-      <button type="button" onClick={onExpand}
-              className="absolute top-20 right-6 z-20 h-11 pl-5 pr-2 rounded-full border border-white/30 hover:border-white hover:bg-white hover:text-black text-white text-[10px] uppercase tracking-[0.28em] flex items-center gap-3 transition-all duration-500 cursor-pointer">
-        <span>Expand Hero Visual</span>
-        <span className="w-7 h-7 rounded-full border border-current flex items-center justify-center"><ArrowRight className="w-3 h-3" /></span>
-      </button>
 
       <div ref={copyRef} className="absolute inset-x-0 bottom-0 z-10 will-change-transform">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
@@ -177,7 +171,8 @@ export const FeatureBody: React.FC<{
   onPreview: PreviewFn;
   onNavigateToInquiry: (name: string) => void;
 }> = ({ hotel, onPreview, onNavigateToInquiry }) => {
-  const venues: HotelVenueSpace[] = hotel.curatedSpaces || [];
+  const VENUE_LIMIT = 4; // Hotel 1 feature page shows the first 4 venues only (constants.ts untouched)
+  const venues: HotelVenueSpace[] = (hotel.curatedSpaces || []).slice(0, VENUE_LIMIT);
   const [current, setCurrent] = useState(0);
   // Hover swap (venue label -> small photo). Pointer devices only; touch keeps the text labels.
   const [hovered, setHovered] = useState<number | null>(null);

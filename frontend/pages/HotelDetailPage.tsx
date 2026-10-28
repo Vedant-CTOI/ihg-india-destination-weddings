@@ -491,8 +491,8 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               <button
                 type="button"
                 onClick={() => setSideFormOpen(true)}
-                className={`w-12 shrink-0 flex-1 ${feature ? 'hover:opacity-90' : 'bg-black hover:bg-neutral-800'} text-white transition-colors cursor-pointer flex items-start justify-center pt-5`}
-                style={feature ? { backgroundColor: PALETTE.maroon } : undefined}
+                className={`w-12 shrink-0 flex-1 ${feature ? 'hover:opacity-90' : 'bg-black hover:bg-neutral-800 text-white'} transition-colors cursor-pointer flex items-start justify-center pt-5`}
+                style={feature ? { backgroundColor: PALETTE.saffron, color: '#3a0618' } : undefined}
                 aria-expanded={sideFormOpen}
                 aria-label="Open enquiry form"
                 title="Open enquiry form"
