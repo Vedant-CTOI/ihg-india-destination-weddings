@@ -62,6 +62,7 @@ export const withHotelCopy = (h: HotelProperty): HotelProperty => ({
   ...h,
   name: HOTEL_COPY.name, brand: HOTEL_COPY.brand, city: HOTEL_COPY.city, location: HOTEL_COPY.location,
   capacityMin: HOTEL_COPY.capacity, capacityMax: HOTEL_COPY.capacity, roomsCount: HOTEL_COPY.roomsCount,
+  priceBand: '', // not supplied — hidden from the hero label
   genre: HOTEL_COPY.genre, airportDistance: HOTEL_COPY.airportDistance, mandapType: HOTEL_COPY.mandapType,
   aboutUs: HOTEL_COPY.aboutUs.join('\n\n')
 });
@@ -124,9 +125,9 @@ export const FeatureHero: React.FC<{ hotel: HotelProperty; onExpand: () => void 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
           <div className="soft-rise flex items-center gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.32em] text-white/75 mb-5" style={{ animationDelay: '500ms' }}>
             <span className="block w-8 h-px bg-white/60" />
-            <span>{hotel.brand}</span><span className="text-white/35">·</span>
-            <span>{hotel.city}</span><span className="text-white/35">·</span>
-            <span>{hotel.priceBand}</span>
+            {[hotel.brand, hotel.city, hotel.priceBand].filter(Boolean).map((part, k) => (
+              <React.Fragment key={k}>{k > 0 && <span className="text-white/35">·</span>}<span>{part}</span></React.Fragment>
+            ))}
           </div>
           <h1 className="font-normal leading-[0.95] tracking-[-0.02em] text-[clamp(2.5rem,5.6vw,5.6rem)]">
             <span className="mask-line"><span>{hotel.name}</span></span>

@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crowne Plaza Today | IHG India Weddings</title>
+  <meta name="description" content="Curate timeless Indian destination weddings at IHG Hotels & Resorts. Palaces, coastal sanctuaries, sacred shores, and mindful luxury celebrations.">
+
+  <!-- Google Fonts: Outfit, Playfair Display, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              orange: '#000000',
+              navy: '#000000',
+              cream: '#F7F7F7',
+              gold: '#737373',
+              sand: '#EFEFEF',
+              muted: '#737373',
+              border: '#E5E5E5'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Inter', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            display: ['"Bodoni Moda"', 'serif']
+          },
+          keyframes: {
+            'ken-burns': {
+              '0%': { transform: 'scale(1)' },
+              '100%': { transform: 'scale(1.08)' }
+            },
+            'fade-in': {
+              '0%': { opacity: '0', transform: 'translateY(16px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' }
+            }
+          },
+          animation: {
+            'ken-burns': 'ken-burns 22s ease-out infinite alternate',
+            'fade-in': 'fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom sleek monochrome scrollbars */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F7F7F7;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #A3A3A3;
+      border-radius: 9999px;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Grayscale imagery filter for true monochrome luxury editorial aesthetic */
+    .img-monochrome {
+      filter: grayscale(100%) contrast(108%);
+    }
+
+    /* ─── WIREFRAME MODE ───
+       All images render as flat grey blocks (traditional UX wireframe style).
+       Layout boxes are preserved; pixel content is fully hidden. */
+    img {
+      visibility: hidden !important;   /* never show actual pixels */
+      background-color: #E5E5E5 !important; /* the grey block itself */
+      border-radius: inherit;
+    }
+    /* Fill the whole reserved area even if the img box is smaller than its frame */
+    img {
+      min-width: 100%;
+      min-height: 100%;
+    }
+    /* Containers whose only visual content is an image become grey blocks too */
+    div:has(> img:only-child),
+    a:has(> img:only-child),
+    button:has(> img:only-child) {
+      background-color: #E5E5E5;
+    }
+    /* Dark image frames (bg-black / bg-neutral-900 wrappers) also read grey */
+    [class*="bg-black"]:has(img),
+    [class*="bg-neutral-900"]:has(img),
+    [class*="bg-neutral-950"]:has(img) {
+      background-color: #E5E5E5 !important;
+    }
+    /* Hide gradient/darkening overlays inside image containers so blocks read flat grey */
+    [class*="bg-black"]:has(img) div[class*="bg-gradient"],
+    [class*="bg-neutral-900"]:has(img) div[class*="bg-gradient"],
+    [class*="bg-neutral-950"]:has(img) div[class*="bg-gradient"],
+    div:has(> img:only-child) div[class*="bg-gradient"],
+    a:has(> img:only-child) div[class*="bg-gradient"] {
+      display: none !important;
+    }
+
+    /* ===== DESIGN TRANSFER (web version) — motion system copied from v1-local 675a3a4 ===== */
+    /* Shutter wipe: incoming slide rises over the previous one */
+    @keyframes hero-wipe {
+      from { clip-path: inset(100% 0 0 0); }
+      to   { clip-path: inset(0 0 0 0); }
+    }
+    .hero-wipe-in { animation: hero-wipe 1.5s cubic-bezier(0.77, 0, 0.18, 1) both; }
+
+    /* Slow zoom on the active photograph */
+    @keyframes hero-zoom {
+      from { transform: scale(1.14); }
+      to   { transform: scale(1.0); }
+    }
+    .hero-zoom { animation: hero-zoom 9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+    /* Masked line rise for display headlines */
+    .mask-line { display: block; overflow: hidden; padding-bottom: 0.08em; }
+    .mask-line > span { display: block; animation: line-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    @keyframes line-rise {
+      from { transform: translateY(110%); }
+      to   { transform: translateY(0); }
+    }
+    @keyframes soft-rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .soft-rise { animation: soft-rise 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+    /* Timed progress bar (drives auto-advance via animationend) */
+    @keyframes hero-progress {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    .hero-progress { transform-origin: left center; animation-name: hero-progress; animation-timing-function: linear; animation-fill-mode: both; }
+
+    /* Scroll cue line */
+    @keyframes scroll-cue {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      45%  { transform: scaleY(1); transform-origin: top; }
+      55%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+    .scroll-cue { animation: scroll-cue 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+
+    /* Film grain — makes monochrome read as print, not a filter */
+    .grain::after {
+      content: ''; position: absolute; inset: -50%; pointer-events: none; z-index: 40;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.07; animation: grain-shift 1.2s steps(6) infinite;
+    }
+    @keyframes grain-shift {
+      0% { transform: translate(0,0); } 20% { transform: translate(-3%,2%); } 40% { transform: translate(2%,-3%); }
+      60% { transform: translate(-2%,-1%); } 80% { transform: translate(3%,3%); } 100% { transform: translate(0,0); }
+    }
+
+    /* About — slow drift on the active cycling image */
+    @keyframes about-drift { from { transform: scale(1.08); } to { transform: scale(1); } }
+    .about-drift { animation: about-drift 6.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-wipe-in, .hero-zoom, .mask-line > span, .soft-rise, .scroll-cue, .grain::after { animation: none !important; }
+    }
+    /* Cinematic sections (.cine) show their own images — exempt from the wireframe grey-block rule above */
+    .cine img { visibility: visible !important; background-color: transparent !important; }
+    .cine div:has(> img:only-child) { background-color: transparent !important; }
+    /* ===== /DESIGN TRANSFER ===== */
+    /* ===== DESIGN TRANSFER step 3 (WEB VERSION ONLY — html.layout-mobile never matches) =====
+       Pear-inspired motion + client palette (#600B2A maroon, #AF2E33 red, #F2A638 marigold, #ED8C0C saffron).
+       data-wm elements rise in on entering view and reset when scrolled back above (reversible). */
+    html:not(.layout-mobile) [data-wm] { opacity: 0; transform: translate3d(0, 34px, 0);
+      transition: opacity 1.3s cubic-bezier(0.16,1,0.3,1), transform 1.3s cubic-bezier(0.16,1,0.3,1);
+      transition-delay: var(--d, 0ms); }
+    html:not(.layout-mobile) [data-wm][data-wm-in] { opacity: 1; transform: none; }
+    /* Curtain: large image panels open with the hero's shutter wipe */
+    /* (the frame itself stays visible so the viewport observer can see it; its contents do the wipe) */
+    html:not(.layout-mobile) [data-wm="curtain"] { opacity: 1; transform: none; transition: none; }
+    html:not(.layout-mobile) [data-wm="curtain"] > * { clip-path: inset(100% 0 0 0);
+      transition: clip-path 1.6s cubic-bezier(0.77,0,0.18,1); }
+    html:not(.layout-mobile) [data-wm="curtain"][data-wm-in] > * { clip-path: inset(0 0 0 0); }
+    /* Letter-by-letter heading (Pear): each glyph settles from a soft blur, 28ms apart */
+    html:not(.layout-mobile) [data-wm="split"] { opacity: 1; transform: none; transition: none; }
+    .split-w { display: inline-block; white-space: nowrap; }
+    .split-c { display: inline-block; opacity: 0; filter: blur(8px); transform: translate3d(0, 0.35em, 0);
+      transition: opacity 1.1s cubic-bezier(0.16,1,0.3,1), filter 1.1s cubic-bezier(0.16,1,0.3,1), transform 1.1s cubic-bezier(0.16,1,0.3,1);
+      transition-delay: calc(var(--ci) * 28ms); }
+    [data-wm="split"][data-wm-in] .split-c { opacity: 1; filter: blur(0); transform: none; }
+    /* Destination slides cross-dissolve slowly instead of snapping */
+    @keyframes dest-fade { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: scale(1); } }
+    .dest-fade { animation: dest-fade 1.6s cubic-bezier(0.16,1,0.3,1) both; }
+
+    /* Typography system on the coloured sections: Bodoni display headings + hairline eyebrows */
+    html:not(.layout-mobile) [data-tone] .sec-head h2 { font-family: "Bodoni Moda", serif !important; font-weight: 400;
+      letter-spacing: -0.015em; line-height: 1.02; }
+    html:not(.layout-mobile) [data-tone] .sec-head span[data-wm]:not([data-wm="split"]) { display: inline-flex; align-items: center; gap: 12px;
+      letter-spacing: 0.32em !important; }
+    html:not(.layout-mobile) [data-tone] .sec-head span[data-wm]:not([data-wm="split"])::before { content: ''; display: block; width: 32px; height: 1px; background: currentColor; opacity: .6; }
+    html:not(.layout-mobile) .text-center.sec-head span[data-wm]:not([data-wm="split"]) { justify-content: center; }
+    html:not(.layout-mobile) [data-tone] .sec-head p { line-height: 1.7 !important; }
+
+    /* Dark tone (maroon / red): white type in the section header + section-level controls */
+    html:not(.layout-mobile) [data-tone="dark"] .sec-head h2 { color: #fff !important; }
+    html:not(.layout-mobile) [data-tone="dark"] .sec-head span:not([data-wm="split"]):not(.split-w):not(.split-c) { color: rgba(255,255,255,.72) !important; }
+    html:not(.layout-mobile) [data-tone="dark"] .sec-head p { color: rgba(255,255,255,.78) !important; }
+    html:not(.layout-mobile) [data-tone="dark"] .sec-head button { background: #fff !important; color: #000 !important; }
+    html:not(.layout-mobile) [data-tone="dark"] .sec-head button:hover { background: #f2f2f2 !important; }
+    /* Light tone (marigold / saffron): deep-maroon type for warmth + contrast */
+    html:not(.layout-mobile) [data-tone="light"] .sec-head h2 { color: #3a0618 !important; }
+    html:not(.layout-mobile) [data-tone="light"] .sec-head span:not([data-wm="split"]):not(.split-w):not(.split-c), html:not(.layout-mobile) [data-tone="light"] .sec-head p,
+    html:not(.layout-mobile) .loyalty-band span, html:not(.layout-mobile) .loyalty-band p { color: #3a0618 !important; }
+    html:not(.layout-mobile) [data-tone="light"] .sec-head p, html:not(.layout-mobile) .loyalty-band p { opacity: .82; }
+    html:not(.layout-mobile) [data-tone="light"] .sec-head button, html:not(.layout-mobile) .loyalty-band button { background: #600B2A !important; color: #fff !important; }
+    html:not(.layout-mobile) [data-tone="light"] .sec-head button:hover, html:not(.layout-mobile) .loyalty-band button:hover { background: #3a0618 !important; }
+    /* Destination carousel dots + Real Weddings bottom CTA on the coloured grounds */
+    html:not(.layout-mobile) #destinations button[aria-label^="Go to slide"] { background: rgba(58,6,24,.25); }
+    html:not(.layout-mobile) #destinations button[aria-label^="Go to slide"].w-6 { background: #600B2A; }
+
+    /* Coloured sections show their dummy photographs + overlays (exempt from the wireframe grey-block rule) */
+    html:not(.layout-mobile) .cine [class*="bg-gradient"] { display: block !important; }
+    html:not(.layout-mobile) .cine [class*="bg-neutral-900"]:has(img) { background-color: #1a0a10 !important; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html:not(.layout-mobile) [data-wm], .split-c, .dest-fade { opacity: 1 !important; transform: none !important; filter: none !important;
+        clip-path: none !important; transition: none !important; animation: none !important; }
+    }
+    @media (prefers-reduced-motion: reduce) { html:not(.layout-mobile) [data-wm="curtain"] > * { clip-path: none !important; transition: none !important; } }
+    /* ===== /DESIGN TRANSFER step 3 ===== */
+    /* ===== HOTEL 1 FEATURE PAGE (WEB VERSION ONLY) — .hotel-feature is set only for Hotel 1 in Web view =====
+       Landing-page language: full-bleed bands, hairlines, no containers. Photos exempt from the wireframe rule. */
+    .hotel-feature img { visibility: visible !important; background-color: transparent !important; filter: none !important; min-width: 0; min-height: 0; }
+    .hotel-feature div:has(> img:only-child) { background-color: transparent !important; }
+    html:not(.layout-mobile) .hotel-feature .font-arpona, html:not(.layout-mobile) .hotel-feature .font-arpona *,
+    html:not(.layout-mobile) .hotel-feature-body h3, html:not(.layout-mobile) .hotel-feature-body h3 *,
+    html:not(.layout-mobile) .hotel-feature-body h4, html:not(.layout-mobile) .hotel-feature-body h4 * {
+      font-family: "Arpona", "Bodoni Moda", serif !important; font-weight: 400 !important; }
+    /* A. Breadcrumb as a thin line over the hero (no grey fill) */
+    .hotel-feature .hf-crumb { color: rgba(255,255,255,.72); border-bottom: 1px solid rgba(255,255,255,.18); }
+    .hotel-feature .hf-crumb * { color: inherit !important; letter-spacing: .22em; text-transform: uppercase; font-size: 10px !important; }
+    .hotel-feature .hf-crumb span.font-medium, .hotel-feature .hf-crumb button:hover { color: #fff !important; }
+    /* F. Side enquiry form — landing language: hairline-underline fields, Menca labels, maroon actions.
+          Fields, order and behaviour unchanged. */
+    .hotel-feature .hf-form label.block, .hotel-feature .hf-form > div:first-child > div:first-child {
+      font-size: 10px !important; letter-spacing: .28em !important; font-weight: 400 !important; color: #3a0618 !important; opacity: .75; }
+    .hotel-feature .hf-form > div:first-child > div:first-child span[aria-hidden] { width: 32px !important; height: 1px !important; border: 0 !important; background: #ED8C0C; }
+    .hotel-feature .hf-form h3 { font-family: "Arpona", "Bodoni Moda", serif !important; font-size: 30px !important; line-height: 1.05 !important; color: #3a0618 !important; }
+    .hotel-feature .hf-form h3 + p, .hotel-feature .hf-form h3 + p strong { color: #3a0618 !important; }
+    .hotel-feature .hf-form input:not([type="checkbox"]), .hotel-feature .hf-form textarea,
+    .hotel-feature .hf-form [class*="rounded-xl"][class*="border-neutral-300"]:not(.absolute) {
+      border: 0 !important; border-bottom: 1px solid rgba(58,6,24,.28) !important; border-radius: 0 !important;
+      background: transparent !important; padding: 10px 0 !important; box-shadow: none !important; font-size: 13px !important;
+      transition: border-color .8s cubic-bezier(0.16,1,0.3,1); }
+    .hotel-feature .hf-form input:not([type="checkbox"]):focus, .hotel-feature .hf-form textarea:focus,
+    .hotel-feature .hf-form [class*="rounded-xl"][class*="border-neutral-300"]:not(.absolute):hover { border-bottom-color: #600B2A !important; }
+    .hotel-feature .hf-form .grid { column-gap: 20px !important; row-gap: 14px !important; }
+    /* persona: text options on a hairline, selected one underlined in maroon */
+    .hotel-feature .hf-form .persona-buttons-web { border-bottom: 1px solid rgba(58,6,24,.2); gap: 0 !important; }
+    .hotel-feature .hf-form .persona-buttons-web button { border: 0 !important; border-radius: 0 !important; background: transparent !important;
+      box-shadow: none !important; color: rgba(58,6,24,.55) !important; padding: 10px 0 !important; position: relative; transition: color .8s cubic-bezier(0.16,1,0.3,1); }
+    .hotel-feature .hf-form .persona-buttons-web button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+      background: #600B2A; transform: scaleX(0); transform-origin: left; transition: transform .8s cubic-bezier(0.16,1,0.3,1); }
+    .hotel-feature .hf-form .persona-buttons-web button.bg-black { color: #3a0618 !important; }
+    .hotel-feature .hf-form .persona-buttons-web button.bg-black::after { transform: scaleX(1); }
+    /* selected-hotel chips: hairline pills */
+    .hotel-feature .hf-form span.rounded-full.bg-neutral-50 { background: transparent !important; border-color: rgba(58,6,24,.28) !important; color: #3a0618 !important; }
+    .hotel-feature .hf-form input[type="checkbox"] { accent-color: #600B2A; }
+    .hotel-feature .hf-form label span.text-neutral-600 { color: rgba(58,6,24,.8) !important; }
+    /* submit: maroon pill */
+    .hotel-feature .hf-form button[type="submit"] { background: #600B2A !important; border-radius: 9999px !important; box-shadow: none !important;
+      letter-spacing: .22em !important; padding-top: 16px !important; padding-bottom: 16px !important; transition: background-color .8s cubic-bezier(0.16,1,0.3,1); }
+    .hotel-feature .hf-form button[type="submit"]:hover { background: #3a0618 !important; }
+    /* ===== /HOTEL 1 FEATURE PAGE ===== */
+    /* ===== TYPE SYSTEM (WEB VERSION — whole site: header, landing, inner pages, footer) =====
+       Arpona = main titles (h1, h2; hero line 2 stays italic). Menca = all other information.
+       Fonts are Adobe Fonts activated on this Mac — production needs the Adobe Fonts web-project embed.
+       Mobile view (html.layout-mobile) keeps Inter, untouched. */
+    html:not(.layout-mobile) body, html:not(.layout-mobile) body * {
+      font-family: "Menca", "Inter", sans-serif !important; }
+    html:not(.layout-mobile) body h1, html:not(.layout-mobile) body h1 *,
+    html:not(.layout-mobile) body h2, html:not(.layout-mobile) body h2 * {
+      font-family: "Arpona", "Bodoni Moda", serif !important; font-weight: 400 !important; }
+    /* ===== /TYPE SYSTEM ===== */
+
+    /* ─── DIALOG OVERLAY EXEMPTION — proper dim backdrop for popups ─── */
+    .fixed.inset-0[role="dialog"] {
+      background-color: rgba(0, 0, 0, 0.82) !important;
+    }
+    .fixed.inset-0[role="dialog"] img {
+      visibility: visible !important;
+    }
+
+    /* ─── FOOTER EXEMPTION FROM WIREFRAME MODE ───
+       Footer images render as real images; footer backgrounds stay black. */
+    footer img {
+      visibility: visible !important;
+      background-color: transparent !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+    }
+    footer[class*="bg-black"],
+    footer [class*="bg-black"] {
+      background-color: #000000 !important;
+    }
+    div:has(> footer img:only-child),
+    a:has(> footer img:only-child) {
+      background-color: transparent !important;
+    }
+
+    /* ─── GREY-SURFACE CONTRAST FIX ───
+       Muted text on grey panels darkened; white text untouched. */
+    .bg-neutral-50 .text-neutral-400,
+    .bg-neutral-50 .text-neutral-500,
+    .bg-neutral-100 .text-neutral-400,
+    .bg-neutral-100 .text-neutral-500 {
+      color: #000000 !important;
+    }
+    .bg-neutral-50 .text-neutral-600,
+    .bg-neutral-100 .text-neutral-600 {
+      color: #1a1a1a !important;
+    }
+    /* ═══ MOBILE LAYOUT MODE (temporary toggle) — html.layout-mobile ═══
+     Same site, phone-canvas geometry. Toggle removes the class and everything reverts.
+     Hard-overrides Tailwind responsive classes (they're viewport-based, so they stay active
+     inside the 430px canvas) so content genuinely reflows instead of getting cut. */
+
+  /* Canvas */
+  html.layout-mobile #root { width: 430px; max-width: 430px; margin: 0 auto; min-height: 100vh;
+    box-shadow: 0 0 40px rgba(0,0,0,.08); background: #fff; overflow-x: hidden; }
+  html.layout-mobile body { overflow-x: hidden; }
+  html.layout-mobile #root img { max-width: 100% !important; }
+  html.layout-mobile #root .aspect-\[16\/7\], html.layout-mobile #root .aspect-\[16\/9\],
+  html.layout-mobile #root .aspect-\[4\/3\] { overflow: hidden !important; }
+
+  /* Header: force compact header, tighten spacing */
+  html.layout-mobile header > div > div.hidden.lg\:flex { display: none !important; }
+  html.layout-mobile header > div > div.flex.lg\:hidden { display: flex !important; }
+  html.layout-mobile header .max-w-7xl { max-width: 100% !important; padding-left: 12px !important; padding-right: 12px !important; }
+  html.layout-mobile header nav { flex-wrap: wrap !important; justify-content: flex-start !important; gap: 10px 14px !important; }
+
+  /* Global: every section container becomes fluid */
+  html.layout-mobile .max-w-7xl { max-width: 100% !important; padding-left: 14px !important; padding-right: 14px !important; }
+  html.layout-mobile .max-w-6xl, html.layout-mobile .max-w-5xl, html.layout-mobile .max-w-4xl,
+  html.layout-mobile .max-w-3xl, html.layout-mobile .max-w-2xl, html.layout-mobile .max-w-xl { max-width: 100% !important; }
+
+  /* ALL fixed widths become fluid inside the canvas */
+  html.layout-mobile #root [class*="w-[400px]"], html.layout-mobile #root [class*="w-[300px]"],
+  html.layout-mobile #root [class*="w-[500px]"], html.layout-mobile #root [class*="w-[600px]"],
+  html.layout-mobile #root [class*="w-[800px]"], html.layout-mobile #root .w-96, html.layout-mobile #root .w-80,
+  html.layout-mobile #root .w-72, html.layout-mobile #root .w-64, html.layout-mobile #root .w-full-fixed { width: 100% !important; max-width: 100% !important; }
+
+  /* ALL multi-column grids -> 1 column (except tiny utility grids handled below) */
+  html.layout-mobile #root .grid.grid-cols-2, html.layout-mobile #root .grid.grid-cols-3,
+  html.layout-mobile #root .grid.grid-cols-4, html.layout-mobile #root .grid.grid-cols-5,
+  html.layout-mobile #root .grid.md\:grid-cols-2, html.layout-mobile #root .grid.md\:grid-cols-12,
+  html.layout-mobile #root .grid.lg\:grid-cols-3, html.layout-mobile #root .grid.lg\:grid-cols-12,
+  html.layout-mobile #root .grid.sm\:grid-cols-2, html.layout-mobile #root .grid.sm\:grid-cols-3,
+  html.layout-mobile #root .grid.sm\:grid-cols-5,
+  html.layout-mobile #root [class*="lg:grid-cols"], html.layout-mobile #root [class*="md:grid-cols"],
+  html.layout-mobile #root [class*="sm:grid-cols"] {
+    grid-template-columns: 1fr !important;
+  }
+  /* Persona / segmented 3-up rows stack full-width (labels were cutting at 95px) */
+  html.layout-mobile #root form .grid.grid-cols-3, html.layout-mobile #root .grid.grid-cols-3.gap-2:has(> button) {
+    grid-template-columns: 1fr !important;
+  }
+  html.layout-mobile #root .grid.grid-cols-2.gap-2, html.layout-mobile #root .grid.grid-cols-2.gap-3 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  /* Hotel metrics strip (grid-cols-2 sm:grid-cols-5) -> 2 cols */
+  html.layout-mobile #root .grid.sm\:grid-cols-5 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  /* Key Highlights (grid-cols-4 gap-x-4) -> 2 cols */
+  html.layout-mobile #root .grid.grid-cols-4.gap-x-4 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+
+  /* Flex rows that split columns -> stack */
+  html.layout-mobile #root .grid.md\:grid-cols-12 > [class*="md:col-span-"] { grid-column: auto !important; }
+
+  /* Text blocks: force wrapping + word-break so nothing overflows the canvas */
+  html.layout-mobile #root h1, html.layout-mobile #root h2, html.layout-mobile #root h3,
+  html.layout-mobile #root h4, html.layout-mobile #root p, html.layout-mobile #root span,
+  html.layout-mobile #root li, html.layout-mobile #root label, html.layout-mobile #root button,
+  html.layout-mobile #root div { overflow-wrap: break-word; word-break: break-word; }
+
+  /* Long horizontal rows (logo strips, genre pills, hotel carousel rows) scroll instead of cut */
+  html.layout-mobile #root .overflow-x-auto, html.layout-mobile #root .overflow-x-auto > div,
+  html.layout-mobile #root .overflow-x-auto > div > div { max-width: 100%; }
+
+  /* Sticky side rail: unhook + fluid (both open & collapsed states) */
+  html.layout-mobile .sticky.w-\[400px\], html.layout-mobile .sticky.w-12 { position: static !important; width: 100% !important; max-width: 100% !important; }
+  html.layout-mobile .sticky.top-20 { position: static !important; }
+
+  /* Popup -> bottom sheet (constrain EVERY dialog layer to the 430px canvas — the modal's own
+     max-w-3xl + wrapper divs were expanding to viewport width and spilling out) */
+  html.layout-mobile .fixed.inset-0.z-50 { align-items: flex-end !important; padding: 0 !important;
+    width: 430px !important; max-width: 430px !important; left: 50% !important; transform: translateX(-50%) !important; }
+  html.layout-mobile .fixed.inset-0.z-50 * { max-width: 100% !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .relative.bg-white.rounded-3xl,
+  html.layout-mobile .fixed.inset-0.z-50 .max-w-3xl,
+  html.layout-mobile .fixed.inset-0.z-50 > div {
+    max-width: 430px !important; width: 430px !important; margin: 0 auto !important;
+    border-radius: 24px 24px 0 0 !important; max-height: 86vh !important;
+  }
+  /* hotel modal inner rows: stack, no horizontal spill */
+  html.layout-mobile .fixed.inset-0.z-50 .flex.sm\:flex-row { flex-direction: column !important; }
+  /* modal filter/chip row: wrap the chips instead of spilling (targeted — only the row that
+     contains the rounded-full filter pills) */
+  html.layout-mobile .fixed.inset-0.z-50 .flex:has(> button.rounded-full.px-3) { flex-wrap: wrap !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .grid.md\:grid-cols-2 { grid-template-columns: 1fr !important; }
+  html.layout-mobile .fixed.inset-0.z-50 img { max-width: 100% !important; height: auto !important; }
+
+  /* Persona/segmented rows stack full-width */
+
+  /* Media ratios trimmed for taller phone feel */
+  html.layout-mobile .aspect-\[16\/7\] { aspect-ratio: 16/10 !important; }
+  html.layout-mobile .aspect-\[16\/9\] { aspect-ratio: 3/2 !important; }
+  html.layout-mobile .aspect-\[4\/3\] { aspect-ratio: 4/3 !important; }
+
+  /* ═══ MOBILE v3 — DENSITY PASS: not a compressed desktop ═══ */
+  /* Hero: 55vh, no subtext spacing waste, dot-style counters */
+  html.layout-mobile #root section.min-h-\[85vh\], html.layout-mobile #root [class*="min-h-[85vh]"] { min-height: 55vh !important; }
+  html.layout-mobile #root [class*="lg:min-h-"] { min-height: 55vh !important; }
+  /* hero headline block tighter */
+  html.layout-mobile #root section h1 { margin-top: 6px !important; margin-bottom: 6px !important; }
+  /* hero jump buttons -> small dots */
+  html.layout-mobile #root button[aria-label^="Jump to slide"] { padding: 6px !important; min-width: 0 !important; }
+  html.layout-mobile #root button[aria-label^="Jump to slide"] > span:first-child { display: none !important; }
+
+  /* Section rhythm: halve vertical padding everywhere */
+  html.layout-mobile #root section { padding-top: 28px !important; padding-bottom: 28px !important; }
+  html.layout-mobile #root section.py-16, html.layout-mobile #root section.py-20, html.layout-mobile #root section.py-24 { padding-top: 28px !important; padding-bottom: 28px !important; }
+  html.layout-mobile #root .space-y-10 > * + *, html.layout-mobile #root .space-y-8 > * + * { margin-top: 16px !important; }
+  html.layout-mobile #root .space-y-6 > * + * { margin-top: 12px !important; }
+  html.layout-mobile #root .space-y-4 > * + *, html.layout-mobile #root .space-y-5 > * + * { margin-top: 10px !important; }
+
+  /* Headlines tighten */
+  html.layout-mobile #root h2 { margin-top: 4px !important; margin-bottom: 6px !important; }
+  html.layout-mobile #root p { line-height: 1.45 !important; }
+
+  /* Media shrinks: carousels to 3:2, generic 16:9 media to 2:1 evidence-size */
+  html.layout-mobile .aspect-\[16\/9\] { aspect-ratio: 2/1 !important; }
+  html.layout-mobile .aspect-video { aspect-ratio: 2/1 !important; }
+
+  /* About stat strip: 3 tight numbers */
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0,1fr)) !important; padding: 8px 0 !important; }
+
+  /* Story cards: image short, text clipped */
+  html.layout-mobile #root article .aspect-\[4\/3\], html.layout-mobile #root article .aspect-video { aspect-ratio: 2/1 !important; }
+
+  /* Loyalty tier card media smaller */
+  html.layout-mobile #root .aspect-\[16\/9\].w-full { aspect-ratio: 3/1 !important; }
+
+  /* Content trims — critical info only */
+  /* hero subtext paragraph hidden */
+  html.layout-mobile #root section[class*="min-h"] > div p,
+  html.layout-mobile #root section.min-h-\[55vh\] p { display: none !important; }
+  /* story/body paragraphs clamp */
+  html.layout-mobile #root article p { display: -webkit-box !important; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden !important; }
+  /* section intro paragraphs clamp to 3 lines */
+  html.layout-mobile #root section h2 + p { display: -webkit-box !important; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden !important; }
+  /* Key Highlights 7 -> 4 (drop items 5-7 on mobile) */
+  html.layout-mobile #root .grid.grid-cols-4.gap-x-4 > div:nth-child(n+5) { display: none !important; }
+  html.layout-mobile #root .grid.grid-cols-4.gap-x-4 { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+  /* hide long 'View more / read description' trailing copy inside hotel cards */
+  html.layout-mobile #root .snap-start .grid.md\:grid-cols-2.lg\:grid-cols-3 p,
+  html.layout-mobile #root .snap-start .grid.md\:grid-cols-2.lg\:grid-cols-3 > div > p { display: none !important; }
+  /* (dedicated Discover page card grids are NOT snap-start: their paragraphs stay visible) */
+
+  /* Homepage snap carousels (hotels, genres, stories): full-width slides, no squashing */
+  html.layout-mobile #root .flex.overflow-x-auto.snap-x > div.snap-start.shrink-0 { width: 100% !important; min-width: 100% !important; flex: 0 0 100% !important; }
+  /* Destination cards: fixed 30rem height -> compact hotel-card-like height */
+  html.layout-mobile #root .h-\[30rem\], html.layout-mobile #root [class*="h-[30rem]"] { height: 264px !important; min-height: 264px !important; }
+  html.layout-mobile #root .relative.h-\[30rem\] .absolute.inset-0 { padding: 12px !important; }
+  /* destination card inner meta rows tighten */
+  html.layout-mobile #root .relative.bg-white.rounded-xl .text-xs, html.layout-mobile #root .relative.bg-white.rounded-xl .text-\[11px\] { font-size: 10px !important; }
+  html.layout-mobile #root .relative.bg-white.rounded-xl h3 { font-size: 17px !important; margin: 4px 0 !important; }
+
+  /* Destination + all snap cards: media capped at 200px like hotel cards (uniform evidence size) */
+  html.layout-mobile #root .flex.overflow-x-auto .snap-start .group > div:first-child,
+  html.layout-mobile #root .flex.overflow-x-auto .snap-start > div:first-child:not(.group) { height: 200px !important; min-height: 200px !important; max-height: 200px !important; overflow: hidden !important; }
+  html.layout-mobile #root .flex.overflow-x-auto .snap-start img { height: 200px !important; max-height: 200px !important; object-fit: cover !important; }
+
+  /* About stats: single horizontal line, smaller text */
+  html.layout-mobile #root .grid.grid-cols-3.gap-4 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 8px !important; padding: 4px 0 !important; }
+  html.layout-mobile #root .grid.grid-cols-3.gap-4 > div { text-align: center !important; }
+  html.layout-mobile #root .grid.grid-cols-3.gap-4 span { font-size: 9px !important; line-height: 1.2 !important; }
+  html.layout-mobile #root .grid.grid-cols-3.gap-4 .font-serif, html.layout-mobile #root .grid.grid-cols-3.gap-4 strong { font-size: 15px !important; line-height: 1.1 !important; }
+  /* hotel card media shrinks to evidence size; text block tight */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl * .aspect-\[4\/3\],
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .aspect-\[4\/3\],
+  html.layout-mobile #root .snap-start .aspect-\[4\/3\] { aspect-ratio: 2/1 !important; height: auto !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child { height: 200px !important; min-height: 200px !important; max-height: 200px !important; overflow: hidden !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl img { height: 200px !important; max-height: 200px !important; object-fit: cover !important; }
+
+  /* The inner content paddings shrink */
+  html.layout-mobile #root .p-5 { padding: 12px !important; }
+  html.layout-mobile #root .p-6 { padding: 14px !important; }
+  html.layout-mobile #root .p-8 { padding: 16px !important; }
+
+  /* ═══ MOBILE v4 — LANDING PAGE PASS (selector-verified) ═══ */
+  /* Stories: 3 cards -> compact media+title cards */
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 { gap: 10px !important; }
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article { display: flex !important; flex-direction: column !important; }
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article > div:first-child { height: 200px !important; min-height: 200px !important; max-height: 200px !important; overflow: hidden !important; }
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article img { height: 200px !important; max-height: 200px !important; object-fit: cover !important; }
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article h3 { font-size: 15px !important; margin: 6px 0 2px !important; }
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article button { padding: 6px 12px !important; font-size: 9px !important; }
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article .space-y-2, html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article .space-y-3 { margin: 4px 0 !important; }
+
+  /* About: the lg:grid-cols-12 block — collapse gaps, clamp stats row */
+  html.layout-mobile #root .grid.grid-cols-1.lg\:grid-cols-12 { gap: 18px !important; }
+  html.layout-mobile #root .grid.grid-cols-1.lg\:grid-cols-12 .aspect-\[4\/3\] { aspect-ratio: 3/2 !important; }
+  html.layout-mobile #root .max-w-2xl.mx-auto.mb-12 { margin-bottom: 14px !important; }
+
+  /* Form card: squeeze internal spacing */
+  html.layout-mobile #root .relative.bg-white.rounded-3xl { padding-top: 18px !important; padding-bottom: 18px !important; }
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 { gap: 8px !important; }
+  html.layout-mobile #root form label { font-size: 9px !important; letter-spacing: .06em !important; margin-bottom: 2px !important; }
+  html.layout-mobile #root form input, html.layout-mobile #root form select, html.layout-mobile #root form textarea { padding: 8px 10px !important; font-size: 13px !important; }
+  html.layout-mobile #root form .space-y-3 > * + *, html.layout-mobile #root form .space-y-4 > * + * { margin-top: 7px !important; }
+
+  /* Hotel card: name + guests/rooms overlaid ON the image (dummy text on image) */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl { position: relative !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) {
+    position: absolute !important; bottom: 0 !important; left: 0 !important; right: 0 !important;
+    background: linear-gradient(to top, rgba(255,255,255,.94), rgba(255,255,255,.25)) !important;
+    padding: 10px 12px 8px !important; z-index: 3;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) h3 { margin: 0 0 3px !important; font-size: 15px !important; }
+
+  /* Hotel card buttons slim */
+  html.layout-mobile #root .snap-start .group button { padding: 5px 10px !important; font-size: 9px !important; }
+
+  /* ═══ MOBILE v5 — SECTION CTAs: end-of-section, centered, mobile-ideal ═══ */
+  /* Section inner containers become flex-col so header-row CTAs drop BELOW content (end of section) */
+  html.layout-mobile #root section > div > div { flex-wrap: wrap !important; }
+  html.layout-mobile #root section .flex.items-center.justify-between,
+  html.layout-mobile #root section .flex.flex-col.md\:flex-row,
+  html.layout-mobile #root section .flex.items-center.gap-3,
+  html.layout-mobile #root section .flex.items-center.space-x-3 { display: flex !important; flex-direction: column !important; align-items: center !important; width: 100% !important; gap: 8px !important; margin-top: 10px !important; }
+  /* the CTA buttons themselves: mobile-ideal size + centered */
+  html.layout-mobile #root section button.bg-black,
+  html.layout-mobile #root section button.border.border-black:not([aria-label]),
+  html.layout-mobile #root section button[class*="rounded-full"][class*="px-"] { min-height: 44px !important; min-width: 200px !important; padding: 11px 20px !important; font-size: 11px !important; width: auto !important; display: inline-flex !important; justify-content: center !important; }
+  /* CTA text shorter labels via font + letter tightening */
+  html.layout-mobile #root section button.bg-black { letter-spacing: .12em !important; }
+  /* left-aligned CTA containers -> center (About bottom block, Loyalty row) */
+  html.layout-mobile #root .pt-4.border-t.border-neutral-200 { display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important; }
+  html.layout-mobile #root .flex.flex-col.sm\:flex-row { flex-direction: column !important; align-items: center !important; text-align: center !important; }
+  /* kill leftover bottom padding so end CTAs sit flush at section end */
+  html.layout-mobile #root section { padding-bottom: 24px !important; }
+  /* ═══ MOBILE v6 — landing fixes ═══ */
+  /* 1. About: text first, images after text, CTA after images (already: text col has CTA inside;
+     grid order swap puts images col BEFORE text. Revert that swap so text -> images -> CTA? No —
+     CTA is inside text col. Need: text para -> images -> CTA. Move CTA block to bottom via order
+     within text col? Simplest: un-swap columns (text first), and push the CTA wrapper below the
+     images column by making grid a column flex with images col order 2. But CTA is INSIDE text
+     col... instead: pin the About CTA like Discover/Hotels: absolute at section end. */
+  html.layout-mobile #root section:nth-of-type(2) .grid.lg\:grid-cols-12 > div:first-child { order: 0 !important; }
+  html.layout-mobile #root section:nth-of-type(2) .grid.lg\:grid-cols-12 > div:last-child { order: 0 !important; }
+  html.layout-mobile #root section:nth-of-type(2) .pt-4.border-t.border-neutral-200 { display: block !important; }
+  html.layout-mobile #root section:nth-of-type(2) .pt-4.border-t.border-neutral-200 button.bg-black {
+    position: absolute !important; bottom: 18px !important; left: 50% !important;
+    transform: translateX(-50%) !important; margin: 0 !important; z-index: 5;
+  }
+
+  /* 2. Destination card: remove black capsule pill + slide dots row + progress line */
+  html.layout-mobile #root section:nth-of-type(3) span.bg-black.rounded-full { display: none !important; }
+  html.layout-mobile #root section:nth-of-type(3) .flex.justify-center.items-center[class*="space-x-1"] { display: none !important; }
+  html.layout-mobile #root section:nth-of-type(3) .absolute.top-0.h-0\.5 { display: none !important; }
+  /* CTA button: match other section CTAs (View All style, compact) */
+  html.layout-mobile #root section:nth-of-type(3) .flex.items-center.gap-3 > button { min-height: 44px !important; min-width: 200px !important; padding: 11px 20px !important; font-size: 11px !important; justify-content: center !important; }
+
+  /* 3. Hotel cards: name + guests/rooms caption below image; hide region/genre/mandap lines */
+  html.layout-mobile #root .snap-start .group .text-\[10px\], html.layout-mobile #root .snap-start .group .text-\[11px\] { font-size: 10px !important; }
+  html.layout-mobile #root .snap-start .group p { display: none !important; }
+  html.layout-mobile #root .snap-start .group .flex.items-center.gap-4, html.layout-mobile #root .snap-start .group .flex.items-center.space-x-4 { gap: 10px !important; margin-top: 2px !important; }
+
+  /* 4. Stories carousel: text overlaid ON the image (title + region), body text hidden */
+  html.layout-mobile #root section:nth-of-type(5) .grid.md\:grid-cols-3 article { position: relative !important; overflow: hidden !important; }
+  html.layout-mobile #root section:nth-of-type(5) .grid.md\:grid-cols-3 article > div:last-child:not(:first-child) { display: none !important; }
+  html.layout-mobile #root section:nth-of-type(5) .grid.md\:grid-cols-3 article .relative { height: 240px !important; }
+  html.layout-mobile #root section:nth-of-type(5) .grid.md\:grid-cols-3 article .absolute { position: absolute !important; }
+  html.layout-mobile #root section:nth-of-type(5) .grid.md\:grid-cols-3 article .relative .absolute.inset-0 { display: flex !important; flex-direction: column !important; justify-content: flex-end !important; padding: 12px !important; background: linear-gradient(to top, rgba(255,255,255,.92), rgba(255,255,255,.15)) !important; }
+
+  /* 3. Hotel cards: name (h3) below card -> overlay title removed, show under image */
+  html.layout-mobile #root .snap-start .group .absolute { position: static !important; }
+  html.layout-mobile #root .snap-start .group h3 { font-size: 14px !important; margin: 6px 0 2px !important; order: 99 !important; }
+  html.layout-mobile #root .snap-start .group { display: flex !important; flex-direction: column !important; }
+  html.layout-mobile #root .snap-start .group .absolute.bottom-0 { position: static !important; padding: 0 !important; }
+
+  /* 4. Stories: horizontal snap carousel like hotels — hardened against the generic grid-collapse
+     rule (which forces grid-template-columns:1fr and keeps the old 3-row height) */
+  html.layout-mobile #root section:nth-of-type(5) .grid.grid-cols-1.md\:grid-cols-3 {
+    display: flex !important; grid-template-columns: unset !important; grid-template-rows: unset !important;
+    flex-direction: row !important; flex-wrap: nowrap !important; overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important; gap: 10px !important;
+    height: auto !important; min-height: 0 !important; align-items: stretch !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  html.layout-mobile #root section:nth-of-type(5) .grid.grid-cols-1.md\:grid-cols-3 > article {
+    flex: 0 0 100% !important; width: 100% !important; max-width: 100% !important;
+    height: 242px !important; max-height: 242px !important;
+    scroll-snap-align: start !important; margin: 0 !important;
+  }
+
+  /* Stories rail arrows: only in mobile mode (web grid needs no arrows) */
+  html.layout-mobile #root .stories-rail-arrow { display: flex !important; }
+  html.layout-mobile #root .stories-rail-prev { left: 6px !important; }
+  html.layout-mobile #root .stories-rail-next { right: 6px !important; }
+
+  /* De-clutter repetitive per-card CTAs (cards are tappable; section CTA covers the rest) */
+  html.layout-mobile #root .snap-start .group button { display: none !important; }          /* FULL PAGE x8 */
+  html.layout-mobile #root .grid.grid-cols-1.md\:grid-cols-3 article button { display: none !important; }  /* READ FULL STORY x3 */
+
+
+  /* Stories (4th section): its header CTA duplicates the end 'Explore' CTA -> hide on mobile */
+  html.layout-mobile #root section:nth-of-type(5) .flex.items-center.space-x-3 { display: none !important; }
+  /* Discover & Hotels: pin the header CTA to the section end, centered */
+  html.layout-mobile #root section { position: relative !important; }
+  html.layout-mobile #root section .flex.items-center.gap-3 > button[class*="bg-black"],
+  html.layout-mobile #root section .flex.items-center.space-x-3 > button.bg-black {
+    position: absolute !important;
+    bottom: 18px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    margin: 0 !important;
+  }
+  /* reserve room at section bottom so content doesn't collide with the pinned CTA */
+  html.layout-mobile #root section > div.max-w-7xl { padding-bottom: 64px !important; }
+
+  /* Form: mobile-friendly final pass — larger inputs, thumb-friendly, submit pinned style */
+  html.layout-mobile #root form input, html.layout-mobile #root form select, html.layout-mobile #root form textarea {
+    min-height: 44px !important; font-size: 15px !important; padding: 10px 12px !important; border-radius: 10px !important;
+  }
+  html.layout-mobile #root form button { min-height: 44px !important; }
+  html.layout-mobile #root form label { font-size: 10px !important; margin-bottom: 4px !important; }
+  html.layout-mobile #root form .space-y-3 > * + *, html.layout-mobile #root form .space-y-4 > * + * { margin-top: 10px !important; }
+  html.layout-mobile #root form button[type="submit"], html.layout-mobile #root form .bg-black {
+    width: 100% !important; justify-content: center !important; font-size: 12px !important;
+  }
+
+  /* Hero: remove arrows + 01-05 jump buttons on mobile — pure swipe (touch handlers in HeroSection) */
+  html.layout-mobile #root button[aria-label^="Jump to slide"] { display: none !important; }
+
+  /* About: single paragraph on mobile (hide the 2nd) */
+  html.layout-mobile #root section:nth-of-type(2) .space-y-4 > p:nth-of-type(2) { display: none !important; }
+
+  /* Sticky mobile header */
+  html.layout-mobile header { position: sticky !important; top: 0 !important; z-index: 50 !important; }
+  html.layout-mobile #root { overflow: visible !important; }
+
+  /* ═══ MOBILE v10 — UNIFIED CTA SYSTEM: black pill, white text, 44px, 11px font ═══ */
+  html.layout-mobile #root section button.bg-black,
+  html.layout-mobile #root section button.border.border-neutral-300,
+  html.layout-mobile #root section button.border.border-black,
+  html.layout-mobile #root section .text-center.mt-10 button,
+  html.layout-mobile #root form button.bg-black {
+    background-color: #000 !important; color: #fff !important;
+    border: 0 !important; border-radius: 9999px !important;
+    min-height: 44px !important; min-width: 200px !important;
+    padding: 11px 22px !important; font-size: 11px !important;
+    box-shadow: none !important;
+    display: inline-flex !important; justify-content: center !important; align-items: center !important;
+  }
+
+  /* Sticky header guaranteed in mobile mode (survives any ancestor overflow quirks) */
+  html.layout-mobile header { position: sticky !important; top: 0 !important; z-index: 50 !important; }
+
+  /* Carousel arrows: consistent 40px circles, vertically centered on their rails
+     (also fixes the CTA min-width rule whose [class*="px-"] substring accidentally matched
+      the arrows' top-[120px] class) */
+  html.layout-mobile #root section button.stories-rail-arrow, html.layout-mobile #root section button.stories-rail-arrow.stories-rail-prev,
+  html.layout-mobile #root section button.stories-rail-arrow.stories-rail-next,
+  html.layout-mobile #root section button[aria-label="Previous hotels"], html.layout-mobile #root section button[aria-label="Next hotels"],
+  html.layout-mobile #root section button[aria-label="Previous wedding stories"], html.layout-mobile #root section button[aria-label="Next wedding stories"],
+  html.layout-mobile #root section button[aria-label="Previous splash slide"], html.layout-mobile #root section button[aria-label="Next splash slide"] {
+    min-width: 40px !important; width: 40px !important; height: 40px !important; min-height: 40px !important;
+    max-width: 40px !important; padding: 0 !important; font-size: 0 !important;
+  }
+  html.layout-mobile #root section button[aria-label="Previous hotels"],
+  html.layout-mobile #root section button[aria-label="Next hotels"] {
+    top: 50% !important; transform: translateY(-50%) !important; left: 6px !important; right: auto !important;
+    width: 40px !important; height: 40px !important; min-width: 40px !important; min-height: 40px !important;
+    padding: 0 !important;
+  }
+  html.layout-mobile #root section button[aria-label="Next hotels"] { left: auto !important; right: 6px !important; }
+  html.layout-mobile #root .stories-rail-arrow {
+    width: 40px !important; height: 40px !important; min-width: 40px !important; min-height: 40px !important;
+    padding: 0 !important; position: absolute !important; top: 50% !important; transform: translateY(-50%) !important;
+  }
+  html.layout-mobile #root .stories-rail-prev { left: 6px !important; right: auto !important; }
+  html.layout-mobile #root .stories-rail-next { right: 6px !important; left: auto !important; }
+
+  /* ═══ MOBILE v10 — unify arrows + black hotel overlay + footer columns ═══ */
+  /* All carousel arrows: identical 40px white circles, neutral border, black icon */
+  html.layout-mobile #root section button[aria-label="Previous splash slide"],
+  html.layout-mobile #root section button[aria-label="Next splash slide"],
+  html.layout-mobile #root section button[aria-label="Previous wedding genre"],
+  html.layout-mobile #root section button[aria-label="Next wedding genre"],
+  html.layout-mobile #root section button[aria-label="Previous hotels"],
+  html.layout-mobile #root section button[aria-label="Next hotels"],
+  html.layout-mobile #root section button[aria-label="Previous wedding stories"],
+  html.layout-mobile #root section button[aria-label="Next wedding stories"],
+  html.layout-mobile #root section button.stories-rail-arrow.stories-rail-prev,
+  html.layout-mobile #root section button.stories-rail-arrow.stories-rail-next {
+    background: #ffffff !important; background-color: #ffffff !important;
+    border: 1px solid #d4d4d4 !important;
+    color: #000000 !important; box-shadow: 0 2px 8px rgba(0,0,0,.18) !important;
+    backdrop-filter: none !important; opacity: 1 !important;
+  }
+  html.layout-mobile #root section button[aria-label="Previous hotels"]:disabled,
+  html.layout-mobile #root section button[aria-label="Next hotels"]:disabled { opacity: .4 !important; }
+
+  /* Hotel card: black gradient overlay like destination cards, white dummy text */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) {
+    background: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.25) 60%, transparent) !important;
+    color: #ffffff !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) h3 { color: #fff !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) span,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) div { color: #ffffff !important; }
+
+  /* Footer: Contact Us + Governance & Trust side by side (brand block spans full width) */
+  html.layout-mobile #root footer .grid.grid-cols-2.md\:grid-cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  html.layout-mobile #root footer .grid.grid-cols-2.md\:grid-cols-3 > div:first-child { grid-column: 1 / -1 !important; }
+
+  /* Hotel thumbnails match destination cards: same radius, border, height, white-gradient overlay */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl { border-radius: 12px !important; border-color: #d4d4d4 !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child { height: 264px !important; min-height: 264px !important; max-height: 264px !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl img { height: 264px !important; max-height: 264px !important; }
+  /* overlay: dark scrim, white text (name + rooms + capacity read on the image) */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) {
+    background: linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,0)) !important;
+    color: #ffffff !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) h3,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) span,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) div,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2) p { color: #ffffff !important; }
+
+  /* Persona: mobile = single-select dropdown; web = the 3 buttons (source renders both, CSS picks) */
+  html.layout-mobile #root .persona-buttons-web { display: none !important; }
+  html.layout-mobile #root .persona-select-mobile { display: block !important; }
+
+  /* Hotel selector sheet: 2-col thumbnails, no pills, no search (mobile only) */
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 8px !important; }
+  html.layout-mobile body > .fixed.inset-0.z-50 .hotel-modal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-search { display: none !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-pills { display: none !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-quickselect { width: 100% !important; justify-content: center !important; }
+  /* compact 2-up cards: smaller thumb + trimmed text */
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-grid > div { padding: 6px !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-grid .relative.h-28 { height: 84px !important; }
+  html.layout-mobile .fixed.inset-0.z-50 .hotel-modal-grid h4 { font-size: 11px !important; }
+
+  /* ═══ MOBILE v11 — form buttons + cross icons ═══ */
+  /* Destination + hotel trigger buttons: match the form's inputs exactly (white box, 10px radius, 44px) */
+  html.layout-mobile #root form button.w-full.bg-white,
+  html.layout-mobile #root form div.relative > button.bg-black,
+  html.layout-mobile #root form button[class*="rounded-full"][class*="bg-black"] {
+    background-color: #ffffff !important; background-image: none !important;
+    border: 1px solid #d4d4d4 !important; border-radius: 10px !important;
+    color: #000000 !important; min-height: 44px !important; height: 44px !important;
+    width: 100% !important; padding: 10px 12px !important; font-size: 15px !important;
+    box-shadow: none !important; justify-content: space-between !important;
+    letter-spacing: normal !important; text-transform: none !important;
+  }
+
+  /* Cross / icon substitute boxes: the wireframe's empty bordered spans inside buttons become
+     clean glyphs — a real ✕ for close buttons, hidden elsewhere */
+  html.layout-mobile .fixed.inset-0.z-50 button[aria-label="Close selector"],
+  html.layout-mobile #root button[aria-label*="lose"] { font-size: 0 !important; }
+  html.layout-mobile .fixed.inset-0.z-50 button[aria-label="Close selector"]::after,
+  html.layout-mobile #root button[aria-label*="lose"]::after {
+    content: '\00D7' !important; font-size: 22px !important; line-height: 1 !important;
+    font-weight: 300 !important; color: #000 !important;
+  }
+  /* hide the empty bordered icon-box spans inside buttons on mobile (they read as odd shapes) */
+  html.layout-mobile #root form button > span[aria-hidden="true"],
+  html.layout-mobile .fixed.inset-0.z-50 button > span[aria-hidden="true"] { display: none !important; }
+
+  /* Sticky Submit Query bar (mobile; visible only while form in view via .ihg-sticky-on) */
+  button.ihg-sticky-on {
+    position: fixed !important; bottom: 0 !important; left: 50% !important; transform: translateX(-50%) !important;
+    width: 430px !important; max-width: 430px !important; z-index: 60 !important;
+    border-radius: 14px 14px 0 0 !important; margin: 0 !important;
+  }
+  html.layout-mobile button.ihg-sticky-on { display: inline-flex !important; }
+  html.layout-mobile #ihg-sticky-submit.ihg-sticky-on { display: block; }
+
+  /* ═══ MOBILE v12 — landing polish ═══ */
+  /* 2. Hero: photo-led — title lower-left over image, eyebrow+counter one thin line */
+  html.layout-mobile #root [aria-roledescription] h1 { font-size: 1.5rem !important; line-height: 1.15 !important; }
+  html.layout-mobile #root [aria-roledescription] p { display: none !important; } /* subtext already hidden; belt */
+  html.layout-mobile #root [aria-roledescription] .text-\[10px\] { font-size: 8px !important; letter-spacing: 0.18em !important; }
+
+  /* 3. Form card density: desktop 48px card padding -> mobile 16px; tighter label gaps */
+  html.layout-mobile #root .relative.bg-white.rounded-3xl { padding: 16px !important; border-radius: 16px !important; }
+  html.layout-mobile #root form.space-y-5, html.layout-mobile #root form.space-y-7 { row-gap: 12px !important; }
+  html.layout-mobile #root form label { margin-bottom: 4px !important; }
+
+  /* 4. Loyalty + About compaction */
+  html.layout-mobile #root section p.text-sm { max-height: 3.2em; overflow: hidden; }
+
+  /* 5. Micro-details: footer links + go-to-top to mobile tap targets */
+  html.layout-mobile #root footer button, html.layout-mobile #root footer li { min-height: 40px !important; display: flex; align-items: center; }
+  html.layout-mobile button[aria-label="Go to top"] { bottom: 64px !important; right: 12px !important; width: 40px !important; height: 40px !important; }
+
+  /* ═══ MOBILE v13 — shorter form ═══ */
+  /* A. Full Name single field (web keeps First/Last) */
+  html.layout-mobile #root .mobile-fullname-wrap { display: block !important; }
+  html.layout-mobile #root .mobile-fullname-wrap + div { display: none !important; }         /* First Name */
+  html.layout-mobile #root .mobile-fullname-wrap + div + div { display: none !important; }   /* Last Name */
+
+  /* B+C. Date+Guests / Country+Destination share rows via proper 2-col grid tracks */
+  html.layout-mobile #root .grid:has(> .form-field-date),
+  html.layout-mobile #root .grid:has(> .form-field-country) {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+  html.layout-mobile #root .grid:has(> .form-field-date) > .form-field-date { grid-column: 1 !important; }
+  html.layout-mobile #root .grid:has(> .form-field-date) > .form-field-guests { grid-column: 2 !important; }
+  html.layout-mobile #root .grid:has(> .form-field-country) > .form-field-country { grid-column: 1 !important; }
+  html.layout-mobile #root .grid:has(> .form-field-country) > .form-field-destination { grid-column: 2 !important; }
+
+  /* D. Notes textarea -> 2 rows */
+  html.layout-mobile #root form textarea { min-height: 0 !important; height: 66px !important; }
+
+  /* E. Consent text clamps to 2 lines (tap target = whole label, unchanged interaction) */
+  html.layout-mobile #root form label:has(> input[type="checkbox"]) span { display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; line-height: 1.35 !important; }
+
+  /* F. Persona label hidden (select is self-describing) */
+  html.layout-mobile #root form .persona-select-mobile { margin-top: 0 !important; }
+  html.layout-mobile #root form label:has(+ .persona-select-mobile) { display: none !important; }
+
+  /* ═══ MOBILE v14 — hotels rail ═══ */
+  /* 1. Hotels rail arrows: light grey circle, dark grey chevron (beats unify rules) */
+  html.layout-mobile #root section button[aria-label="Previous hotels"],
+  html.layout-mobile #root section button[aria-label="Next hotels"] {
+    background: #e5e5e5 !important; background-color: #e5e5e5 !important;
+    border: 1px solid #d4d4d4 !important;
+    box-shadow: none !important;
+  }
+  html.layout-mobile #root section button[aria-label="Previous hotels"] svg,
+  html.layout-mobile #root section button[aria-label="Next hotels"] svg { color: #404040 !important; }
+
+  /* 2. Hotel card: text overlay on image — dark scrim, WHITE text.
+     Scoped to landing snap-start rails ONLY: the dedicated Discover page card CTA (also a
+     div:last-child) must stay in normal flow at the bottom of its card. */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child {
+    position: absolute !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+    background: linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0)) !important;
+    background-image: linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0)) !important;
+    color: #ffffff !important; padding: 10px 10px 8px !important; z-index: 2 !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child h3,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child span,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child p,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child h3 *,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child span *,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child p * { color: #ffffff !important; }
+
+  /* ═══ MOBILE v19 — hotel cards = pure view cards: image only, circular arrows, no text, no capsules ═══ */
+  /* arrows: removed entirely (swipe-only carousel) */
+  html.layout-mobile #root section button[aria-label="Previous hotels"],
+  html.layout-mobile #root section button[aria-label="Next hotels"] { display: none !important; }
+
+  /* ALL text on hotel cards hidden: overlay block, FULL PAGE button, mandap, stats */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(2),
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:nth-child(3),
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl div:has(> h3),
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl button { display: none !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl h3 { display: none !important; }
+
+  /* capsule pills on the image (brand top-left, city top-right) — removed strictly */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl span.absolute { display: none !important; }
+
+  /* no scrim needed — clean image */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child::after { content: none !important; }
+
+  /* ═══ MOBILE v21 — dedicated Discover page: mobile-friendly cards, nothing cut ═══ */
+  /* filter bar: desktop one-line grid collapses to stacked single column on mobile */
+  html.layout-mobile #root .grid.md\:grid-cols-12 { display: grid !important; grid-template-columns: 1fr !important; gap: 10px !important; }
+  html.layout-mobile #root .grid.md\:grid-cols-12 > div { grid-column: auto !important; max-width: 100% !important; }
+  /* card CTA button: was 410px (8px over canvas) -> full width inside card padding */
+  html.layout-mobile #root .grid.md\:grid-cols-2 button { max-width: 100% !important; width: 100% !important; box-sizing: border-box !important; }
+  /* card: compact paddings + media height */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .p-5 { padding: 14px !important; }
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .relative.h-60 { height: 200px !important; }
+  /* paragraphs in card: clamp so lorem copy doesn't balloon the card */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group p { font-size: 11px !important; line-height: 1.45 !important; }
+  /* status strip + chips wrap within canvas */
+  html.layout-mobile #root .flex.flex-wrap.items-center.justify-between { flex-wrap: wrap !important; max-width: 100% !important; }
+
+  /* ═══ MOBILE v30 — Enquire CTA form (ConversationPage) replicates landing form:
+     Full Name single field, First/Last hidden, Date+Guests share a row ═══ */
+  html.layout-mobile #root .form-field-firstname,
+  html.layout-mobile #root .form-field-lastname { display: none !important; }
+
+
+  /* ═══ MOBILE v29 — Loyalty package cards: stack image over text, both proportionate ═══ */
+  html.layout-mobile #root .bg-neutral-50.border.border-neutral-200.rounded-2xl.overflow-hidden.flex {
+    flex-direction: column !important;
+  }
+  html.layout-mobile #root .bg-neutral-50.border.border-neutral-200.rounded-2xl > .sm\:w-3\/5 {
+    width: 100% !important; max-width: 100% !important; aspect-ratio: 16/9 !important; height: auto !important;
+  }
+  html.layout-mobile #root .bg-neutral-50.border.border-neutral-200.rounded-2xl > .sm\:w-2\/5 {
+    width: 100% !important; max-width: 100% !important; padding: 14px 16px !important;
+  }
+  html.layout-mobile #root .bg-neutral-50.border.border-neutral-200.rounded-2xl h2 { font-size: 18px !important; margin: 0 0 6px !important; }
+  html.layout-mobile #root .bg-neutral-50.border.border-neutral-200.rounded-2xl p { font-size: 11px !important; line-height: 1.5 !important; }
+  html.layout-mobile #root .bg-neutral-50.border.border-neutral-200.rounded-2xl img { height: 100% !important; object-fit: cover !important; }
+
+  /* ═══ MOBILE v28 — dedicated-page hero banners (About/Discover/Hotels/Real Weddings/Loyalty):
+     440px tall web banner -> compact 200px mobile banner so the page scroll is short ═══ */
+  html.layout-mobile #root .relative.h-\[380px\] { height: 200px !important; min-height: 200px !important; max-height: 200px !important; }
+
+  /* ═══ MOBILE v27 — destination cards: remove the quote/lorem line under the title ═══ */
+  html.layout-mobile #root section:nth-of-type(3) .relative .absolute.inset-0 p { display: none !important; }
+
+  /* ═══ MOBILE v26 — hotel metrics strip: each stat on ONE line (label · value · unit inline) ═══ */
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 { grid-template-columns: 1fr !important; gap: 6px !important; padding: 10px !important; }
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div {
+    display: flex !important; flex-direction: row !important; align-items: baseline !important;
+    gap: 8px !important; padding: 7px 10px !important; max-width: 100% !important;
+    border-bottom: 1px solid rgba(0,0,0,.06) !important;
+  }
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div:last-child { border-bottom: 0 !important; }
+  /* value & unit inline sizes */
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div .font-serif,
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div strong { font-size: 15px !important; line-height: 1.2 !important; }
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div span,
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div p { font-size: 10px !important; line-height: 1.2 !important; margin: 0 !important; }
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div [class*="tracking-widest"],
+  html.layout-mobile #root .grid.grid-cols-2.sm\:grid-cols-5 > div [class*="uppercase"] { letter-spacing: .08em !important; }
+
+  /* ═══ MOBILE v25 — venue gallery: thumbnail strips removed, prev/next arrows page through pictures ═══ */
+  html.layout-mobile #root .venue-arrows-mobile-only { display: flex !important; }
+  html.layout-mobile #root .venue-thumb-strip { display: none !important; }
+
+  /* ═══ MOBILE v24 — individual hotel detail page: mobile-native ═══ */
+  /* venue thumbnail strip: pills scroll horizontally INSIDE canvas, not off both edges */
+  html.layout-mobile #root .overflow-x-auto { max-width: 100% !important; overflow-x: auto !important; }
+  html.layout-mobile #root .overflow-x-auto > .flex { flex-wrap: nowrap !important; min-width: 0 !important; max-width: 100% !important; }
+  /* venue pill buttons: compact, inside the strip */
+  html.layout-mobile #root button.shrink-0.w-32 { width: 120px !important; min-width: 120px !important; margin: 0 4px 0 0 !important; }
+  /* side rail (lg column) hidden on mobile — its mobile twin (lg:hidden block) carries the CTA */
+  html.layout-mobile #root .hidden.lg\:flex { display: none !important; }
+  html.layout-mobile #root .flex.lg\:hidden { display: flex !important; width: 100% !important; max-width: 100% !important; }
+  /* venue section grids + metric rows collapse & wrap */
+  html.layout-mobile #root .grid.sm\:grid-cols-5 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  /* sticky sub-nav (top-[110px] tab row) scrolls horizontally instead of spilling */
+  html.layout-mobile #root .sticky.top-\[110px\] { width: 100% !important; max-width: 100% !important; overflow-x: auto !important; }
+  /* all fixed-width children inside flex rows fluid */
+  html.layout-mobile #root .flex.items-center.gap-2 { max-width: 100% !important; flex-wrap: nowrap !important; overflow-x: auto !important; }
+
+  /* ═══ MOBILE v23 — dedicated Hotels + Real Weddings pages: mobile-native (web logic untouched) ═══ */
+  /* both pages share AllHotelsPage/genre-listing-like layouts; cards get evidence-size media +
+     compact padding so they read as designed-for-mobile like the Discover page */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .relative.h-56,
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .relative.h-60 { height: 200px !important; min-height: 200px !important; max-height: 200px !important; overflow: hidden !important; }
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .p-5 { padding: 14px !important; }
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group h3 { font-size: 17px !important; margin: 2px 0 4px !important; }
+  /* card CTA: mobile-ideal tap height, full width, no clipping */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group button { min-height: 44px !important; width: 100% !important; max-width: 100% !important; box-sizing: border-box !important; font-size: 11px !important; justify-content: center !important; }
+  /* card images fluid */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group img { height: 200px !important; max-height: 200px !important; object-fit: cover !important; }
+  /* the web stats strips inside cards wrap to one compact line */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .flex.items-center.space-x-4 { gap: 10px !important; margin-top: 4px !important; }
+
+  /* ═══ MOBILE v22 — PERMANENT grid fix: viewport-responsive md:/lg: grids break inside the 430px
+     canvas (they see the wide viewport, not the phone). Force EVERY grid in the canvas to a single
+     column and every col-span child to span it; overrides all Tailwind responsive variants. ═══ */
+  html.layout-mobile #root .grid[class*="md:grid-cols"],
+  html.layout-mobile #root .grid[class*="lg:grid-cols"],
+  html.layout-mobile #root .grid[class*="sm:grid-cols"] {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-flow: row !important;
+  }
+  html.layout-mobile #root .grid[class*="md:grid-cols"] > *,
+  html.layout-mobile #root .grid[class*="lg:grid-cols"] > *,
+  html.layout-mobile #root .grid[class*="sm:grid-cols"] > * {
+    grid-column: 1 / -1 !important;
+    max-width: 100% !important;
+  }
+
+  /* Big type scales down a touch on the narrow canvas */
+  html.layout-mobile #root h1 { font-size: 1.65rem !important; line-height: 1.15 !important; }
+  html.layout-mobile #root h2 { font-size: 1.3rem !important; line-height: 1.2 !important; }
+  html.layout-mobile #root h3 { font-size: 1.05rem !important; }
+  html.layout-mobile #root .text-5xl, html.layout-mobile #root .text-4xl { font-size: 1.8rem !important; }
+  html.layout-mobile #root .text-3xl { font-size: 1.45rem !important; }
+  html.layout-mobile #root .text-2xl { font-size: 1.2rem !important; }
+
+  /* Horizontal paddings tighten so content breathes on 430px */
+  html.layout-mobile #root section { padding-left: 0 !important; padding-right: 0 !important; }
+  html.layout-mobile #root section > .max-w-7xl { padding-left: 14px !important; padding-right: 14px !important; }
+
+  /* ═══ MOBILE v31 — enquiry form layout: utilise full canvas width ═══ */
+  /* every input/control fills its column completely */
+  html.layout-mobile #root form input[type="text"],
+  html.layout-mobile #root form input[type="email"],
+  html.layout-mobile #root form select,
+  html.layout-mobile #root form textarea,
+  html.layout-mobile #root form input[type="date"],
+  html.layout-mobile #root form input[type="number"] {
+    width: 100% !important; box-sizing: border-box !important;
+  }
+  /* the paired-row grid cells fill their track */
+  html.layout-mobile #root form .form-field-date,
+  html.layout-mobile #root form .form-field-guests { width: 100% !important; padding: 0 4px 0 0 / 0 0 0 0; }
+  /* trigger buttons + persona select full width too */
+  html.layout-mobile #root form button,
+  html.layout-mobile #root form .persona-select-mobile { width: 100% !important; box-sizing: border-box !important; max-width: 100% !important; }
+  /* the form card inner padding tighter so fields get max width */
+  html.layout-mobile #root form .p-6, html.layout-mobile #root form .p-8 { padding: 12px !important; }
+  /* label spacing compact */
+  html.layout-mobile #root form label { margin-bottom: 3px !important; }
+  /* rows gap tightened */
+  html.layout-mobile #root form .space-y-4 > * + *, html.layout-mobile #root form .space-y-3 > * + * { margin-top: 9px !important; }
+
+  /* v31b — real fix: widen the form column itself (was 332 inside a 366 card) */
+  html.layout-mobile #root form .space-y-5,
+  html.layout-mobile #root form > div,
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 { width: 100% !important; max-width: 100% !important; }
+  html.layout-mobile #root form .relative.bg-white.rounded-3xl { padding: 14px !important; }
+  /* date + number inputs: fill their grid cells (were intrinsic 78px) */
+  html.layout-mobile #root form input[type="date"],
+  html.layout-mobile #root form input[type="number"] { width: 100% !important; min-width: 0 !important; box-sizing: border-box !important; }
+  /* field wrapper divs inside form grids fill their tracks */
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > div { min-width: 0 !important; max-width: 100% !important; }
+
+
+
+  /* paired-row grid: 2 equal columns */
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2,
+  html.layout-mobile #root form .grid.sm\:grid-cols-2 {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* v30 final: paired rows on the Enquire CTA form (date+guests) — placed last to beat the
+     blanket 1/-1 rule */
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-date { grid-column: 1 !important; }
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-guests { grid-column: 2 !important; }
+  /* Full Name spans both; hidden First/Last take no row */
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-fullname { grid-column: 1 / -1 !important; }
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-firstname,
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-lastname { display: none !important; grid-column: auto !important; }
+
+
+  /* v34 — stories (real weddings) rail on mobile: SINGLE visible card + arrows.
+     Hardened: horizontal snap flex, one 100%-wide card at a time. */
+  html.layout-mobile #root section:nth-of-type(6) .grid.grid-cols-1.md\:grid-cols-3,
+  html.layout-mobile #root .stories-rail,
+  html.layout-mobile #root section .grid.grid-cols-1.md\:grid-cols-3:has(article) {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    grid-template-columns: unset !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  html.layout-mobile #root section .grid.grid-cols-1.md\:grid-cols-3:has(article) > article {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    scroll-snap-align: start !important;
+    margin: 0 !important;
+  }
+  /* arrows: 40px circles pinned on the rail edges, vertically centered */
+  html.layout-mobile #root .stories-rail-arrow {
+    position: absolute !important; top: 50% !important; transform: translateY(-50%) !important;
+    width: 40px !important; height: 40px !important; border-radius: 9999px !important;
+    background: #fff !important; border: 1px solid #d4d4d4 !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,.18) !important; z-index: 5 !important;
+  }
+  html.layout-mobile #root .stories-rail-arrow.stories-rail-prev { left: 6px !important; }
+  html.layout-mobile #root .stories-rail-arrow.stories-rail-next { right: 6px !important; }
+
+  /* v35 — stories section: single CTA (bottom 'Explore All' removed on mobile), height tightened */
+  html.layout-mobile #root section button:has(> span:first-child) { /* no-op guard */ }
+  html.layout-mobile #root .text-center.mt-10 { display: none !important; }
+  html.layout-mobile #root section .mt-10:has(> button) { display: none !important; }
+  /* the section's reserved bottom padding shrinks with the pinned-CTA space no longer needed */
+  html.layout-mobile #root section:has(.grid.grid-cols-1.md\:grid-cols-3 article) > div.max-w-7xl { padding-bottom: 28px !important; }
+
+  /* v36 — FINAL hotels rail state (overrides v19 stripping + all stale rules):
+     view cards with hotel name + capacity + rooms, circular 40px prev/next arrows */
+  /* text block: visible, below image, clean */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:has(> h3),
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl div:has(> h3) { display: block !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl h3 { display: block !important; font-size: 15px !important; margin: 6px 0 2px !important; color: #000 !important; }
+  /* keep name/capacity/rooms; hide region/genre/mandap + FULL PAGE + pills */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl p { display: none !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .text-\[10px\]:first-child,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .text-\[10px\]:nth-of-type(1) { display: none !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl button { display: none !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl span.absolute { display: none !important; }
+  /* card: image top, text block in normal flow (not absolute overlay) */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child { position: static !important; background: none !important; padding: 8px 12px 10px !important; }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl { display: flex !important; flex-direction: column !important; }
+  /* arrows: BOTH visible as 40px circles, vertically centered on the rail, beating every older rule */
+  html.layout-mobile #root section button[aria-label="Previous hotels"],
+  html.layout-mobile #root section button[aria-label="Next hotels"],
+  html.layout-mobile #root section .flex button[aria-label="Previous hotels"],
+  html.layout-mobile #root section .flex button[aria-label="Next hotels"],
+  html.layout-mobile #root section button[aria-label="Previous hotels"][class*="rounded-full"],
+  html.layout-mobile #root section button[aria-label="Next hotels"][class*="rounded-full"] {
+    display: flex !important;
+    position: absolute !important; top: 100px !important; transform: none !important;
+    width: 40px !important; height: 40px !important; min-width: 40px !important; max-width: 40px !important;
+    min-height: 40px !important; border-radius: 9999px !important;
+    background: #fff !important; border: 1px solid #d4d4d4 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,.2) !important;
+    align-items: center !important; justify-content: center !important;
+    padding: 0 !important; z-index: 6 !important; font-size: 0 !important;
+  }
+  html.layout-mobile #root section button[aria-label="Previous hotels"] { left: 6px !important; }
+  html.layout-mobile #root section button[aria-label="Next hotels"] { right: 6px !important; }
+  html.layout-mobile #root section button[aria-label="Previous hotels"] svg,
+  html.layout-mobile #root section button[aria-label="Next hotels"] svg { color: #000 !important; width: 18px !important; height: 18px !important; }
+
+  /* v37 — genre text hidden on hotel cards (mobile): hide the eyebrow span above the h3 */
+  html.layout-mobile #root .snap-start .group .space-y-0\.5 > span:first-child,
+  html.layout-mobile #root .snap-start .group span.text-\[10px\] { display: none !important; }
+  /* same on the dedicated hotels + discover listing cards */
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group span.uppercase,
+  html.layout-mobile #root .grid.md\:grid-cols-2 .group .text-\[10px\] { display: none !important; }
+
+  /* v38 — hotel card text FIX: card grows to fit its text; text sits in the white area below the
+     image; strictly name + capacity + rooms only */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl {
+    height: auto !important; max-height: none !important; overflow: visible !important;
+  }
+  /* media fixed 200px */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child,
+  html.layout-mobile #root .snap-start .group .relative.overflow-hidden.h-60,
+  html.layout-mobile #root .snap-start .group div[class*="h-60"] { height: 200px !important; min-height: 200px !important; max-height: 200px !important; }
+  /* text block: in normal flow, white background, compact */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:last-child {
+    position: static !important; background: #fff !important; color: #000 !important;
+    padding: 10px 14px 12px !important; margin: 0 !important; max-height: none !important;
+    overflow: visible !important; display: block !important;
+  }
+  /* strictly: h3 (name) + the capacity/rooms row; everything else already hidden */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl h3 {
+    display: block !important; color: #000 !important; font-size: 16px !important; margin: 0 0 4px !important;
+  }
+  html.layout-mobile #root .snap-start .group .flex.items-center.space-x-4 { display: flex !important; }
+
+  /* v38b — force the FULL chain: card > wrapper > details all auto-height, text in flow */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div {
+    height: auto !important; max-height: none !important; overflow: visible !important; display: block !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child > div:first-child {
+    height: 200px !important; min-height: 200px !important; max-height: 200px !important; overflow: hidden !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .p-5 { padding: 10px 14px 12px !important; }
+
+  /* v38c — card min-height fits content; rail slides align-items: flex-start */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl {
+    height: auto !important; min-height: 314px !important; max-height: none !important;
+    display: flex !important; flex-direction: column !important; overflow: visible !important;
+  }
+  html.layout-mobile #root .flex.overflow-x-auto.snap-x { align-items: flex-start !important; }
+
+  /* v39 — hotel card replicates the destination card (mobile): 266px total, text overlaid on image
+     bottom in destination-card style (dark text on light scrim), rounded-xl, neutral border */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl {
+    height: 266px !important; min-height: 266px !important; max-height: 266px !important;
+    overflow: hidden !important; border-radius: 12px !important;
+    border: 1px solid #d4d4d4 !important;
+  }
+  /* image fills the whole card */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child,
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl > div:first-child > div:first-child {
+    height: 266px !important; min-height: 266px !important; max-height: 266px !important;
+  }
+  /* text block: absolute overlay pinned to card bottom, destination-style scrim */
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .p-5 {
+    position: absolute !important; bottom: 0 !important; left: 0 !important; right: 0 !important;
+    top: auto !important;
+    background: linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0.55)) !important;
+    padding: 10px 12px 10px !important; margin: 0 !important; z-index: 3 !important;
+    display: block !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .p-5 h3 {
+    color: #000 !important; font-size: 17px !important; margin: 0 0 4px !important; order: 0 !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .p-5 .flex.items-center.space-x-4 {
+    color: #000 !important; margin: 0 !important; padding: 0 !important; border: 0 !important;
+  }
+  html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl .p-5 span { color: #000 !important; }
+
+  /* v40 cleanup — inline 'View more.' link inside consent label: compact text link (was 44px tall
+     form button, overlapping the consent checkbox below it) */
+  html.layout-mobile #root form label button { min-height: 0 !important; height: auto !important; padding: 0 !important; display: inline !important; background: none !important; border: 0 !important; text-decoration: underline !important; font-size: 10px !important; }
+</style>
+
+    <!-- STANDALONE HOTEL 1 PAGE: always the Web design; Web/Mobile switch hidden -->
+  <script>try { sessionStorage.setItem('ihg-layout', 'web'); } catch (e) {} document.documentElement.classList.remove('layout-mobile');</script>
+  <style>[aria-label="Layout preview toggle"] { display: none !important; }</style>
+</head>
+<body class="bg-white text-black font-body antialiased selection:bg-black selection:text-white">
+  <div id="root"></div>
+  <script type="module" src="./hotel-1.tsx"></script>
+<script>
+(function () {
+  // Sticky Submit Query (mobile): show floating bar only while an enquiry form is in view.
+  function setupStickySubmit() {
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var isMobile = document.documentElement.classList.contains('layout-mobile');
+      if (!isMobile) {
+        var prev = document.querySelector('button.ihg-sticky-on');
+        if (prev) prev.classList.remove('ihg-sticky-on');
+        return;
+      }
+      // any visible enquiry form? (landing #contact form, or dedicated conversation page form)
+      var forms = Array.from(document.querySelectorAll('#root form'));
+      var visible = false;
+      for (var i = 0; i < forms.length; i++) {
+        var f = forms[i];
+        if (f.offsetParent === null) continue;
+        // only lead-enquiry forms (they have a submit[type] named Submit Query)
+        var btn = f.querySelector('button[type="submit"]');
+        if (!btn || !/submit/i.test(btn.textContent)) continue;
+        var r = f.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < window.innerHeight) { visible = true; break; }
+      }
+      // The ORIGINAL submit button (inside the form) becomes the sticky button itself.
+      var orig = null;
+      for (var j = 0; j < forms.length; j++) {
+        var b2 = forms[j].querySelector('button[type="submit"]');
+        if (b2 && /submit/i.test(b2.textContent) && forms[j].offsetParent !== null) { orig = b2; break; }
+      }
+      // sticky while ON the form (button below viewport, form visible) OR after scrolling PAST it
+      // (button above viewport); releases when the button's natural spot is on screen (form end)
+      var makeSticky = false;
+      if (orig) {
+        var ob = orig.getBoundingClientRect();
+        var aboveViewport = ob.bottom < 90;
+        var belowViewport = ob.top > window.innerHeight - 90;
+        makeSticky = aboveViewport || (belowViewport && visible);
+      }
+      if (orig) orig.classList.toggle('ihg-sticky-on', !!makeSticky);
+    }
+    function onScroll() {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    var root = document.getElementById('root');
+    if (root) root.addEventListener('scroll', onScroll, { passive: true });
+    setInterval(update, 800); // cheap catch-up for mode toggles
+    update();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { setupStickySubmit(); });
+  } else { setupStickySubmit(); }
+})();
+</script>
+</body>
+</html>
