@@ -150,18 +150,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
       {/* Main Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
         
-        {/* Page Title & Context */}
-        <div className="space-y-2">
-          <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-semibold block">
-            National Portfolio
-          </span>
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-black leading-tight">
-            Hotels
-          </h1>
-          <p className="text-xs sm:text-sm text-neutral-600 font-light max-w-2xl leading-relaxed">
-            Browse our complete portfolio of palatial fortresses, coastal resorts, and wilderness sanctuaries across India. Filter by city, occasion, or search directly for specific properties.
-          </p>
-        </div>
+        {/* Page Title & Context — removed on request (National Portfolio / Hotels / Browse…) */}
 
         {/* Filter Bar — compact: 2 per row, labels inside the fields, count + reset on the last row; pinned under the header */}
         <div className="filter-bar sticky z-20 bg-neutral-50/95 backdrop-blur-sm p-2.5 rounded-2xl border border-neutral-200">
