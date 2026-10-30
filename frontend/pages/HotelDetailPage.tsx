@@ -6,7 +6,7 @@ import { HOTELS_DATA } from '../constants';
 import { HotelSelectorModal } from '../components/HotelSelectorModal';
 import { COUNTRY_DEST_MAP, DestinationDropdown } from '../components/DestinationDropdown';
 import { OccasionDropdown } from '../components/OccasionDropdown';
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, X, PenLine } from 'lucide-react';
 import { useWeb, PALETTE } from '../components/webMotion';
 import { FEATURE_HOTEL_ID, FEATURE_HERO, FeatureHero, FeatureBody, withHotelCopy } from '../components/HotelFeature';
 
@@ -484,14 +484,14 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
           onClick={mobile && sideFormOpen ? (e) => { if (e.target === e.currentTarget) setSideFormOpen(false); } : undefined}
           className={mobile
             ? (sideFormOpen
-                ? 'mobile-enquiry-popup fixed inset-0 z-[150] flex items-center justify-center p-3 animate-fade-in'
-                : 'fixed z-[140] bottom-5 left-1/2 -translate-x-1/2')
+                ? 'mobile-enquiry-popup mobile-frame-fixed fixed top-0 bottom-0 z-[150] flex items-center justify-center p-3 animate-fade-in'
+                : 'mobile-enquiry-fab fixed z-[140] bottom-5')
             : `hidden lg:block absolute top-0 right-0 z-40 min-h-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             sideFormOpen ? 'w-[400px]' : 'w-12'
           }`}
         >
           <div className={mobile
-                 ? `relative bg-white flex flex-col overflow-hidden ${sideFormOpen ? 'w-full max-w-[410px] rounded-2xl shadow-2xl' : 'rounded-full shadow-xl'}`
+                 ? `relative bg-white flex flex-col overflow-hidden ${sideFormOpen ? 'w-full rounded-2xl shadow-2xl' : 'rounded-full shadow-xl'}`
                  : `sticky ${feature ? (sideFormOpen ? 'top-[146px]' : 'top-[260px]') : 'top-20'} bg-white border-l border-neutral-200 ${feature ? '' : 'shadow-lg'} flex flex-col overflow-hidden`}
                style={mobile
                  ? (sideFormOpen ? { height: 'min(86vh, 760px)' } : undefined)
@@ -519,14 +519,15 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 type="button"
                 onClick={() => setSideFormOpen(true)}
                 className={mobile
-                  ? 'bg-black text-white px-5 py-3 rounded-full cursor-pointer flex items-center justify-center whitespace-nowrap'
+                  ? 'w-12 h-12 bg-black text-white rounded-full cursor-pointer flex items-center justify-center'
                   : `w-12 shrink-0 flex-1 ${feature ? 'hover:opacity-90' : 'bg-black hover:bg-neutral-800 text-white'} transition-colors cursor-pointer flex items-start justify-center pt-5`}
                 style={feature ? { backgroundColor: PALETTE.saffron, color: '#3a0618' } : undefined}
                 aria-expanded={sideFormOpen}
                 aria-label="Open enquiry form"
                 title="Open enquiry form"
               >
-                <span className={mobile ? 'text-[11px] uppercase tracking-[0.24em] font-medium whitespace-nowrap' : '[writing-mode:vertical-rl] rotate-180 text-[11px] uppercase tracking-[0.32em] font-medium whitespace-nowrap'}>
+                {mobile && <PenLine strokeWidth={1.5} aria-hidden="true" className="w-5 h-5" />}
+                <span className={mobile ? 'sr-only' : '[writing-mode:vertical-rl] rotate-180 text-[11px] uppercase tracking-[0.32em] font-medium whitespace-nowrap'}>
                   Open Enquiry Form
                 </span>
               </button>
@@ -987,7 +988,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               </div>
             </div>
 
-            {/* Your Dedicated Wedding Director — dummy contact card */}
+            {/* Contact Us — dummy contact card (replaces Wedding Director) */}
             <div className="pt-4 border-t border-neutral-200">
               <div className="bg-black text-white p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                 <div className="flex items-center space-x-4">
@@ -1003,14 +1004,11 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                   </div>
                   <div>
                     <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-semibold block mb-1">
-                      Your Dedicated Wedding Director & Stylist
+                      Get in Touch
                     </span>
                     <h4 className="font-serif text-xl sm:text-2xl font-normal text-white">
-                      Wedding Director — {hotel.name}
+                      Contact Us — {hotel.name}
                     </h4>
-                    <p className="text-[11px] text-neutral-400 font-light mt-1">
-                      Curating celebrations at {hotel.name} for over a decade. Your single point of contact from first call to farewell brunch.
-                    </p>
                   </div>
                 </div>
 

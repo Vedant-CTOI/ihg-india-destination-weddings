@@ -784,6 +784,10 @@
   html.layout-mobile body #root footer .grid.grid-cols-2.md\:grid-cols-3 > div:first-child p { margin-top: 2px !important; }
   /* Mobile enquiry popup backdrop */
   .mobile-enquiry-popup { background: rgba(0,0,0,.6); }
+  /* Keep floating mobile UI inside the 430px phone frame (frame is centred: its left edge = 50% - 215px) */
+  html.layout-mobile .mobile-frame-fixed { left: max(0px, calc(50% - 215px)) !important; right: auto !important; width: min(100%, 430px) !important; }
+  html.layout-mobile .mobile-enquiry-fab { right: calc(max(0px, 50% - 215px) + 16px) !important; left: auto !important; }
+  html.layout-mobile button[aria-label="Go to top"] { left: calc(max(0px, 50% - 215px) + 16px) !important; bottom: 20px !important; }
 
   /* Hotel thumbnails match destination cards: same radius, border, height, white-gradient overlay */
   html.layout-mobile #root .snap-start .group.bg-white.rounded-2xl { border-radius: 12px !important; border-color: #d4d4d4 !important; }
