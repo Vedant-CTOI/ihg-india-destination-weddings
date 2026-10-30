@@ -260,6 +260,28 @@
       clip-path: none !important; transition: none !important; }
     html:not(.layout-mobile) .landing-home *:not(.hero-progress) { animation: none !important; }
     html:not(.layout-mobile) .landing-home img { transform: none !important; transition: none !important; }
+    /* ===== WEB LANDING PAGE — BLACK & WHITE (client request). Dark bands → black, light bands → white; no brand colour.
+       Undo: delete this block. Crowne Plaza Today page keeps its colours (it is not inside .landing-home). */
+    html:not(.layout-mobile) body .landing-home { color: #111 !important; }
+    html:not(.layout-mobile) body .landing-home #about, html:not(.layout-mobile) body .landing-home #hotels-exploration, html:not(.layout-mobile) body .landing-home #real-weddings, html:not(.layout-mobile) body .landing-home [data-tone="dark"] { background-color: #000 !important; color: #fff !important; }
+    html:not(.layout-mobile) body .landing-home #destinations, html:not(.layout-mobile) body .landing-home #contact, html:not(.layout-mobile) body .landing-home .loyalty-band, html:not(.layout-mobile) body .landing-home [data-tone="light"] { background-color: #fff !important; }
+    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) :is(h1,h2,h3,h4,h5,p,span,label,li,a,div,input,textarea,select):not(button):not(button *) { color: #111 !important; }
+    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) :is(p,label) { color: #404040 !important; }
+    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) .sec-head span { color: #525252 !important; }
+    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) { border-color: #e5e5e5 !important; }
+    html:not(.layout-mobile) body .landing-home #destinations button.h-1 { background-color: rgba(0,0,0,.2) !important; }
+    html:not(.layout-mobile) body .landing-home #destinations, html:not(.layout-mobile) body .landing-home #contact { border-top: 1px solid #e5e5e5 !important; }
+    /* buttons on white bands → black pill, white text */
+    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) button:is([class*="bg-black"], [class*="rounded-full"]):not([class*="h-1"]):not([aria-label]) { background: #000 !important; color: #fff !important; }
+    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) button:is([class*="bg-black"], [class*="rounded-full"]):not([class*="h-1"]):not([aria-label]) * { color: #fff !important; }
+    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) button:is([class*="bg-black"], [class*="rounded-full"]):not([class*="h-1"]):not([aria-label]):hover { background: #262626 !important; }
+    /* white pill buttons on the black bands keep black labels */
+    html:not(.layout-mobile) body .landing-home :is(#about, #hotels-exploration, #real-weddings) button[class*="bg-white"], html:not(.layout-mobile) body .landing-home :is(#about, #hotels-exploration, #real-weddings) button[class*="bg-white"] *,
+    html:not(.layout-mobile) body .landing-home :is(#hotels-exploration, #real-weddings) .sec-head button, html:not(.layout-mobile) body .landing-home :is(#hotels-exploration, #real-weddings) .sec-head button span { color: #000 !important; }
+    /* text sitting on the grey "Image here" boxes → dark, so it stays readable */
+    html:not(.layout-mobile) body .landing-home :is(#destinations, #real-weddings, #about) div.relative.overflow-hidden:has(> img) > :is(div,span).absolute,
+    html:not(.layout-mobile) body .landing-home :is(#destinations, #real-weddings, #about) div.relative.overflow-hidden:has(> img) > :is(div,span).absolute :is(h3,h4,p,span),
+    html:not(.layout-mobile) body .landing-home :is(#destinations, #real-weddings) div.relative.overflow-hidden:has(img) > div.absolute:not(:has(img)) :is(h3,h4,p,span) { color: #111 !important; }
     /* ===== HOTEL 1 FEATURE PAGE (WEB VERSION ONLY) — .hotel-feature is set only for Hotel 1 in Web view =====
        Landing-page language: full-bleed bands, hairlines, no containers. Photos exempt from the wireframe rule. */
     .hotel-feature img { visibility: visible !important; background-color: transparent !important; filter: none !important; min-width: 0; min-height: 0; }
