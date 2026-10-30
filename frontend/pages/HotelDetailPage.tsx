@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { createPortal } from 'react-dom';
+import { useMobileLayout } from '../components/useMobileLayout';
 import { HotelProperty, InquiryFormData, UserPersona, HotelVenueSpace } from '../types';
 import { HOTELS_DATA } from '../constants';
 import { HotelSelectorModal } from '../components/HotelSelectorModal';
@@ -281,6 +283,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   // Hotel 1 in Web view gets the feature design (landing-page language). Everything else is unchanged.
   const web = useWeb();
   const feature = web && hotel.id === FEATURE_HOTEL_ID;
+  const mobile = useMobileLayout(); // Mobile: the side form becomes a popup + floating button (same form, same fields)
   const shown = feature ? withHotelCopy(hotel) : hotel; // client copy, display only
 
   // Gallery Preview Lightbox Overlay Modal State
@@ -350,12 +353,22 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   const [consentContact, setConsentContact] = useState<boolean>(false);
 
   // Collapsible side-nav form: open on arrival, auto-collapse after landing, manually toggleable
-  const [sideFormOpen, setSideFormOpen] = useState<boolean>(true);
+  const [sideFormOpen, setSideFormOpen] = useState<boolean>(() => !(typeof document !== 'undefined' && document.documentElement.classList.contains('layout-mobile')));
 
   useEffect(() => {
     const t = setTimeout(() => setSideFormOpen(false), 2200);
     return () => clearTimeout(t);
   }, []);
+  // Mobile: never auto-open the popup on arrival / when switching to Mobile
+  useEffect(() => { if (mobile) setSideFormOpen(false); }, [mobile]);
+  // Mobile popup: lock page scroll while open, Esc closes
+  useEffect(() => {
+    if (!(mobile && sideFormOpen)) return;
+    const prev = document.body.style.overflow; document.body.style.overflow = 'hidden';
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setSideFormOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey); };
+  }, [mobile, sideFormOpen]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -464,14 +477,25 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
       {/* Page Content + Collapsible Side-Nav Form */}
       <div className="relative">
 
-        {/* Collapsible Side-Nav Lead Form — absolute right rail, scrolls with the page */}
+        {/* Collapsible Side-Nav Lead Form — absolute right rail on Web; on Mobile the SAME form opens as a centred popup from a floating button */}
+        {((node: React.ReactElement) => (mobile ? createPortal(node, document.body) : node))(
         <div
-          className={`hidden lg:block absolute top-0 right-0 z-40 min-h-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          {...(mobile && sideFormOpen ? { role: 'dialog', 'aria-modal': true, 'aria-label': 'Enquiry form' } : {})}
+          onClick={mobile && sideFormOpen ? (e) => { if (e.target === e.currentTarget) setSideFormOpen(false); } : undefined}
+          className={mobile
+            ? (sideFormOpen
+                ? 'mobile-enquiry-popup fixed inset-0 z-[150] flex items-center justify-center p-3 animate-fade-in'
+                : 'fixed z-[140] bottom-5 left-1/2 -translate-x-1/2')
+            : `hidden lg:block absolute top-0 right-0 z-40 min-h-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             sideFormOpen ? 'w-[400px]' : 'w-12'
           }`}
         >
-          <div className={`sticky ${feature ? (sideFormOpen ? 'top-[146px]' : 'top-[260px]') : 'top-20'} bg-white border-l border-neutral-200 ${feature ? '' : 'shadow-lg'} flex flex-col overflow-hidden`}
-               style={{ height: sideFormOpen ? (feature ? 'calc(100vh - 146px)' : 'calc(100vh - 5rem)') : '15rem', transition: 'top 700ms cubic-bezier(0.16,1,0.3,1)' }}>
+          <div className={mobile
+                 ? `relative bg-white flex flex-col overflow-hidden ${sideFormOpen ? 'w-full max-w-[410px] rounded-2xl shadow-2xl' : 'rounded-full shadow-xl'}`
+                 : `sticky ${feature ? (sideFormOpen ? 'top-[146px]' : 'top-[260px]') : 'top-20'} bg-white border-l border-neutral-200 ${feature ? '' : 'shadow-lg'} flex flex-col overflow-hidden`}
+               style={mobile
+                 ? (sideFormOpen ? { height: 'min(86vh, 760px)' } : undefined)
+                 : { height: sideFormOpen ? (feature ? 'calc(100vh - 146px)' : 'calc(100vh - 5rem)') : '15rem', transition: 'top 700ms cubic-bezier(0.16,1,0.3,1)' }}>
 
             {/* Collapse state: vertical black tab pinned to the right margin; Open state: slim close bar */}
             {sideFormOpen ? (
@@ -484,7 +508,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 title="Collapse"
               >
                 <span className="group/x flex items-center space-x-1.5 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">
-                  {feature
+                  {feature || mobile
                     ? <X strokeWidth={1.25} aria-hidden="true" className="w-4 h-4 transition-transform duration-700 group-hover/x:rotate-90" />
                     : <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>}
                   <span>Close Form</span>
@@ -494,13 +518,15 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               <button
                 type="button"
                 onClick={() => setSideFormOpen(true)}
-                className={`w-12 shrink-0 flex-1 ${feature ? 'hover:opacity-90' : 'bg-black hover:bg-neutral-800 text-white'} transition-colors cursor-pointer flex items-start justify-center pt-5`}
+                className={mobile
+                  ? 'bg-black text-white px-5 py-3 rounded-full cursor-pointer flex items-center justify-center whitespace-nowrap'
+                  : `w-12 shrink-0 flex-1 ${feature ? 'hover:opacity-90' : 'bg-black hover:bg-neutral-800 text-white'} transition-colors cursor-pointer flex items-start justify-center pt-5`}
                 style={feature ? { backgroundColor: PALETTE.saffron, color: '#3a0618' } : undefined}
                 aria-expanded={sideFormOpen}
                 aria-label="Open enquiry form"
                 title="Open enquiry form"
               >
-                <span className="[writing-mode:vertical-rl] rotate-180 text-[11px] uppercase tracking-[0.32em] font-medium whitespace-nowrap">
+                <span className={mobile ? 'text-[11px] uppercase tracking-[0.24em] font-medium whitespace-nowrap' : '[writing-mode:vertical-rl] rotate-180 text-[11px] uppercase tracking-[0.32em] font-medium whitespace-nowrap'}>
                   Open Enquiry Form
                 </span>
               </button>
@@ -738,6 +764,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
             )}
           </div>
         </div>
+        )}
 
         {/* Main content — dynamically spreads when the side form collapses */}
         <div className={`transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${sideFormOpen ? 'lg:pr-[400px]' : 'lg:pr-0'}`}>
@@ -1005,7 +1032,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
                   <button
                     type="button"
-                    onClick={() => onNavigateToInquiry(hotel.name)}
+                    onClick={() => (mobile ? setSideFormOpen(true) : onNavigateToInquiry(hotel.name))}
                     className="bg-white text-black hover:bg-neutral-200 px-5 py-2.5 rounded-lg text-[11px] uppercase tracking-wider font-medium transition-colors flex items-center space-x-2 cursor-pointer"
                   >
                     <span>Begin the Conversation</span>
