@@ -684,10 +684,8 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                           return (
                             <button key={h.id} type="button" onClick={() => toggleHotel(h.id)} aria-pressed={on}
                                     className={`w-full flex items-center gap-3 p-2 text-left cursor-pointer ${on ? 'bg-neutral-50' : ''}`}>
-                              <img src={h.image} alt="" className="w-12 h-9 object-cover rounded-md shrink-0 bg-neutral-200" />
-                              <span className="flex-1 min-w-0">
-                                <span className="block text-[12px] text-black truncate">{h.name}{h.id === hotel.id && <span className="ml-1 text-[8px] uppercase tracking-wider text-neutral-400">(this property)</span>}</span>
-                                <span className="block text-[10px] text-neutral-500 truncate">{h.city}</span>
+                              <span className="flex-1 min-w-0 py-1 pl-1">
+                                <span className="block text-[12px] text-black truncate">{`Hotel ${HOTELS_DATA.indexOf(h) + 1}`}{h.id === hotel.id && <span className="ml-1 text-[8px] uppercase tracking-wider text-neutral-400">(this property)</span>}</span>
                               </span>
                               <span aria-hidden="true" className={`w-5 h-5 rounded-full border flex items-center justify-center text-[11px] shrink-0 ${on ? 'bg-black border-black text-white' : 'border-neutral-400 text-transparent'}`}>✓</span>
                             </button>

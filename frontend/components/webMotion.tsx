@@ -78,6 +78,8 @@ export const CountUp: React.FC<{ to: number; duration?: number; delay?: number }
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Landing page (web) is now still: show the final figure, no count-up
+    if (el.closest('.landing-home')) { el.textContent = to.toLocaleString('en-US'); return; }
     let raf = 0;
     let running = false;
     const ease = (t: number) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));

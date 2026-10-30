@@ -30,6 +30,9 @@ const PARAGRAPHS = [
 ];
 
 // Same figures as before, split into a counting number + its unit
+/** Web landing page shows no motion (client request). Set false to bring the cinematic About back. */
+const STILL_LANDING = true;
+
 const STATS = [
   { to: 6000, unit: '+', label: 'Global Heritage', duration: 2200 },
   { to: 5, unit: '-Point', label: 'Ceremony Audit', duration: 1400 },
@@ -352,12 +355,19 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
   const statsRef = useRef<HTMLDivElement | null>(null);
   const numRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
+  // Web landing page is now still (only Crowne Plaza Today keeps motion): no image cycling, no count-up
   useEffect(() => {
+    numRefs.current.forEach((n, i) => { if (n) n.textContent = fmt(STATS[i].to); });
+  }, []);
+
+  useEffect(() => {
+    if (STILL_LANDING) return;
     const t = setInterval(() => setActive((x) => (x + 1) % IMAGES.length), CYCLE_MS);
     return () => clearInterval(t);
   }, []);
 
   useEffect(() => {
+    if (STILL_LANDING) return;
     const el = statsRef.current;
     if (!el) return;
     let raf = 0;
@@ -384,12 +394,15 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
 
   return (
     <section id="about" className="cine text-white py-20 px-5 sm:px-8" style={{ backgroundColor: PALETTE.maroon }} aria-label="About Us — IHG Weddings">
+     <div className="max-w-7xl mx-auto lg:grid lg:grid-cols-12 lg:gap-16 lg:items-center">
+      <div className="lg:col-span-6 lg:col-start-1 lg:row-start-1 lg:self-end">
       <Eyebrow />
       <h2 className="mt-5 font-display font-normal leading-[1.02] tracking-[-0.015em] text-[clamp(2.4rem,9vw,4rem)]">
         Placeholder Text <br />
         <span className="italic text-white/75">(About Us)</span>
       </h2>
-      <div className="relative mt-10 aspect-[4/5] overflow-hidden -mx-5 sm:-mx-8">
+      </div>
+      <div className="relative mt-10 aspect-[4/5] lg:aspect-[5/4] overflow-hidden -mx-5 sm:-mx-8 lg:mx-0 lg:mt-0 lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-span-2">
         {IMAGES.map((im, i) => (
           <img
             key={im.src}
@@ -401,6 +414,7 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
         ))}
         <span className="absolute right-5 bottom-5 text-[10px] uppercase tracking-[0.32em] text-white/80 font-sans">{IMAGES[active].caption}</span>
       </div>
+      <div className="lg:col-span-6 lg:col-start-1 lg:row-start-2 lg:self-start">
       <div className="mt-10 space-y-4">
         {PARAGRAPHS.map((t, i) => (
           <p key={i} className="font-sans font-light text-[15px] leading-[1.75] text-white/75">{t}</p>
@@ -428,6 +442,8 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
               </button>
         </div>
       )}
+      </div>
+     </div>
     </section>
   );
 };
@@ -443,7 +459,8 @@ const AboutUsCinematic: React.FC<AboutUsProps> = (props) => {
     mq.addEventListener('change', on);
     return () => mq.removeEventListener('change', on);
   }, []);
-  return desktop ? <PinnedAbout {...props} /> : <StackedAbout {...props} />;
+  // STILL_LANDING: the pinned scroll chapter is retired on the web landing page; the plain stacked layout is used instead
+  return desktop && !STILL_LANDING ? <PinnedAbout {...props} /> : <StackedAbout {...props} />;
 };
 
 /* Web version = pinned chapter (design transfer from v1-local). Mobile layout keeps the classic section. */

@@ -239,6 +239,27 @@
     }
     @media (prefers-reduced-motion: reduce) { html:not(.layout-mobile) [data-wm="curtain"] > * { clip-path: none !important; transition: none !important; } }
     /* ===== /DESIGN TRANSFER step 3 ===== */
+    /* ===== WEB LANDING PAGE — STILL + NO PHOTOS (only Crowne Plaza Today keeps photos & motion) =====
+       Undo: delete this block + the .landing-home check in CountUp (webMotion.tsx). */
+    html:not(.layout-mobile) .landing-home .cine img { visibility: hidden !important; }
+    html:not(.layout-mobile) .landing-home .cine div:has(> img),
+    html:not(.layout-mobile) .landing-home .cine a:has(> img),
+    html:not(.layout-mobile) .landing-home .cine button:has(> img) { background-color: #E5E5E5 !important; }
+    html:not(.layout-mobile) .landing-home .cine div:has(> img)::after,
+    html:not(.layout-mobile) .landing-home .cine a:has(> img)::after,
+    html:not(.layout-mobile) .landing-home .cine button:has(> img)::after {
+      content: 'Image here'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font: 500 10px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #737373;
+      pointer-events: none; z-index: 2; }
+    html:not(.layout-mobile) .landing-home .cine div[class*="bg-gradient"] { display: none !important; }
+    html:not(.layout-mobile) .landing-home .grain::after { display: none !important; }
+    /* motion off */
+    html:not(.layout-mobile) .landing-home [data-wm],
+    html:not(.layout-mobile) .landing-home [data-wm] > *,
+    html:not(.layout-mobile) .landing-home .split-c { opacity: 1 !important; transform: none !important; filter: none !important;
+      clip-path: none !important; transition: none !important; }
+    html:not(.layout-mobile) .landing-home *:not(.hero-progress) { animation: none !important; }
+    html:not(.layout-mobile) .landing-home img { transform: none !important; transition: none !important; }
     /* ===== HOTEL 1 FEATURE PAGE (WEB VERSION ONLY) — .hotel-feature is set only for Hotel 1 in Web view =====
        Landing-page language: full-bleed bands, hairlines, no containers. Photos exempt from the wireframe rule. */
     .hotel-feature img { visibility: visible !important; background-color: transparent !important; filter: none !important; min-width: 0; min-height: 0; }
