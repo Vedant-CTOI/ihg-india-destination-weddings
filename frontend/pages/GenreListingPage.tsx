@@ -249,7 +249,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
           </div>
         ) : (
           <>
-          <div className="hotel-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="hotel-grid dest-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {visibleHotels.map((hotel) => (
               <div
                 key={hotel.id}
