@@ -391,9 +391,9 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
       <div className={feature ? 'hf-crumb absolute inset-x-0 top-0 z-30 py-4' : 'border-b border-neutral-200 bg-neutral-50 py-3 sticky top-0 z-30 backdrop-blur-md bg-neutral-50/95'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-xs">
           <div className="flex items-center space-x-2 text-neutral-500">
-            <button onClick={onNavigateBack} className="hover:text-black cursor-pointer">{feature ? 'Home Page' : 'Exploration'}</button>
+            <button onClick={onNavigateBack} className="hover:text-black cursor-pointer">{feature ? 'Home Page' : 'Home'}</button>
             <span>/</span>
-            <button onClick={onNavigateBack} className="hover:text-black cursor-pointer">{feature ? 'All Hotels' : 'Sanctuaries'}</button>
+            <button onClick={onNavigateBack} className="hover:text-black cursor-pointer">All Hotels</button>
             <span>/</span>
             <span className="text-black font-medium">{shown.name}</span>
           </div>
