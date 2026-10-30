@@ -430,6 +430,23 @@
   /* ═══ MOBILE v3 — DENSITY PASS: not a compressed desktop ═══ */
   /* Hero: 55vh, no subtext spacing waste, dot-style counters */
   html.layout-mobile #root section.min-h-\[85vh\], html.layout-mobile #root [class*="min-h-[85vh]"] { min-height: 55vh !important; }
+  /* ═══ MOBILE LANDING HERO — true 16:9 (mobile only). Text stays on the photo and scales with the canvas width. ═══ */
+  html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] {
+    min-height: 0 !important; height: auto !important; aspect-ratio: 16 / 9 !important; align-items: center !important; }
+  html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] > .relative.z-30 {
+    padding-top: clamp(14px, 4cqw, 24px) !important; padding-bottom: clamp(30px, 9cqw, 44px) !important; }
+  html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] > .relative.z-30 > div > div:first-child {
+    margin-bottom: clamp(6px, 2.4cqw, 14px) !important; font-size: clamp(8px, 2.3cqw, 11px) !important; letter-spacing: .22em !important; }
+  html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] h1 {
+    font-size: clamp(18px, 6.4cqw, 30px) !important; line-height: 1.1 !important; margin-bottom: clamp(4px, 2cqw, 10px) !important; }
+  html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] h1 + p {
+    font-size: clamp(10px, 2.9cqw, 13px) !important; line-height: 1.45 !important; margin-bottom: clamp(4px, 1.6cqw, 8px) !important; }
+  html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] h1 + p + div { font-size: clamp(9px, 2.5cqw, 11px) !important; }
+  html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] > .absolute.bottom-6 { bottom: clamp(6px, 2cqw, 12px) !important; }
+  html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] > .absolute.bottom-6 > div { gap: 6px !important; }
+  html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] > .absolute.bottom-6 button[aria-label$="splash slide"] { width: 30px !important; height: 30px !important; }
+  html.layout-mobile #root { container-type: inline-size; }
+
   html.layout-mobile #root [class*="lg:min-h-"] { min-height: 55vh !important; }
   /* hero headline block tighter */
   html.layout-mobile #root section h1 { margin-top: 6px !important; margin-bottom: 6px !important; }
