@@ -434,18 +434,26 @@
   html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] {
     min-height: 0 !important; height: auto !important; aspect-ratio: 16 / 9 !important; align-items: center !important; }
   html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] > .relative.z-30 {
-    padding-top: clamp(14px, 4cqw, 24px) !important; padding-bottom: clamp(30px, 9cqw, 44px) !important; }
+    padding-top: 22px !important; padding-bottom: 40px !important; }
   html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] > .relative.z-30 > div > div:first-child {
-    margin-bottom: clamp(6px, 2.4cqw, 14px) !important; font-size: clamp(8px, 2.3cqw, 11px) !important; letter-spacing: .22em !important; }
+    margin-bottom: 10px !important; font-size: 10px !important; letter-spacing: .22em !important; }
   html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] h1 {
-    font-size: clamp(18px, 6.4cqw, 30px) !important; line-height: 1.1 !important; margin-bottom: clamp(4px, 2cqw, 10px) !important; }
+    font-size: clamp(18px, 6.4vw, 28px) !important; line-height: 1.1 !important; margin-bottom: 8px !important; }
   html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] h1 + p {
-    font-size: clamp(10px, 2.9cqw, 13px) !important; line-height: 1.45 !important; margin-bottom: clamp(4px, 1.6cqw, 8px) !important; }
-  html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] h1 + p + div { font-size: clamp(9px, 2.5cqw, 11px) !important; }
-  html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] > .absolute.bottom-6 { bottom: clamp(6px, 2cqw, 12px) !important; }
+    font-size: 12px !important; line-height: 1.45 !important; margin-bottom: 6px !important; }
+  html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] h1 + p + div { font-size: 11px !important; }
+  html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] > .absolute.bottom-6 { bottom: 8px !important; }
   html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] > .absolute.bottom-6 > div { gap: 6px !important; }
   html.layout-mobile #root section[aria-label="IHG Weddings Splash Screen Carousel"] > .absolute.bottom-6 button[aria-label$="splash slide"] { width: 30px !important; height: 30px !important; }
-  html.layout-mobile #root { container-type: inline-size; }
+
+  /* ═══ MOBILE HOTEL PAGES — quick facts in ONE horizontal row, like the web version (mobile only) ═══ */
+  html.layout-mobile body #root div.grid.hotel-metrics.hotel-metrics { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 0 !important; padding: 12px 4px !important; }
+  html.layout-mobile body #root div.grid.hotel-metrics.hotel-metrics > div { grid-column: auto !important; max-width: none !important; padding: 0 4px !important; min-width: 0 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: flex-start !important; gap: 0 !important; text-align: center !important; }
+  html.layout-mobile body #root div.grid.hotel-metrics.hotel-metrics > div + div { border-left: 1px solid #e5e5e5; }
+  html.layout-mobile body #root div.grid.hotel-metrics.hotel-metrics > div > span:first-child { font-size: 7.5px !important; letter-spacing: .04em !important; line-height: 1.2 !important; min-height: 18px; display: flex !important; align-items: flex-end; justify-content: center; }
+  html.layout-mobile body #root div.grid.hotel-metrics.hotel-metrics > div > div, html.layout-mobile body #root div.grid.hotel-metrics.hotel-metrics > div > div * { font-size: 12px !important; margin-top: 3px !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; line-height: 1.2 !important; padding: 0 !important; }
+  html.layout-mobile body #root div.grid.hotel-metrics.hotel-metrics > div > div > span[aria-hidden="true"] { display: none !important; }
+  html.layout-mobile body #root div.grid.hotel-metrics.hotel-metrics > div > span:last-child { font-size: 8.5px !important; line-height: 1.25 !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; margin-top: 2px; padding: 0 !important; }
 
   html.layout-mobile #root [class*="lg:min-h-"] { min-height: 55vh !important; }
   /* hero headline block tighter */

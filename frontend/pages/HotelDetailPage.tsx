@@ -748,7 +748,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
             <div className="space-y-14">
 
             {/* Quick Metrics Bar — Capacity / Total Rooms / No of Venues / Setting / Transit */}
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 bg-neutral-50 p-4 rounded-2xl border border-neutral-200 text-center">
+            <div className="hotel-metrics grid grid-cols-2 sm:grid-cols-5 gap-3 bg-neutral-50 p-4 rounded-2xl border border-neutral-200 text-center">
               <div>
                 <span className="text-[9px] uppercase text-neutral-400 font-semibold block mb-0.5">Capacity</span>
                 <div className="font-serif text-sm font-bold text-black flex items-center justify-center space-x-1">
