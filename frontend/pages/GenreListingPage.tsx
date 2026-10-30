@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { HOTELS_DATA } from '../constants';
 import { HotelProperty } from '../types';
 import { ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react';
 import { COUNTRY_DEST_MAP, DestinationDropdown } from '../components/DestinationDropdown';
+import { useMobileLayout } from '../components/useMobileLayout';
 
 interface GenreListingPageProps {
   onNavigateBack: () => void;
@@ -107,6 +108,13 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
     setPopupHotel(null);
     onNavigateToHotelDetail(hotelId);
   };
+
+  // Mobile only: 2-column grid, first 4 rows (8 cards) then "Load more" reveals the rest (same as All Hotels)
+  const mobileLayout = useMobileLayout();
+  const MOBILE_INITIAL = 8;
+  const [showAllMobile, setShowAllMobile] = useState(false);
+  useEffect(() => { setShowAllMobile(false); }, [selectedDestinations, selectedCity, selectedOccasion, selectedGenre, searchQuery]);
+  const visibleHotels = mobileLayout && !showAllMobile ? filteredHotels.slice(0, MOBILE_INITIAL) : filteredHotels;
 
   const handleClearAllFilters = () => {
     setSelectedCity('All Cities');
@@ -240,17 +248,18 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredHotels.map((hotel) => (
+          <>
+          <div className="hotel-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {visibleHotels.map((hotel) => (
               <div
                 key={hotel.id}
-                className="group bg-white rounded-2xl border border-neutral-200 hover:border-black overflow-hidden transition-all duration-300 flex flex-col justify-between shadow-2xs hover:shadow-md"
+                className="hotel-card group bg-white rounded-2xl border border-neutral-200 hover:border-black overflow-hidden transition-all duration-300 flex flex-col justify-between shadow-2xs hover:shadow-md"
               >
                 <div>
                   {/* Photo with Overlay (Grayscale) */}
                   <div
                     onClick={() => handleOpenDestinationProperties(hotel)}
-                    className="relative h-60 overflow-hidden bg-neutral-900 cursor-pointer"
+                    className="hotel-card-img relative h-60 overflow-hidden bg-neutral-900 cursor-pointer"
                   >
                     <img
                       src={hotel.image}
@@ -267,7 +276,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                   </div>
 
                   {/* Details */}
-                  <div className="p-5">
+                  <div className="hotel-card-body p-5">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-[10px] uppercase tracking-wider font-sans text-neutral-500 font-medium">
                         Lorem ipsum dolor sit amet
@@ -292,7 +301,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                 </div>
 
                 {/* Single Action Button: Full Hotel Page (Preview is hover-only via the image) */}
-                <div className="p-5 pt-0 text-xs font-sans">
+                <div className="hotel-card-cta p-5 pt-0 text-xs font-sans">
                   <button
                     type="button"
                     onClick={() => handleOpenDestinationProperties(hotel)}
@@ -306,6 +315,16 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
               </div>
             ))}
           </div>
+          {mobileLayout && !showAllMobile && filteredHotels.length > MOBILE_INITIAL && (
+            <button
+              type="button"
+              onClick={() => setShowAllMobile(true)}
+              className="hotel-load-more mt-5 w-full border border-black text-black hover:bg-black hover:text-white text-[11px] uppercase tracking-wider font-medium py-3 rounded-full transition-colors cursor-pointer"
+            >
+              Load more ({filteredHotels.length - MOBILE_INITIAL})
+            </button>
+          )}
+          </>
         )}
 
       </div>
