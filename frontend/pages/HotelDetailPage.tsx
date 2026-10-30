@@ -323,6 +323,30 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
     );
   };
 
+  // Mobile: tap any photo on the hotel page -> enlarged photo popup with ✕ (inside the phone frame)
+  const [zoomSrc, setZoomSrc] = useState<string | null>(null);
+  useEffect(() => {
+    if (!mobile) return;
+    const onTap = (e: MouseEvent) => {
+      const t = e.target as HTMLElement;
+      if (t.closest('.mobile-enquiry-popup, .mobile-zoom, header, footer, .mobile-hotel-inline, button[aria-label*="slide"], button[aria-label*="picture"], button[aria-label*="image"]')) return;
+      const img = (t.tagName === 'IMG' ? t : t.closest('[class*="aspect"], .group\\/frame, .group\\/banner, .group\\/thumb')?.querySelector('img')) as HTMLImageElement | null;
+      if (!img || !img.closest('main, #root')) return;
+      if (img.getBoundingClientRect().width < 40) return;
+      e.preventDefault(); e.stopPropagation();
+      setZoomSrc(img.currentSrc || img.src);
+    };
+    document.addEventListener('click', onTap, true);
+    return () => document.removeEventListener('click', onTap, true);
+  }, [mobile]);
+  useEffect(() => {
+    if (!zoomSrc) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setZoomSrc(null); };
+    window.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow; document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
+  }, [zoomSrc]);
+
   const handleOpenPreview = (
     slideIndex: number, 
     allSlides: { url: string; caption: string; isDraftDrawing: boolean; notes?: string }[]
@@ -652,6 +676,25 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">
                       Select Hotels {selectedHotelIds.length > 0 && `(${selectedHotelIds.length} selected — enquiry routes to all)`}
                     </label>
+                    {mobile ? (
+                      /* Mobile: hotels listed right inside the form — tap to add / remove (same selection state as the popup) */
+                      <div className="mobile-hotel-inline border border-neutral-300 rounded-xl divide-y divide-neutral-200 max-h-56 overflow-y-auto bg-white">
+                        {availableHotels.map((h) => {
+                          const on = selectedHotelIds.includes(h.id);
+                          return (
+                            <button key={h.id} type="button" onClick={() => toggleHotel(h.id)} aria-pressed={on}
+                                    className={`w-full flex items-center gap-3 p-2 text-left cursor-pointer ${on ? 'bg-neutral-50' : ''}`}>
+                              <img src={h.image} alt="" className="w-12 h-9 object-cover rounded-md shrink-0 bg-neutral-200" />
+                              <span className="flex-1 min-w-0">
+                                <span className="block text-[12px] text-black truncate">{h.name}{h.id === hotel.id && <span className="ml-1 text-[8px] uppercase tracking-wider text-neutral-400">(this property)</span>}</span>
+                                <span className="block text-[10px] text-neutral-500 truncate">{h.city}</span>
+                              </span>
+                              <span aria-hidden="true" className={`w-5 h-5 rounded-full border flex items-center justify-center text-[11px] shrink-0 ${on ? 'bg-black border-black text-white' : 'border-neutral-400 text-transparent'}`}>✓</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ) : (
                     <button
                       type="button"
                       onClick={() => {
@@ -674,7 +717,8 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
                       </span>
                     </button>
-                    {selectedHotelIds.length > 0 && (
+                    )}
+                    {!mobile && selectedHotelIds.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         {HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => (
                           <span key={h.id} className="inline-flex items-center gap-1.5 border border-neutral-300 bg-neutral-50 rounded-full pl-3 pr-1.5 py-1 text-[10px] text-neutral-700">
@@ -744,8 +788,8 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     </label>
                   </div>
 
-                  {/* Submit */}
-                  <div className="pt-2">
+                  {/* Submit — sticky at the bottom of the popup on Mobile */}
+                  <div className={mobile ? 'mobile-sticky-submit sticky bottom-0 -mx-5 px-5 pt-3 pb-4 bg-white border-t border-neutral-200 z-10' : 'pt-2'}>
                     <button
                       type="submit"
                       disabled={submitting}
@@ -990,7 +1034,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
             {/* Contact Us — dummy contact card (replaces Wedding Director) */}
             <div className="pt-4 border-t border-neutral-200">
-              <div className="bg-black text-white p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+              <div className={`bg-black text-white p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 ${mobile ? 'mobile-contact-card' : ''}`}>
                 <div className="flex items-center space-x-4">
                   {/* Monogram avatar */}
                   <div className="w-14 h-14 rounded-full border border-white/40 flex items-center justify-center bg-neutral-900 shrink-0">
@@ -1047,6 +1091,16 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
       </div>
 
+
+      {mobile && zoomSrc && createPortal(
+        <div className="mobile-zoom mobile-frame-fixed fixed top-0 bottom-0 z-[160] flex items-center justify-center p-3 animate-fade-in"
+             style={{ background: 'rgba(0,0,0,.88)' }} role="dialog" aria-modal="true" aria-label="Enlarged photo" onClick={() => setZoomSrc(null)}>
+          <img src={zoomSrc} alt="" className="max-w-full max-h-[80vh] object-contain rounded-lg" onClick={(e) => e.stopPropagation()} />
+          <button type="button" aria-label="Close photo" onClick={() => setZoomSrc(null)}
+                  className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/95 text-black flex items-center justify-center shadow-lg cursor-pointer">
+            <X strokeWidth={1.5} className="w-5 h-5" />
+          </button>
+        </div>, document.body)}
 
       {/* Hotel selector popup with visual images (side-rail form) */}
       <HotelSelectorModal

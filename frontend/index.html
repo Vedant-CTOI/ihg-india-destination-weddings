@@ -784,6 +784,17 @@
   html.layout-mobile body #root footer .grid.grid-cols-2.md\:grid-cols-3 > div:first-child p { margin-top: 2px !important; }
   /* Mobile enquiry popup backdrop */
   .mobile-enquiry-popup { background: rgba(0,0,0,.6); }
+  /* Mobile contact card on hotel pages — one centred column that reflows with the frame width */
+  html.layout-mobile body #root .mobile-contact-card { width: 100% !important; max-width: none !important; box-sizing: border-box !important; flex-direction: column !important; align-items: center !important; text-align: center !important; gap: 16px !important; padding: 22px 18px !important; }
+  html.layout-mobile body #root .mobile-contact-card > div { flex-direction: column !important; align-items: center !important; justify-content: center !important; width: 100% !important; gap: 12px !important; }
+  html.layout-mobile body #root .mobile-contact-card > div > * { margin: 0 !important; }
+  html.layout-mobile body #root .mobile-contact-card > div:first-child { display: flex !important; }
+  html.layout-mobile body #root .mobile-contact-card h4 { font-size: clamp(17px, 5vw, 22px) !important; line-height: 1.2 !important; }
+  html.layout-mobile body #root .mobile-contact-card .space-y-1\.5 { display: flex !important; flex-direction: column !important; align-items: center !important; }
+  html.layout-mobile body #root .mobile-contact-card .space-y-1\.5 > * { justify-content: center !important; margin: 0 !important; }
+  html.layout-mobile body #root .mobile-contact-card .space-y-1\.5 > * + * { margin-top: 8px !important; }
+  html.layout-mobile body #root .mobile-contact-card button { width: 100% !important; justify-content: center !important; }
+  html.layout-mobile body .mobile-hotel-inline button { min-height: 0 !important; }
   /* Keep floating mobile UI inside the 430px phone frame (frame is centred: its left edge = 50% - 215px) */
   html.layout-mobile .mobile-frame-fixed { left: max(0px, calc(50% - 215px)) !important; right: auto !important; width: min(100%, 430px) !important; }
   html.layout-mobile .mobile-enquiry-fab { right: calc(max(0px, 50% - 215px) + 16px) !important; left: auto !important; }
