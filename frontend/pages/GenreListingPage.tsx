@@ -291,11 +291,11 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                     </h3>
 
                     <p className="text-xs font-sans text-neutral-600 font-light leading-relaxed py-2 border-y border-neutral-200 mb-3">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+                      {mobileLayout ? 'Lorem ipsum dolor sit amet.' : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.'}
                     </p>
 
                     <p className="text-[11px] text-neutral-500 font-sans italic mb-2">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      {mobileLayout ? 'Lorem ipsum dolor sit.' : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}
                     </p>
                   </div>
                 </div>
