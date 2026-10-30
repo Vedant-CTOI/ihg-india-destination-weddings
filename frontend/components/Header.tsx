@@ -196,25 +196,25 @@ export const Header: React.FC<HeaderProps> = ({
                 <span>Enquire</span>
                 <ArrowUpRight className="w-3 h-3" />
               </button>
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 text-black focus:outline-none flex items-center justify-center"
-                aria-label="Toggle Menu"
-              >
-                <span className="inline-block w-3.5 h-3.5 border border-black" />
-              </button>
+              {/* Hamburger removed on mobile — the sections now sit in the horizontal bar below (same links, same actions) */}
             </div>
 
           </div>
 
-          <div className="flex items-center justify-between text-[11px] font-sans text-neutral-500 border-t border-neutral-200 pt-2 mt-2">
-            <span className="truncate pr-2">
-              {isHome ? 'Luxury Destination Weddings' : 'Separate Dossier View'}
-            </span>
-            <span className="text-black font-medium tracking-wider text-[10px] uppercase">
-              India Portfolio
-            </span>
-          </div>
+          {/* Mobile section bar — horizontal, like the web version. Same navLinks + handleLinkClick as the web nav. */}
+          <nav aria-label="Sections" className="mobile-section-bar flex items-center justify-between gap-3 overflow-x-auto no-scrollbar border-t border-neutral-200 mt-2 pt-2 text-[9px] font-sans uppercase tracking-[0.1em] font-medium text-neutral-600 whitespace-nowrap">
+            {navLinks.map((link) => (
+              <button
+                key={link.label}
+                onClick={() => handleLinkClick(link)}
+                className="shrink-0 py-1 hover:text-black transition-colors cursor-pointer whitespace-nowrap"
+              >
+                {link.label}
+              </button>
+            ))}
+          </nav>
+
+          {/* 'Luxury Destination Weddings / India Portfolio' line removed at client request */}
         </div>
 
       </div>
