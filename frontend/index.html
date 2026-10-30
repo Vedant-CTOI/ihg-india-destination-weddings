@@ -827,6 +827,28 @@
   html.layout-mobile body #root footer .grid.grid-cols-2.md\:grid-cols-3 > div:first-child p { margin-top: 2px !important; }
   /* Mobile enquiry popup backdrop */
   .mobile-enquiry-popup { background: rgba(0,0,0,.6); }
+  /* ═══ MOBILE ALL-HOTELS GRID — 2 per row, 16:9 image on top, info below (mobile only; Undo: delete this block) ═══ */
+  html.layout-mobile body #root .hotel-grid.grid { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
+  html.layout-mobile body #root .hotel-grid.grid > .hotel-card { grid-column: auto !important; border-radius: 12px !important; min-width: 0 !important; }
+  html.layout-mobile body #root .hotel-card .hotel-card-img { height: auto !important; min-height: 0 !important; aspect-ratio: 16 / 9 !important; }
+  html.layout-mobile body #root .hotel-card .hotel-card-img > span { top: 6px !important; right: 6px !important; font-size: 8px !important; padding: 1px 6px !important; letter-spacing: .04em !important; max-width: calc(100% - 12px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  html.layout-mobile body #root .hotel-card .hotel-card-body { padding: 9px 10px 4px !important; }
+  html.layout-mobile body #root .hotel-card .hotel-card-body > div:first-child span { font-size: 8px !important; letter-spacing: .06em !important; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  html.layout-mobile body #root .hotel-card .hotel-card-body h3 { font-size: 14px !important; line-height: 1.2 !important; margin: 2px 0 6px !important; }
+  html.layout-mobile body #root .hotel-card .hotel-card-body > div.flex { display: flex !important; flex-wrap: wrap !important; gap: 2px 8px !important; font-size: 10px !important; padding: 5px 0 !important; margin-bottom: 6px !important; }
+  html.layout-mobile body #root .hotel-card .hotel-card-body > div.flex > span { margin: 0 !important; }
+  html.layout-mobile body #root .hotel-card .hotel-card-body > div.flex > span > span:first-child { display: none !important; }
+  html.layout-mobile body #root .hotel-card .hotel-card-body p { font-size: 10px !important; line-height: 1.35 !important; margin-bottom: 2px !important; }
+  html.layout-mobile body #root .hotel-card .hotel-card-cta { padding: 0 10px 10px !important; }
+  html.layout-mobile body #root .hotel-card .hotel-card-cta button { background: transparent !important; color: #000 !important; padding: 2px 0 !important; justify-content: flex-start !important; border-radius: 0 !important; font-size: 10px !important; text-decoration: underline; text-underline-offset: 3px; width: auto !important; }
+  html.layout-mobile body #root .hotel-load-more { display: block !important; }
+  /* beat older mobile rules that pin card images at 200px tall */
+  html.layout-mobile body #root .hotel-grid.grid > .hotel-card.group .hotel-card-img.relative { width: 100% !important; height: auto !important; min-height: 0 !important; max-height: none !important; aspect-ratio: 16 / 9 !important; }
+  html.layout-mobile body #root .hotel-grid.grid > .hotel-card.group .hotel-card-img.relative img { width: 100% !important; height: 100% !important; max-height: none !important; min-height: 0 !important; }
+  html.layout-mobile body #root .hotel-grid.grid > .hotel-card.group .hotel-card-body h3 { font-size: 14px !important; line-height: 1.2 !important; margin: 2px 0 6px !important; }
+  html.layout-mobile body #root .hotel-grid.grid > .hotel-card.group .hotel-card-body > div.flex { font-size: 10px !important; }
+  html.layout-mobile body #root .hotel-grid.grid > .hotel-card.group .hotel-card-body p { font-size: 10px !important; }
+  html.layout-mobile body #root .hotel-grid.grid > .hotel-card.group .hotel-card-cta { padding: 0 10px 10px !important; }
   /* Compact filter bar (Destinations + Hotels pages): pinned just under the header */
   .filter-bar { top: var(--filter-top, 150px); }
   html.layout-mobile body #root .filter-bar { top: 104px !important; }
