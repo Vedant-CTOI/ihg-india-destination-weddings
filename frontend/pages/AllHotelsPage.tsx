@@ -155,116 +155,47 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
           </p>
         </div>
 
-        {/* Filter Bar: City Filter + Capacity Range Dropdown + Hotel Search Bar */}
-        <div className="bg-neutral-50 p-3 sm:p-4 rounded-2xl border border-neutral-200 space-y-3">
-          
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-end">
-            
-            {/* Filter 1: City in India Dropdown (3 cols) */}
-            <div className="md:col-span-3 space-y-1">
-              <label htmlFor="city-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
-                Filter by Destination:
-              </label>
-              <div className="relative">
-                <select
-                  id="city-filter-dropdown"
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  className="w-full appearance-none bg-white border border-neutral-300 hover:border-black rounded-xl px-3.5 py-2.5 pr-9 text-xs font-sans text-black font-medium shadow-2xs focus:outline-none focus:border-black transition-colors cursor-pointer"
-                >
-                  {citiesInIndia.map((city) => (
-                    <option key={city} value={city}>
-                      {city === 'All Cities' ? 'All Destinations' : destinationLabels[city]}
-                    </option>
+        {/* Filter Bar — compact: 2 per row, labels inside the fields, count + reset on the last row; pinned under the header */}
+        <div className="filter-bar sticky z-20 bg-neutral-50/95 backdrop-blur-sm p-2.5 rounded-2xl border border-neutral-200">
+          <div className="grid grid-cols-2 gap-2">
+              <label htmlFor="city-filter-dropdown" className="filter-field relative flex items-center h-9 bg-white border border-neutral-300 hover:border-black focus-within:border-black rounded-xl pl-3.5 transition-colors">
+                <span className="shrink-0 text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">Destination:</span>
+                <select id="city-filter-dropdown" value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} className="flex-1 min-w-0 h-full appearance-none bg-transparent pl-2 pr-9 text-xs font-sans text-black font-medium focus:outline-none cursor-pointer truncate">
+                  {citiesInIndia.map((o) => (
+                    <option key={o} value={o}>{o === 'All Cities' ? 'All Destinations' : destinationLabels[o]}</option>
                   ))}
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-500">
-                  <ChevronDown className="w-4 h-4" />
-                </div>
-              </div>
-            </div>
-
-            {/* Filter 2: Occasion Dropdown (4 cols) */}
-            <div className="md:col-span-3 space-y-1">
-              <label htmlFor="genre-filter-dropdown" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
-                Filter by Occasion:
+                <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-3 w-4 h-4 text-neutral-500" />
               </label>
-              <div className="relative">
-                <select
-                  id="genre-filter-dropdown"
-                  value={selectedGenre}
-                  onChange={(e) => setSelectedGenre(e.target.value)}
-                  className="w-full appearance-none bg-white border border-neutral-300 hover:border-black rounded-xl px-3.5 py-2.5 pr-9 text-xs font-sans text-black font-medium shadow-2xs focus:outline-none focus:border-black transition-colors cursor-pointer"
-                >
-                  {genreFilters.map((genre) => (
-                    <option key={genre} value={genre}>
-                      {genre === 'All Occasions' ? 'All Occasions' : occasionLabels[genre]}
-                    </option>
+              <label htmlFor="genre-filter-dropdown" className="filter-field relative flex items-center h-9 bg-white border border-neutral-300 hover:border-black focus-within:border-black rounded-xl pl-3.5 transition-colors">
+                <span className="shrink-0 text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">Occasion:</span>
+                <select id="genre-filter-dropdown" value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)} className="flex-1 min-w-0 h-full appearance-none bg-transparent pl-2 pr-9 text-xs font-sans text-black font-medium focus:outline-none cursor-pointer truncate">
+                  {genreFilters.map((o) => (
+                    <option key={o} value={o}>{o === 'All Occasions' ? 'All Occasions' : occasionLabels[o]}</option>
                   ))}
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-neutral-500">
-                  <ChevronDown className="w-4 h-4" />
-                </div>
-              </div>
-            </div>
-
-            {/* Filter 3: Search Bar for Hotels (4 cols) */}
-            <div className="md:col-span-4 space-y-1">
-              <label htmlFor="hotel-search-input" className="block text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">
-                Search Hotels:
+                <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-3 w-4 h-4 text-neutral-500" />
               </label>
-              <div className="relative">
-                <input
-                  id="hotel-search-input"
-                  type="text"
-                  placeholder="Search by hotel name or location..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-white border border-neutral-300 hover:border-black rounded-xl pl-9 pr-8 py-2.5 text-xs font-sans text-black placeholder:text-neutral-400 font-medium shadow-2xs focus:outline-none focus:border-black transition-colors"
-                />
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-neutral-400">
-                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
+              <div className="col-span-2 flex items-center gap-2 min-w-0">
+                <label htmlFor="hotel-search-input" className="filter-field relative flex items-center h-9 bg-white border border-neutral-300 hover:border-black focus-within:border-black rounded-xl pl-3.5 transition-colors flex-1 min-w-0">
+                  <span className="sr-only">Search Hotels:</span>
+                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current text-neutral-400 shrink-0"></span>
+                  <input id="hotel-search-input" type="text" placeholder="Search by hotel name or location..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+                         className="flex-1 min-w-0 h-full bg-transparent pl-2 pr-8 text-xs font-sans text-black placeholder:text-neutral-400 font-medium focus:outline-none" />
+                  {searchQuery && (
+                    <button type="button" onClick={() => setSearchQuery('')} className="absolute inset-y-0 right-0 flex items-center pr-3 text-neutral-400 hover:text-black cursor-pointer" aria-label="Clear search">
+                      <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
+                    </button>
+                  )}
+                </label>
+                <div className="filter-count shrink-0 flex items-center gap-2 text-[11px] text-neutral-500 whitespace-nowrap pl-1">
+                  <span>Showing <strong className="text-black font-medium">{filteredHotels.length}</strong> {filteredHotels.length === 1 ? 'sanctuary' : 'sanctuaries'}</span>
+                  {hasActiveFilters && (
+                    <button type="button" onClick={handleClearAllFilters} className="text-[10px] text-neutral-500 hover:text-black font-medium underline uppercase tracking-wider cursor-pointer">Reset All Filters</button>
+                  )}
                 </div>
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchQuery('')}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-neutral-400 hover:text-black cursor-pointer"
-                    aria-label="Clear search"
-                  >
-                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                  </button>
-                )}
               </div>
-            </div>
-
           </div>
-
-          {/* Filter Status Strip */}
-          <div className="flex flex-wrap items-center justify-between text-xs pt-1 border-t border-neutral-200/80 gap-2">
-            <div className="flex items-center space-x-2 text-neutral-500 text-[11px]">
-              <span>
-                Showing <strong className="text-black font-medium">{filteredHotels.length}</strong> {filteredHotels.length === 1 ? 'sanctuary' : 'sanctuaries'}
-              </span>
-              {hasActiveFilters && (
-                <>
-                  <span>•</span>
-                  <span>Filtered</span>
-                </>
-              )}
-            </div>
-
-            {hasActiveFilters && (
-              <button
-                type="button"
-                onClick={handleClearAllFilters}
-                className="text-[11px] text-neutral-500 hover:text-black font-medium underline uppercase tracking-wider cursor-pointer"
-              >
-                Reset All Filters
-              </button>
-            )}
-          </div>
-
         </div>
 
         {/* Hotels Grid */}

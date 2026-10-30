@@ -827,6 +827,18 @@
   html.layout-mobile body #root footer .grid.grid-cols-2.md\:grid-cols-3 > div:first-child p { margin-top: 2px !important; }
   /* Mobile enquiry popup backdrop */
   .mobile-enquiry-popup { background: rgba(0,0,0,.6); }
+  /* Compact filter bar (Destinations + Hotels pages): pinned just under the header */
+  .filter-bar { top: var(--filter-top, 150px); }
+  html.layout-mobile body #root .filter-bar { top: 104px !important; }
+  html.layout-mobile body #root .filter-bar .grid.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  html.layout-mobile body #root .filter-bar .grid.grid-cols-2 > * { grid-column: auto !important; }
+  html.layout-mobile body #root .filter-bar .grid.grid-cols-2 > .col-span-2 { grid-column: 1 / -1 !important; }
+  html.layout-mobile body #root .filter-bar .filter-field { min-height: 36px !important; height: 36px !important; }
+  /* Mobile: count + reset drop to a slim line under the fields so the search box keeps its full width */
+  html.layout-mobile body #root .filter-bar .grid.grid-cols-2 > div:last-child { flex-wrap: wrap !important; row-gap: 4px !important; }
+  html.layout-mobile body #root .filter-bar .filter-count { flex-basis: 100% !important; justify-content: flex-end !important; padding-left: 0 !important; }
+  html.layout-mobile body #root .filter-bar .filter-field > span:first-child:not(.sr-only) { font-size: 9px !important; letter-spacing: .06em !important; }
+  html.layout-mobile body #root .filter-bar .filter-count { font-size: 10px !important; }
   /* Mobile contact card on hotel pages — one centred column that reflows with the frame width */
   html.layout-mobile body #root .mobile-contact-card { width: 100% !important; max-width: none !important; box-sizing: border-box !important; flex-direction: column !important; align-items: center !important; text-align: center !important; gap: 16px !important; padding: 22px 18px !important; }
   html.layout-mobile body #root .mobile-contact-card > div { flex-direction: column !important; align-items: center !important; justify-content: center !important; width: 100% !important; gap: 12px !important; }

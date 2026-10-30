@@ -1,3 +1,4 @@
+import { ChevronDown } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
 
 export const COUNTRY_DEST_MAP: Record<string, Record<string, string[]>> = {
@@ -20,6 +21,8 @@ interface DestinationDropdownProps {
   selectedDestinations: string[];
   onChange: (destinations: string[]) => void;
   inputCls: string;
+  /** Optional label shown inside the field, before the value (e.g. 'Destination:') */
+  prefix?: string;
 }
 
 /** A strict dropdown (like <select>) whose options are checkboxes — multiple destinations per country */
@@ -28,6 +31,7 @@ export const DestinationDropdown: React.FC<DestinationDropdownProps> = ({
   selectedDestinations,
   onChange,
   inputCls,
+  prefix,
 }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -56,12 +60,15 @@ export const DestinationDropdown: React.FC<DestinationDropdownProps> = ({
         onClick={() => setOpen(!open)}
         className={inputCls + " text-left flex items-center justify-between cursor-pointer"}
       >
-        <span className={selectedDestinations.length ? 'font-medium text-black' : 'text-neutral-400 font-light'}>
+        {prefix && <span className="shrink-0 mr-2 text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">{prefix}</span>}
+        <span className={`flex-1 min-w-0 truncate ${selectedDestinations.length ? 'font-medium text-black' : 'text-neutral-400 font-light'}`}>
           {selectedDestinations.length > 0
             ? `${selectedDestinations.length} destination${selectedDestinations.length > 1 ? 's' : ''} selected`
             : 'Select destination(s)'}
         </span>
-        <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current shrink-0"></span>
+        {prefix
+          ? <ChevronDown aria-hidden="true" className="w-4 h-4 shrink-0 ml-2 text-neutral-500" />
+          : <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current shrink-0"></span>}
       </button>
       {open && (
         <div className="absolute z-30 mt-1 w-full bg-white border border-neutral-300 rounded-xl shadow-lg p-1.5 space-y-0.5 animate-fade-in">
