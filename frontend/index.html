@@ -856,6 +856,18 @@
   html.layout-mobile body #root .hotel-grid.grid > .hotel-card.group .hotel-card-body > div.flex { font-size: 10px !important; }
   html.layout-mobile body #root .hotel-grid.grid > .hotel-card.group .hotel-card-body p { font-size: 10px !important; }
   html.layout-mobile body #root .hotel-grid.grid > .hotel-card.group .hotel-card-cta { padding: 0 10px 10px !important; }
+  /* ═══ DESTINATION CHAPTERS — mobile: image on top (16:9), text below, larger title ═══ */
+  html.layout-mobile body #root .dest-chapters { display: flex !important; flex-direction: column !important; gap: 40px !important; margin-bottom: 40px !important; }
+  html.layout-mobile body #root .dest-chapters .dest-chapter { display: flex !important; flex-direction: column !important; gap: 16px !important; }
+  html.layout-mobile body #root .dest-chapters .dest-chapter .dest-chapter-media { order: 0 !important; width: 100% !important; }
+  html.layout-mobile body #root .dest-chapters .dest-chapter .dest-chapter-text { order: 1 !important; }
+  html.layout-mobile body #root .dest-chapters .dest-chapter .aspect-video { aspect-ratio: 16 / 9 !important; height: auto !important; min-height: 0 !important; max-height: none !important; }
+  html.layout-mobile body #root .dest-chapters .dest-chapter .aspect-video img { height: 100% !important; max-height: none !important; }
+  html.layout-mobile body #root .dest-chapters .dest-chapter h3 { font-size: 26px !important; line-height: 1.1 !important; }
+  html.layout-mobile body #root .dest-chapters .dest-chapter .dest-chapter-overlay { padding: 40px 14px 12px !important; }
+  html.layout-mobile body #root .dest-chapters .dest-chapter .dest-chapter-overlay span { font-size: 10px !important; letter-spacing: .2em !important; }
+  html.layout-mobile body #root .dest-chapters .dest-chapter .dest-chapter-text p { font-size: 13px !important; }
+  html.layout-mobile body #root .dest-chapters .dest-chapter .dest-chapter-text > div[data-wm] { margin-top: 14px !important; }
   /* Compact filter bar (Destinations + Hotels pages): pinned just under the header */
   .filter-bar { top: var(--filter-top, 150px); }
   html.layout-mobile body #root .filter-bar { top: 104px !important; }
