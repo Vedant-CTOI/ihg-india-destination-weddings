@@ -315,8 +315,63 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
             </div>
           )}
 
+          {/* ═══ DESTINATION PANELS (3rd + 4th) — all text on the image, B/W + motion ═══ */}
+          {visibleHotels.slice(2, 4).length > 0 && (
+            <div className="dest-panels space-y-10 lg:space-y-14 mb-20 lg:mb-28">
+              {visibleHotels.slice(2, 4).map((hotel, i) => {
+                const num = String(filteredHotels.indexOf(hotel) + 1).padStart(2, '0');
+                const destName = `Destination ${hotel.city.replace(/^Region (\d+)$/, '$1')}`;
+                const right = i % 2 === 1;
+                return (
+                  <article key={hotel.id} data-wm="curtain" className="dest-panel">
+                    <div
+                      onClick={() => handleOpenDestinationProperties(hotel)}
+                      className="dest-panel-frame relative aspect-video overflow-hidden bg-neutral-200 rounded-sm cursor-pointer group"
+                    >
+                      <img
+                        src={hotel.image}
+                        alt={hotel.name}
+                        className="dest-panel-img absolute inset-0 w-full h-full object-cover filter grayscale contrast-110"
+                        onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
+                      />
+                      <div className={`dest-panel-veil absolute inset-0 ${right ? 'bg-gradient-to-l' : 'bg-gradient-to-r'} from-black/85 via-black/45 to-black/5`} />
+                      <span className={`absolute top-5 ${right ? 'left-5' : 'right-5'} bg-black/85 text-white text-[10px] uppercase tracking-wider font-sans px-2.5 py-0.5 rounded-full font-medium border border-white/20`}>
+                        {hotel.city.replace(/^Region (\d+)$/, 'Destination $1')}
+                      </span>
+                      <div className={`dest-panel-copy absolute inset-y-0 ${right ? 'right-0 text-right items-end' : 'left-0'} flex flex-col justify-end w-full lg:w-[52%] p-7 lg:p-12 text-white`}>
+                        <span style={{ ['--d' as any]: '200ms' }} className="dp-rise block text-[11px] uppercase tracking-[0.28em] text-white/80 font-sans font-medium">
+                          Lorem ipsum dolor sit amet
+                        </span>
+                        <h3 style={{ ['--d' as any]: '320ms' }} className="dp-rise mt-4 font-serif font-normal leading-[1.05] tracking-[-0.01em] text-[clamp(2rem,3.4vw,3rem)] text-white">
+                          <span className="text-white/55 mr-3">{num}</span>{destName}
+                        </h3>
+                        <div style={{ ['--d' as any]: '420ms' }} className="dp-rise mt-5 h-px w-16 bg-white/50" />
+                        <p style={{ ['--d' as any]: '500ms' }} className="dp-rise mt-5 text-sm font-sans text-white/80 font-light leading-relaxed max-w-md">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+                        </p>
+                        <p style={{ ['--d' as any]: '580ms' }} className="dp-rise mt-2 text-[12px] text-white/65 font-sans italic">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </p>
+                        <div style={{ ['--d' as any]: '660ms' }} className="dp-rise mt-7">
+                          <button
+                            type="button"
+                            onClick={(e) => { e.stopPropagation(); handleOpenDestinationProperties(hotel); }}
+                            className="group/cta inline-flex items-center gap-3 bg-white hover:bg-neutral-200 text-black text-[11px] uppercase tracking-wider font-medium pl-6 pr-5 py-3 rounded-full transition-colors duration-700 cursor-pointer"
+                          >
+                            <span>Discover {destName} Properties</span>
+                            <ArrowRight className="w-3.5 h-3.5 transition-transform duration-700 group-hover/cta:translate-x-1" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+
           <div className="hotel-grid dest-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {visibleHotels.slice(2).map((hotel) => (
+            {visibleHotels.slice(4).map((hotel) => (
               <div
                 key={hotel.id}
                 className="hotel-card group bg-white rounded-2xl border border-neutral-200 hover:border-black overflow-hidden transition-all duration-300 flex flex-col justify-between shadow-2xs hover:shadow-md"

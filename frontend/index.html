@@ -856,6 +856,24 @@
   html.layout-mobile body #root .hotel-grid.grid > .hotel-card.group .hotel-card-body > div.flex { font-size: 10px !important; }
   html.layout-mobile body #root .hotel-grid.grid > .hotel-card.group .hotel-card-body p { font-size: 10px !important; }
   html.layout-mobile body #root .hotel-grid.grid > .hotel-card.group .hotel-card-cta { padding: 0 10px 10px !important; }
+  /* ═══ DESTINATION PANELS (3 + 4): text on image. Motion: curtain wipe, slow settle-zoom, hover drift, staggered text ═══ */
+  html:not(.layout-mobile) .dest-panel .dest-panel-img { transform: scale(1.1); transition: transform 2.6s cubic-bezier(0.16,1,0.3,1); }
+  html:not(.layout-mobile) .dest-panel[data-wm-in] .dest-panel-img { transform: scale(1.02); }
+  html:not(.layout-mobile) .dest-panel[data-wm-in] .dest-panel-frame:hover .dest-panel-img { transform: scale(1.07); transition-duration: 1.8s; }
+  html:not(.layout-mobile) .dest-panel .dest-panel-veil { transition: opacity 1.2s cubic-bezier(0.16,1,0.3,1); }
+  html:not(.layout-mobile) .dest-panel .dest-panel-frame:hover .dest-panel-veil { opacity: .9; }
+  .dest-panel .dest-panel-frame::after { z-index: 0 !important; }
+  html:not(.layout-mobile) .dest-panel .dp-rise { opacity: 0; transform: translate3d(0, 26px, 0); transition: opacity 1.3s cubic-bezier(0.16,1,0.3,1), transform 1.3s cubic-bezier(0.16,1,0.3,1); transition-delay: var(--d, 0ms); }
+  html:not(.layout-mobile) .dest-panel[data-wm-in] .dp-rise { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { html:not(.layout-mobile) .dest-panel .dp-rise, html:not(.layout-mobile) .dest-panel .dest-panel-img { opacity: 1 !important; transform: none !important; transition: none !important; } }
+  html.layout-mobile body #root .dest-panels { display: flex !important; flex-direction: column !important; gap: 24px !important; margin-bottom: 40px !important; }
+  html.layout-mobile body #root .dest-panel .dest-panel-frame { aspect-ratio: auto !important; height: auto !important; min-height: 380px !important; max-height: none !important; }
+  html.layout-mobile body #root .dest-panel .dest-panel-img { height: 100% !important; max-height: none !important; }
+  html.layout-mobile body #root .dest-panel .dest-panel-veil { background: linear-gradient(to top, rgba(0,0,0,.88), rgba(0,0,0,.45) 60%, rgba(0,0,0,.1)) !important; }
+  html.layout-mobile body #root .dest-panel .dest-panel-copy { position: relative !important; min-height: 380px !important; padding: 22px 18px !important; text-align: left !important; align-items: flex-start !important; }
+  html.layout-mobile body #root .dest-panel h3 { font-size: 26px !important; line-height: 1.1 !important; }
+  html.layout-mobile body #root .dest-panel .dest-panel-copy p { font-size: 13px !important; }
+  html.layout-mobile body #root .dest-panel .dest-panel-frame > span { left: auto !important; right: 12px !important; top: 12px !important; }
   /* ═══ DESTINATION CHAPTERS — mobile: image on top (16:9), text below, larger title ═══ */
   html.layout-mobile body #root .dest-chapters { display: flex !important; flex-direction: column !important; gap: 40px !important; margin-bottom: 40px !important; }
   html.layout-mobile body #root .dest-chapters .dest-chapter { display: flex !important; flex-direction: column !important; gap: 16px !important; }
