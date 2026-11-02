@@ -389,10 +389,10 @@ export const FeatureBody: React.FC<{
   const transitFrom = hotel.airportDistance ? hotel.airportDistance.split('from')[1]?.trim() || 'Nearest Hub' : 'Arrival Gate';
 
   const facts: { label: string; value: React.ReactNode; sub: string; word?: boolean }[] = [
-    { label: 'Capacity', value: hotel.capacityMin === hotel.capacityMax ? <CountUp to={hotel.capacityMax} duration={1800} /> : <><CountUp to={hotel.capacityMin} duration={1400} />–<CountUp to={hotel.capacityMax} duration={2000} /></>, sub: 'Guests' },
-    { label: 'Total Rooms', value: <CountUp to={hotel.roomsCount} duration={1800} delay={180} />, sub: 'Keys, Suites & Villas' },
-    { label: 'No of Venues', value: <CountUp to={venues.length} duration={1400} delay={360} />, sub: 'Curated Spaces' },
     { label: 'Setting', value: hotel.genre, sub: hotel.city, word: true },
+    { label: 'Rooms', value: <CountUp to={hotel.roomsCount} duration={1800} delay={180} />, sub: 'Keys, Suites & Villas' },
+    { label: 'Capacity', value: hotel.capacityMin === hotel.capacityMax ? <CountUp to={hotel.capacityMax} duration={1800} /> : <><CountUp to={hotel.capacityMin} duration={1400} />–<CountUp to={hotel.capacityMax} duration={2000} /></>, sub: 'Guests' },
+    { label: 'No. of Venues', value: <CountUp to={venues.length} duration={1400} delay={360} />, sub: 'Curated Spaces' },
     { label: 'Transit', value: transitTime, sub: transitFrom, word: true }
   ];
 
@@ -455,12 +455,16 @@ export const FeatureBody: React.FC<{
 
         {/* jump bar — venue numbers on a hairline; current one underlined */}
         <div ref={jumpRef} className="sticky top-[146px] z-20" style={{ backgroundColor: 'rgba(253,244,231,.97)' }}>
-          <div className={`${W} border-y flex items-start justify-center gap-7 overflow-x-auto overflow-y-hidden no-scrollbar`} style={{ borderColor: 'rgba(58,6,24,.2)' }}>
+          <div className={`${W} relative border-y flex items-start justify-center gap-7 overflow-x-auto overflow-y-hidden no-scrollbar`} style={{ borderColor: 'rgba(58,6,24,.2)' }}>
+            {/* hotel name — pinned left inside the same band (context while scrolling); venue buttons unchanged */}
+            <span className="hf-bar-hotel absolute left-4 sm:left-6 lg:left-8 top-1/2 -translate-y-1/2 font-arpona text-[17px] leading-none whitespace-nowrap pointer-events-none" style={{ color: INK }}>
+              {hotel.name}
+            </span>
             {venues.map((venue, v) => {
               const shown = current === v || hovered === v; // selected venue always shows its photo
               const ph = venuePhotos(v)[0];
               return (
-              <button key={v} type="button" onClick={() => jump(v)} aria-label={`Venue ${v + 1} - ${venue.capacity}`}
+              <button key={v} type="button" onClick={() => jump(v)} aria-label={`${copyFor(v).name || venue.name} - ${venue.capacity}`}
                       aria-current={current === v ? 'true' : undefined}
                       onMouseEnter={() => canHover && setHovered(v)} onMouseLeave={() => setHovered((h) => (h === v ? null : h))}
                       className="relative shrink-0 h-[96px] text-left text-[11px] uppercase tracking-[0.28em] cursor-pointer"
@@ -526,15 +530,15 @@ export const FeatureBody: React.FC<{
                   </div>
                   )}
                   <h4 data-wm="" style={{ ['--d' as any]: '120ms' }} className={`${copyFor(v).onlySupplied && !copyFor(v).capacity ? '' : 'mt-5'} font-arpona text-[clamp(1.8rem,2.6vw,2.6rem)] leading-[1.04]`}>
-                    Venue {v + 1} - {copyFor(v).name || 'Placeholder Text'}
+                    {copyFor(v).name || venue.name || 'Placeholder Text'}
                   </h4>
                   <ClampText className={`mt-4 ${(copyFor(v).description || '').length > 300 ? 'text-[13px] leading-[1.6]' : 'text-[14px] leading-[1.7]'}`}
                              text={copyFor(v).description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.'} />
                   <dl data-wm="" style={{ ['--d' as any]: '360ms', borderColor: LINE }} className={`${copyFor(v).onlySupplied ? 'mt-6' : 'mt-8'} border-t grid grid-cols-2`}>
                     {(copyFor(v).onlySupplied ? HIGHLIGHTS.filter(([k]) => copyFor(v).highlights?.[k]) : HIGHLIGHTS).map(([k, fallback], h, list) => { const val = copyFor(v).highlights?.[k] || fallback; const single = copyFor(v).onlySupplied ? (list.length <= 3 || BULLETED.includes(k) || k === 'Venue Size' || k === 'Location') : false; return (
                       <div key={k} className={`py-3.5 border-b ${single ? 'col-span-2' : h % 2 === 0 ? 'pr-5 border-r' : 'pl-5'}`} style={{ borderColor: LINE }}>
-                        <dt className="text-[10px] uppercase tracking-[0.22em] flex items-center gap-2" style={{ opacity: 0.65 }}>{(() => { const I = DETAIL_ICON[k]; return I ? <I {...IC} className="w-3.5 h-3.5 shrink-0" /> : null; })()}<span>{k}</span></dt>
-                        <dd className="mt-1 text-[13px]">{BULLETED.includes(k)
+                        <dt className="text-[12px] uppercase tracking-[0.22em] flex items-center gap-2" style={{ opacity: 0.65 }}>{(() => { const I = DETAIL_ICON[k]; return I ? <I {...IC} className="w-3.5 h-3.5 shrink-0" /> : null; })()}<span>{k}</span></dt>
+                        <dd className="mt-1 text-[16px]">{BULLETED.includes(k)
                           ? <ul className="flex flex-wrap gap-x-4 gap-y-1">{val.split(/\s*,\s*/).filter(Boolean).map((it, b) => (
                               <li key={b} className="flex items-center gap-2"><span aria-hidden="true" className="w-1 h-1 rounded-full shrink-0" style={{ background: SAFFRON }} />{it}</li>))}</ul>
                           : val}</dd>
