@@ -812,7 +812,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
         {/* Main content — dynamically spreads when the side form collapses */}
         <div className={`transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${sideFormOpen ? 'lg:pr-[400px]' : 'lg:pr-0'}`}>
           {feature ? (
-            <FeatureBody hotel={shown} onPreview={handleOpenPreview} onNavigateToInquiry={() => onNavigateToInquiry(hotel.name)} onNavigateBack={onNavigateBack} />
+            <FeatureBody hotel={shown} onPreview={handleOpenPreview} onNavigateToInquiry={() => onNavigateToInquiry(hotel.name)} />
           ) : (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="space-y-14">
