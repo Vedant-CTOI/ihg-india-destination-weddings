@@ -358,7 +358,8 @@ export const FeatureBody: React.FC<{
   hotel: HotelProperty;
   onPreview: PreviewFn;
   onNavigateToInquiry: (name: string) => void;
-}> = ({ hotel, onPreview, onNavigateToInquiry }) => {
+  onNavigateBack?: () => void;
+}> = ({ hotel, onPreview, onNavigateToInquiry, onNavigateBack }) => {
   const VENUE_LIMIT = 4; // Hotel 1 feature page shows the first 4 venues only (constants.ts untouched)
   const venues: HotelVenueSpace[] = (hotel.curatedSpaces || []).slice(0, VENUE_LIMIT);
   const [current, setCurrent] = useState(0);
@@ -389,10 +390,10 @@ export const FeatureBody: React.FC<{
   const transitFrom = hotel.airportDistance ? hotel.airportDistance.split('from')[1]?.trim() || 'Nearest Hub' : 'Arrival Gate';
 
   const facts: { label: string; value: React.ReactNode; sub: string; word?: boolean }[] = [
-    { label: 'Capacity', value: hotel.capacityMin === hotel.capacityMax ? <CountUp to={hotel.capacityMax} duration={1800} /> : <><CountUp to={hotel.capacityMin} duration={1400} />–<CountUp to={hotel.capacityMax} duration={2000} /></>, sub: 'Guests' },
-    { label: 'Total Rooms', value: <CountUp to={hotel.roomsCount} duration={1800} delay={180} />, sub: 'Keys, Suites & Villas' },
-    { label: 'No of Venues', value: <CountUp to={venues.length} duration={1400} delay={360} />, sub: 'Curated Spaces' },
     { label: 'Setting', value: hotel.genre, sub: hotel.city, word: true },
+    { label: 'Rooms', value: <CountUp to={hotel.roomsCount} duration={1800} delay={180} />, sub: 'Keys, Suites & Villas' },
+    { label: 'Capacity', value: hotel.capacityMin === hotel.capacityMax ? <CountUp to={hotel.capacityMax} duration={1800} /> : <><CountUp to={hotel.capacityMin} duration={1400} />–<CountUp to={hotel.capacityMax} duration={2000} /></>, sub: 'Guests' },
+    { label: 'No. of Venues', value: <CountUp to={venues.length} duration={1400} delay={360} />, sub: 'Curated Spaces' },
     { label: 'Transit', value: transitTime, sub: transitFrom, word: true }
   ];
 
@@ -400,6 +401,42 @@ export const FeatureBody: React.FC<{
 
   return (
     <div className="hotel-feature-body">
+      {/* STICKY CONTEXT BAND — breadcrumb + hotel name (left), venue switcher (right). Sticks under the header from here to the end of the page. */}
+      <div ref={jumpRef} className="hf-band sticky top-[146px] z-30" style={{ backgroundColor: 'rgba(253,244,231,.97)', backdropFilter: 'blur(6px)', borderBottom: '1px solid rgba(58,6,24,.16)' }}>
+        <div className={`${W} h-[58px] flex items-center justify-between gap-6`}>
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 min-w-0 text-[11px] uppercase tracking-[0.2em] whitespace-nowrap" style={{ color: 'rgba(58,6,24,.6)' }}>
+            <button type="button" onClick={onNavigateBack} className="hover:opacity-100 opacity-80 transition-opacity duration-700 cursor-pointer">Home Page</button>
+            <span aria-hidden="true">/</span>
+            <button type="button" onClick={onNavigateBack} className="hover:opacity-100 opacity-80 transition-opacity duration-700 cursor-pointer">All Hotels</button>
+            <span aria-hidden="true">/</span>
+            <span className="font-arpona normal-case tracking-[0] text-[17px] truncate" style={{ color: INK }}>{hotel.name}</span>
+          </nav>
+          <div className="flex items-center gap-7 shrink-0" role="tablist" aria-label="Venues">
+            {venues.map((venue, v) => {
+              const ph = venuePhotos(v)[0];
+              const name = copyFor(v).name || venue.name;
+              return (
+                <button key={v} type="button" onClick={() => jump(v)} aria-label={`${name} - ${venue.capacity}`}
+                        aria-current={current === v ? 'true' : undefined}
+                        onMouseEnter={() => canHover && setHovered(v)} onMouseLeave={() => setHovered((h) => (h === v ? null : h))}
+                        className="relative h-[58px] text-[11px] uppercase tracking-[0.24em] whitespace-nowrap cursor-pointer"
+                        style={{ color: INK, opacity: current === v || hovered === v ? 1 : 0.55, transition: `opacity 500ms ${EASE}` }}>
+                  {name}
+                  <span className="absolute left-0 right-0 bottom-[-1px] origin-left"
+                        style={{ background: SAFFRON, height: 2, transform: `scaleX(${current === v ? 1 : 0})`, transition: `transform 700ms ${EASE}` }} />
+                  {/* hover preview — drops BELOW the band, never makes it taller */}
+                  <span aria-hidden="true" className="absolute left-1/2 top-[64px] -translate-x-1/2 w-[176px] h-[99px] overflow-hidden pointer-events-none shadow-lg"
+                        style={{ clipPath: hovered === v ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)', transition: `clip-path 500ms ${WIPE}` }}>
+                    <img src={ph.url} alt="" className="w-full h-full object-cover"
+                         style={{ objectPosition: ph.pos, transform: hovered === v ? 'scale(1)' : 'scale(1.12)', transition: `transform 900ms ${EASE}` }} />
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
       {/* B. Facts — full-bleed maroon band, figures between hairline dividers */}
       <section className="text-white" style={{ backgroundColor: PALETTE.maroon, borderTop: '1px solid #fff', borderBottom: '1px solid #fff' }}>
         <div className={`${W} py-14`}>
@@ -453,48 +490,6 @@ export const FeatureBody: React.FC<{
           )}
         </div>
 
-        {/* jump bar — venue numbers on a hairline; current one underlined */}
-        <div ref={jumpRef} className="sticky top-[146px] z-20" style={{ backgroundColor: 'rgba(253,244,231,.97)' }}>
-          <div className={`${W} border-y flex items-start justify-center gap-7 overflow-x-auto overflow-y-hidden no-scrollbar`} style={{ borderColor: 'rgba(58,6,24,.2)' }}>
-            {venues.map((venue, v) => {
-              const shown = current === v || hovered === v; // selected venue always shows its photo
-              const ph = venuePhotos(v)[0];
-              return (
-              <button key={v} type="button" onClick={() => jump(v)} aria-label={`Venue ${v + 1} - ${venue.capacity}`}
-                      aria-current={current === v ? 'true' : undefined}
-                      onMouseEnter={() => canHover && setHovered(v)} onMouseLeave={() => setHovered((h) => (h === v ? null : h))}
-                      className="relative shrink-0 h-[96px] text-left text-[11px] uppercase tracking-[0.28em] cursor-pointer"
-                      style={{
-                        width: shown ? 120 : Math.max(76, (copyFor(v).name || `Venue ${v + 1}`).length * 10 + 6), // fit longer names
-                        opacity: shown ? 1 : 0.55,
-                        transition: `width 500ms ${EASE}, opacity 500ms ${EASE}`
-                      }}>
-                {/* text label (centred) — slides up and away when the photo shows */}
-                <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 whitespace-nowrap"
-                      style={{ opacity: shown ? 0 : 1, transform: `translateY(${shown ? '-120%' : '-50%'})`, transition: `transform 500ms ${EASE}, opacity 500ms ${EASE}` }}>
-                  {copyFor(v).name || `Venue ${v + 1}`}
-                </span>
-                {/* venue photo (16:9) rises in with the shutter wipe */}
-                <span aria-hidden="true" className="absolute left-0 top-[8px] w-[120px] h-[68px] overflow-hidden pointer-events-none"
-                      style={{ clipPath: shown ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)', transition: `clip-path 500ms ${WIPE}` }}>
-                  <img src={ph.url} alt="" className="w-full h-full object-cover"
-                       style={{ objectPosition: ph.pos, transform: shown ? 'scale(1)' : 'scale(1.12)', transition: `transform 900ms ${EASE}` }} />
-                  <span className="absolute inset-0 pointer-events-none"
-                        style={{ boxShadow: 'inset 0 0 0 2px #fff', opacity: current === v ? 1 : 0, transition: `opacity 500ms ${EASE}` }} />
-                </span>
-                {/* small number under the photo */}
-                <span aria-hidden="true" className="absolute left-0 bottom-[4px] text-[9px] tracking-[0.28em] whitespace-nowrap"
-                      style={{ opacity: shown ? 0.8 : 0, transition: `opacity 500ms ${EASE}` }}>
-                  {copyFor(v).name || `Venue ${v + 1}`}
-                </span>
-                <span className="absolute left-0 right-0 bottom-[-1px] h-px origin-left transition-transform duration-700"
-                      style={{ background: SAFFRON, height: 2, transform: `scaleX(${current === v ? 1 : 0})` }} />
-              </button>
-              );
-            })}
-          </div>
-        </div>
-
         <div className={`${W} pb-24`}>
           {venues.map((venue, v) => {
             const slides: Slide[] = [
@@ -526,20 +521,41 @@ export const FeatureBody: React.FC<{
                   </div>
                   )}
                   <h4 data-wm="" style={{ ['--d' as any]: '120ms' }} className={`${copyFor(v).onlySupplied && !copyFor(v).capacity ? '' : 'mt-5'} font-arpona text-[clamp(1.8rem,2.6vw,2.6rem)] leading-[1.04]`}>
-                    Venue {v + 1} - {copyFor(v).name || 'Placeholder Text'}
+                    {copyFor(v).name || venue.name || 'Placeholder Text'}
                   </h4>
                   <ClampText className={`mt-4 ${(copyFor(v).description || '').length > 300 ? 'text-[13px] leading-[1.6]' : 'text-[14px] leading-[1.7]'}`}
                              text={copyFor(v).description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.'} />
-                  <dl data-wm="" style={{ ['--d' as any]: '360ms', borderColor: LINE }} className={`${copyFor(v).onlySupplied ? 'mt-6' : 'mt-8'} border-t grid grid-cols-2`}>
-                    {(copyFor(v).onlySupplied ? HIGHLIGHTS.filter(([k]) => copyFor(v).highlights?.[k]) : HIGHLIGHTS).map(([k, fallback], h, list) => { const val = copyFor(v).highlights?.[k] || fallback; const single = copyFor(v).onlySupplied ? (list.length <= 3 || BULLETED.includes(k) || k === 'Venue Size' || k === 'Location') : false; return (
-                      <div key={k} className={`py-3.5 border-b ${single ? 'col-span-2' : h % 2 === 0 ? 'pr-5 border-r' : 'pl-5'}`} style={{ borderColor: LINE }}>
-                        <dt className="text-[10px] uppercase tracking-[0.22em] flex items-center gap-2" style={{ opacity: 0.65 }}>{(() => { const I = DETAIL_ICON[k]; return I ? <I {...IC} className="w-3.5 h-3.5 shrink-0" /> : null; })()}<span>{k}</span></dt>
-                        <dd className="mt-1 text-[13px]">{BULLETED.includes(k)
-                          ? <ul className="flex flex-wrap gap-x-4 gap-y-1">{val.split(/\s*,\s*/).filter(Boolean).map((it, b) => (
-                              <li key={b} className="flex items-center gap-2"><span aria-hidden="true" className="w-1 h-1 rounded-full shrink-0" style={{ background: SAFFRON }} />{it}</li>))}</ul>
-                          : val}</dd>
-                      </div>
-                    ); })}
+                  {/* Venue specs — visual tiles: big icon, big value, readable label; seating split into number chips (wording kept) */}
+                  <dl data-wm="" style={{ ['--d' as any]: '360ms', borderColor: LINE }} className={`${copyFor(v).onlySupplied ? 'mt-6' : 'mt-8'} hf-specs grid grid-cols-2 gap-px border`}>
+                    {(copyFor(v).onlySupplied ? HIGHLIGHTS.filter(([k]) => copyFor(v).highlights?.[k]) : HIGHLIGHTS).map(([k, fallback]) => {
+                      const val = copyFor(v).highlights?.[k] || fallback;
+                      const I = DETAIL_ICON[k];
+                      const wide = BULLETED.includes(k);
+                      return (
+                        <div key={k} className={`hf-spec p-4 ${wide ? 'col-span-2' : ''}`} style={{ background: 'rgba(255,255,255,.55)' }}>
+                          <dt className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.18em]" style={{ color: 'rgba(58,6,24,.72)', fontWeight: 500 }}>
+                            {I ? <span className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(237,140,12,.14)', color: SAFFRON }}><I {...IC} className="w-4 h-4" /></span> : null}
+                            <span>{k}</span>
+                          </dt>
+                          <dd className="mt-3">
+                            {wide ? (
+                              <ul className="flex flex-wrap gap-2">
+                                {val.split(/\s*,\s*/).filter(Boolean).map((it, b) => {
+                                  const m = it.match(/^(\d[\d,]*)\s+(.*)$/);
+                                  return (
+                                    <li key={b} className="inline-flex items-baseline gap-1.5 px-3 py-1.5 rounded-full border text-[13px]" style={{ borderColor: 'rgba(58,6,24,.18)', background: '#fff' }}>
+                                      {m ? <><span className="font-arpona text-[19px] leading-none" style={{ color: INK }}>{m[1]}</span><span style={{ opacity: .8 }}>{m[2]}</span></> : <span>{it}</span>}
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            ) : (
+                              <span className="font-arpona text-[20px] leading-[1.15]" style={{ color: INK }}>{val}</span>
+                            )}
+                          </dd>
+                        </div>
+                      );
+                    })}
                   </dl>
                 </div>
               </article>
