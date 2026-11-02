@@ -886,6 +886,15 @@
   html.layout-mobile body #root .dest-chapters .dest-chapter .dest-chapter-overlay span { font-size: 10px !important; letter-spacing: .2em !important; }
   html.layout-mobile body #root .dest-chapters .dest-chapter .dest-chapter-text p { font-size: 13px !important; }
   html.layout-mobile body #root .dest-chapters .dest-chapter .dest-chapter-text > div[data-wm] { margin-top: 14px !important; }
+  /* ═══ WEB: filter bar in ONE line (Destinations + Hotels). Fields shortened; search takes the remaining space. Mobile keeps 2 per row. ═══ */
+  html:not(.layout-mobile) .filter-bar > .grid.grid-cols-2 { display: flex !important; align-items: center; gap: 8px; }
+  html:not(.layout-mobile) .filter-bar > .grid.grid-cols-2 > * { min-width: 0; }
+  html:not(.layout-mobile) .filter-bar > .grid.grid-cols-2 > div.min-w-0:not(.flex) { flex: 0 0 250px; }          /* Destination multi-select (Destinations page) */
+  html:not(.layout-mobile) .filter-bar > .grid.grid-cols-2 > label.filter-field { flex: 0 0 210px; }               /* Occasion / Genre / Destination selects */
+  html:not(.layout-mobile) .filter-bar > .grid.grid-cols-2 > label#genre-x, html:not(.layout-mobile) .filter-bar label.filter-field[for="dest-genre-filter-dropdown"] { flex-basis: 185px; }
+  html:not(.layout-mobile) .filter-bar > .grid.grid-cols-2 > label.filter-field[for="city-filter-dropdown"] { flex-basis: 240px; }
+  html:not(.layout-mobile) .filter-bar > .grid.grid-cols-2 > div.flex { flex: 1 1 auto; grid-column: auto !important; }   /* search + count */
+  html:not(.layout-mobile) .filter-bar > .grid.grid-cols-2 > div.flex > label.filter-field { min-width: 150px; }
   /* Compact filter bar (Destinations + Hotels pages): pinned just under the header */
   .filter-bar { top: var(--filter-top, 150px); }
   html.layout-mobile body #root .filter-bar { top: 104px !important; }
