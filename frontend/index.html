@@ -230,6 +230,8 @@
     html:not(.layout-mobile) [data-tone="light"] .sec-head button, html:not(.layout-mobile) .loyalty-band button { background: #600B2A !important; color: #fff !important; }
     html:not(.layout-mobile) [data-tone="light"] .sec-head button:hover, html:not(.layout-mobile) .loyalty-band button:hover { background: #3a0618 !important; }
     /* Destination carousel dots + Real Weddings bottom CTA on the coloured grounds */
+    html:not(.layout-mobile) #destinations button[aria-label^="Go to slide"] { background: rgba(58,6,24,.25); }
+    html:not(.layout-mobile) #destinations button[aria-label^="Go to slide"].w-6 { background: #600B2A; }
 
     /* Coloured sections show their dummy photographs + overlays (exempt from the wireframe grey-block rule) */
     html:not(.layout-mobile) .cine [class*="bg-gradient"] { display: block !important; }
@@ -1659,71 +1661,33 @@
   html.layout-mobile body #root .home-about .ha-num, html.layout-mobile body #root .home-about .ha-num * { font-size: 24px !important; }
   html.layout-mobile body #root .home-about .ha-cta-row { margin-top: 20px !important; }
 
-  /* ── 2. CURATED WEDDING TYPES — Dark Green band, 16:9 slide, text on image ── */
-  .home-types { background: var(--green); color: var(--ivory); padding: 104px 32px 96px; position: relative; overflow: hidden; }
-  .home-types::after { content: ''; position: absolute; left: -10%; bottom: -40%; width: 50%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(193,198,175,.14), transparent 65%); pointer-events: none; }
-  .home-types .ht-wrap { max-width: 80rem; margin: 0 auto; position: relative; z-index: 1; }
-  .home-types .ht-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; margin-bottom: 40px; }
-  .home-types .ht-head-copy { max-width: 40rem; }
-  .home-types .ht-eyebrow { display: flex; align-items: center; gap: 14px; font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: rgba(247,240,228,.8); }
-  .home-types .ht-rule { display: block; width: 40px; height: 1px; background: var(--haldi); }
-  .home-types .ht-title { margin-top: 22px; font-size: clamp(2rem, 3.4vw, 3.3rem); line-height: 1.05; letter-spacing: -0.01em; color: #fff; }
-  .home-types .ht-lede { margin-top: 18px; font-size: 15px; line-height: 1.75; color: rgba(247,240,228,.82); max-width: 36rem; }
-  .home-types .ht-viewall { display: inline-flex; align-items: center; gap: 12px; padding: 14px 24px 14px 28px; border-radius: 9999px; border: 1px solid rgba(247,240,228,.55); color: var(--ivory);
-    font-size: 11px; letter-spacing: .26em; text-transform: uppercase; font-weight: 500; cursor: pointer; white-space: nowrap; transition: background-color .7s cubic-bezier(0.16,1,0.3,1), color .7s, border-color .7s; }
-  .home-types .ht-viewall * { color: inherit !important; }
-  .home-types .ht-viewall:hover { background: var(--ivory); color: var(--green); border-color: var(--ivory); }
-  .home-types .ht-frame { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 4px; cursor: pointer; background: #3A5E51; }
-  .home-types .ht-ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: linear-gradient(150deg, #4C7266, #355A4D); transition: transform 1.6s cubic-bezier(0.16,1,0.3,1); }
-  .home-types .ht-ph span { font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: rgba(247,240,228,.55); transform: translateY(-60px); }
-  .home-types .ht-frame:hover .ht-ph { transform: scale(1.03); }
-  .home-types .ht-shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(18,34,28,.85), rgba(18,34,28,.35) 45%, transparent 75%); pointer-events: none; }
-  .home-types .ht-copy { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 48px 44px; color: #fff; max-width: 52rem; animation: soft-rise-kf 1.1s cubic-bezier(0.16,1,0.3,1) both; }
-  .home-types .ht-tags { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
-  .home-types .ht-pill { font-size: 10px; letter-spacing: .26em; text-transform: uppercase; padding: 5px 12px; border-radius: 9999px; background: var(--haldi); color: #fff; font-weight: 500; }
-  .home-types .ht-tagline { font-size: 10.5px; letter-spacing: .26em; text-transform: uppercase; color: rgba(255,255,255,.88); }
-  .home-types .ht-name { font-size: clamp(2rem, 3.6vw, 3.4rem); line-height: 1.02; color: #fff; }
-  .home-types .ht-snippet { margin-top: 12px; font-family: "Arpona","Bodoni Moda",serif !important; font-style: italic; font-size: 17px; line-height: 1.5; color: rgba(255,255,255,.92); max-width: 40rem;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .home-types .ht-facts { margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.3); display: flex; flex-wrap: wrap; gap: 10px 44px; font-size: 13px; color: #fff; }
-  .home-types .ht-facts span { display: block; margin-bottom: 4px; font-size: 9.5px; letter-spacing: .26em; text-transform: uppercase; color: var(--ivory-acc); }
-  .home-types .ht-count { position: absolute; top: 28px; right: 32px; font-family: "Arpona","Bodoni Moda",serif !important; font-size: 22px; color: #fff; text-shadow: 0 1px 10px rgba(0,0,0,.35); }
-  .home-types .ht-count i { font-style: normal; font-size: 14px; color: rgba(255,255,255,.7); }
-  .home-types .ht-controls { margin-top: 26px; display: flex; align-items: center; justify-content: space-between; }
-  .home-types .ht-bars { display: flex; gap: 10px; }
-  .home-types .ht-bar { width: 40px; padding: 10px 0; cursor: pointer; }
-  .home-types .ht-bar span { display: block; height: 2px; background: rgba(247,240,228,.28); position: relative; overflow: hidden; }
-  .home-types .ht-bar.is-on span::after { content: ''; position: absolute; inset: 0; background: var(--haldi); transform-origin: left; animation: ht-fill 5s linear both; }
-  @keyframes ht-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-  .home-types .ht-arrows { display: flex; gap: 12px; }
-  .home-types .ht-arrow { width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(247,240,228,.5); color: var(--ivory); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background-color .7s cubic-bezier(0.16,1,0.3,1), color .7s; }
-  .home-types .ht-arrow:hover { background: var(--ivory); color: var(--green); }
-  @keyframes soft-rise-kf { from { opacity: 0; transform: translate3d(0,18px,0); } to { opacity: 1; transform: none; } }
-  @media (prefers-reduced-motion: reduce) { .home-types .ht-copy { animation: none; } .home-types .ht-bar.is-on span::after { animation: none; transform: none; } }
-  /* mobile */
-  html.layout-mobile body #root .home-types { padding: 40px 16px 36px !important; border: 0 !important; }
-  html.layout-mobile body #root .home-types .ht-head { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; margin-bottom: 20px !important; display: flex !important; }
-  html.layout-mobile body #root .home-types .ht-title { font-size: 24px !important; margin-top: 12px !important; color: #fff !important; text-align: left !important; }
-  html.layout-mobile body #root .home-types .ht-eyebrow, html.layout-mobile body #root .home-types .ht-eyebrow * { font-size: 10px !important; color: rgba(247,240,228,.8) !important; }
-  html.layout-mobile body #root .home-types .ht-lede { font-size: 13px !important; line-height: 1.6 !important; margin-top: 10px !important; color: rgba(247,240,228,.85) !important; text-align: left !important; }
-  html.layout-mobile body #root .home-types .ht-viewall { min-height: 42px !important; padding: 11px 20px !important; font-size: 10px !important; color: var(--ivory) !important; background: transparent !important; }
-  html.layout-mobile body #root .home-types .ht-frame { aspect-ratio: 4 / 5 !important; height: auto !important; }
-  html.layout-mobile body #root .home-types .ht-copy { padding: 0 18px 20px !important; }
-  html.layout-mobile body #root .home-types .ht-name { font-size: 26px !important; color: #fff !important; }
-  html.layout-mobile body #root .home-types .ht-snippet { font-size: 14px !important; color: rgba(255,255,255,.92) !important; }
-  html.layout-mobile body #root .home-types .ht-tagline { display: none !important; }
-  html.layout-mobile body #root .home-types .ht-facts { gap: 8px 22px !important; font-size: 12px !important; margin-top: 14px !important; padding-top: 12px !important; color: #fff !important; }
-  html.layout-mobile body #root .home-types .ht-facts > div { color: #fff !important; }
-  html.layout-mobile body #root .home-types .ht-facts span { font-size: 8.5px !important; color: var(--ivory-acc) !important; }
-  html.layout-mobile body #root .home-types .ht-count { top: 16px !important; right: 18px !important; font-size: 18px !important; }
-  html.layout-mobile body #root .home-types .ht-controls { margin-top: 16px !important; display: flex !important; }
-  html.layout-mobile body #root .home-types .ht-bar { width: 22px !important; min-height: 0 !important; min-width: 0 !important; }
-  html.layout-mobile body #root .home-types .ht-bars { gap: 6px !important; display: flex !important; }
-  html.layout-mobile body #root .home-types .ht-arrow { width: 40px !important; height: 40px !important; min-height: 0 !important; min-width: 0 !important; color: var(--ivory) !important; background: transparent !important; }
-  html:not(.layout-mobile) .home-types .ht-stage, html:not(.layout-mobile) .home-types .ht-controls { max-width: min(1040px, calc((100vh - 240px) * 16 / 9)); margin-left: auto; margin-right: auto; }
-  html:not(.layout-mobile) .home-types .ht-head { max-width: min(1040px, calc((100vh - 240px) * 16 / 9)); margin-left: auto; margin-right: auto; }
-  html:not(.layout-mobile) .home-types { padding-top: 88px; padding-bottom: 80px; }
-  body #root .home-types button.ht-bar { background: transparent !important; border: 0 !important; height: auto !important; }
+  /* ── 2. CURATED WEDDING TYPES — PALETTE + TYPE ONLY (no layout/size changes). Dark Green band, ivory type, haldi accents ── */
+  body #root .landing-home #destinations { background-color: var(--green) !important; border-color: transparent !important; }
+  body #root .landing-home #destinations .sec-head span.block { color: var(--ivory-acc) !important; }
+  body #root .landing-home #destinations .sec-head h2, body #root .landing-home #destinations .sec-head h2 * { color: #fff !important; }
+  body #root .landing-home #destinations .sec-head p { color: rgba(247,240,228,.9) !important; font-weight: 400 !important; }
+  body #root .landing-home #destinations .sec-head button { background: var(--ivory) !important; color: var(--green) !important; }
+  body #root .landing-home #destinations .sec-head button * { color: var(--green) !important; }
+  body #root .landing-home #destinations .sec-head button:hover { background: var(--haldi) !important; color: #fff !important; }
+  body #root .landing-home #destinations .sec-head button:hover * { color: #fff !important; }
+  /* card: ivory frame, image placeholder in green tint; wash + text keep their positions */
+  body #root .landing-home #destinations .group { border-color: rgba(247,240,228,.25) !important; background: var(--ivory) !important; }
+  body #root .landing-home #destinations .group .relative.overflow-hidden { background-color: #3A5E51 !important; }
+  body #root .landing-home #destinations .group .relative.overflow-hidden > div[class*="from-white"] { background-image: linear-gradient(to top, rgba(247,240,228,.96), rgba(247,240,228,.55) 45%, rgba(247,240,228,.1)) !important; display: block !important; }
+  body #root .landing-home #destinations .group h3 { color: var(--green) !important; }
+  body #root .landing-home #destinations .group p.italic { color: var(--copper) !important; }
+  body #root .landing-home #destinations .group span.bg-black { background: var(--haldi) !important; color: #fff !important; }
+  body #root .landing-home #destinations .group .border-t { border-color: rgba(42,77,65,.25) !important; color: var(--green) !important; }
+  body #root .landing-home #destinations .group .border-t span { color: var(--copper) !important; }
+  body #root .landing-home #destinations .group .border-t > div { color: var(--green) !important; }
+  body #root .landing-home #destinations .group .uppercase.tracking-widest > span:not(.bg-black) { color: var(--green) !important; }
+  /* progress line + arrows + dots */
+  body #root .landing-home #destinations .group > .absolute.top-0 { background: rgba(42,77,65,.15) !important; }
+  body #root .landing-home #destinations .group > .absolute.top-0 > div { background: var(--haldi) !important; }
+  body #root .landing-home #destinations button[aria-label$="wedding genre"] { background: var(--green) !important; border-color: rgba(247,240,228,.5) !important; color: var(--ivory) !important; }
+  body #root .landing-home #destinations button[aria-label$="wedding genre"]:hover { background: var(--haldi) !important; }
+  body #root .landing-home #destinations button[aria-label^="Go to slide"] { background: rgba(247,240,228,.3) !important; }
+  body #root .landing-home #destinations button[aria-label^="Go to slide"].w-6 { background: var(--haldi) !important; }
 </style>
 
   </head>
