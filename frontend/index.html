@@ -1418,6 +1418,15 @@
      form button, overlapping the consent checkbox below it) */
   html.layout-mobile #root form label button { min-height: 0 !important; height: auto !important; padding: 0 !important; display: inline !important; background: none !important; border: 0 !important; text-decoration: underline !important; font-size: 10px !important; }
 
+  /* ═══ DESTINATIONS — featured Goa / Thailand / Jaipur (web). Panels wipe open in sequence; grey boxes show text dark-on-grey safely. ═══ */
+  html:not(.layout-mobile) .dest-featured .dest-feat[data-wm="curtain"] > .dest-feat-inner { clip-path: inset(100% 0 0 0); transition: clip-path 1.6s cubic-bezier(0.77,0,0.18,1); }
+  html:not(.layout-mobile) .dest-featured .dest-feat[data-wm="curtain"][data-wm-in] > .dest-feat-inner { clip-path: inset(0 0 0 0); }
+  html:not(.layout-mobile) .dest-featured .dest-feat { transition: flex-grow 1.1s cubic-bezier(0.16,1,0.3,1) !important; }
+  html:not(.layout-mobile) .dest-featured .dest-feat-inner div[class*="bg-gradient"] { display: block !important; }
+  html:not(.layout-mobile) .dest-featured .dest-feat-inner { background-color: #d4d4d4 !important; }
+  html:not(.layout-mobile) .dest-featured .dest-feat-inner::before { content: 'Image here'; position: absolute; top: 45%; left: 0; right: 0; text-align: center;
+    font: 500 10px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #737373; pointer-events: none; }
+  @media (prefers-reduced-motion: reduce) { html:not(.layout-mobile) .dest-featured .dest-feat > .dest-feat-inner { clip-path: none !important; transition: none !important; } }
   /* ═══ CROWNE PLAZA TODAY — MOBILE VERSION of the Web feature page (same photos, copy, palette, fonts, motion).
      Scoped to .hotel-feature inside the phone canvas only. Undo: delete this block + git tag checkpoint-before-cp-mobile. ═══ */
   /* type: Menca for information, Arpona for titles */

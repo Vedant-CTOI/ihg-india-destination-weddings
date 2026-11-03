@@ -114,6 +114,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
   const MOBILE_INITIAL = 8;
   const [showAllMobile, setShowAllMobile] = useState(false);
   useEffect(() => { setShowAllMobile(false); }, [selectedDestinations, selectedCity, selectedOccasion, selectedGenre, searchQuery]);
+  useEffect(() => { if (!mobileLayout && (selectedDestinations.length || selectedCity !== 'All Cities' || selectedOccasion !== 'All Occasions' || selectedGenre !== 'All Genres' || searchQuery.trim())) setShowAll(true); }, [selectedDestinations, selectedCity, selectedOccasion, selectedGenre, searchQuery, mobileLayout]);
   const visibleHotels = mobileLayout && !showAllMobile ? filteredHotels.slice(0, MOBILE_INITIAL) : filteredHotels;
 
   const handleClearAllFilters = () => {
@@ -122,6 +123,17 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
     setSelectedGenre('All Genres');
     setSearchQuery('');
   };
+
+  // Featured destinations (display names on this page only; data untouched). Region 1/2/3 -> Goa/Thailand/Jaipur
+  const DEST_NAMES: Record<string, string> = { 'Region 1': 'Goa', 'Region 2': 'Thailand', 'Region 3': 'Jaipur' };
+  const destLabel = (city: string) => DEST_NAMES[city] || city.replace(/^Region (\d+)$/, 'Destination $1');
+  const featured = ['Region 1', 'Region 2', 'Region 3']
+    .map((c) => HOTELS_DATA.find((h) => h.city === c))
+    .filter(Boolean) as HotelProperty[];
+  const [hoverF, setHoverF] = useState<number | null>(null);
+  const [showAll, setShowAll] = useState(false);
+  const listRef = React.useRef<HTMLDivElement | null>(null);
+  const openAll = () => { setShowAll(true); setTimeout(() => listRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60); };
 
   const hasActiveFilters = selectedDestinations.length > 0 || selectedCity !== 'All Cities' || selectedOccasion !== 'All Occasions' || selectedGenre !== 'All Genres' || searchQuery.trim() !== '';
 
@@ -249,12 +261,67 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
           </div>
         ) : (
           <>
+          {/* ═══ FEATURED — Goa · Thailand · Jaipur (Web only). Hover widens a panel and reveals its copy + CTA. ═══ */}
+          {!mobileLayout && featured.length > 0 && (
+            <section className="dest-featured" aria-label="Featured destinations">
+              <div className="flex items-end justify-between mb-6">
+                <div data-wm="" className="flex items-center gap-3 text-[11px] uppercase tracking-[0.32em] text-neutral-600">
+                  <span className="block w-8 h-px bg-black/40" /><span>Featured Destinations</span>
+                </div>
+                <span data-wm="" className="text-[11px] uppercase tracking-[0.28em] text-neutral-400 tabular-nums">03 / {String(HOTELS_DATA.length).padStart(2, '0')}</span>
+              </div>
+              <div className="dest-featured-row flex gap-3 h-[min(72vh,620px)]" onMouseLeave={() => setHoverF(null)}>
+                {featured.map((hotel, k) => {
+                  const name = destLabel(hotel.city);
+                  const active = hoverF === k;
+                  return (
+                    <div key={hotel.city} data-wm="curtain" style={{ ['--d' as any]: `${k * 160}ms`, flexGrow: hoverF === null ? 1 : active ? 2.2 : 0.8 }}
+                         className="dest-feat relative basis-0 min-w-0 cursor-pointer transition-[flex-grow] duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+                         onMouseEnter={() => setHoverF(k)} onFocus={() => setHoverF(k)}
+                         onClick={() => handleOpenDestinationProperties(hotel)}>
+                      <div className="dest-feat-inner absolute inset-0 overflow-hidden bg-neutral-200 rounded-sm" style={{ transitionDelay: `${k * 160}ms` }}>
+                        <img src={hotel.image} alt={name}
+                             className={`w-full h-full object-cover filter grayscale contrast-110 transition-transform duration-[2200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${active ? 'scale-[1.06]' : 'scale-100'}`}
+                             onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }} />
+                        <div className={`absolute inset-0 transition-opacity duration-1000 bg-gradient-to-t from-black/80 via-black/25 to-transparent ${active ? 'opacity-100' : 'opacity-70'}`} />
+                        <div className="absolute inset-x-0 bottom-0 p-7 text-white">
+                          <span className="block text-[11px] uppercase tracking-[0.28em] text-white/75 mb-3 whitespace-nowrap">Lorem ipsum dolor sit amet</span>
+                          <h3 className="font-serif font-normal leading-[0.95] tracking-[-0.015em] text-[clamp(2.2rem,3.6vw,3.6rem)] whitespace-nowrap">
+                            <span className="text-white/55 mr-3 text-[0.55em] align-middle">{String(k + 1).padStart(2, '0')}</span>{name}
+                          </h3>
+                          <div className="grid transition-[grid-template-rows,opacity] duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+                               style={{ gridTemplateRows: active ? '1fr' : '0fr', opacity: active ? 1 : 0 }}>
+                            <div className="overflow-hidden">
+                              <p className="mt-4 max-w-md text-sm font-light leading-relaxed text-white/85">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                              <button type="button" onClick={(e) => { e.stopPropagation(); handleOpenDestinationProperties(hotel); }}
+                                      className="group/cta mt-5 inline-flex items-center gap-3 bg-white text-black text-[11px] uppercase tracking-wider font-medium pl-6 pr-5 py-3 rounded-full cursor-pointer">
+                                <span>Discover {name} Properties</span>
+                                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-700 group-hover/cta:translate-x-1" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div data-wm="" className="mt-10 flex justify-center">
+                <button type="button" onClick={() => (showAll ? setShowAll(false) : openAll())} aria-expanded={showAll}
+                        className="group/va inline-flex items-center gap-4 border border-black text-black hover:bg-black hover:text-white text-[11px] uppercase tracking-[0.28em] font-medium pl-8 pr-6 py-4 rounded-full transition-colors duration-700 cursor-pointer">
+                  <span>{showAll ? 'Show less' : 'View All Destinations'}</span>
+                  <ArrowRight className={`w-3.5 h-3.5 transition-transform duration-700 ${showAll ? '-rotate-90' : 'rotate-90'}`} />
+                </button>
+              </div>
+            </section>
+          )}
+
           {/* ═══ DESTINATION CHAPTERS (all destinations) — experiential rows, B/W + motion. "go back" = git checkout tag checkpoint-before-dest-chapters ═══ */}
-          {visibleHotels.length > 0 && (
-            <div className="dest-chapters space-y-20 lg:space-y-28">
+          {visibleHotels.length > 0 && (mobileLayout || showAll) && (
+            <div ref={listRef} className="dest-chapters space-y-20 lg:space-y-28 scroll-mt-[220px]">
               {visibleHotels.map((hotel, i) => {
                 const num = String(filteredHotels.indexOf(hotel) + 1).padStart(2, '0');
-                const destName = `Destination ${hotel.city.replace(/^Region (\d+)$/, '$1')}`;
+                const destName = destLabel(hotel.city);
                 const flip = i % 2 === 1;
                 return (
                   <article key={hotel.id} className={`dest-chapter grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center`}>
@@ -272,7 +339,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                           onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
                         />
                         <span className="absolute top-4 right-4 bg-black/85 text-white text-[10px] uppercase tracking-wider font-sans px-2.5 py-0.5 rounded-full font-medium border border-white/20">
-                          {hotel.city.replace(/^Region (\d+)$/, 'Destination $1')}
+                          {destLabel(hotel.city)}
                         </span>
                         <div className="dest-chapter-overlay absolute inset-x-0 bottom-0 px-6 pt-16 pb-5 bg-gradient-to-t from-black/75 via-black/30 to-transparent">
                           <span className="block text-[11px] uppercase tracking-[0.28em] text-white font-sans font-medium">
