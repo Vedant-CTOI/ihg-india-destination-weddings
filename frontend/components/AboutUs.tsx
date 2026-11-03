@@ -421,10 +421,9 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
           </div>
         )}
       </div>
-      {/* Visual: an arch (mehrab) frame + a smaller offset frame; placeholders until client images arrive */}
+      {/* Visual: one simple 16:9 rectangle; placeholder until client images arrive */}
       <div className="ha-visual" aria-hidden="true">
-        <div data-wm="curtain" className="ha-arch"><div className="ha-ph"><span>Image here</span></div></div>
-        <div data-wm="curtain" style={{ ['--d' as any]: '260ms' }} className="ha-small"><div className="ha-ph ha-ph-2"><span>Image here</span></div></div>
+        <div data-wm="curtain" className="ha-frame"><div className="ha-ph"><span>Image here</span></div></div>
         <span data-wm="" style={{ ['--d' as any]: '500ms' }} className="ha-caption"><span className="ha-dot" />{IMAGES[active].caption}</span>
       </div>
      </div>

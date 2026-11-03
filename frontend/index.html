@@ -1641,6 +1641,25 @@
   html.layout-mobile body #root .home-about .ha-cta { min-height: 46px !important; min-width: 0 !important; padding: 13px 22px !important; font-size: 10px !important; color: var(--maroon) !important; background: var(--ivory) !important; }
   html.layout-mobile body #root .home-about .ha-visual { height: 420px !important; }
   html.layout-mobile body #root .home-about .ha-caption { bottom: -26px !important; }
+
+  /* About — simple 16:9 rectangle (replaces arch + offset frame) */
+  .home-about .ha-visual { height: auto !important; }
+  .home-about .ha-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; }
+  .home-about .ha-frame > .ha-ph { border-radius: 4px; }
+  .home-about .ha-caption { position: static !important; margin-top: 14px; justify-content: flex-end; }
+  .home-about .ha-wrap { align-items: center; }
+  /* About — compact on mobile */
+  html.layout-mobile body #root .home-about { padding: 36px 16px 40px !important; }
+  html.layout-mobile body #root .home-about .ha-wrap { gap: 22px !important; }
+  html.layout-mobile body #root .home-about .ha-visual { order: -1; height: auto !important; }
+  html.layout-mobile body #root .home-about .ha-caption { margin-top: 8px !important; font-size: 9px !important; }
+  html.layout-mobile body #root .home-about .ha-title { font-size: 26px !important; margin-top: 12px !important; }
+  html.layout-mobile body #root .home-about .ha-paras { margin-top: 14px !important; gap: 10px !important; }
+  html.layout-mobile body #root .home-about .ha-paras p { font-size: 13px !important; line-height: 1.6 !important; }
+  html.layout-mobile body #root .home-about .ha-stats { margin-top: 20px !important; }
+  html.layout-mobile body #root .home-about .ha-stat { padding: 12px 8px !important; }
+  html.layout-mobile body #root .home-about .ha-num, html.layout-mobile body #root .home-about .ha-num * { font-size: 24px !important; }
+  html.layout-mobile body #root .home-about .ha-cta-row { margin-top: 20px !important; }
 </style>
 
   </head>
