@@ -168,15 +168,7 @@ export const HeroSectionClassic: React.FC = () => {
       <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
         <div className={`max-w-xl lg:max-w-2xl animate-fade-in ${currentSlide.realPhoto ? 'hero-copy-light' : ''}`} key={currentSlide.id}>
           
-          {/* Eyebrow & Sanctuary Indicator */}
-          <div className="inline-flex items-center space-x-2 text-[11px] uppercase tracking-[0.28em] text-neutral-600 mb-6 font-sans">
-            <span className="inline-block w-2 h-2 border border-neutral-500 shrink-0" />
-            <span>{currentSlide.tagline}</span>
-            <span className="text-neutral-400 hidden sm:inline">•</span>
-            <span className="text-neutral-500 hidden sm:inline text-[10px] tracking-wider">
-              {currentSlide.locationLabel}
-            </span>
-          </div>
+          {/* Repeated eyebrow (tagline = headline) removed at client request */}
 
           {/* Dynamic Headline with Italic Accent */}
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal leading-[1.12] text-black mb-6 tracking-tight">

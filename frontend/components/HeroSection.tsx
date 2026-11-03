@@ -214,28 +214,16 @@ const HeroSectionCinematic: React.FC = () => {
       {/* ── Foreground ── */}
       <div ref={contentRef} className="on-photo relative z-30 h-full max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-14 flex flex-col will-change-transform">
 
-        {/* Top meta row (sits below the transparent header) */}
-        <div className="pt-[124px] lg:pt-[176px] flex items-start justify-between">
-          <div key={`eyebrow-${cycle}`} className="soft-rise flex items-center gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.32em] text-white/75 font-sans">
-            <span className="block w-8 h-px bg-white/60" />
-            <span>{currentSlide.tagline}</span>
-            <span className="text-white/30 hidden sm:inline">•</span>
-            <span className="text-white/50 hidden sm:inline tracking-[0.2em]">{currentSlide.locationLabel}</span>
-          </div>
-        </div>
-
-        {/* Headline block — bottom-anchored */}
-        <div className="mt-auto pb-36 sm:pb-40 lg:pb-44 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-end">
-          <h1 key={`h1-${cycle}`} className="lg:col-span-8 font-display font-normal text-white leading-[0.95] tracking-[-0.02em] text-[clamp(2.75rem,6.3vw,7.5rem)]">
+        {/* Headline block — bottom-anchored; subtext sits directly under the headline. (Repeated top eyebrow removed at client request.) */}
+        <div className="mt-auto pb-32 sm:pb-36 lg:pb-40 max-w-3xl">
+          <h1 key={`h1-${cycle}`} className="font-display font-normal text-white leading-[1] tracking-[-0.015em] text-[clamp(2.2rem,4.2vw,4.6rem)]">
             <span className="mask-line"><span>{currentSlide.titlePrefix}</span></span>
-            <span className="mask-line"><span className="italic text-white/80" style={{ animationDelay: '120ms' }}>{currentSlide.titleItalic}</span></span>
+            <span className="mask-line"><span className="italic text-white/85" style={{ animationDelay: '120ms' }}>{currentSlide.titleItalic}</span></span>
           </h1>
-
-          <div key={`sub-${cycle}`} className="lg:col-span-4 lg:pb-4 max-w-sm soft-rise" style={{ animationDelay: '320ms' }}>
+          <div key={`sub-${cycle}`} className="mt-6 max-w-lg soft-rise" style={{ animationDelay: '320ms' }}>
             <p className="font-sans text-sm sm:text-[15px] text-white/90 font-normal leading-relaxed">
               {currentSlide.subtitle}
             </p>
-
           </div>
         </div>
       </div>
@@ -245,7 +233,7 @@ const HeroSectionCinematic: React.FC = () => {
         <div className="max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-14 pb-6 sm:pb-8 flex items-end gap-6 lg:gap-10">
 
           {/* Chapters — progress bar timing drives the auto-advance */}
-          <div className="flex-1 grid grid-cols-5 gap-3 sm:gap-5">
+          <div className="flex-1 flex items-end gap-3 sm:gap-4">
             {slides.map((slide, idx) => {
               const isActive = idx === currentIndex;
               const isDone = idx < currentIndex;
@@ -253,7 +241,7 @@ const HeroSectionCinematic: React.FC = () => {
                 <button
                   key={slide.id}
                   onClick={() => goTo(idx)}
-                  className="text-left cursor-pointer group/bar focus:outline-none"
+                  className="hero-bar text-left cursor-pointer group/bar focus:outline-none w-10 sm:w-14 lg:w-16 shrink-0"
                   aria-label={`Jump to slide ${idx + 1}: ${slide.tagline}`}
                 >
                   <span className="block py-3">
