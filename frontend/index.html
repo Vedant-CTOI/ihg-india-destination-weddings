@@ -243,53 +243,7 @@
     }
     @media (prefers-reduced-motion: reduce) { html:not(.layout-mobile) [data-wm="curtain"] > * { clip-path: none !important; transition: none !important; } }
     /* ===== /DESIGN TRANSFER step 3 ===== */
-    /* ===== WEB LANDING PAGE — STILL + NO PHOTOS (only Crowne Plaza Today keeps photos & motion) =====
-       Undo: delete this block + the .landing-home check in CountUp (webMotion.tsx). */
-    html:not(.layout-mobile) .landing-home .cine img { visibility: hidden !important; }
-    html:not(.layout-mobile) .landing-home .cine div:has(> img),
-    html:not(.layout-mobile) .landing-home .cine a:has(> img),
-    html:not(.layout-mobile) .landing-home .cine button:has(> img) { background-color: #E5E5E5 !important; }
-    html:not(.layout-mobile) .landing-home .cine div:has(> img)::after,
-    html:not(.layout-mobile) .landing-home .cine a:has(> img)::after,
-    html:not(.layout-mobile) .landing-home .cine button:has(> img)::after {
-      content: 'Image here'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-      font: 500 10px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #737373;
-      pointer-events: none; z-index: 2; }
-    html:not(.layout-mobile) .landing-home .cine div[class*="bg-gradient"] { display: none !important; }
-    html:not(.layout-mobile) .landing-home .grain::after { display: none !important; }
-    /* exception: real client photo on hero slide 1 shows in colour */
-    html:not(.layout-mobile) .landing-home .cine div.hero-real > img { visibility: visible !important; }
-    html:not(.layout-mobile) .landing-home .cine div.hero-real { background-color: transparent !important; }
-    html:not(.layout-mobile) .landing-home .cine div.hero-real::after { content: none !important; display: none !important; }
-    /* motion off */
-    html:not(.layout-mobile) .landing-home [data-wm],
-    html:not(.layout-mobile) .landing-home [data-wm] > *,
-    html:not(.layout-mobile) .landing-home .split-c { opacity: 1 !important; transform: none !important; filter: none !important;
-      clip-path: none !important; transition: none !important; }
-    html:not(.layout-mobile) .landing-home *:not(.hero-progress) { animation: none !important; }
-    html:not(.layout-mobile) .landing-home img { transform: none !important; transition: none !important; }
-    /* ===== WEB LANDING PAGE — BLACK & WHITE (client request). Dark bands → black, light bands → white; no brand colour.
-       Undo: delete this block. Crowne Plaza Today page keeps its colours (it is not inside .landing-home). */
-    html:not(.layout-mobile) body .landing-home { color: #111 !important; }
-    html:not(.layout-mobile) body .landing-home #about, html:not(.layout-mobile) body .landing-home #hotels-exploration, html:not(.layout-mobile) body .landing-home #real-weddings, html:not(.layout-mobile) body .landing-home [data-tone="dark"] { background-color: #000 !important; color: #fff !important; }
-    html:not(.layout-mobile) body .landing-home #destinations, html:not(.layout-mobile) body .landing-home #contact, html:not(.layout-mobile) body .landing-home .loyalty-band, html:not(.layout-mobile) body .landing-home [data-tone="light"] { background-color: #fff !important; }
-    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) :is(h1,h2,h3,h4,h5,p,span,label,li,a,div,input,textarea,select):not(button):not(button *) { color: #111 !important; }
-    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) :is(p,label) { color: #404040 !important; }
-    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) .sec-head span { color: #525252 !important; }
-    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) { border-color: #e5e5e5 !important; }
-    html:not(.layout-mobile) body .landing-home #destinations button.h-1 { background-color: rgba(0,0,0,.2) !important; }
-    html:not(.layout-mobile) body .landing-home #destinations, html:not(.layout-mobile) body .landing-home #contact { border-top: 1px solid #e5e5e5 !important; }
-    /* buttons on white bands → black pill, white text */
-    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) button:is([class*="bg-black"], [class*="rounded-full"]):not([class*="h-1"]):not([aria-label]) { background: #000 !important; color: #fff !important; }
-    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) button:is([class*="bg-black"], [class*="rounded-full"]):not([class*="h-1"]):not([aria-label]) * { color: #fff !important; }
-    html:not(.layout-mobile) body .landing-home :is(#destinations, #contact, .loyalty-band) button:is([class*="bg-black"], [class*="rounded-full"]):not([class*="h-1"]):not([aria-label]):hover { background: #262626 !important; }
-    /* white pill buttons on the black bands keep black labels */
-    html:not(.layout-mobile) body .landing-home :is(#about, #hotels-exploration, #real-weddings) button[class*="bg-white"], html:not(.layout-mobile) body .landing-home :is(#about, #hotels-exploration, #real-weddings) button[class*="bg-white"] *,
-    html:not(.layout-mobile) body .landing-home :is(#hotels-exploration, #real-weddings) .sec-head button, html:not(.layout-mobile) body .landing-home :is(#hotels-exploration, #real-weddings) .sec-head button span { color: #000 !important; }
-    /* text sitting on the grey "Image here" boxes → dark, so it stays readable */
-    html:not(.layout-mobile) body .landing-home :is(#destinations, #real-weddings, #about) div.relative.overflow-hidden:has(> img) > :is(div,span).absolute,
-    html:not(.layout-mobile) body .landing-home :is(#destinations, #real-weddings, #about) div.relative.overflow-hidden:has(> img) > :is(div,span).absolute :is(h3,h4,p,span),
-    html:not(.layout-mobile) body .landing-home :is(#destinations, #real-weddings) div.relative.overflow-hidden:has(img) > div.absolute:not(:has(img)) :is(h3,h4,p,span) { color: #111 !important; }
+    /* ===== WEB LANDING still/no-photo + black&white blocks RETIRED (homepage palette redesign). Restore: git tag checkpoint-before-home-palette ===== */
     /* ===== HOTEL 1 FEATURE PAGE (WEB VERSION ONLY) — .hotel-feature is set only for Hotel 1 in Web view =====
        Landing-page language: full-bleed bands, hairlines, no containers. Photos exempt from the wireframe rule. */
     .hotel-feature img { visibility: visible !important; background-color: transparent !important; filter: none !important; min-width: 0; min-height: 0; }
@@ -1621,6 +1575,72 @@
   .header-over-hero, .header-over-hero * { text-shadow: 0 1px 2px rgba(0,0,0,.55), 0 0 14px rgba(0,0,0,.35); }
   .header-over-hero button[class*="bg-white"], .header-over-hero button[class*="bg-white"] *, .header-over-hero [aria-label="Layout preview toggle"] * { text-shadow: none !important; }
   .header-over-hero nav, .header-over-hero nav * { color: #fff !important; }
+
+  /* ═══════════ HOMEPAGE PALETTE (client brand sheet) ═══════════
+     Primary: Bridal Maroon #89384A · Dark Green #2A4D41 · Haldi Gold #C97F27 · Sage Copper #A76548
+     Secondary: Ivory #EFB77E (sheet label #E5B77E; swatch reads as a soft cream, used as #F7F0E4 ground + #E5B77E accent) · Baby Pink #F8DAD9 · Sky Blue #D9E2F4 · Mehendi Sage #C1C6AF */
+  :root { --maroon:#89384A; --maroon-d:#6E2B3A; --green:#2A4D41; --green-d:#1F3A31; --haldi:#C97F27; --copper:#A76548;
+    --ivory:#F7F0E4; --ivory-acc:#E5B77E; --pink:#F8DAD9; --sky:#D9E2F4; --sage:#C1C6AF; --ink:#2B1A1E; }
+  .landing-home { background: var(--ivory); }
+  /* gentle motion back on the homepage (rise + curtain), both views, reduced-motion respected */
+  html.layout-mobile .landing-home [data-wm] { opacity: 0; transform: translate3d(0, 22px, 0); transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1); transition-delay: var(--d, 0ms); }
+  html.layout-mobile .landing-home [data-wm][data-wm-in] { opacity: 1; transform: none; }
+  html.layout-mobile .landing-home [data-wm="curtain"] { opacity: 1; transform: none; transition: none; }
+  html.layout-mobile .landing-home [data-wm="curtain"] > * { clip-path: inset(100% 0 0 0); transition: clip-path 1.4s cubic-bezier(0.77,0,0.18,1); transition-delay: var(--d, 0ms); }
+  html.layout-mobile .landing-home [data-wm="curtain"][data-wm-in] > * { clip-path: inset(0 0 0 0); }
+  html:not(.layout-mobile) .landing-home [data-wm="curtain"] > * { transition-delay: var(--d, 0ms); }
+  @media (prefers-reduced-motion: reduce) { .landing-home [data-wm], .landing-home [data-wm] > * { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; } }
+
+  /* ── 1. ABOUT US — Bridal Maroon band, ivory type, arch frame ── */
+  .home-about { background: var(--maroon); color: var(--ivory); position: relative; overflow: hidden; padding: 112px 32px 120px; }
+  .home-about::before { content: ''; position: absolute; right: -14%; top: -30%; width: 62%; aspect-ratio: 1; border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,127,39,.18), transparent 65%); pointer-events: none; }
+  .home-about .ha-wrap { max-width: 80rem; margin: 0 auto; display: grid; grid-template-columns: 1.05fr 1fr; gap: 72px; align-items: center; position: relative; }
+  .home-about .ha-eyebrow { display: flex; align-items: center; gap: 14px; font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: rgba(247,240,228,.8); }
+  .home-about .ha-rule { display: block; width: 40px; height: 1px; background: var(--haldi); }
+  .home-about .ha-title { margin-top: 26px; font-size: clamp(2.6rem, 4.6vw, 4.6rem); line-height: 1.0; letter-spacing: -0.015em; color: #fff; }
+  .home-about .ha-title-it { font-style: italic; color: var(--ivory-acc); }
+  .home-about .ha-paras { margin-top: 34px; display: grid; gap: 16px; max-width: 34rem; }
+  .home-about .ha-paras p { font-size: 15px; line-height: 1.8; color: rgba(247,240,228,.86); font-weight: 400; }
+  .home-about .ha-stats { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(247,240,228,.22); border-bottom: 1px solid rgba(247,240,228,.22); max-width: 34rem; }
+  .home-about .ha-stat { padding: 22px 18px 20px; }
+  .home-about .ha-stat + .ha-stat { border-left: 1px solid rgba(247,240,228,.22); }
+  .home-about .ha-stat:first-child { padding-left: 0; }
+  .home-about .ha-num { display: flex; align-items: baseline; gap: 3px; font-family: "Arpona","Bodoni Moda",serif !important; font-size: 40px; line-height: 1; color: #fff; font-variant-numeric: tabular-nums; }
+  .home-about .ha-num * { font-family: "Arpona","Bodoni Moda",serif !important; }
+  .home-about .ha-unit { font-size: 20px; color: var(--ivory-acc); }
+  .home-about .ha-label { display: block; margin-top: 10px; font-size: 9.5px; letter-spacing: .26em; text-transform: uppercase; color: rgba(247,240,228,.7); }
+  .home-about .ha-cta-row { margin-top: 38px; }
+  .home-about .ha-cta { display: inline-flex; align-items: center; gap: 14px; padding: 15px 26px 15px 30px; border-radius: 9999px; background: var(--ivory); color: var(--maroon);
+    font-size: 11px; letter-spacing: .26em; text-transform: uppercase; font-weight: 500; cursor: pointer; transition: background-color .7s cubic-bezier(0.16,1,0.3,1), color .7s; }
+  .home-about .ha-cta * { color: inherit !important; }
+  .home-about .ha-cta:hover { background: var(--haldi); color: #fff; }
+  .home-about .ha-visual { position: relative; height: 620px; }
+  .home-about .ha-arch { position: absolute; right: 0; top: 0; width: 78%; height: 100%; }
+  .home-about .ha-arch > .ha-ph { border-radius: 999px 999px 6px 6px; }
+  .home-about .ha-small { position: absolute; left: 0; bottom: 40px; width: 38%; aspect-ratio: 4 / 5; }
+  .home-about .ha-small > .ha-ph { border-radius: 6px; outline: 8px solid var(--maroon); }
+  .home-about .ha-ph { position: absolute; inset: 0; background: linear-gradient(160deg, #A55465, #94404F); border: 1px solid rgba(247,240,228,.28);
+    display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .home-about .ha-ph span { font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: rgba(247,240,228,.6); }
+  .home-about .ha-ph-2 { background: linear-gradient(160deg, #B5723A, #9E5F33); }
+  .home-about .ha-caption { position: absolute; right: 0; bottom: -34px; display: flex; align-items: center; gap: 10px; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: rgba(247,240,228,.75); }
+  .home-about .ha-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--haldi); display: inline-block; }
+  /* mobile */
+  html.layout-mobile body #root .home-about { padding: 52px 18px 60px !important; }
+  html.layout-mobile body #root .home-about .ha-wrap { grid-template-columns: 1fr !important; gap: 44px !important; display: grid !important; }
+  html.layout-mobile body #root .home-about .ha-title { font-size: 34px !important; line-height: 1.02 !important; margin-top: 18px !important; color: #fff !important; }
+  html.layout-mobile body #root .home-about .ha-title-it { color: var(--ivory-acc) !important; }
+  html.layout-mobile body #root .home-about .ha-paras p { font-size: 14px !important; line-height: 1.7 !important; color: rgba(247,240,228,.88) !important; display: block !important; -webkit-line-clamp: unset !important; max-height: none !important; overflow: visible !important; }
+  html.layout-mobile body #root .home-about .ha-eyebrow, html.layout-mobile body #root .home-about .ha-eyebrow * { color: rgba(247,240,228,.8) !important; font-size: 10px !important; }
+  html.layout-mobile body #root .home-about .ha-num, html.layout-mobile body #root .home-about .ha-num * { font-size: 28px !important; color: #fff !important; }
+  html.layout-mobile body #root .home-about .ha-unit { font-size: 15px !important; color: var(--ivory-acc) !important; }
+  html.layout-mobile body #root .home-about .ha-label { font-size: 8px !important; letter-spacing: .18em !important; color: rgba(247,240,228,.72) !important; }
+  html.layout-mobile body #root .home-about .ha-stat { padding: 16px 10px !important; }
+  html.layout-mobile body #root .home-about .ha-stat:first-child { padding-left: 0 !important; }
+  html.layout-mobile body #root .home-about .ha-cta { min-height: 46px !important; min-width: 0 !important; padding: 13px 22px !important; font-size: 10px !important; color: var(--maroon) !important; background: var(--ivory) !important; }
+  html.layout-mobile body #root .home-about .ha-visual { height: 420px !important; }
+  html.layout-mobile body #root .home-about .ha-caption { bottom: -26px !important; }
 </style>
 
   </head>

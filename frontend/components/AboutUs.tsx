@@ -356,9 +356,6 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
   const numRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   // Web landing page is now still (only Crowne Plaza Today keeps motion): no image cycling, no count-up
-  useEffect(() => {
-    numRefs.current.forEach((n, i) => { if (n) n.textContent = fmt(STATS[i].to); });
-  }, []);
 
   useEffect(() => {
     if (STILL_LANDING) return;
@@ -367,7 +364,6 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
   }, []);
 
   useEffect(() => {
-    if (STILL_LANDING) return;
     const el = statsRef.current;
     if (!el) return;
     let raf = 0;
@@ -389,59 +385,47 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
       raf = requestAnimationFrame(step);
     }, { threshold: 0.4 });
     io.observe(el);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { io.disconnect(); numRefs.current.forEach((n, i) => { if (n) n.textContent = fmt(STATS[i].to); }); }
     return () => { io.disconnect(); cancelAnimationFrame(raf); };
   }, []);
 
+  const mobile = useMobileLayout();
   return (
-    <section id="about" className="cine text-white py-20 px-5 sm:px-8" style={{ backgroundColor: PALETTE.maroon }} aria-label="About Us — IHG Weddings">
-     <div className="max-w-7xl mx-auto lg:grid lg:grid-cols-12 lg:gap-16 lg:items-center">
-      <div className="lg:col-span-6 lg:col-start-1 lg:row-start-1 lg:self-end">
-      <Eyebrow />
-      <h2 className="mt-5 font-display font-normal leading-[1.02] tracking-[-0.015em] text-[clamp(2.4rem,9vw,4rem)]">
-        Placeholder Text <br />
-        <span className="italic text-white/75">(About Us)</span>
-      </h2>
-      </div>
-      <div className="relative mt-10 aspect-[4/5] lg:aspect-[5/4] overflow-hidden -mx-5 sm:-mx-8 lg:mx-0 lg:mt-0 lg:col-span-6 lg:col-start-7 lg:row-start-1 lg:row-span-2">
-        {IMAGES.map((im, i) => (
-          <img
-            key={im.src}
-            src={im.src}
-            alt={im.alt}
-            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[1600ms]"
-            style={{ opacity: i === active ? 1 : 0 }}
-          />
-        ))}
-        <span className="absolute right-5 bottom-5 text-[10px] uppercase tracking-[0.32em] text-white/80 font-sans">{IMAGES[active].caption}</span>
-      </div>
-      <div className="lg:col-span-6 lg:col-start-1 lg:row-start-2 lg:self-start">
-      <div className="mt-10 space-y-4">
-        {PARAGRAPHS.map((t, i) => (
-          <p key={i} className="font-sans font-light text-[15px] leading-[1.75] text-white/75">{t}</p>
-        ))}
-      </div>
-      <div ref={statsRef} className="mt-10 border-t border-white/15 grid grid-cols-3">
-        {STATS.map((st, i) => (
-          <div key={st.label} className={`pt-6 ${i > 0 ? 'pl-4' : ''} ${i < STATS.length - 1 ? 'pr-4 border-r border-white/15' : ''}`}>
-            <div className="flex items-baseline gap-1 font-display leading-none tabular-nums">
-              <span ref={(n) => { numRefs.current[i] = n; }} className="text-3xl">0</span>
-              <span className="text-lg text-white/60">{st.unit}</span>
-            </div>
-            <span className="block mt-2 text-[9px] uppercase tracking-[0.24em] text-white/55 font-sans">{st.label}</span>
-          </div>
-        ))}
-      </div>
-      {onOpenAboutPage && (
-        <div className="mt-10">
-          <button
-                type="button"
-                onClick={onOpenAboutPage}
-                className="inline-flex items-center space-x-2 text-[11px] font-sans uppercase tracking-wider bg-white hover:bg-neutral-200 text-black px-6 py-3 rounded-full transition-colors duration-500 font-medium cursor-pointer"
-              >
-                <span>Discover Our Story</span>
-              </button>
+    <section id="about" className={`home-about ${mobile ? 'is-mobile' : ''}`} aria-label="About Us — IHG Weddings">
+     <div className="ha-wrap">
+      <div className="ha-copy">
+        <div data-wm="" className="ha-eyebrow"><span className="ha-rule" /><span>About Us — IHG Weddings</span></div>
+        <h2 data-wm="" style={{ ['--d' as any]: '120ms' }} className="ha-title">
+          Placeholder Text <br />
+          <span className="ha-title-it">(About Us)</span>
+        </h2>
+        <div className="ha-paras">
+          {PARAGRAPHS.map((t, i) => (
+            <p key={i} data-wm="" style={{ ['--d' as any]: `${240 + i * 120}ms` }}>{t}</p>
+          ))}
         </div>
-      )}
+        <div ref={statsRef} data-wm="" style={{ ['--d' as any]: '480ms' }} className="ha-stats">
+          {STATS.map((st, i) => (
+            <div key={st.label} className="ha-stat">
+              <div className="ha-num"><span ref={(n) => { numRefs.current[i] = n; }}>0</span><span className="ha-unit">{st.unit}</span></div>
+              <span className="ha-label">{st.label}</span>
+            </div>
+          ))}
+        </div>
+        {onOpenAboutPage && (
+          <div data-wm="" style={{ ['--d' as any]: '600ms' }} className="ha-cta-row">
+            <button type="button" onClick={onOpenAboutPage} className="ha-cta group/ha">
+              <span>Discover Our Story</span>
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true" className="transition-transform duration-700 group-hover/ha:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </button>
+          </div>
+        )}
+      </div>
+      {/* Visual: an arch (mehrab) frame + a smaller offset frame; placeholders until client images arrive */}
+      <div className="ha-visual" aria-hidden="true">
+        <div data-wm="curtain" className="ha-arch"><div className="ha-ph"><span>Image here</span></div></div>
+        <div data-wm="curtain" style={{ ['--d' as any]: '260ms' }} className="ha-small"><div className="ha-ph ha-ph-2"><span>Image here</span></div></div>
+        <span data-wm="" style={{ ['--d' as any]: '500ms' }} className="ha-caption"><span className="ha-dot" />{IMAGES[active].caption}</span>
       </div>
      </div>
     </section>
@@ -460,11 +444,10 @@ const AboutUsCinematic: React.FC<AboutUsProps> = (props) => {
     return () => mq.removeEventListener('change', on);
   }, []);
   // STILL_LANDING: the pinned scroll chapter is retired on the web landing page; the plain stacked layout is used instead
-  return desktop && !STILL_LANDING ? <PinnedAbout {...props} /> : <StackedAbout {...props} />;
+  return desktop && !STILL_LANDING && !document.documentElement.classList.contains('layout-mobile') ? <PinnedAbout {...props} /> : <StackedAbout {...props} />;
 };
 
 /* Web version = pinned chapter (design transfer from v1-local). Mobile layout keeps the classic section. */
 export const AboutUs: React.FC<AboutUsProps> = (props) => {
-  const mobile = useMobileLayout();
-  return mobile ? <AboutUsClassic {...props} /> : <AboutUsCinematic {...props} />;
+  return <AboutUsCinematic {...props} />; // redesigned About (palette) on both views; AboutUsClassic kept for undo
 };
