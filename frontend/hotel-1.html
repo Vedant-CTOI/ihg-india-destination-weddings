@@ -1387,6 +1387,10 @@
   html.layout-mobile body #root section .hero-copy-light p { color: rgba(255,255,255,.95) !important; opacity: 1 !important; }
   .hero-copy-light .font-light, .on-photo .font-light, .dest-featured .on-photo p { font-weight: 500 !important; }
   html.layout-mobile body #root section .hero-copy-light h1 + p + div, html.layout-mobile body #root section .hero-copy-light h1 + p + div * { font-size: 11.5px !important; font-weight: 500 !important; }
+  /* header over the (now brighter) hero photo: soft halo so white type reads on light areas */
+  .header-over-hero, .header-over-hero * { text-shadow: 0 1px 2px rgba(0,0,0,.55), 0 0 14px rgba(0,0,0,.35); }
+  .header-over-hero button[class*="bg-white"], .header-over-hero button[class*="bg-white"] *, .header-over-hero [aria-label="Layout preview toggle"] * { text-shadow: none !important; }
+  .header-over-hero nav, .header-over-hero nav * { color: #fff !important; }
 </style>
 </head>
 <body class="bg-white text-black font-body antialiased selection:bg-black selection:text-white">

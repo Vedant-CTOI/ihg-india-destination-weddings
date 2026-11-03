@@ -205,9 +205,11 @@ const HeroSectionCinematic: React.FC = () => {
           1. a uniform 35% black veil over the whole image sets a guaranteed contrast floor for white type
           2. a bottom gradient deepens the zone where the headline, copy and CTA sit
           3. a top gradient keeps the white header legible */}
-      <div className="absolute inset-0 z-20 pointer-events-none" style={{ background: 'rgba(0,0,0,0.42)' }} />
-      <div className="absolute inset-x-0 bottom-0 h-[70%] z-20 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4) 50%, transparent)' }} />
-      <div className="absolute inset-x-0 top-0 h-64 z-20 pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.3) 50%, transparent)' }} />
+      {/* Bright photo, dark only where type sits: light 8% veil, bottom-left vignette under the headline, short top fade under the header */}
+      <div className="absolute inset-0 z-20 pointer-events-none" style={{ background: 'rgba(0,0,0,0.08)' }} />
+      <div className="absolute inset-x-0 bottom-0 h-[62%] z-20 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0.32) 45%, transparent)' }} />
+      <div className="absolute inset-0 z-20 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 60% at 18% 82%, rgba(0,0,0,0.38), transparent 70%)' }} />
+      <div className="absolute inset-x-0 top-0 h-56 z-20 pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.58), rgba(0,0,0,0.3) 60%, transparent)' }} />
 
       {/* ── Foreground ── */}
       <div ref={contentRef} className="on-photo relative z-30 h-full max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-14 flex flex-col will-change-transform">

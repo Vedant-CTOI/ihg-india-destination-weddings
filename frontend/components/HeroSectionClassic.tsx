@@ -159,8 +159,8 @@ export const HeroSectionClassic: React.FC = () => {
         </>}
         {/* Real photo slide — dark veil so the white overlay text reads */}
         {currentSlide.realPhoto && <>
-        <div className="absolute inset-0 z-20" style={{ background: 'rgba(0,0,0,0.40)' }} />
-        <div className="absolute inset-0 z-20" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.68), rgba(0,0,0,0.25) 70%, rgba(0,0,0,0.1))' }} />
+        <div className="absolute inset-0 z-20" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.55), rgba(0,0,0,0.12) 55%, transparent 80%)' }} />
+        <div className="absolute inset-x-0 bottom-0 h-1/2 z-20" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.35), transparent)' }} />
         </>}
       </div>
 

@@ -92,7 +92,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className={`${cinematic ? 'fixed inset-x-0' : 'sticky'} top-0 z-30 transition-[background-color,border-color,color] duration-700 ${
-      overHero ? 'bg-transparent border-b border-white/15 text-white' : 'bg-white/95 backdrop-blur-md border-b border-black/10 text-black'
+      overHero ? 'header-over-hero bg-transparent border-b border-white/15 text-white' : 'bg-white/95 backdrop-blur-md border-b border-black/10 text-black'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
