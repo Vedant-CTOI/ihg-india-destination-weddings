@@ -40,9 +40,10 @@ const HeroSectionCinematic: React.FC = () => {
       titleItalic: 'continues here.',
       subtitle: 'Hero banner subtext line for the second carousel slide, kept brief for the overlay layout.',
       locationLabel: 'Hotel 3 • Destination 2',
-      image: '/hero/hero-2.png',
+      image: '/hero/hero-2-photo.jpg', // client photo DSC09164
       trueColour: true,
-      focus: '35% 40%'
+      focus: '35% 25%',
+      realPhoto: true
     },
     {
       id: 'banner-3',
@@ -51,9 +52,10 @@ const HeroSectionCinematic: React.FC = () => {
       titleItalic: 'continues here.',
       subtitle: 'Hero banner subtext line for the third carousel slide, kept brief for the overlay layout.',
       locationLabel: 'Hotel 6 • Destination 5',
-      image: '/hero/hero-3.png',
+      image: '/hero/hero-3-photo.jpg', // client photo DSC09277
       trueColour: true,
-      focus: '50% 35%'
+      focus: '50% 40%',
+      realPhoto: true
     },
     {
       id: 'banner-4',
@@ -62,9 +64,10 @@ const HeroSectionCinematic: React.FC = () => {
       titleItalic: 'continues here.',
       subtitle: 'Hero banner subtext line for the fourth carousel slide, kept brief for the overlay layout.',
       locationLabel: 'Hotel 7 • Destination 4',
-      image: '/hero/hero-4.png',
+      image: '/hero/hero-4-photo.jpg', // client photo DSC09396
       trueColour: true,
-      focus: '45% 45%'
+      focus: '55% 30%',
+      realPhoto: true
     },
     {
       id: 'banner-5',
@@ -73,9 +76,10 @@ const HeroSectionCinematic: React.FC = () => {
       titleItalic: 'continues here.',
       subtitle: 'Hero banner subtext line for the fifth carousel slide, kept brief for the overlay layout.',
       locationLabel: 'Hotel 5 • Destination 3',
-      image: '/hero/hero-5.png',
+      image: '/hero/hero-5-photo.jpg', // client photo DSC09568
       trueColour: true,
-      focus: '50% 68%'
+      focus: '42% 38%',
+      realPhoto: true
     }
   ];
 
