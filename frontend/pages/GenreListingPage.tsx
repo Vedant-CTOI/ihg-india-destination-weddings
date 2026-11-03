@@ -179,10 +179,12 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
 
       {/* Hero Banner (Grayscale Luxury) with lorem placeholder text */}
       <div className="relative h-[380px] sm:h-[440px] w-full overflow-hidden bg-black">
+        {/* Dummy hero photo (Unsplash, free licence — Udaipur City Palace on Lake Pichola) until client imagery */}
         <img
-          src={PLACEHOLDER_IMG}
-          alt="Destination hero placeholder"
-          className="w-full h-full object-cover filter grayscale contrast-115"
+          src="/destinations/hero.jpg"
+          alt="Destination hero"
+          data-real-photo=""
+          className="dest-hero-img w-full h-full object-cover"
           onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />

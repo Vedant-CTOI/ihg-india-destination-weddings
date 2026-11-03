@@ -1382,6 +1382,8 @@
     font: 500 10px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .22em; text-transform: uppercase; color: #737373; pointer-events: none; }
   @media (prefers-reduced-motion: reduce) { html:not(.layout-mobile) .dest-featured .dest-feat > .dest-feat-inner { clip-path: none !important; transition: none !important; } }
   /* Destinations: photos (dummy) shown in colour; list preview under "View All" = faded, fully visible as you scroll */
+  .dest-page img.dest-hero-img[data-real-photo] { visibility: visible !important; background-color: transparent !important; filter: none !important; }
+  .dest-page div:has(> img.dest-hero-img[data-real-photo]) > div[class*="bg-gradient"] { display: block !important; }
   .dest-featured img[data-real-photo], .dest-chapters img[data-real-photo] { visibility: visible !important; background-color: transparent !important; }
   .dest-featured .dest-feat-inner:has(img[data-real-photo])::before { content: none !important; }
   .dest-chapters .aspect-video:has(img[data-real-photo]) { background-color: transparent !important; }
