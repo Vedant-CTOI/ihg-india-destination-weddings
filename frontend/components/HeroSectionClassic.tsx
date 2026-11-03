@@ -159,8 +159,8 @@ export const HeroSectionClassic: React.FC = () => {
         </>}
         {/* Real photo slide — dark veil so the white overlay text reads */}
         {currentSlide.realPhoto && <>
-        <div className="absolute inset-0 z-20" style={{ background: 'rgba(0,0,0,0.30)' }} />
-        <div className="absolute inset-0 z-20" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.55), rgba(0,0,0,0.15) 70%, transparent)' }} />
+        <div className="absolute inset-0 z-20" style={{ background: 'rgba(0,0,0,0.40)' }} />
+        <div className="absolute inset-0 z-20" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.68), rgba(0,0,0,0.25) 70%, rgba(0,0,0,0.1))' }} />
         </>}
       </div>
 
@@ -193,7 +193,7 @@ export const HeroSectionClassic: React.FC = () => {
 
           {/* Slide Meta (CTA removed) */}
           <div className="flex items-center space-x-4 text-xs font-sans">
-            <div className="hidden sm:flex items-center space-x-2 text-[11px] text-neutral-600 font-light tracking-wide">
+            <div className={`hidden sm:flex items-center space-x-2 text-[11px] font-light tracking-wide ${currentSlide.realPhoto ? 'text-white' : 'text-neutral-600'}`} style={currentSlide.realPhoto ? { color: 'rgba(255,255,255,.95)', textShadow: '0 1px 2px rgba(0,0,0,.6)' } : undefined}>
               <span>{currentIndex + 1} of {totalSlides}</span>
               <span>•</span>
               <span className="truncate max-w-[200px]">{currentSlide.locationLabel.split('•')[0]}</span>

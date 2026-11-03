@@ -124,10 +124,10 @@ export const FeatureHero: React.FC<{ hotel: HotelProperty; onExpand: () => void 
     <div className="hf-mhero">
       <div className="relative w-full overflow-hidden text-white" style={{ aspectRatio: '16 / 9', backgroundColor: '#000' }}>
         <img src={FEATURE_HERO} alt={hotel.name} className="absolute inset-0 w-full h-full object-cover hero-zoom" style={{ objectPosition: '50% 62%' }} />
-        <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.25)' }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.38)' }} />
         <div className="absolute inset-x-0 bottom-0 h-[65%] pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75), transparent)' }} />
         <div className="absolute inset-x-0 top-0 h-16 pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.45), transparent)' }} />
-        <div className="absolute inset-x-0 bottom-0 px-[18px] pb-4">
+        <div className="on-photo absolute inset-x-0 bottom-0 px-[18px] pb-4">
           <h1 className="hf-mhero-title font-normal text-white"><span className="mask-line"><span>{hotel.name}</span></span></h1>
         </div>
       </div>
@@ -143,12 +143,12 @@ export const FeatureHero: React.FC<{ hotel: HotelProperty; onExpand: () => void 
       <div ref={imgRef} className="absolute inset-0 will-change-transform">
         <img src={FEATURE_HERO} alt={hotel.name} className="w-full h-full object-cover hero-zoom" style={{ objectPosition: '50% 62%' }} />
       </div>
-      <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.35)' }} />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.42)' }} />
       <div className="absolute inset-x-0 bottom-0 h-[70%] pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4) 50%, transparent)' }} />
       <div className="absolute inset-x-0 top-0 h-48 pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.5), transparent)' }} />
 
 
-      <div ref={copyRef} className="absolute inset-x-0 bottom-0 z-10 will-change-transform">
+      <div ref={copyRef} className="on-photo absolute inset-x-0 bottom-0 z-10 will-change-transform">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
           {/* small brand · city label removed at client request */}
           <h1 className="font-normal leading-[0.95] tracking-[-0.02em] text-[clamp(2.5rem,5.6vw,5.6rem)]">

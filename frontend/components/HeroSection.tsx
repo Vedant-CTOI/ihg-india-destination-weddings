@@ -205,12 +205,12 @@ const HeroSectionCinematic: React.FC = () => {
           1. a uniform 35% black veil over the whole image sets a guaranteed contrast floor for white type
           2. a bottom gradient deepens the zone where the headline, copy and CTA sit
           3. a top gradient keeps the white header legible */}
-      <div className="absolute inset-0 z-20 pointer-events-none" style={{ background: 'rgba(0,0,0,0.35)' }} />
+      <div className="absolute inset-0 z-20 pointer-events-none" style={{ background: 'rgba(0,0,0,0.42)' }} />
       <div className="absolute inset-x-0 bottom-0 h-[70%] z-20 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.4) 50%, transparent)' }} />
       <div className="absolute inset-x-0 top-0 h-64 z-20 pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.3) 50%, transparent)' }} />
 
       {/* ── Foreground ── */}
-      <div ref={contentRef} className="relative z-30 h-full max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-14 flex flex-col will-change-transform">
+      <div ref={contentRef} className="on-photo relative z-30 h-full max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-14 flex flex-col will-change-transform">
 
         {/* Top meta row (sits below the transparent header) */}
         <div className="pt-[124px] lg:pt-[176px] flex items-start justify-between">
@@ -230,7 +230,7 @@ const HeroSectionCinematic: React.FC = () => {
           </h1>
 
           <div key={`sub-${cycle}`} className="lg:col-span-4 lg:pb-4 max-w-sm soft-rise" style={{ animationDelay: '320ms' }}>
-            <p className="font-sans text-sm sm:text-[15px] text-white/75 font-light leading-relaxed">
+            <p className="font-sans text-sm sm:text-[15px] text-white/90 font-normal leading-relaxed">
               {currentSlide.subtitle}
             </p>
 

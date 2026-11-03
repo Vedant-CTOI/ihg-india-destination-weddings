@@ -156,7 +156,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
   const hasActiveFilters = selectedDestinations.length > 0 || selectedCity !== 'All Cities' || selectedOccasion !== 'All Occasions' || selectedGenre !== 'All Genres' || searchQuery.trim() !== '';
 
   return (
-    <div className="min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
+    <div className="dest-page min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
 
       {/* Top Breadcrumb Bar */}
       <div className="border-b border-neutral-200 bg-neutral-50 py-3">
@@ -187,7 +187,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
-        <div className="absolute bottom-8 left-0 right-0">
+        <div className="on-photo absolute bottom-8 left-0 right-0">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
             <span className="bg-white text-black text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full font-bold inline-block mb-2.5">
               Discover by Destination
@@ -208,7 +208,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
 
         {/* Filter Bar — compact: 2 per row, labels inside the fields, count + reset on the last row; pinned under the header */}
-        <div className="filter-bar sticky z-20 bg-neutral-50/95 backdrop-blur-sm p-2.5 rounded-2xl border border-neutral-200">
+        <div className="filter-bar dest-filter sticky z-20 bg-neutral-50/95 backdrop-blur-sm p-2.5 rounded-2xl border border-neutral-200">
           <div className="grid grid-cols-2 gap-2">
               <div className="min-w-0">
                 <DestinationDropdown
@@ -301,8 +301,8 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                         <img src={destImg(hotel)} alt={name} data-real-photo=""
                              className={`w-full h-full object-cover transition-transform duration-[2200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${active ? 'scale-[1.06]' : 'scale-100'}`}
                              onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }} />
-                        <div className={`absolute inset-0 transition-opacity duration-1000 bg-gradient-to-t from-black/80 via-black/25 to-transparent ${active ? 'opacity-100' : 'opacity-70'}`} />
-                        <div className="absolute inset-x-0 bottom-0 p-7 text-white">
+                        <div className={`absolute inset-0 transition-opacity duration-1000 bg-gradient-to-t from-black/90 via-black/45 to-black/5 ${active ? 'opacity-100' : 'opacity-85'}`} />
+                        <div className="on-photo absolute inset-x-0 bottom-0 p-7 text-white">
                           <span className="block text-[11px] uppercase tracking-[0.28em] text-white/75 mb-3 whitespace-nowrap">Lorem ipsum dolor sit amet</span>
                           <h3 className="font-serif font-normal leading-[0.95] tracking-[-0.015em] text-[clamp(2.2rem,3.6vw,3.6rem)] whitespace-nowrap">
                             <span className="text-white/55 mr-3 text-[0.55em] align-middle">{String(k + 1).padStart(2, '0')}</span>{name}

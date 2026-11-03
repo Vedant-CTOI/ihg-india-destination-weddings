@@ -1557,6 +1557,65 @@
   html.layout-mobile body #root .hotel-feature .hotel-feature-body > section:first-of-type > div.max-w-7xl { padding-top: 18px !important; padding-bottom: 18px !important; }
   html.layout-mobile .hotel-feature.mobile-enquiry-popup, html.layout-mobile .hotel-feature.mobile-enquiry-fab { opacity: 1 !important; animation: none !important; }
   /* ═══ /CROWNE PLAZA TODAY — MOBILE ═══ */
+  /* ═══ TYPE (Mobile too): Arpona = titles (h1–h4, .font-serif), Menca = everything else. Web already does this. ═══ */
+  html.layout-mobile body, html.layout-mobile body * { font-family: "Menca", "Inter", sans-serif !important; }
+  html.layout-mobile body h1, html.layout-mobile body h1 *, html.layout-mobile body h2, html.layout-mobile body h2 *,
+  html.layout-mobile body h3, html.layout-mobile body h3 *, html.layout-mobile body h4, html.layout-mobile body h4 *,
+  html.layout-mobile body .font-serif, html.layout-mobile body .font-serif *, html.layout-mobile body .font-arpona, html.layout-mobile body .font-arpona * {
+    font-family: "Arpona", "Bodoni Moda", serif !important; font-weight: 400 !important; }
+  /* web: list titles + small serif labels also Arpona */
+  html:not(.layout-mobile) body h3, html:not(.layout-mobile) body h3 *, html:not(.layout-mobile) body h4, html:not(.layout-mobile) body h4 *,
+  html:not(.layout-mobile) body .font-serif, html:not(.layout-mobile) body .font-serif * { font-family: "Arpona", "Bodoni Moda", serif !important; font-weight: 400 !important; }
+
+  /* ═══ TEXT OVER PHOTOS — readability: soft shadow halo + brighter whites (all pages, both views) ═══ */
+  .on-photo, .cine .relative.z-30, .dest-chapter-overlay, .dest-featured .on-photo, .hf-mhero .on-photo,
+  section[aria-label="IHG Weddings Splash Screen Carousel"] .hero-copy-light { text-shadow: 0 1px 2px rgba(0,0,0,.45), 0 2px 18px rgba(0,0,0,.35); }
+  .on-photo [class*="text-white/5"], .on-photo [class*="text-white/6"], .on-photo [class*="text-white/7"],
+  .cine .relative.z-30 [class*="text-white/5"], .cine .relative.z-30 [class*="text-white/6"], .cine .relative.z-30 [class*="text-white/7"] { color: rgba(255,255,255,.9) !important; }
+  .on-photo .text-neutral-300, .on-photo [class*="text-neutral-3"] { color: rgba(255,255,255,.92) !important; }
+  .on-photo button, .on-photo button * { text-shadow: none !important; }
+  .dest-chapter-overlay { background-image: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.45) 55%, transparent) !important; }
+  .dest-chapter .aspect-video > span.absolute { background: rgba(0,0,0,.82) !important; border-color: rgba(255,255,255,.35) !important; text-shadow: none; }
+
+  /* ═══ DISCOVER BY DESTINATION — filter bar: landing language (hairline underline fields, Menca caps labels, black pill count) ═══ */
+  html:not(.layout-mobile) body #root .dest-filter { background: rgba(255,255,255,.92) !important; border: 0 !important; border-top: 1px solid #111 !important; border-bottom: 1px solid #e5e5e5 !important;
+    border-radius: 0 !important; padding: 10px 0 !important; box-shadow: 0 14px 30px -24px rgba(0,0,0,.35); }
+  body #root .dest-filter .filter-field { background: transparent !important; border: 0 !important; border-bottom: 1px solid #d4d4d4 !important; border-radius: 0 !important;
+    padding-left: 2px !important; transition: border-color .8s cubic-bezier(0.16,1,0.3,1); }
+  body #root .dest-filter .filter-field:hover, body #root .dest-filter .filter-field:focus-within { border-bottom-color: #000 !important; }
+  body #root .dest-filter .filter-field > span:first-child { font-size: 9.5px !important; letter-spacing: .26em !important; color: #111 !important; font-weight: 500 !important; }
+  body #root .dest-filter select, body #root .dest-filter input { font-size: 12.5px !important; letter-spacing: .02em; color: #111 !important; }
+  body #root .dest-filter input::placeholder { color: #8a8a8a !important; }
+  body #root .dest-filter .filter-field span[aria-hidden].border { border-radius: 9999px; width: 13px !important; height: 13px !important; border-color: #111 !important; }
+  body #root .dest-filter .filter-count { letter-spacing: .16em; text-transform: uppercase; font-size: 9.5px !important; color: #555 !important; }
+  body #root .dest-filter .filter-count strong { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; padding: 0 6px; margin: 0 4px;
+    border-radius: 9999px; background: #000; color: #fff !important; font-size: 11px; letter-spacing: 0; }
+  body #root .dest-filter .filter-count button { letter-spacing: .2em !important; color: #111 !important; }
+  html.layout-mobile body #root .dest-filter { background: rgba(255,255,255,.96) !important; border: 0 !important; border-top: 1px solid #111 !important; border-bottom: 1px solid #e5e5e5 !important; border-radius: 0 !important; margin-left: -14px; margin-right: -14px; padding-left: 14px !important; padding-right: 14px !important; }
+  /* hero breadcrumb strip + pill on this page in the same language */
+  .dest-page > div:first-child { background: #fff !important; border-bottom-color: #ededed !important; }
+  .dest-page > div:first-child * { letter-spacing: .14em; text-transform: uppercase; font-size: 10px !important; }
+  .dest-page .on-photo > div > span.bg-white { background: transparent !important; color: #fff !important; border: 1px solid rgba(255,255,255,.7); font-weight: 500 !important; letter-spacing: .28em !important; padding: 4px 12px !important; }
+  /* View All + featured eyebrow */
+  .dest-viewall button { letter-spacing: .3em !important; }
+  /* grey placeholder heroes (no photo yet): darker box so white text keeps contrast */
+  body #root div.relative.w-full.overflow-hidden.bg-black:has(> img:not([data-real-photo])) { background-color: #5c5c5c !important; }
+  body #root div.relative.w-full.overflow-hidden.bg-black:has(> img:not([data-real-photo])) > div[class*="bg-gradient"] { display: block !important; }
+  .dest-page .on-photo > div > span.bg-white { border-color: rgba(255,255,255,.85) !important; }
+  html.layout-mobile body #root .dest-featured > div:first-child { display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; text-align: left !important; }
+  html.layout-mobile body #root .dest-featured > div:first-child > * { white-space: nowrap !important; font-size: 10px !important; letter-spacing: .24em !important; }
+  html.layout-mobile body #root .dest-featured > div:first-child > div { gap: 10px !important; }
+  .hero-copy-light, .hero-copy-light * { text-shadow: 0 1px 2px rgba(0,0,0,.5), 0 2px 16px rgba(0,0,0,.35); }
+  .hero-copy-light [class*="text-neutral-6"], .hero-copy-light [class*="text-neutral-5"], .hero-copy-light [class*="text-neutral-4"] { color: rgba(255,255,255,.92) !important; }
+  html.layout-mobile body #root .dest-featured > div.flex:first-child { display: flex !important; flex-direction: row !important; flex-wrap: nowrap !important; justify-content: space-between !important; align-items: center !important; }
+  html.layout-mobile body #root .dest-featured > div.flex:first-child > div { display: flex !important; justify-content: flex-start !important; margin: 0 !important; }
+  html.layout-mobile body #root .dest-featured > div.flex:first-child > div > span:first-child { display: block !important; width: 24px !important; margin: 0 !important; }
+  html.layout-mobile body #root .dest-featured .dest-feat-inner .on-photo p { color: rgba(255,255,255,.95) !important; opacity: 1 !important; font-weight: 400 !important; }
+  html.layout-mobile body #root .dest-featured .dest-feat-inner .on-photo > span { color: rgba(255,255,255,.92) !important; }
+  html.layout-mobile body #root section .hero-copy-light div, html.layout-mobile body #root section .hero-copy-light div span,
+  html.layout-mobile body #root section .hero-copy-light p { color: rgba(255,255,255,.95) !important; opacity: 1 !important; }
+  .hero-copy-light .font-light, .on-photo .font-light, .dest-featured .on-photo p { font-weight: 500 !important; }
+  html.layout-mobile body #root section .hero-copy-light h1 + p + div, html.layout-mobile body #root section .hero-copy-light h1 + p + div * { font-size: 11.5px !important; font-weight: 500 !important; }
 </style>
 
   </head>
