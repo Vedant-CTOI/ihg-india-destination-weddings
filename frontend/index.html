@@ -1020,6 +1020,8 @@
   }
   html.layout-mobile #root .grid:has(> .form-field-date) > .form-field-date { grid-column: 1 !important; }
   html.layout-mobile #root .grid:has(> .form-field-date) > .form-field-guests { grid-column: 2 !important; }
+  html.layout-mobile #root .grid:has(> .form-field-date) > .form-field-occasion { grid-column: 1 !important; }
+  html.layout-mobile #root .grid:has(> .form-field-date) > .form-field-dateto { grid-column: 2 !important; }
   html.layout-mobile #root .grid:has(> .form-field-country) > .form-field-country { grid-column: 1 !important; }
   html.layout-mobile #root .grid:has(> .form-field-country) > .form-field-destination { grid-column: 2 !important; }
 
@@ -1246,6 +1248,11 @@
      blanket 1/-1 rule */
   html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-date { grid-column: 1 !important; }
   html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-guests { grid-column: 2 !important; }
+  /* Enquiry rows (all forms): Occasion | Guests, then Date From | Date To; Email full width */
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-occasion { grid-column: 1 !important; }
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-dateto { grid-column: 2 !important; }
+  html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-email { grid-column: 1 / -1 !important; }
+  html.layout-mobile #root form .form-field-dateto { width: 100% !important; min-width: 0 !important; }
   /* Full Name spans both; hidden First/Last take no row */
   html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-fullname { grid-column: 1 / -1 !important; }
   html.layout-mobile #root form .grid.grid-cols-1.sm\:grid-cols-2 > .form-field-firstname,

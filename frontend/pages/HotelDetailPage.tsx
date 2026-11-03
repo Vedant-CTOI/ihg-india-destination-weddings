@@ -624,13 +624,13 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         onChange={(e) => setLastName(e.target.value)}
                         className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
                     </div>
-                    <div>
+                    <div className="form-field-email sm:col-span-2">
                       <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Email *</label>
                       <input type="email" required placeholder="name@example.com" value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
                     </div>
-                    <div>
+                    <div className="form-field-occasion">
                       <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Occasion</label>
                       <OccasionDropdown
                         selectedOccasions={occasion}
@@ -638,21 +638,23 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         inputCls={"w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"}
                       />
                     </div>
-                    <div>
-                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Date From</label>
-                      <input type="date" min="2025-01-01" max="2028-12-31" value={dateFrom}
-                        onChange={(e) => setDateFrom(e.target.value)}
-                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium" />
-                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Date To</label>
-                      <input type="date" min={dateFrom || "2025-01-01"} max="2028-12-31" value={dateTo}
-                        onChange={(e) => setDateTo(e.target.value)}
-                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium" />
-                    </div>
-                    <div>
+                    <div className="form-field-guests">
                       <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Number of Guests</label>
                       <input type="number" min="20" max="2000" placeholder="e.g. 250" value={guestCount}
                         onChange={(e) => setGuestCount(e.target.value)}
                         className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
+                    </div>
+                    <div className="form-field-date">
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Date From</label>
+                      <input type="date" min="2025-01-01" max="2028-12-31" value={dateFrom}
+                        onChange={(e) => setDateFrom(e.target.value)}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium" />
+                    </div>
+                    <div className="form-field-dateto">
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Date To</label>
+                      <input type="date" min={dateFrom || "2025-01-01"} max="2028-12-31" value={dateTo}
+                        onChange={(e) => setDateTo(e.target.value)}
+                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black cursor-pointer font-medium" />
                     </div>
                   </div>
 

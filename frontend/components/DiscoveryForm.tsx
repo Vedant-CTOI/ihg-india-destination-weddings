@@ -180,12 +180,12 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                 <input type="text" required placeholder="Last name" value={lastName}
                   onChange={(e) => setLastName(e.target.value)} className={inputCls} />
               </div>
-              <div>
+              <div className="form-field-email sm:col-span-2">
                 <label className={labelCls}>Email *</label>
                 <input type="email" required placeholder="name@example.com" value={email}
                   onChange={(e) => setEmail(e.target.value)} className={inputCls} />
               </div>
-              <div>
+              <div className="form-field-occasion">
                 <label className={labelCls}>Occasion{occasion.length > 0 && ` (${occasion.length} selected)`}</label>
                 <OccasionDropdown
                   selectedOccasions={occasion}
@@ -193,18 +193,20 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
                   inputCls={inputCls}
                 />
               </div>
-              <div className="form-field-date">
-                <label className={labelCls}>Date From</label>
-                <input type="date" min="2025-01-01" max="2028-12-31" value={dateFrom}
-                  onChange={(e) => setDateFrom(e.target.value)} className={inputCls + " cursor-pointer font-medium"} />
-                <label className={labelCls + ' ihtm-lbl'}>Date To</label>
-                <input type="date" min={dateFrom || "2025-01-01"} max="2028-12-31" value={dateTo}
-                  onChange={(e) => setDateTo(e.target.value)} className={inputCls + " cursor-pointer font-medium"} />
-              </div>
               <div className="form-field-guests">
                 <label className={labelCls}>Number of Guests</label>
                 <input type="number" min="20" max="2000" placeholder="e.g. 250" value={guestCount}
                   onChange={(e) => setGuestCount(e.target.value)} className={inputCls} />
+              </div>
+              <div className="form-field-date">
+                <label className={labelCls}>Date From</label>
+                <input type="date" min="2025-01-01" max="2028-12-31" value={dateFrom}
+                  onChange={(e) => setDateFrom(e.target.value)} className={inputCls + " cursor-pointer font-medium"} />
+              </div>
+              <div className="form-field-dateto">
+                <label className={labelCls + ' ihtm-lbl'}>Date To</label>
+                <input type="date" min={dateFrom || "2025-01-01"} max="2028-12-31" value={dateTo}
+                  onChange={(e) => setDateTo(e.target.value)} className={inputCls + " cursor-pointer font-medium"} />
               </div>
             </div>
 
