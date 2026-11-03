@@ -179,7 +179,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
 
       {/* Hero Banner (Grayscale Luxury) with lorem placeholder text */}
       <div className="relative h-[380px] sm:h-[440px] w-full overflow-hidden bg-black">
-        {/* Dummy hero photo (Unsplash, free licence — Udaipur City Palace on Lake Pichola) until client imagery */}
+        {/* Dummy hero photo (Unsplash, free licence — sunset beach with palms) until client imagery */}
         <img
           src="/destinations/hero.jpg"
           alt="Destination hero"
