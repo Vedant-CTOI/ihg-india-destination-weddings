@@ -118,16 +118,17 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
   const visibleHotels = mobileLayout && !showAllMobile ? filteredHotels.slice(0, MOBILE_INITIAL) : filteredHotels;
   // Each destination sits faded until it scrolls into view, then comes up to full (reversible when scrolled back above)
   useEffect(() => {
-    const els = Array.from(document.querySelectorAll('.dest-chapters .dest-chapter'));
+    const els = Array.from(document.querySelectorAll('.dest-grid .dest-tile'));
     const io = new IntersectionObserver((ents) => ents.forEach((e) => {
       const el = e.target as HTMLElement;
       if (e.isIntersecting) el.setAttribute('data-seen', '');
       else if (e.boundingClientRect.top > 0) el.removeAttribute('data-seen');
-    }), { rootMargin: '0px 0px -28% 0px', threshold: 0.2 });
+    }), { rootMargin: '0px 0px -8% 0px', threshold: 0.15 });
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, [visibleHotels.length, showAllMobile, mobileLayout]);
 
+  const hasActiveFiltersEarly = selectedDestinations.length > 0 || selectedCity !== 'All Cities' || selectedOccasion !== 'All Occasions' || selectedGenre !== 'All Genres' || searchQuery.trim() !== '';
   const handleClearAllFilters = () => {
     setSelectedCity('All Cities');
     setSelectedOccasion('All Occasions');
@@ -148,6 +149,11 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
   const featured = ['Region 1', 'Region 2', 'Region 3']
     .map((c) => HOTELS_DATA.find((h) => h.city === c))
     .filter(Boolean) as HotelProperty[];
+  // Grid = one tile per destination (dedupe by region); featured three are left out unless filters are active
+  const featuredCities = ['Region 1', 'Region 2', 'Region 3'];
+  const gridDests = filteredHotels.filter((h, idx, arr) => arr.findIndex((x) => x.city === h.city) === idx)
+    .filter((h) => hasActiveFiltersEarly || !featuredCities.includes(h.city));
+  const visibleGrid = mobileLayout && !showAllMobile ? gridDests.slice(0, MOBILE_INITIAL) : gridDests;
   const [hoverF, setHoverF] = useState<number | null>(null);
   const [showAll, setShowAll] = useState(false);
   const listRef = React.useRef<HTMLDivElement | null>(null);
@@ -337,80 +343,49 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                 </button>
           </div>
 
-          {/* ═══ DESTINATION CHAPTERS (all destinations) — experiential rows, B/W + motion. "go back" = git checkout tag checkpoint-before-dest-chapters ═══ */}
-          {visibleHotels.length > 0 && (
-            <div ref={listRef} className="dest-chapters space-y-20 lg:space-y-28 scroll-mt-[220px]">
-              {visibleHotels.map((hotel, i) => {
-                const num = String(filteredHotels.indexOf(hotel) + 1).padStart(2, '0');
-                const destName = destLabel(hotel.city);
-                const flip = i % 2 === 1;
-                return (
-                  <article key={hotel.id} className={`dest-chapter grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center`}>
-                    {/* Image — curtain reveal; one line of text sits on the image */}
-                    <div
-                      data-wm="curtain"
-                      onClick={() => handleOpenDestinationProperties(hotel)}
-                      className={`dest-chapter-media lg:col-span-7 ${flip ? 'lg:order-2' : ''} cursor-pointer`}
-                    >
-                      <div className="relative aspect-video overflow-hidden bg-neutral-200 rounded-sm group">
-                        <img
-                          src={destImg(hotel)}
-                          alt={destName}
-                          data-real-photo=""
-                          className="w-full h-full object-cover transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-                          onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
-                        />
-                        <span className="absolute top-4 right-4 bg-black/85 text-white text-[10px] uppercase tracking-wider font-sans px-2.5 py-0.5 rounded-full font-medium border border-white/20">
-                          {destLabel(hotel.city)}
+          {/* ═══ DESTINATION GRID (rest of destinations) — one tile per destination, 4 per row web / 2 mobile; scales to many destinations.
+               Featured three left out unless a filter is on. "go back" = git checkout tag checkpoint-before-dest-grid ═══ */}
+          {gridDests.length > 0 && (
+            <div ref={listRef} className="dest-grid-wrap scroll-mt-[220px]">
+              <div className="flex items-end justify-between mb-6">
+                <div data-wm="" className="flex items-center gap-3 text-[11px] uppercase tracking-[0.32em] text-neutral-600">
+                  <span className="block w-8 h-px bg-black/40" /><span>{hasActiveFilters ? 'Matching Destinations' : 'More Destinations'}</span>
+                </div>
+                <span data-wm="" className="text-[11px] uppercase tracking-[0.28em] text-neutral-400 tabular-nums">{String(gridDests.length).padStart(2, '0')}</span>
+              </div>
+              <div className="dest-grid grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+                {visibleGrid.map((hotel, i) => {
+                  const name = destLabel(hotel.city);
+                  return (
+                    <button type="button" key={hotel.city} onClick={() => handleOpenDestinationProperties(hotel)}
+                            style={{ ['--i' as any]: i % 4 }}
+                            className="dest-tile group relative block w-full aspect-[3/4] overflow-hidden bg-neutral-200 rounded-sm text-left cursor-pointer">
+                      <img src={destImg(hotel)} alt={name} data-real-photo="" loading="lazy"
+                           className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
+                           onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }} />
+                      <div className="dest-tile-veil absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent transition-opacity duration-700" />
+                      <div className="on-photo absolute inset-x-0 bottom-0 p-4 lg:p-5 text-white">
+                        <span className="block text-[10px] uppercase tracking-[0.28em] text-white/70 mb-1.5 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+                        <h3 className="font-serif font-normal leading-[1.05] text-[clamp(1.25rem,1.9vw,1.75rem)]">{name}</h3>
+                        <p className="dest-tile-copy mt-1.5 text-[13px] font-light leading-snug text-white/85">Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+                        <span className="dest-tile-cta mt-3 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] font-medium border-b border-white/70 pb-0.5">
+                          Discover Properties <ArrowRight className="w-3 h-3" />
                         </span>
-                        <div className="dest-chapter-overlay absolute inset-x-0 bottom-0 px-6 pt-16 pb-5 bg-gradient-to-t from-black/75 via-black/30 to-transparent">
-                          <span className="block text-[11px] uppercase tracking-[0.28em] text-white font-sans font-medium">
-                            Lorem ipsum dolor sit amet
-                          </span>
-                        </div>
                       </div>
-                    </div>
-
-                    {/* Text */}
-                    <div className={`dest-chapter-text lg:col-span-5 ${flip ? 'lg:order-1' : ''}`}>
-                      <h3
-                        data-wm=""
-                        onClick={() => handleOpenDestinationProperties(hotel)}
-                        className="font-serif font-normal text-black leading-[1.05] tracking-[-0.01em] text-[clamp(2rem,3.4vw,3rem)] cursor-pointer hover:opacity-70 transition-opacity duration-700"
-                      >
-                        <span className="text-neutral-400 mr-3">{num}</span>{destName}
-                      </h3>
-                      <div data-wm="" style={{ ['--d' as any]: '140ms' }} className="mt-6 h-px w-16 bg-black/30" />
-                      <p data-wm="" style={{ ['--d' as any]: '220ms' }} className="mt-6 text-sm font-sans text-neutral-600 font-light leading-relaxed max-w-md">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
-                      </p>
-                      <p data-wm="" style={{ ['--d' as any]: '300ms' }} className="mt-3 text-[12px] text-neutral-500 font-sans italic">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      </p>
-                      <div data-wm="" style={{ ['--d' as any]: '380ms' }} className="mt-8">
-                        <button
-                          type="button"
-                          onClick={() => handleOpenDestinationProperties(hotel)}
-                          className="group/cta inline-flex items-center gap-3 bg-black hover:bg-neutral-800 text-white text-[11px] uppercase tracking-wider font-medium pl-6 pr-5 py-3 rounded-full transition-colors duration-700 cursor-pointer"
-                        >
-                          <span>Discover {destName} Properties</span>
-                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-700 group-hover/cta:translate-x-1" />
-                        </button>
-                      </div>
-                    </div>
-                  </article>
-                );
-              })}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
 
-          {mobileLayout && !showAllMobile && filteredHotels.length > MOBILE_INITIAL && (
+          {mobileLayout && !showAllMobile && gridDests.length > MOBILE_INITIAL && (
             <button
               type="button"
               onClick={() => setShowAllMobile(true)}
               className="hotel-load-more mt-5 w-full border border-black text-black hover:bg-black hover:text-white text-[11px] uppercase tracking-wider font-medium py-3 rounded-full transition-colors cursor-pointer"
             >
-              Load more ({filteredHotels.length - MOBILE_INITIAL})
+              Load more ({gridDests.length - MOBILE_INITIAL})
             </button>
           )}
           </>

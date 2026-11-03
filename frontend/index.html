@@ -1390,6 +1390,21 @@
   .dest-chapters .dest-chapter { opacity: .28; filter: saturate(.55); transition: opacity 1.3s cubic-bezier(0.16,1,0.3,1), filter 1.3s cubic-bezier(0.16,1,0.3,1); }
   .dest-chapters .dest-chapter[data-seen] { opacity: 1; filter: none; }
   @media (prefers-reduced-motion: reduce) { .dest-chapters .dest-chapter { opacity: 1 !important; filter: none !important; transition: none !important; } }
+  /* Destinations grid (rest of destinations): tiles rise in, staggered per row; CTA appears on hover (web), always on (mobile) */
+  .dest-grid .dest-tile img[data-real-photo] { visibility: visible !important; background-color: transparent !important; }
+  .dest-grid .dest-tile:has(img[data-real-photo]) { background-color: transparent !important; }
+  .dest-grid .dest-tile .dest-tile-veil { display: block !important; }
+  .dest-grid .dest-tile { opacity: 0; transform: translateY(28px); transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1.2s cubic-bezier(0.16,1,0.3,1); transition-delay: calc(var(--i, 0) * 90ms); }
+  .dest-grid .dest-tile[data-seen] { opacity: 1; transform: none; }
+  html:not(.layout-mobile) .dest-grid .dest-tile .dest-tile-cta { opacity: 0; transform: translateY(6px); transition: opacity .6s ease, transform .6s cubic-bezier(0.16,1,0.3,1); }
+  html:not(.layout-mobile) .dest-grid .dest-tile:hover .dest-tile-cta, html:not(.layout-mobile) .dest-grid .dest-tile:focus-visible .dest-tile-cta { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .dest-grid .dest-tile { opacity: 1 !important; transform: none !important; transition: none !important; } }
+  html.layout-mobile body #root .dest-grid-wrap .dest-grid.grid { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
+  html.layout-mobile body #root .dest-grid-wrap .dest-grid.grid > .dest-tile { grid-column: auto !important; min-width: 0 !important; }
+  html.layout-mobile body #root .dest-grid .dest-tile h3 { font-size: 19px !important; }
+  html.layout-mobile body #root .dest-grid .dest-tile .on-photo { padding: 12px !important; }
+  html.layout-mobile body #root .dest-grid .dest-tile .dest-tile-copy { font-size: 11px !important; line-height: 1.35 !important; margin-top: 4px !important; }
+  html.layout-mobile body #root .dest-grid .dest-tile .dest-tile-cta { font-size: 9px !important; letter-spacing: .16em !important; margin-top: 8px !important; }
   .dest-featured { margin-bottom: 2.5rem; }
   /* Mobile: featured three as stacked 16:9 cards with copy + CTA visible; list preview + View All as on web */
   html.layout-mobile body #root .dest-featured { margin-bottom: 28px !important; }
