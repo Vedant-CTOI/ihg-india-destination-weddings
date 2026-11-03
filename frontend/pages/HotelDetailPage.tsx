@@ -282,7 +282,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
     HOTELS_DATA.find((h) => h.id === hotelId) || HOTELS_DATA[0];
   // Hotel 1 in Web view gets the feature design (landing-page language). Everything else is unchanged.
   const web = useWeb();
-  const feature = web && hotel.id === FEATURE_HOTEL_ID;
+  const feature = hotel.id === FEATURE_HOTEL_ID; // Web + Mobile (Mobile adapts the same design to the phone canvas)
   const mobile = useMobileLayout(); // Mobile: the side form becomes a popup + floating button (same form, same fields)
   const shown = feature ? withHotelCopy(hotel) : hotel; // client copy, display only
 
@@ -329,7 +329,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
     if (!mobile) return;
     const onTap = (e: MouseEvent) => {
       const t = e.target as HTMLElement;
-      if (t.closest('.mobile-enquiry-popup, .mobile-zoom, header, footer, .mobile-hotel-inline, button[aria-label*="slide"], button[aria-label*="picture"], button[aria-label*="image"]')) return;
+      if (t.closest('.hf-carousel, .hf-lightbox, .mobile-enquiry-popup, .mobile-zoom, header, footer, .mobile-hotel-inline, button[aria-label*="slide"], button[aria-label*="picture"], button[aria-label*="image"]')) return;
       const img = (t.tagName === 'IMG' ? t : t.closest('[class*="aspect"], .group\\/frame, .group\\/banner, .group\\/thumb')?.querySelector('img')) as HTMLImageElement | null;
       if (!img || !img.closest('main, #root')) return;
       if (img.getBoundingClientRect().width < 40) return;
@@ -428,7 +428,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
       <div className={feature ? 'hf-crumb absolute inset-x-0 top-0 z-30 py-4' : 'border-b border-neutral-200 bg-neutral-50 py-3 sticky top-0 z-30 backdrop-blur-md bg-neutral-50/95'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-xs">
           <div className="flex items-center space-x-2 text-neutral-500">
-            <button onClick={onNavigateBack} className="hover:text-black cursor-pointer">{feature ? 'Home Page' : 'Home'}</button>
+            <button onClick={onNavigateBack} className="hover:text-black cursor-pointer">{feature && !mobile ? 'Home Page' : 'Home'}</button>
             <span>/</span>
             <button onClick={onNavigateBack} className="hover:text-black cursor-pointer">All Hotels</button>
             <span>/</span>
@@ -437,7 +437,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
           <button
             onClick={onNavigateBack}
-            className="inline-flex items-center space-x-1.5 text-black hover:text-neutral-600 font-medium uppercase tracking-wider text-[11px] cursor-pointer"
+            className={`${feature && mobile ? 'hidden' : 'inline-flex'} items-center space-x-1.5 text-black hover:text-neutral-600 font-medium uppercase tracking-wider text-[11px] cursor-pointer`}
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to All Hotels</span>
@@ -507,9 +507,9 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
           {...(mobile && sideFormOpen ? { role: 'dialog', 'aria-modal': true, 'aria-label': 'Enquiry form' } : {})}
           onClick={mobile && sideFormOpen ? (e) => { if (e.target === e.currentTarget) setSideFormOpen(false); } : undefined}
           className={mobile
-            ? (sideFormOpen
+            ? `${feature ? 'hotel-feature ' : ''}${sideFormOpen
                 ? 'mobile-enquiry-popup mobile-frame-fixed fixed top-0 bottom-0 z-[150] flex items-center justify-center p-3 animate-fade-in'
-                : 'mobile-enquiry-fab fixed z-[140] bottom-5')
+                : 'mobile-enquiry-fab fixed z-[140] bottom-5'}`
             : `hidden lg:block absolute top-0 right-0 z-40 min-h-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             sideFormOpen ? 'w-[400px]' : 'w-12'
           }`}
@@ -545,7 +545,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                 className={mobile
                   ? 'w-12 h-12 bg-black text-white rounded-full cursor-pointer flex items-center justify-center'
                   : `w-12 shrink-0 flex-1 ${feature ? 'hover:opacity-90' : 'bg-black hover:bg-neutral-800 text-white'} transition-colors cursor-pointer flex items-start justify-center pt-5`}
-                style={feature ? { backgroundColor: PALETTE.saffron, color: '#3a0618' } : undefined}
+                style={feature ? (mobile ? { backgroundColor: PALETTE.maroon, color: '#fff' } : { backgroundColor: PALETTE.saffron, color: '#3a0618' }) : undefined}
                 aria-expanded={sideFormOpen}
                 aria-label="Open enquiry form"
                 title="Open enquiry form"
@@ -814,7 +814,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
         {/* Main content — dynamically spreads when the side form collapses */}
         <div className={`transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${sideFormOpen ? 'lg:pr-[400px]' : 'lg:pr-0'}`}>
           {feature ? (
-            <FeatureBody hotel={shown} onPreview={handleOpenPreview} onNavigateToInquiry={() => onNavigateToInquiry(hotel.name)} />
+            <FeatureBody hotel={shown} onPreview={handleOpenPreview} onNavigateToInquiry={() => (mobile ? setSideFormOpen(true) : onNavigateToInquiry(hotel.name))} />
           ) : (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="space-y-14">

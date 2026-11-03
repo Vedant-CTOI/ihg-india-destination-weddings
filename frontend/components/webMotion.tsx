@@ -45,7 +45,7 @@ export const SplitText: React.FC<{ text: string }> = ({ text }) => {
 export const WebMotionDirector: React.FC = () => {
   const web = useWeb();
   useEffect(() => {
-    if (!web) return;
+    // runs in both views: the Web motion CSS is web-only, and Mobile motion is scoped to the Crowne Plaza page (.hotel-feature)
     const seen = new WeakSet<Element>();
     const io = new IntersectionObserver(
       (entries) => {

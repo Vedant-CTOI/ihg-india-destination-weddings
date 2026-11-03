@@ -1219,7 +1219,116 @@
 
     <!-- STANDALONE HOTEL 1 PAGE: always the Web design; Web/Mobile switch hidden -->
   <script>try { sessionStorage.setItem('ihg-layout', 'web'); } catch (e) {} document.documentElement.classList.remove('layout-mobile');</script>
-  <style>[aria-label="Layout preview toggle"] { display: none !important; }</style>
+  <style>[aria-label="Layout preview toggle"] { display: none !important; }
+  /* ═══ CROWNE PLAZA TODAY — MOBILE VERSION of the Web feature page (same photos, copy, palette, fonts, motion).
+     Scoped to .hotel-feature inside the phone canvas only. Undo: delete this block + git tag checkpoint-before-cp-mobile. ═══ */
+  /* type: Menca for information, Arpona for titles */
+  html.layout-mobile body .hotel-feature, html.layout-mobile body .hotel-feature * { font-family: "Menca", "Inter", sans-serif !important; }
+  html.layout-mobile body .hotel-feature h1, html.layout-mobile body .hotel-feature h1 *, html.layout-mobile body .hotel-feature h2, html.layout-mobile body .hotel-feature h2 *, html.layout-mobile body .hotel-feature h3, html.layout-mobile body .hotel-feature h3 *, html.layout-mobile body .hotel-feature h4, html.layout-mobile body .hotel-feature h4 *, html.layout-mobile body .hotel-feature .font-arpona, html.layout-mobile body .hotel-feature .font-arpona * { font-family: "Arpona", "Bodoni Moda", serif !important; font-weight: 400 !important; }
+  /* breadcrumb: thin white line over the photo */
+  html.layout-mobile body .hotel-feature .hf-crumb { padding-top: 10px !important; padding-bottom: 10px !important; }
+  html.layout-mobile body .hotel-feature .hf-crumb * { font-size: 9px !important; letter-spacing: .18em !important; }
+  /* hero */
+  html.layout-mobile body .hotel-feature .hf-mhero-title { font-size: 30px !important; line-height: 1.02 !important; letter-spacing: -0.01em !important; margin: 0 !important; color: #fff !important; }
+  html.layout-mobile body .hotel-feature .hf-maddr { font-size: 10px !important; line-height: 1.5 !important; letter-spacing: .12em !important; text-transform: uppercase; }
+  html.layout-mobile body .hotel-feature .hf-maddr span { color: rgba(255,255,255,.85) !important; }
+  /* all page grids: one column, no desktop spans/orders (Tailwind lg: classes stay live in the canvas) */
+  html.layout-mobile body .hotel-feature .hotel-feature-body [class*="lg:col-span"], html.layout-mobile body .hotel-feature .hotel-feature-body [class*="lg:order"] { grid-column: auto !important; order: 0 !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body section { padding-top: 0 !important; padding-bottom: 0 !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body .max-w-7xl { padding-left: 18px !important; padding-right: 18px !important; }
+  /* facts band: one horizontal row of 5 */
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:first-of-type > div { padding-top: 22px !important; padding-bottom: 22px !important; padding-left: 6px !important; padding-right: 6px !important; }
+  html.layout-mobile body #root .hotel-feature .hotel-feature-body > section:first-of-type .grid.hf-facts { display: grid !important; grid-template-columns: repeat(5, minmax(0,1fr)) !important; }
+  html.layout-mobile body #root .hotel-feature .hotel-feature-body > section:first-of-type .grid.hf-facts > div { padding: 2px 3px !important; border-right: 1px solid rgba(255,255,255,.2) !important; min-width: 0; }
+  html.layout-mobile body #root .hotel-feature .hotel-feature-body > section:first-of-type .grid.hf-facts > div:last-child { border-right: 0 !important; }
+  html.layout-mobile body #root .hotel-feature .hotel-feature-body > section:first-of-type .grid.hf-facts > div > span:first-child { font-size: 7px !important; letter-spacing: .14em !important; margin-bottom: 8px !important; white-space: nowrap; }
+  html.layout-mobile body #root .hotel-feature .hotel-feature-body > section:first-of-type .grid.hf-facts > div > div { height: 30px !important; }
+  html.layout-mobile body #root .hotel-feature .hotel-feature-body > section:first-of-type .grid.hf-facts > div > div > div { font-size: 22px !important; line-height: 1 !important; }
+  html.layout-mobile body #root .hotel-feature .hotel-feature-body > section:first-of-type .grid.hf-facts > div > div > div.line-clamp-2 { font-size: 11.5px !important; line-height: 1.15 !important; }
+  html.layout-mobile body #root .hotel-feature .hotel-feature-body > section:first-of-type .grid.hf-facts > div > span:last-child { font-size: 8px !important; margin-top: 6px !important; line-height: 1.25 !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
+  html.layout-mobile body #root .hotel-feature .grid.hf-facts > div { width: auto !important; min-width: 0 !important; grid-column: auto !important; display: flex !important; flex-direction: column !important; align-items: center !important; gap: 0 !important; border-bottom: 0 !important; max-width: none !important; }
+  html.layout-mobile body #root .hotel-feature .grid.hf-facts { gap: 0 !important; padding: 0 !important; }
+  html.layout-mobile body #root .hotel-feature .grid.hf-facts > div span, html.layout-mobile body #root .hotel-feature .grid.hf-facts > div p { margin: 0; }
+  /* About: text, then photo full width 16:9 */
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(2) { display: flex !important; flex-direction: column !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(2) > div:first-child { padding: 28px 18px 24px !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(2) h2 { font-size: 26px !important; line-height: 1.08 !important; margin: 4px 0 !important; color: #3a0618 !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(2) p { font-size: 14px !important; line-height: 1.6 !important; color: #3a0618 !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(2) > div[data-wm="curtain"] { min-height: 0 !important; aspect-ratio: 16 / 9 !important; }
+  /* Venues */
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(3) > div:first-child { padding-top: 30px !important; padding-bottom: 18px !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(3) h3 { font-size: 28px !important; line-height: 1.05 !important; margin-top: 12px !important; color: #3a0618 !important; }
+  /* sticky venue bar: names only, sideways scroll, current underlined */
+  html.layout-mobile body .hotel-feature .hf-jumpbar { top: 100px !important; z-index: 30 !important; }
+  html.layout-mobile body .hotel-feature .hf-jumpbar > div { justify-content: flex-start !important; gap: 22px !important; overflow-x: auto !important; padding-left: 18px !important; padding-right: 18px !important; }
+  html.layout-mobile body .hotel-feature .hf-jumpbar button { width: auto !important; height: 46px !important; position: relative !important; opacity: 1 !important; flex: 0 0 auto !important; min-height: 0 !important; min-width: 0 !important; }
+  html.layout-mobile body .hotel-feature .hf-jumpbar button:not([aria-current]) { opacity: .5 !important; }
+  html.layout-mobile body .hotel-feature .hf-jumpbar .hf-jb-label { position: static !important; display: block !important; opacity: 1 !important; transform: none !important; font-size: 10.5px !important; letter-spacing: .2em !important; line-height: 46px !important; }
+  html.layout-mobile body .hotel-feature .hf-jumpbar .hf-jb-photo, html.layout-mobile body .hotel-feature .hf-jumpbar .hf-jb-sub { display: none !important; }
+  /* venue rows: photo (16:9) on top, then name, text, details */
+  html.layout-mobile body .hotel-feature .hotel-feature-body article { display: flex !important; flex-direction: column !important; gap: 16px !important; padding-top: 26px !important; padding-bottom: 28px !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article > div:first-child { width: 100% !important; aspect-ratio: 16 / 9 !important; height: auto !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article .hf-carousel > div:last-child { padding: 10px !important; gap: 10px !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article .hf-carousel button[aria-label$="venue picture"] { width: 34px !important; height: 34px !important; min-height: 0 !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article .hf-carousel button[aria-label^="Show picture"] { padding-top: 8px !important; padding-bottom: 8px !important; min-height: 0 !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article h4 { font-size: 26px !important; line-height: 1.05 !important; margin-top: 0 !important; color: #3a0618 !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article p { display: block !important; -webkit-line-clamp: unset !important; font-size: 14px !important; line-height: 1.6 !important; color: #3a0618 !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article button[aria-expanded] { min-height: 0 !important; min-width: 0 !important; }
+  /* venue details: Size | Location, then Seating, then Floating — larger type */
+  html.layout-mobile body .hotel-feature .hotel-feature-body article dl { display: grid !important; grid-template-columns: repeat(2, minmax(0,1fr)) !important; margin-top: 4px !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article dl > div { grid-column: span 2 !important; padding-left: 0 !important; padding-right: 0 !important; border-right: 0 !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article dl > div[data-spec="Venue Size"] { order: 1; grid-column: 1 !important; padding-right: 12px !important; border-right: 1px solid rgba(58,6,24,.35) !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article dl > div[data-spec="Location"] { order: 2; grid-column: 2 !important; padding-left: 14px !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article dl > div[data-spec="Seating Capacity"] { order: 3; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article dl > div[data-spec="Floating Capacity"] { order: 4; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article dl dt { font-size: 11px !important; letter-spacing: .18em !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article dl dd, html.layout-mobile body .hotel-feature .hotel-feature-body article dl dd * { font-size: 15px !important; line-height: 1.45 !important; color: #3a0618 !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body article dl dd ul { display: flex !important; flex-wrap: wrap !important; gap: 4px 14px !important; }
+  /* Get in Touch band: stacked */
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(4) > div { padding-top: 30px !important; padding-bottom: 30px !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(4) .grid { display: flex !important; flex-direction: column !important; align-items: stretch !important; gap: 18px !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(4) h4 { font-size: 24px !important; line-height: 1.1 !important; color: #fff !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(4) .grid .grid { gap: 0 !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(4) .grid .grid > * { border-left: 0 !important; padding: 10px 0 !important; border-bottom: 1px solid rgba(255,255,255,.14); font-size: 13px !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(4) .grid .grid > * span { color: rgba(255,255,255,.88) !important; }
+  html.layout-mobile body .hotel-feature .hotel-feature-body > section:nth-of-type(4) button { align-self: stretch !important; justify-content: space-between !important; min-height: 48px !important; }
+  /* venue photo popup: inside the phone frame */
+  html.layout-mobile .hf-lightbox { left: max(0px, calc(50% - 215px)) !important; right: auto !important; width: min(100%, 430px) !important; padding: 14px !important; }
+  html.layout-mobile .hf-lightbox img { max-width: 100% !important; max-height: 70vh !important; height: auto !important; }
+  html.layout-mobile .hf-lightbox .relative.inline-block button { top: -14px !important; right: -6px !important; }
+  /* enquiry popup in the web form style; pen button maroon */
+  html.layout-mobile .hotel-feature.mobile-enquiry-fab button { background: #600B2A !important; color: #fff !important; }
+  html.layout-mobile .hotel-feature.mobile-enquiry-popup .hf-form { padding: 18px !important; }
+  html.layout-mobile .hotel-feature.mobile-enquiry-popup .hf-form h3 { font-size: 26px !important; }
+  /* motion (mobile, this page only): rise in, curtain wipe, letter settle — slightly faster than web */
+  html.layout-mobile body .hotel-feature [data-wm] { opacity: 0; transform: translate3d(0, 22px, 0); transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1); transition-delay: var(--d, 0ms); }
+  html.layout-mobile body .hotel-feature [data-wm][data-wm-in] { opacity: 1; transform: none; }
+  html.layout-mobile body .hotel-feature [data-wm="curtain"] { opacity: 1; transform: none; transition: none; }
+  html.layout-mobile body .hotel-feature [data-wm="curtain"] > * { clip-path: inset(100% 0 0 0); transition: clip-path 1.3s cubic-bezier(0.77,0,0.18,1); }
+  html.layout-mobile body .hotel-feature [data-wm="curtain"][data-wm-in] > * { clip-path: inset(0 0 0 0); }
+  html.layout-mobile body .hotel-feature [data-wm="split"] { opacity: 1; transform: none; transition: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html.layout-mobile body .hotel-feature [data-wm], html.layout-mobile body .hotel-feature [data-wm] > *, html.layout-mobile body .hotel-feature .split-c { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; transition: none !important; }
+    html.layout-mobile body .hotel-feature .hero-zoom, html.layout-mobile body .hotel-feature .mask-line > span, html.layout-mobile body .hotel-feature .soft-rise, html.layout-mobile body .hotel-feature .about-drift { animation: none !important; }
+  }
+
+  /* fixes after screenshot pass */
+  html.layout-mobile body #root .hotel-feature .hf-about { display: flex !important; flex-direction: column !important; min-height: 0 !important; }
+  html.layout-mobile body #root .hotel-feature .hf-about > div:first-child { padding: 28px 18px 24px !important; }
+  html.layout-mobile body #root .hotel-feature .hf-about .hf-about-photo { position: relative !important; width: 100% !important; min-height: 0 !important; height: auto !important; aspect-ratio: 16 / 9 !important; flex: 0 0 auto !important; }
+  html.layout-mobile body #root .hotel-feature .hf-about h2 { font-size: 26px !important; line-height: 1.08 !important; color: #3a0618 !important; }
+  html.layout-mobile body #root .hotel-feature .hf-about p { font-size: 14px !important; line-height: 1.6 !important; color: #3a0618 !important; display: block !important; -webkit-line-clamp: unset !important; max-height: none !important; }
+  html.layout-mobile body #root .hotel-feature .hotel-feature-body > section:first-of-type > div { padding-top: 20px !important; padding-bottom: 20px !important; }
+  html.layout-mobile body #root .hotel-feature .hotel-feature-body > section:first-of-type .grid.hf-facts > div { padding-top: 0 !important; padding-bottom: 0 !important; }
+  html.layout-mobile body #root .hotel-feature .hf-bar-hotel { display: none !important; }
+  html.layout-mobile body #root .hotel-feature .hf-mhero-title, html.layout-mobile body #root .hotel-feature .hf-mhero-title * { font-family: "Arpona", "Bodoni Moda", serif !important; }
+  html.layout-mobile .hotel-feature.mobile-enquiry-popup > div { background: #fff !important; }
+  html.layout-mobile .hotel-feature.mobile-enquiry-popup .hf-form { background: #fff !important; }
+  html.layout-mobile .hotel-feature.mobile-enquiry-popup .mobile-sticky-submit { background: #fff !important; }
+  html.layout-mobile body #root .hotel-feature .hotel-feature-body > section:first-of-type > div.max-w-7xl { padding-top: 18px !important; padding-bottom: 18px !important; }
+  html.layout-mobile .hotel-feature.mobile-enquiry-popup, html.layout-mobile .hotel-feature.mobile-enquiry-fab { opacity: 1 !important; animation: none !important; }
+  /* ═══ /CROWNE PLAZA TODAY — MOBILE ═══ */
+</style>
 </head>
 <body class="bg-white text-black font-body antialiased selection:bg-black selection:text-white">
   <div id="root"></div>

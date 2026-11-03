@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, ArrowRight, Phone, Mail, Clock, MapPin, Maxi
 const IC = { strokeWidth: 1.25, 'aria-hidden': true } as const;
 import { HotelProperty, HotelVenueSpace } from '../types';
 import { SplitText, PALETTE, CountUp } from './webMotion';
+import { useMobileLayout } from './useMobileLayout';
 
 /* ════════════════════════════════════════════════════════════════════════════════════════
    HOTEL 1 FEATURE PAGE — WEB VERSION ONLY.
@@ -97,8 +98,9 @@ export const FeatureHero: React.FC<{ hotel: HotelProperty; onExpand: () => void 
   const secRef = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLDivElement | null>(null);
   const copyRef = useRef<HTMLDivElement | null>(null);
+  const mobile = useMobileLayout();
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (mobile || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let raf = 0;
     const tick = () => {
       const s = secRef.current;
@@ -115,7 +117,25 @@ export const FeatureHero: React.FC<{ hotel: HotelProperty; onExpand: () => void 
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [mobile]);
+
+  /* MOBILE: 16:9 photo with the title on it; map-pin address on a slim maroon band below */
+  if (mobile) return (
+    <div className="hf-mhero">
+      <div className="relative w-full overflow-hidden text-white" style={{ aspectRatio: '16 / 9', backgroundColor: '#000' }}>
+        <img src={FEATURE_HERO} alt={hotel.name} className="absolute inset-0 w-full h-full object-cover hero-zoom" style={{ objectPosition: '50% 62%' }} />
+        <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.25)' }} />
+        <div className="absolute inset-x-0 bottom-0 h-[65%] pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75), transparent)' }} />
+        <div className="absolute inset-x-0 top-0 h-16 pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.45), transparent)' }} />
+        <div className="absolute inset-x-0 bottom-0 px-[18px] pb-4">
+          <h1 className="hf-mhero-title font-normal text-white"><span className="mask-line"><span>{hotel.name}</span></span></h1>
+        </div>
+      </div>
+      <div className="hf-maddr soft-rise flex items-start gap-2.5 px-[18px] py-3 text-white/85" style={{ backgroundColor: '#3a0618', animationDelay: '500ms' }}>
+        <MapPin {...IC} className="w-4 h-4 shrink-0 mt-[1px] text-white/80" /><span>{hotel.location}</span>
+      </div>
+    </div>
+  );
 
   return (
     <div ref={secRef} className="grain relative w-full overflow-hidden text-white"
@@ -188,7 +208,7 @@ const LineCarousel: React.FC<{ slides: Slide[]; alt: string; onPreview: PreviewF
   const [box, setBox] = useState<number | null>(null);
   return (<>
     {box !== null && <Lightbox slides={slides} start={box} alt={alt} onClose={() => setBox(null)} />}
-    <div className="relative w-full h-full overflow-hidden group/lc cursor-pointer" style={{ backgroundColor: BAND }}
+    <div className="hf-carousel relative w-full h-full overflow-hidden group/lc cursor-pointer" style={{ backgroundColor: BAND }}
          onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
          onClick={() => setBox(i)} title="Click to enlarge">
       {slides.map((s, k) => (
@@ -404,7 +424,7 @@ export const FeatureBody: React.FC<{
       <section className="text-white" style={{ backgroundColor: PALETTE.maroon, borderTop: '1px solid #fff', borderBottom: '1px solid #fff' }}>
         <div className={`${W} py-14`}>
           {/* no top hairline; five equal columns, each centred, split by thin vertical lines */}
-          <div className="grid grid-cols-2 sm:grid-cols-5">
+          <div className="hf-facts grid grid-cols-2 sm:grid-cols-5">
             {facts.map((f, k) => (
               <div key={f.label} data-wm="" style={{ ['--d' as any]: `${k * 140}ms` }}
                    className={`px-4 py-2 text-center flex flex-col items-center ${k < facts.length - 1 ? 'sm:border-r border-white/20' : ''}`}>
@@ -423,7 +443,7 @@ export const FeatureBody: React.FC<{
       </section>
 
       {/* C. About — marigold band split in half; photo fills the right half edge to edge */}
-      <section className="relative grid grid-cols-1 lg:grid-cols-2" style={{ backgroundColor: SAFFRON, color: INK }}>
+      <section className="hf-about relative grid grid-cols-1 lg:grid-cols-2" style={{ backgroundColor: SAFFRON, color: INK }}>
         <div className="px-4 sm:px-6 lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:pr-12 py-10 lg:py-12 space-y-4 self-center">
           <Eyebrow line={INK}>About Us — {hotel.name}</Eyebrow>
           <h2 className="text-[clamp(1.6rem,2.3vw,2.3rem)] leading-[1.05] tracking-[-0.015em]">
@@ -432,7 +452,7 @@ export const FeatureBody: React.FC<{
           <AboutText text={hotel.aboutUs || hotel.overview || ''} />
           {/* Signature Mandap Spec line removed at client request */}
         </div>
-        <div data-wm="curtain" className="relative min-h-[260px] lg:min-h-[340px]">
+        <div data-wm="curtain" className="hf-about-photo relative min-h-[260px] lg:min-h-[340px]">
           <div className="absolute inset-0 overflow-hidden">
             <img src={FEATURE_ABOUT} alt={`${hotel.name} lawn and hotel`} className="w-full h-full object-cover about-drift" style={{ objectPosition: '42% 50%' }} />
           </div>
@@ -440,7 +460,7 @@ export const FeatureBody: React.FC<{
       </section>
 
       {/* D + E. Venues — saffron band, open alternating rows separated by hairlines */}
-      <section style={{ backgroundColor: VENUE_TINT, color: INK, borderTop: '1px solid rgba(58,6,24,.12)' }}>
+      <section className="hf-venues" style={{ backgroundColor: VENUE_TINT, color: INK, borderTop: '1px solid rgba(58,6,24,.12)' }}>
         <div className={`${W} pt-20 pb-10`}>
           <Eyebrow>Celebration Grounds</Eyebrow>
           <h3 className="mt-6 font-arpona text-[clamp(2.2rem,3.6vw,3.6rem)] leading-[1.02] tracking-[-0.015em]">
@@ -454,7 +474,7 @@ export const FeatureBody: React.FC<{
         </div>
 
         {/* jump bar — venue numbers on a hairline; current one underlined */}
-        <div ref={jumpRef} className="sticky top-[146px] z-20" style={{ backgroundColor: 'rgba(253,244,231,.97)' }}>
+        <div ref={jumpRef} className="hf-jumpbar sticky top-[146px] z-20" style={{ backgroundColor: 'rgba(253,244,231,.97)' }}>
           <div className={`${W} relative border-y flex items-start justify-center gap-7 overflow-x-auto overflow-y-hidden no-scrollbar`} style={{ borderColor: 'rgba(58,6,24,.2)' }}>
             {/* hotel name — pinned left inside the same band (context while scrolling); venue buttons unchanged */}
             <span className="hf-bar-hotel absolute left-4 sm:left-6 lg:left-8 top-1/2 -translate-y-1/2 font-arpona text-[17px] leading-none whitespace-nowrap pointer-events-none" style={{ color: INK }}>
@@ -474,12 +494,12 @@ export const FeatureBody: React.FC<{
                         transition: `width 500ms ${EASE}, opacity 500ms ${EASE}`
                       }}>
                 {/* text label (centred) — slides up and away when the photo shows */}
-                <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 whitespace-nowrap"
+                <span className="hf-jb-label absolute inset-x-0 top-1/2 -translate-y-1/2 whitespace-nowrap"
                       style={{ opacity: shown ? 0 : 1, transform: `translateY(${shown ? '-120%' : '-50%'})`, transition: `transform 500ms ${EASE}, opacity 500ms ${EASE}` }}>
                   {copyFor(v).name || `Venue ${v + 1}`}
                 </span>
                 {/* venue photo (16:9) rises in with the shutter wipe */}
-                <span aria-hidden="true" className="absolute left-0 top-[8px] w-[120px] h-[68px] overflow-hidden pointer-events-none"
+                <span aria-hidden="true" className="hf-jb-photo absolute left-0 top-[8px] w-[120px] h-[68px] overflow-hidden pointer-events-none"
                       style={{ clipPath: shown ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)', transition: `clip-path 500ms ${WIPE}` }}>
                   <img src={ph.url} alt="" className="w-full h-full object-cover"
                        style={{ objectPosition: ph.pos, transform: shown ? 'scale(1)' : 'scale(1.12)', transition: `transform 900ms ${EASE}` }} />
@@ -487,7 +507,7 @@ export const FeatureBody: React.FC<{
                         style={{ boxShadow: 'inset 0 0 0 2px #fff', opacity: current === v ? 1 : 0, transition: `opacity 500ms ${EASE}` }} />
                 </span>
                 {/* small number under the photo */}
-                <span aria-hidden="true" className="absolute left-0 bottom-[4px] text-[9px] tracking-[0.28em] whitespace-nowrap"
+                <span aria-hidden="true" className="hf-jb-sub absolute left-0 bottom-[4px] text-[9px] tracking-[0.28em] whitespace-nowrap"
                       style={{ opacity: shown ? 0.8 : 0, transition: `opacity 500ms ${EASE}` }}>
                   {copyFor(v).name || `Venue ${v + 1}`}
                 </span>
@@ -536,7 +556,7 @@ export const FeatureBody: React.FC<{
                              text={copyFor(v).description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.'} />
                   <dl data-wm="" style={{ ['--d' as any]: '360ms', borderColor: LINE }} className={`${copyFor(v).onlySupplied ? 'mt-6' : 'mt-8'} border-t grid grid-cols-2`}>
                     {(copyFor(v).onlySupplied ? HIGHLIGHTS.filter(([k]) => copyFor(v).highlights?.[k]) : HIGHLIGHTS).map(([k, fallback], h, list) => { const val = copyFor(v).highlights?.[k] || fallback; const single = copyFor(v).onlySupplied ? (list.length <= 3 || BULLETED.includes(k) || k === 'Venue Size' || k === 'Location') : false; return (
-                      <div key={k} className={`py-3.5 border-b ${single ? 'col-span-2' : h % 2 === 0 ? 'pr-5 border-r' : 'pl-5'}`} style={{ borderColor: LINE }}>
+                      <div key={k} data-spec={k} className={`py-3.5 border-b ${single ? 'col-span-2' : h % 2 === 0 ? 'pr-5 border-r' : 'pl-5'}`} style={{ borderColor: LINE }}>
                         <dt className="text-[12px] uppercase tracking-[0.22em] flex items-center gap-2" style={{ opacity: 0.65 }}>{(() => { const I = DETAIL_ICON[k]; return I ? <I {...IC} className="w-3.5 h-3.5 shrink-0" /> : null; })()}<span>{k}</span></dt>
                         <dd className="mt-1 text-[16px]">{BULLETED.includes(k)
                           ? <ul className="flex flex-wrap gap-x-4 gap-y-1">{val.split(/\s*,\s*/).filter(Boolean).map((it, b) => (
