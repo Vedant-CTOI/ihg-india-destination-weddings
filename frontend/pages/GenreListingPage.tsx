@@ -114,8 +114,19 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
   const MOBILE_INITIAL = 8;
   const [showAllMobile, setShowAllMobile] = useState(false);
   useEffect(() => { setShowAllMobile(false); }, [selectedDestinations, selectedCity, selectedOccasion, selectedGenre, searchQuery]);
-  useEffect(() => { if (!mobileLayout && (selectedDestinations.length || selectedCity !== 'All Cities' || selectedOccasion !== 'All Occasions' || selectedGenre !== 'All Genres' || searchQuery.trim())) setShowAll(true); }, [selectedDestinations, selectedCity, selectedOccasion, selectedGenre, searchQuery, mobileLayout]);
+  useEffect(() => { if ((selectedDestinations.length || selectedCity !== 'All Cities' || selectedOccasion !== 'All Occasions' || selectedGenre !== 'All Genres' || searchQuery.trim())) setShowAll(true); }, [selectedDestinations, selectedCity, selectedOccasion, selectedGenre, searchQuery, mobileLayout]);
   const visibleHotels = mobileLayout && !showAllMobile ? filteredHotels.slice(0, MOBILE_INITIAL) : filteredHotels;
+  // Each destination sits faded until it scrolls into view, then comes up to full (reversible when scrolled back above)
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll('.dest-chapters .dest-chapter'));
+    const io = new IntersectionObserver((ents) => ents.forEach((e) => {
+      const el = e.target as HTMLElement;
+      if (e.isIntersecting) el.setAttribute('data-seen', '');
+      else if (e.boundingClientRect.top > 0) el.removeAttribute('data-seen');
+    }), { rootMargin: '0px 0px -28% 0px', threshold: 0.2 });
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [visibleHotels.length, showAllMobile, mobileLayout]);
 
   const handleClearAllFilters = () => {
     setSelectedCity('All Cities');
@@ -126,6 +137,13 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
 
   // Featured destinations (display names on this page only; data untouched). Region 1/2/3 -> Goa/Thailand/Jaipur
   const DEST_NAMES: Record<string, string> = { 'Region 1': 'Goa', 'Region 2': 'Thailand', 'Region 3': 'Jaipur' };
+  // Destination photos (Unsplash, free licence — dummy until client imagery). Goa/Thailand beaches, Jaipur fort.
+  const DEST_IMG: Record<string, string> = {
+    'Region 1': '/destinations/goa.jpg', 'Region 2': '/destinations/thailand.jpg', 'Region 3': '/destinations/jaipur.jpg',
+    'Region 4': '/destinations/d4.jpg', 'Region 5': '/destinations/d5.jpg', 'Region 6': '/destinations/d6.jpg',
+    'Region 7': '/destinations/d7.jpg', 'Region 8': '/destinations/d8.jpg', 'Region 9': '/destinations/d4.jpg'
+  };
+  const destImg = (h: HotelProperty) => DEST_IMG[h.city] || h.image;
   const destLabel = (city: string) => DEST_NAMES[city] || city.replace(/^Region (\d+)$/, 'Destination $1');
   const featured = ['Region 1', 'Region 2', 'Region 3']
     .map((c) => HOTELS_DATA.find((h) => h.city === c))
@@ -262,7 +280,7 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
         ) : (
           <>
           {/* ═══ FEATURED — Goa · Thailand · Jaipur (Web only). Hover widens a panel and reveals its copy + CTA. ═══ */}
-          {!mobileLayout && featured.length > 0 && (
+          {featured.length > 0 && (
             <section className="dest-featured" aria-label="Featured destinations">
               <div className="flex items-end justify-between mb-6">
                 <div data-wm="" className="flex items-center gap-3 text-[11px] uppercase tracking-[0.32em] text-neutral-600">
@@ -273,15 +291,15 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
               <div className="dest-featured-row flex gap-3 h-[min(72vh,620px)]" onMouseLeave={() => setHoverF(null)}>
                 {featured.map((hotel, k) => {
                   const name = destLabel(hotel.city);
-                  const active = hoverF === k;
+                  const active = mobileLayout || hoverF === k;
                   return (
-                    <div key={hotel.city} data-wm="curtain" style={{ ['--d' as any]: `${k * 160}ms`, flexGrow: hoverF === null ? 1 : active ? 2.2 : 0.8 }}
+                    <div key={hotel.city} data-wm="curtain" style={{ ['--d' as any]: `${k * 160}ms`, flexGrow: mobileLayout || hoverF === null ? 1 : hoverF === k ? 2.2 : 0.8 }}
                          className="dest-feat relative basis-0 min-w-0 cursor-pointer transition-[flex-grow] duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-                         onMouseEnter={() => setHoverF(k)} onFocus={() => setHoverF(k)}
+                         onMouseEnter={() => !mobileLayout && setHoverF(k)} onFocus={() => !mobileLayout && setHoverF(k)}
                          onClick={() => handleOpenDestinationProperties(hotel)}>
                       <div className="dest-feat-inner absolute inset-0 overflow-hidden bg-neutral-200 rounded-sm" style={{ transitionDelay: `${k * 160}ms` }}>
-                        <img src={hotel.image} alt={name}
-                             className={`w-full h-full object-cover filter grayscale contrast-110 transition-transform duration-[2200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${active ? 'scale-[1.06]' : 'scale-100'}`}
+                        <img src={destImg(hotel)} alt={name} data-real-photo=""
+                             className={`w-full h-full object-cover transition-transform duration-[2200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${active ? 'scale-[1.06]' : 'scale-100'}`}
                              onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }} />
                         <div className={`absolute inset-0 transition-opacity duration-1000 bg-gradient-to-t from-black/80 via-black/25 to-transparent ${active ? 'opacity-100' : 'opacity-70'}`} />
                         <div className="absolute inset-x-0 bottom-0 p-7 text-white">
@@ -306,18 +324,19 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                   );
                 })}
               </div>
-              <div data-wm="" className="mt-10 flex justify-center">
-                <button type="button" onClick={() => (showAll ? setShowAll(false) : openAll())} aria-expanded={showAll}
-                        className="group/va inline-flex items-center gap-4 border border-black text-black hover:bg-black hover:text-white text-[11px] uppercase tracking-[0.28em] font-medium pl-8 pr-6 py-4 rounded-full transition-colors duration-700 cursor-pointer">
-                  <span>{showAll ? 'Show less' : 'View All Destinations'}</span>
-                  <ArrowRight className={`w-3.5 h-3.5 transition-transform duration-700 ${showAll ? '-rotate-90' : 'rotate-90'}`} />
-                </button>
-              </div>
             </section>
           )}
 
+          <div className="dest-viewall flex justify-center mb-14">
+                <button type="button" onClick={openAll}
+                        className="group/va inline-flex items-center gap-4 border border-black text-black hover:bg-black hover:text-white text-[11px] uppercase tracking-[0.28em] font-medium pl-8 pr-6 py-4 rounded-full transition-colors duration-700 cursor-pointer">
+                  <span>View All Destinations</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-700 rotate-90 group-hover/va:translate-y-1" />
+                </button>
+          </div>
+
           {/* ═══ DESTINATION CHAPTERS (all destinations) — experiential rows, B/W + motion. "go back" = git checkout tag checkpoint-before-dest-chapters ═══ */}
-          {visibleHotels.length > 0 && (mobileLayout || showAll) && (
+          {visibleHotels.length > 0 && (
             <div ref={listRef} className="dest-chapters space-y-20 lg:space-y-28 scroll-mt-[220px]">
               {visibleHotels.map((hotel, i) => {
                 const num = String(filteredHotels.indexOf(hotel) + 1).padStart(2, '0');
@@ -333,9 +352,10 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                     >
                       <div className="relative aspect-video overflow-hidden bg-neutral-200 rounded-sm group">
                         <img
-                          src={hotel.image}
-                          alt={hotel.name}
-                          className="w-full h-full object-cover filter grayscale contrast-110 transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+                          src={destImg(hotel)}
+                          alt={destName}
+                          data-real-photo=""
+                          className="w-full h-full object-cover transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
                           onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
                         />
                         <span className="absolute top-4 right-4 bg-black/85 text-white text-[10px] uppercase tracking-wider font-sans px-2.5 py-0.5 rounded-full font-medium border border-white/20">
