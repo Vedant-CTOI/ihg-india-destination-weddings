@@ -9,6 +9,8 @@ interface HeroSlide {
   subtitle: string;
   locationLabel: string;
   image: string;
+  realPhoto?: boolean;
+  focus?: string;
 }
 
 export const HeroSectionClassic: React.FC = () => {
@@ -20,7 +22,9 @@ export const HeroSectionClassic: React.FC = () => {
       titleItalic: 'continues here.',
       subtitle: 'Hero banner subtext line for the first carousel slide, kept brief for the overlay layout.',
       locationLabel: 'Hotel 1 • Destination 1',
-      image: 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E'
+      image: '/hero/hero-1-photo-m.jpg', // client photo DSC00472
+      realPhoto: true,
+      focus: '62% 30%'
     },
     {
       id: 'banner-2',
@@ -126,7 +130,9 @@ export const HeroSectionClassic: React.FC = () => {
               <img
                 src={slide.image}
                 alt={`${slide.tagline} - ${slide.locationLabel}`}
-                className={`w-full h-full object-cover object-center filter grayscale contrast-125 brightness-90 ${
+                style={slide.focus ? { objectPosition: slide.focus } : undefined}
+                data-real-photo={slide.realPhoto ? '' : undefined}
+                className={`w-full h-full object-cover object-center ${slide.realPhoto ? '' : 'filter grayscale contrast-125 brightness-90'} ${
                   isActive ? 'animate-ken-burns scale-105' : 'scale-100'
                 }`}
                 onError={(e) => {
@@ -138,14 +144,21 @@ export const HeroSectionClassic: React.FC = () => {
           );
         })}
 
-        {/* Light Monochrome Washes — keep image bright so black text reads */}
+        {/* Light Monochrome Washes — keep image bright so black text reads (grey placeholder slides) */}
+        {!currentSlide.realPhoto && <>
         <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/60 sm:via-white/40 to-white/10 z-20" />
         <div className="absolute inset-0 bg-gradient-to-t from-white/70 via-transparent to-white/30 z-20" />
+        </>}
+        {/* Real photo slide — dark veil so the white overlay text reads */}
+        {currentSlide.realPhoto && <>
+        <div className="absolute inset-0 z-20" style={{ background: 'rgba(0,0,0,0.30)' }} />
+        <div className="absolute inset-0 z-20" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.55), rgba(0,0,0,0.15) 70%, transparent)' }} />
+        </>}
       </div>
 
       {/* Main Foreground Editorial Content */}
       <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
-        <div className="max-w-xl lg:max-w-2xl animate-fade-in" key={currentSlide.id}>
+        <div className={`max-w-xl lg:max-w-2xl animate-fade-in ${currentSlide.realPhoto ? 'hero-copy-light' : ''}`} key={currentSlide.id}>
           
           {/* Eyebrow & Sanctuary Indicator */}
           <div className="inline-flex items-center space-x-2 text-[11px] uppercase tracking-[0.28em] text-neutral-600 mb-6 font-sans">

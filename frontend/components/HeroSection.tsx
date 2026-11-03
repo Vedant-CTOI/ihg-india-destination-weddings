@@ -13,6 +13,7 @@ interface HeroSlide {
   image: string;
   focus?: string; // object-position for the crop
   trueColour?: boolean; // show the photo in its true colours (no B/W filter)
+  realPhoto?: boolean; // exempt from the web landing 'no photos' rule
 }
 
 const SLIDE_MS = 7000;
@@ -27,8 +28,10 @@ const HeroSectionCinematic: React.FC = () => {
       titleItalic: 'continues here.',
       subtitle: 'Hero banner subtext line for the first carousel slide, kept brief for the overlay layout.',
       locationLabel: 'Hotel 1 • Destination 1',
-      image: '/hero/hero-1.png',
-      trueColour: true
+      image: '/hero/hero-1-photo.jpg', // client photo DSC00472 (couple, petal shower)
+      trueColour: true,
+      focus: '62% 28%',
+      realPhoto: true
     },
     {
       id: 'banner-2',
@@ -173,7 +176,7 @@ const HeroSectionCinematic: React.FC = () => {
           return (
             <div
               key={isActive ? `${slide.id}-${cycle}` : `${slide.id}-prev`}
-              className={`absolute inset-0 overflow-hidden ${isActive ? 'z-10' : 'z-0'} ${
+              className={`absolute inset-0 overflow-hidden ${slide.realPhoto ? 'hero-real' : ''} ${isActive ? 'z-10' : 'z-0'} ${
                 isActive && prevIndex !== null ? 'hero-wipe-in' : ''
               }`}
             >

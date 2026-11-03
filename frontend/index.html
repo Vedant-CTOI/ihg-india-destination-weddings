@@ -177,6 +177,10 @@
     }
     /* Cinematic sections (.cine) show their own images — exempt from the wireframe grey-block rule above */
     .cine img { visibility: visible !important; background-color: transparent !important; }
+    img[data-real-photo] { visibility: visible !important; background-color: transparent !important; }  /* client photo on hero slide 1 (mobile) */
+    .hero-copy-light, .hero-copy-light * { color: #fff !important; border-color: rgba(255,255,255,.7) !important; }
+    .hero-copy-light h1 span { color: rgba(255,255,255,.85) !important; }
+    .hero-copy-light h1 { text-shadow: 0 1px 12px rgba(0,0,0,.35); }
     .cine div:has(> img:only-child) { background-color: transparent !important; }
     /* ===== /DESIGN TRANSFER ===== */
     /* ===== DESIGN TRANSFER step 3 (WEB VERSION ONLY — html.layout-mobile never matches) =====
@@ -253,6 +257,10 @@
       pointer-events: none; z-index: 2; }
     html:not(.layout-mobile) .landing-home .cine div[class*="bg-gradient"] { display: none !important; }
     html:not(.layout-mobile) .landing-home .grain::after { display: none !important; }
+    /* exception: real client photo on hero slide 1 shows in colour */
+    html:not(.layout-mobile) .landing-home .cine div.hero-real > img { visibility: visible !important; }
+    html:not(.layout-mobile) .landing-home .cine div.hero-real { background-color: transparent !important; }
+    html:not(.layout-mobile) .landing-home .cine div.hero-real::after { content: none !important; display: none !important; }
     /* motion off */
     html:not(.layout-mobile) .landing-home [data-wm],
     html:not(.layout-mobile) .landing-home [data-wm] > *,
