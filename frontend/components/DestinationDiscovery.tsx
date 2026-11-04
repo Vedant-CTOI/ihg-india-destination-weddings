@@ -50,8 +50,9 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
   };
 
   return (
-    <section id="destinations" className={`py-14 sm:py-16 bg-neutral-50 border-b border-neutral-200 ${web ? 'cine' : ''}`} data-tone={web ? 'light' : undefined} style={web ? { backgroundColor: PALETTE.marigold, borderColor: 'transparent' } : undefined}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="destinations" className={`dest-band py-14 sm:py-16 bg-neutral-50 border-b border-neutral-200 ${web ? 'cine' : ''}`} data-tone={web ? 'light' : undefined} style={web ? { backgroundColor: PALETTE.marigold, borderColor: 'transparent' } : undefined}>
+      {/* 16:9 end-to-end band (web: header over the photo; mobile: header above, 16:9 photo full width). Go back = tag checkpoint-before-dest-169 */}
+      <div className="dest-band-head max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header — CTA top right, like other sections */}
         <div className="sec-head flex flex-col md:flex-row md:items-end justify-between mb-6 gap-3">
@@ -79,13 +80,14 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Automatic Horizontal Carousel Container */}
+        {/* Automatic Horizontal Carousel — full-width 16:9 band */}
         <div
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           data-wm={web ? 'curtain' : undefined}
-          className="relative bg-white rounded-xl border border-neutral-300 overflow-hidden shadow-2xs group"
+          className="dest-band-media relative bg-white overflow-hidden group"
         >
           {/* Subtle Carousel Progress Line */}
           <div className="absolute top-0 left-0 right-0 h-0.5 bg-neutral-100 z-30">
@@ -117,7 +119,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
               (dark fade, white type, number + name, eyebrow, one line, white pill CTA). Go back = tag checkpoint-before-dest-cards-palette */}
           <div
             onClick={handleOpenDetail}
-            className="home-dest-card relative h-[30rem] lg:h-[34rem] overflow-hidden bg-neutral-800 cursor-pointer group"
+            className="home-dest-card relative h-full overflow-hidden bg-neutral-800 cursor-pointer group"
           >
             <img
               key={activeGenre.id}
@@ -131,7 +133,8 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
             />
             <div className="home-dest-veil absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/5" />
 
-            <div className="on-photo absolute inset-x-0 bottom-0 p-7 text-white">
+            <div className="on-photo absolute inset-x-0 bottom-0 text-white">
+             <div className="home-dest-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
               <span className="home-dest-eyebrow block text-[11px] uppercase tracking-[0.28em] text-white/75 mb-3 whitespace-nowrap">Lorem ipsum dolor sit amet</span>
               <h3 className="home-dest-name font-serif font-normal leading-[0.95] tracking-[-0.015em] text-[clamp(2.2rem,3.6vw,3.6rem)] whitespace-nowrap text-white">
                 <span className="text-white/55 mr-3 text-[0.55em] align-middle">{String(currentIndex + 1).padStart(2, '0')}</span>{destName}
@@ -142,17 +145,16 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
                 <span>Discover {destName} Properties</span>
                 <ArrowRight className="w-3.5 h-3.5 transition-transform duration-700 group-hover/cta:translate-x-1" />
               </button>
+             </div>
             </div>
           </div>
 
-        </div>
-
-        {/* Carousel indicator dots */}
-        <div className="flex justify-center items-center space-x-1.5 mt-4">
+        {/* Carousel indicator dots — inside the band, bottom centre */}
+        <div className="dest-band-dots absolute left-0 right-0 bottom-5 z-40 flex justify-center items-center space-x-1.5">
           {WEDDING_GENRES_DATA.map((_, idx) => (
             <button
               key={idx}
-              onClick={() => setCurrentIndex(idx)}
+              onClick={(e) => { e.stopPropagation(); setCurrentIndex(idx); }}
               className={`h-1 rounded-full transition-all cursor-pointer ${
                 idx === currentIndex ? 'w-6 bg-black' : 'w-1.5 bg-neutral-300 hover:bg-neutral-400'
               }`}
@@ -161,7 +163,8 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
           ))}
         </div>
 
-      </div>
+        </div>
+
     </section>
   );
 };
