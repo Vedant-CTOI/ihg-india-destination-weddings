@@ -122,7 +122,8 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                   className="relative h-56 overflow-hidden bg-neutral-900 cursor-pointer"
                 >
                   <img
-                    src={web ? pick(DUMMY_HOTELS, hi) : hotel.image}
+                    src={pick(DUMMY_HOTELS, hi)}
+                    data-real-photo=""
                     alt={hotel.name}
                     className={web ? 'w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)]' : 'w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500'}
                     onError={(e) => {
