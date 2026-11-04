@@ -1786,6 +1786,13 @@
   html.layout-mobile body #root .lp .lp-cta-row { margin-top: 20px !important; }
   html.layout-mobile body #root .landing-home .lp .lp-cta { min-height: 46px !important; padding: 13px 22px !important; font-size: 10px !important; }
 
+  /* Loyalty — text-only band (no photo, no cards): copy left, CTA right on web; stacked on mobile */
+  body #root .landing-home .loyalty-band.lp.lp-text { padding: 64px 0 !important; }
+  .lp.lp-text .lp-wrap { display: flex !important; align-items: flex-end; justify-content: space-between; gap: 48px; }
+  .lp.lp-text .lp-cta-row { margin-top: 0; flex-shrink: 0; }
+  html.layout-mobile body #root .landing-home .loyalty-band.lp.lp-text { padding: 36px 0 36px !important; }
+  html.layout-mobile body #root .lp.lp-text .lp-wrap { flex-direction: column !important; align-items: flex-start !important; gap: 20px !important; }
+
   /* ── 5. REAL WEDDINGS — fixes only, layout unchanged. Go back = tag checkpoint-before-loyalty-rw ── */
   /* A: header CTA readable (maroon text on ivory pill) */
   body #root .landing-home #real-weddings .sec-head button { background: var(--ivory) !important; color: var(--maroon) !important; }

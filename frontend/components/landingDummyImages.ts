@@ -33,10 +33,12 @@ export const DUMMY_HOTELS = [
 ];
 
 // Real Wedding stories — one per visible card
+// Real Weddings — ceremony moments (Unsplash, free licence; dummy until client photography):
+// 1 garland ritual at the sacred fire, 2 sindoor/varmala moment on the mandap, 3 couple at the reception.
 export const DUMMY_STORIES = [
-  u('1787831536851-7b8e9ef4a18c', 1000),
-  u('1788026187470-1c78e51047d5', 1000),
-  u('1787831536285-534e63115355', 1000)
+  '/stories/story-1.jpg',
+  '/stories/story-2.jpg',
+  '/stories/story-3.jpg'
 ];
 
 export const pick = (list: string[], i: number) => list[((i % list.length) + list.length) % list.length];
