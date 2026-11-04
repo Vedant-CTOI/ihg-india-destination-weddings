@@ -2046,9 +2046,11 @@
   /* ═══════════ DESTINATIONS — 16:9 end-to-end band. Go back = tag checkpoint-before-dest-169 ═══════════ */
   /* web: header on a Dark Green band above; full-bleed 16:9 photo below, running to the end of the section */
   html:not(.layout-mobile) body #root .landing-home section#destinations.dest-band { position: relative !important; padding: 0 !important; background-color: var(--green) !important; }
-  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head { position: relative !important; z-index: 45; padding-top: 72px !important; padding-bottom: 40px !important; background-color: var(--green) !important; max-width: none !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head { position: relative !important; z-index: 45; padding-top: 56px !important; padding-bottom: 32px !important; background-color: var(--green) !important; max-width: none !important; }
   html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head > .sec-head { max-width: 80rem; margin-left: auto; margin-right: auto; margin-bottom: 0 !important; padding-left: 2rem; padding-right: 2rem; box-sizing: border-box; }
   body #root .landing-home #destinations .dest-band-media { width: 100% !important; aspect-ratio: 16 / 9 !important; height: auto !important; border-radius: 0 !important; border: 0 !important; box-shadow: none !important; }
+  /* web: 2:1 (slightly wider than 16:9) so the band is shorter — option A. Go back = tag checkpoint-before-dest-2to1 */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-media { aspect-ratio: 2 / 1 !important; }
   body #root .landing-home #destinations .dest-band-media > .home-dest-card { position: absolute !important; inset: 0 !important; height: 100% !important; }
   /* photo veil: bottom fade only (header no longer sits on the photo) */
   html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card > .home-dest-veil { background-image: linear-gradient(to top, rgba(0,0,0,.9), rgba(0,0,0,.45) 50%, rgba(0,0,0,.05)) !important; }
