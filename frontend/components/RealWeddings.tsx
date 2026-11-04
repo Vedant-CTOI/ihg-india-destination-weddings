@@ -5,6 +5,15 @@ import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useWeb, SplitText, PALETTE } from './webMotion';
 import { DUMMY_STORIES, pick } from './landingDummyImages';
 
+// Story cards use the homepage hero banner photos (client photos, same crop focus as the hero)
+const STORY_HERO_PHOTOS = [
+  { src: '/hero/hero-1-photo.jpg', focus: '62% 28%' },
+  { src: '/hero/hero-2-photo.jpg', focus: '35% 25%' },
+  { src: '/hero/hero-3-photo.jpg', focus: '50% 40%' },
+  { src: '/hero/hero-4-photo.jpg', focus: '55% 30%' },
+  { src: '/hero/hero-5-photo.jpg', focus: '42% 38%' }
+];
+
 interface RealWeddingsProps {
   onSelectStory: (wedding: RealWeddingCase) => void;
   onViewAllStories?: () => void;
@@ -90,58 +99,23 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
               data-wm={web ? '' : undefined}
               style={{ ['--d' as any]: `${wi * 160}ms` }}
               onClick={() => onSelectStory(wedding)}
-              className="bg-white rounded-2xl border border-neutral-200 overflow-hidden flex flex-col justify-between hover:border-black transition-colors cursor-pointer group shadow-2xs hover:shadow-md"
+              className="story-tile group/st relative block w-full aspect-[3/4] overflow-hidden rounded-sm cursor-pointer"
             >
-              <div>
-                <div className="relative h-60 overflow-hidden bg-neutral-900">
-                  <img
-                    src={pick(DUMMY_STORIES, wi)}
-                    alt={wedding.couple}
-                    className={web ? 'w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)]' : 'rw-photo w-full h-full object-cover'}
-                    data-real-photo={web ? undefined : ''}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(wedding.couple);
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <span className="text-[10px] uppercase tracking-wider font-sans text-neutral-300 block">
-                      Story {visibleWeddings.indexOf(wedding) + 1} - Placeholder text
-                    </span>
-                    <h3 className="font-serif text-xl font-normal text-white">
-                      {wedding.couple}
-                    </h3>
-                  </div>
-                </div>
-
-                <div className="p-5">
-                  <span className="text-[11px] font-sans font-semibold text-black uppercase tracking-wider block mb-1">
-                    The Confluence:
-                  </span>
-                  <p className="text-xs text-neutral-800 font-sans mb-3 font-medium">
-                    {wedding.culturalConfluence}
-                  </p>
-
-                  <p className="text-xs text-neutral-600 font-sans leading-relaxed line-clamp-3 mb-4 font-light">
-                    {wedding.resolutionStory}
-                  </p>
-                </div>
-              </div>
-
-              <div className="p-5 pt-0">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelectStory(wedding);
-                  }}
-                  className="w-full border border-neutral-300 group-hover:bg-black group-hover:text-white text-black text-[11px] uppercase tracking-wider font-sans font-medium py-2 rounded-xl transition-colors flex items-center justify-center space-x-1.5"
-                >
-                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                  <span>Read Full Story &amp; Run-of-Show</span>
-                </button>
-              </div>
-
+              {/* Same tile as the Hotels page; photos = homepage hero banner photos. Go back = tag checkpoint-before-home-story-tiles */}
+              <img src={STORY_HERO_PHOTOS[wi % STORY_HERO_PHOTOS.length].src} alt={wedding.couple} data-real-photo="" loading="lazy"
+                   style={{ objectPosition: STORY_HERO_PHOTOS[wi % STORY_HERO_PHOTOS.length].focus }}
+                   className="story-tile-img absolute inset-0 w-full h-full object-cover transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/st:scale-[1.07]" />
+              <span className="story-tile-veil absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+              <span className="on-photo story-tile-copy absolute inset-x-0 bottom-0 p-4 lg:p-5 text-white">
+                <span className="story-tile-loc block text-[10px] uppercase tracking-[0.28em] text-white/70 mb-1.5 truncate">
+                  <span className="tabular-nums">{String(wi + 1).padStart(2, '0')}</span> · Lorem Ipsum
+                </span>
+                <span className="story-tile-name block font-serif font-normal leading-[1.05] text-[clamp(1.25rem,1.9vw,1.75rem)]">{wedding.couple}</span>
+                <span className="story-tile-meta block mt-1.5 text-[13px] font-light leading-snug text-white/85 truncate">{wedding.culturalConfluence}</span>
+                <span className="story-tile-cta mt-3 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] font-medium border-b border-white/70 pb-0.5">
+                  Read Full Story &amp; Run-of-Show <ArrowRight className="w-3 h-3 shrink-0" />
+                </span>
+              </span>
             </article>
           ))}
           </div>

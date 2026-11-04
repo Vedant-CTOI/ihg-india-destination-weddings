@@ -2017,6 +2017,31 @@
   html.layout-mobile body #root .landing-home #hotels-exploration .home-hotel-name { font-size: 18px !important; line-height: 1.1 !important; }
   html.layout-mobile body #root .landing-home #hotels-exploration .home-hotel-meta { font-size: 11px !important; line-height: 1.35 !important; margin-top: 4px !important; }
   html.layout-mobile body #root .landing-home #hotels-exploration .home-hotel-cta { font-size: 9px !important; letter-spacing: .16em !important; margin-top: 8px !important; }
+
+  /* ═══════════ HOMEPAGE REAL WEDDINGS — cards = Hotels page tiles, hero banner photos. Go back = tag checkpoint-before-home-story-tiles ═══════════ */
+  body #root .landing-home #real-weddings article.story-tile { display: block !important; position: relative !important; background-color: #2b2b2b !important; border: 0 !important; border-radius: 2px !important; padding: 0 !important; height: auto !important; min-height: 0 !important; max-height: none !important; box-shadow: none !important; overflow: hidden !important; }
+  body #root .landing-home #real-weddings article.story-tile > img.story-tile-img { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; max-height: none !important; min-height: 0 !important; visibility: visible !important; filter: none !important; background-color: transparent !important; }
+  body #root .landing-home #real-weddings article.story-tile > .story-tile-veil { display: block !important; position: absolute !important; inset: 0 !important; background-image: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.25) 50%, transparent) !important; }
+  body #root .landing-home #real-weddings article.story-tile .story-tile-copy { position: absolute !important; left: 0 !important; right: 0 !important; bottom: 0 !important; display: block !important; }
+  body #root .landing-home #real-weddings article.story-tile .story-tile-copy span { display: block; }
+  body #root .landing-home #real-weddings article.story-tile .story-tile-name { color: #fff !important; }
+  body #root .landing-home #real-weddings article.story-tile .story-tile-loc, body #root .landing-home #real-weddings article.story-tile .story-tile-loc * { color: rgba(255,255,255,.75) !important; display: inline !important; }
+  body #root .landing-home #real-weddings article.story-tile .story-tile-loc { display: block !important; }
+  body #root .landing-home #real-weddings article.story-tile .story-tile-meta { color: rgba(255,255,255,.85) !important; font-weight: 500 !important; }
+  body #root .landing-home #real-weddings article.story-tile .story-tile-cta { display: inline-flex !important; color: #fff !important; border-bottom: 1px solid rgba(255,255,255,.7) !important; }
+  body #root .landing-home #real-weddings article.story-tile .story-tile-cta * { color: #fff !important; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings article.story-tile .story-tile-cta { opacity: 0; transform: translateY(6px); transition: opacity .6s ease, transform .6s cubic-bezier(0.16,1,0.3,1); }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings article.story-tile:hover .story-tile-cta { opacity: 1; transform: none; }
+  /* mobile: 2 tiles per view (Hotels page mobile size), rail + arrows kept */
+  html.layout-mobile body #root .landing-home #real-weddings .grid.grid-cols-1.md\:grid-cols-3:has(article) { display: flex !important; gap: 10px !important; overflow-x: auto !important; scroll-snap-type: x mandatory; }
+  html.layout-mobile body #root .landing-home #real-weddings .grid.grid-cols-1.md\:grid-cols-3:has(article) > article.story-tile { flex: 0 0 calc((100% - 10px) / 2) !important; width: calc((100% - 10px) / 2) !important; min-width: calc((100% - 10px) / 2) !important; max-width: none !important; aspect-ratio: 3 / 4 !important; scroll-snap-align: start; }
+  html.layout-mobile body #root .landing-home #real-weddings article.story-tile .story-tile-copy { padding: 12px !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article.story-tile .story-tile-loc { font-size: 8px !important; letter-spacing: .16em !important; margin-bottom: 4px !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article.story-tile .story-tile-name { font-size: 18px !important; line-height: 1.1 !important; margin: 0 !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article.story-tile .story-tile-meta { font-size: 11px !important; line-height: 1.35 !important; margin-top: 4px !important; }
+  html.layout-mobile body #root .landing-home #real-weddings .grid.grid-cols-1.md\:grid-cols-3:has(article) > article.story-tile { border-radius: 2px !important; border: 0 !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article.story-tile .story-tile-cta { font-size: 8px !important; letter-spacing: .06em !important; margin-top: 8px !important; white-space: nowrap !important; gap: 4px !important; }
+  html.layout-mobile body #root .landing-home #real-weddings .stories-rail-arrow { top: 50% !important; }
 </style>
 
   </head>
