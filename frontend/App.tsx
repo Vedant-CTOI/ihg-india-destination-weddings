@@ -5,6 +5,7 @@ import { HeroSection } from './components/HeroSection';
 import { WebMotionDirector, PALETTE } from './components/webMotion';
 import { useMobileLayout } from './components/useMobileLayout';
 import { AboutUs } from './components/AboutUs';
+import { LoyaltyPackages } from './components/LoyaltyPackages';
 import { DestinationDiscovery } from './components/DestinationDiscovery';
 import { HotelsExploration } from './components/HotelsExploration';
 import { RealWeddings } from './components/RealWeddings';
@@ -167,26 +168,8 @@ export const App: React.FC = () => {
               onViewAll={() => handleNavigateToAllHotels()}
             />
 
-            {/* Section 4: Loyalty Packages teaser */}
-            <section className={`loyalty-band ${mobileLayout ? 'max-w-7xl mx-auto border-t border-neutral-200' : ''} px-4 sm:px-6 lg:px-8 py-14`} data-tone={!mobileLayout ? 'light' : undefined} style={!mobileLayout ? { backgroundColor: PALETTE.saffron } : undefined}>
-              <div data-wm={!mobileLayout ? '' : undefined} className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div>
-                  <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1">
-                    Loyalty Packages
-                  </span>
-                  <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed max-w-xl">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleNavigateToLoremPage}
-                  className="inline-flex items-center space-x-2 text-[11px] font-sans uppercase tracking-wider bg-black hover:bg-neutral-800 text-white px-6 py-3 rounded-full transition-colors font-medium cursor-pointer shrink-0 self-start sm:self-auto"
-                >
-                  <span>View Loyalty Packages</span>
-                </button>
-              </div>
-            </section>
+            {/* Section 4: Loyalty Packages — photo + 3 package cards + CTA. Go back = tag checkpoint-before-loyalty-rw */}
+            <LoyaltyPackages onViewPackages={handleNavigateToLoremPage} />
 
             {/* Section 3: Real Weddings Cultural Confluence */}
             <RealWeddings

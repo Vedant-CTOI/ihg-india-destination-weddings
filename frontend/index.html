@@ -1746,6 +1746,78 @@
   html.layout-mobile body #root .landing-home .loyalty-band button, html.layout-mobile body #root .loyalty-band button { background: var(--maroon) !important; color: #fff !important; border-color: var(--maroon) !important; }
   html.layout-mobile body #root .loyalty-band button * { color: #fff !important; }
   html.layout-mobile body #root .loyalty-band { background-color: var(--haldi) !important; border-color: transparent !important; }
+
+  /* ── 4. LOYALTY PACKAGES (v2) — Haldi band, photo + 3 package cards + CTA, web + mobile. Go back = tag checkpoint-before-loyalty-rw ── */
+  body #root .landing-home .loyalty-band.lp { padding: 88px 0 !important; }
+  .lp .lp-wrap { max-width: 80rem; margin: 0 auto; padding: 0 2rem; display: grid; grid-template-columns: 5fr 7fr; gap: 64px; align-items: center; }
+  .lp .lp-media { position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 4px; background: rgba(255,255,255,.15); }
+  .lp .lp-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; visibility: visible !important; filter: none !important; background-color: transparent !important;
+    transition: transform 2.2s cubic-bezier(0.16,1,0.3,1); }
+  .lp .lp-media:hover img { transform: scale(1.05); }
+  body #root .landing-home .lp .lp-eyebrow { display: flex; align-items: center; gap: 14px; font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: rgba(255,255,255,.92) !important; font-weight: 500; }
+  .lp .lp-rule { display: inline-block; width: 40px; height: 1px; background: rgba(255,255,255,.7); }
+  body #root .landing-home .lp .lp-title { margin-top: 20px; font-family: var(--font-serif, inherit); font-size: clamp(2.2rem, 3.6vw, 3.4rem); line-height: 1.02; letter-spacing: -.015em; color: #fff !important; font-weight: 400; }
+  body #root .landing-home .lp .lp-title em { display: block; font-style: italic; color: var(--maroon) !important; }
+  body #root .landing-home .lp .lp-copy { margin-top: 18px; max-width: 34rem; font-size: 15px; line-height: 1.7; color: #fff !important; font-weight: 400 !important; opacity: 1 !important; }
+  .lp .lp-cards { margin-top: 36px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .lp .lp-card { display: flex; flex-direction: column; gap: 10px; padding: 22px 20px 24px; border-radius: 6px; background: var(--ivory); border: 1px solid rgba(255,255,255,.4);
+    transition: transform .8s cubic-bezier(0.16,1,0.3,1), box-shadow .8s cubic-bezier(0.16,1,0.3,1); }
+  .lp .lp-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -22px rgba(60,20,10,.55); }
+  body #root .landing-home .lp .lp-num { font-size: 11px; letter-spacing: .28em; color: var(--haldi) !important; font-weight: 600; }
+  body #root .landing-home .lp .lp-card-title { font-family: var(--font-serif, inherit); font-size: 22px; line-height: 1.1; color: var(--maroon) !important; }
+  body #root .landing-home .lp .lp-perk { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; line-height: 1.45; color: var(--ink) !important; font-weight: 400 !important; }
+  .lp .lp-dot { flex: 0 0 6px; width: 6px; height: 6px; margin-top: 6px; border-radius: 50%; background: var(--haldi); }
+  .lp .lp-cta-row { margin-top: 32px; }
+  body #root .landing-home .lp .lp-cta { display: inline-flex; align-items: center; gap: 14px; padding: 15px 26px 15px 30px; border-radius: 9999px; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; font-weight: 500; cursor: pointer;
+    background: var(--maroon) !important; color: #fff !important; transition: background-color .7s cubic-bezier(0.16,1,0.3,1); }
+  body #root .landing-home .lp .lp-cta:hover { background: var(--maroon-d) !important; }
+  /* mobile — stacked: photo (16:9), text, 3 cards in a row, CTA; no empty band below */
+  html.layout-mobile body #root .landing-home .loyalty-band.lp { padding: 36px 0 40px !important; max-width: none !important; border-top: 0 !important; }
+  html.layout-mobile body #root .lp .lp-wrap { display: flex !important; flex-direction: column !important; gap: 22px !important; padding: 0 16px !important; align-items: stretch !important; }
+  html.layout-mobile body #root .lp .lp-media { aspect-ratio: 16 / 9 !important; width: 100% !important; }
+  html.layout-mobile body #root .lp .lp-title { font-size: 30px !important; margin-top: 14px !important; text-align: left !important; }
+  html.layout-mobile body #root .lp .lp-eyebrow { font-size: 10px !important; justify-content: flex-start !important; }
+  html.layout-mobile body #root .lp .lp-copy { font-size: 14px !important; text-align: left !important; margin-top: 12px !important; }
+  html.layout-mobile body #root .lp .lp-cards { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 8px !important; margin-top: 20px !important; }
+  html.layout-mobile body #root .lp .lp-card { padding: 14px 10px 16px !important; gap: 6px !important; min-width: 0 !important; grid-column: auto !important; }
+  html.layout-mobile body #root .lp .lp-card-title { font-size: 16px !important; }
+  html.layout-mobile body #root .lp .lp-num { font-size: 9px !important; }
+  html.layout-mobile body #root .lp .lp-perk { font-size: 10.5px !important; }
+  html.layout-mobile body #root .lp .lp-cta-row { margin-top: 20px !important; }
+  html.layout-mobile body #root .landing-home .lp .lp-cta { min-height: 46px !important; padding: 13px 22px !important; font-size: 10px !important; }
+
+  /* ── 5. REAL WEDDINGS — fixes only, layout unchanged. Go back = tag checkpoint-before-loyalty-rw ── */
+  /* A: header CTA readable (maroon text on ivory pill) */
+  body #root .landing-home #real-weddings .sec-head button { background: var(--ivory) !important; color: var(--maroon) !important; }
+  body #root .landing-home #real-weddings .sec-head button * { color: var(--maroon) !important; }
+  body #root .landing-home #real-weddings .sec-head button:hover { background: #fff !important; }
+  /* B: intro copy readable on maroon */
+  body #root .landing-home #real-weddings .sec-head p { color: rgba(247,240,228,.9) !important; font-weight: 400 !important; }
+  /* C: stray square icon removed from card buttons */
+  body #root #real-weddings article button > span[aria-hidden="true"] { display: none !important; }
+  /* D: mobile gets the web design — maroon band, ivory type, photos visible, full card, CTA below the rail */
+  html.layout-mobile body #root .landing-home #real-weddings { background-color: #600B2A !important; border-color: transparent !important; padding: 40px 0 36px !important; }
+  html.layout-mobile body #root .landing-home #real-weddings .sec-head h2 { color: #fff !important; }
+  html.layout-mobile body #root .landing-home #real-weddings .sec-head > div > span { color: rgba(247,240,228,.8) !important; }
+  html.layout-mobile body #root .landing-home #real-weddings .sec-head { margin-bottom: 20px !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article img { visibility: visible !important; filter: none !important; background-color: transparent !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article .relative.h-60 { background-color: #3a0618 !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article .relative.h-60 > div[class*="bg-gradient"] { display: block !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article .relative.h-60 > .absolute.bottom-4 { display: block !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article .relative.h-60 > .absolute.bottom-4 span { color: rgba(255,255,255,.8) !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article .relative.h-60 > .absolute.bottom-4 h3 { color: #fff !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article { border-radius: 14px !important; overflow: hidden !important; height: auto !important; max-height: none !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article > div, html.layout-mobile body #root .landing-home #real-weddings article .p-5 { display: block !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article .p-5 p, html.layout-mobile body #root .landing-home #real-weddings article .p-5 span { display: block !important; }
+  html.layout-mobile body #root .landing-home #real-weddings .sec-head > div.flex { order: 3 !important; }
+  html.layout-mobile body #root .landing-home #real-weddings .grid.grid-cols-1.md\:grid-cols-3 article > div:first-child { height: auto !important; min-height: 0 !important; max-height: none !important; overflow: visible !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article .relative.h-60 { height: 200px !important; min-height: 200px !important; max-height: 200px !important; overflow: hidden !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article .p-5 { padding: 14px 16px 6px !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article .p-5.pt-0 { padding: 0 16px 16px !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article .p-5 p.line-clamp-3 { display: -webkit-box !important; -webkit-line-clamp: 2 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; margin-bottom: 10px !important; }
+  html.layout-mobile body #root .landing-home #real-weddings .relative:has(> .grid) { margin-bottom: 18px !important; }
+  html.layout-mobile body #root .landing-home #real-weddings .stories-rail-arrow { top: 100px !important; }
+  html.layout-mobile body #root .landing-home #real-weddings article .p-5.pt-0 { padding: 0 0 8px !important; }
 </style>
 
   </head>
