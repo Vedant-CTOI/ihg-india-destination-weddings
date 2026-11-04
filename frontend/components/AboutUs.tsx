@@ -423,7 +423,8 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
       </div>
       {/* Visual: one simple 16:9 rectangle; placeholder until client images arrive */}
       <div className="ha-visual" aria-hidden="true">
-        <div data-wm="curtain" className="ha-frame"><div className="ha-ph"><span>Image here</span></div></div>
+        {/* Dummy photo (Unsplash, petal ritual) until client imagery — frame size unchanged */}
+        <div data-wm="curtain" className="ha-frame"><div className="ha-ph ha-ph-photo"><img src={IMAGES[0].src} alt={IMAGES[0].alt} data-real-photo="" className="ha-img" /></div></div>
         <span data-wm="" style={{ ['--d' as any]: '500ms' }} className="ha-caption"><span className="ha-dot" />{IMAGES[active].caption}</span>
       </div>
      </div>
