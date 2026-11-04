@@ -1825,6 +1825,80 @@
   html.layout-mobile body #root .landing-home #real-weddings .relative:has(> .grid) { margin-bottom: 18px !important; }
   html.layout-mobile body #root .landing-home #real-weddings .stories-rail-arrow { top: 100px !important; }
   html.layout-mobile body #root .landing-home #real-weddings article .p-5.pt-0 { padding: 0 0 8px !important; }
+
+  /* ═══════════ DEST CARDS + PALETTE CONSISTENCY (Go back = tag checkpoint-before-dest-cards-palette) ═══════════ */
+  /* 1. Homepage destination card = Discover by Destination card style (dark fade, white type, no border, near-square corners) */
+  body #root .landing-home #destinations .group { background: #2B2B2B !important; border-color: transparent !important; border-radius: 2px !important; }
+  body #root .landing-home #destinations .home-dest-card { background-color: #2B2B2B !important; }
+  body #root .landing-home #destinations .home-dest-card img[data-real-photo] { visibility: visible !important; filter: none !important; background-color: transparent !important; }
+  body #root .landing-home #destinations .home-dest-card > .home-dest-veil { display: block !important; background-image: linear-gradient(to top, rgba(0,0,0,.9), rgba(0,0,0,.45) 50%, rgba(0,0,0,.05)) !important; }
+  body #root .landing-home #destinations .home-dest-card h3, body #root .landing-home #destinations .home-dest-card h3 { color: #fff !important; }
+  body #root .landing-home #destinations .home-dest-card h3 > span { color: rgba(255,255,255,.55) !important; }
+  body #root .landing-home #destinations .home-dest-card .home-dest-eyebrow { color: rgba(255,255,255,.75) !important; display: block !important; }
+  body #root .landing-home #destinations .home-dest-card .home-dest-copy { color: rgba(255,255,255,.85) !important; font-weight: 500 !important; display: block !important; }
+  body #root .landing-home #destinations .home-dest-card .home-dest-cta { background: #fff !important; color: #000 !important; display: inline-flex !important; }
+  body #root .landing-home #destinations .home-dest-card .home-dest-cta * { color: #000 !important; }
+  /* mobile: same card, scaled to the 402×266 frame (frame size unchanged) */
+  html.layout-mobile body #root .landing-home #destinations .home-dest-card .on-photo { padding: 16px 18px !important; }
+  html.layout-mobile body #root .landing-home #destinations .home-dest-card > img.absolute.inset-0, html.layout-mobile body #root .landing-home #destinations .home-dest-card > .home-dest-veil { padding: 0 !important; }
+  html.layout-mobile body #root .landing-home #destinations button[aria-label$="wedding genre"] { top: 34% !important; }
+  html.layout-mobile body #root .landing-home #destinations .home-dest-card .home-dest-eyebrow { font-size: 9px !important; margin-bottom: 6px !important; }
+  html.layout-mobile body #root .landing-home #destinations .home-dest-card h3 { font-size: 28px !important; line-height: 1 !important; }
+  html.layout-mobile body #root .landing-home #destinations .home-dest-card .home-dest-copy { font-size: 12px !important; line-height: 1.4 !important; margin-top: 6px !important; display: -webkit-box !important; -webkit-line-clamp: 1 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; }
+  html.layout-mobile body #root .landing-home #destinations .home-dest-card .home-dest-cta { margin-top: 10px !important; padding: 8px 14px !important; font-size: 9px !important; min-height: 0 !important; }
+
+  /* 2. Palette — off-sheet colours brought onto the client sheet (colour only, no size changes) */
+  /* Real Weddings: old #600B2A -> Bridal Maroon; cards ink + maroon */
+  body #root .landing-home #real-weddings, html.layout-mobile body #root .landing-home #real-weddings { background-color: var(--maroon) !important; }
+  body #root .landing-home #real-weddings article { border-color: rgba(247,240,228,.4) !important; }
+  body #root .landing-home #real-weddings article .relative.h-60 { background-color: var(--maroon-d) !important; }
+  body #root .landing-home #real-weddings article .p-5 > span { color: var(--maroon) !important; }
+  body #root .landing-home #real-weddings article .p-5 > p.font-medium { color: var(--ink) !important; }
+  body #root .landing-home #real-weddings article .p-5 > p.line-clamp-3 { color: rgba(43,26,30,.72) !important; }
+  body #root .landing-home #real-weddings article .p-5.pt-0 button { color: var(--maroon) !important; border-color: rgba(137,56,74,.35) !important; }
+  body #root .landing-home #real-weddings article:hover .p-5.pt-0 button { background: var(--maroon) !important; color: #fff !important; border-color: var(--maroon) !important; }
+  body #root .landing-home #real-weddings article:hover .p-5.pt-0 button * { color: #fff !important; }
+  body #root .landing-home #real-weddings > div > div:last-child button, body #root .landing-home #real-weddings > div > div:last-child button * { color: var(--maroon) !important; }
+  /* Enquiry form: marigold -> Ivory band, maroon type + actions */
+  body #root .landing-home #contact, html.layout-mobile body #root .landing-home #contact { background-color: var(--ivory) !important; border-color: transparent !important; }
+  body #root .landing-home #contact .sec-head h2, body #root .landing-home #contact h2, body #root .landing-home #contact h2 * { color: var(--maroon) !important; }
+  body #root .landing-home #contact > div > div:first-child p, body #root .landing-home #contact > div > div:first-child span { color: rgba(43,26,30,.72) !important; }
+  body #root .landing-home #contact form, body #root .landing-home #contact .rounded-3xl { background: #fff !important; border-color: rgba(137,56,74,.18) !important; }
+  body #root .landing-home #contact label, body #root .landing-home #contact form label.block { color: var(--ink) !important; }
+  body #root .landing-home #contact button.bg-black { background: var(--maroon) !important; border-color: var(--maroon) !important; color: #fff !important; }
+  body #root .landing-home #contact button.bg-black * { color: #fff !important; }
+  body #root .landing-home #contact button[type="submit"] { background: var(--maroon) !important; color: #fff !important; }
+  body #root .landing-home #contact button[type="submit"]:hover { background: var(--maroon-d) !important; }
+  body #root .landing-home #contact button[type="submit"] * { color: #fff !important; }
+  body #root .landing-home #contact input[type="checkbox"] { accent-color: var(--maroon); }
+  html.layout-mobile body #root button[type="submit"].ihg-sticky-on { background: var(--maroon) !important; }
+  /* Header: Enquire button + Web/Mobile switch black -> maroon (over-hero white state unchanged) */
+  body #root header button.bg-black { background-color: var(--maroon) !important; border-color: var(--maroon) !important; color: #fff !important; }
+  body #root header button.bg-black:hover { background-color: var(--maroon-d) !important; }
+  body #root header button.bg-black * { color: #fff !important; }
+  /* Footer: black -> Dark Green */
+  body #root footer, html.layout-mobile body #root footer { background-color: var(--green) !important; border-color: rgba(247,240,228,.14) !important; }
+  body #root footer .border-b { border-color: rgba(247,240,228,.18) !important; }
+
+  /* 3. Discover by Destination page (E) — onto the palette: ivory ground, maroon accents; photo cards unchanged */
+  body #root .dest-page { background-color: var(--ivory) !important; }
+  body #root .dest-page > div:first-child { background: var(--ivory) !important; border-bottom-color: rgba(137,56,74,.15) !important; }
+  body #root .dest-page > div:first-child, body #root .dest-page > div:first-child * { color: var(--maroon) !important; }
+  html:not(.layout-mobile) body #root .dest-filter, html.layout-mobile body #root .dest-filter { background: rgba(247,240,228,.96) !important; border-top-color: var(--maroon) !important; border-bottom-color: rgba(137,56,74,.18) !important; }
+  body #root .dest-filter .filter-field { border-bottom-color: rgba(137,56,74,.3) !important; }
+  body #root .dest-filter .filter-field:hover, body #root .dest-filter .filter-field:focus-within { border-bottom-color: var(--maroon) !important; }
+  body #root .dest-filter .filter-field > span:first-child, body #root .dest-filter .filter-count button { color: var(--maroon) !important; }
+  body #root .dest-filter select, body #root .dest-filter input { color: var(--ink) !important; }
+  body #root .dest-filter .filter-field span[aria-hidden].border { border-color: var(--maroon) !important; }
+  body #root .dest-filter .filter-count { color: rgba(43,26,30,.7) !important; }
+  body #root .dest-filter .filter-count strong { background: var(--maroon) !important; color: #fff !important; }
+  body #root .dest-featured > div:first-child > div, body #root .dest-grid-wrap > div:first-child > div { color: var(--maroon) !important; }
+  body #root .dest-featured > div:first-child > div > span:first-child, body #root .dest-grid-wrap > div:first-child > div > span:first-child { background: var(--haldi) !important; }
+  body #root .dest-featured > div:first-child > span, body #root .dest-grid-wrap > div:first-child > span { color: var(--copper) !important; }
+  body #root .dest-viewall button, html.layout-mobile body #root .dest-viewall button { border-color: var(--maroon) !important; color: var(--maroon) !important; background: transparent !important; }
+  body #root .dest-viewall button:hover { background: var(--maroon) !important; color: #fff !important; }
+  body #root .dest-page h3.text-black { color: var(--maroon) !important; }
+  body #root .dest-page button.bg-black { background: var(--maroon) !important; }
 </style>
 
   </head>

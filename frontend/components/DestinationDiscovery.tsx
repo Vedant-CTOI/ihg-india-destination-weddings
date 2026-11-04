@@ -5,6 +5,9 @@ import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useWeb, SplitText, PALETTE } from './webMotion';
 import { DUMMY_DESTINATIONS, pick } from './landingDummyImages';
 
+const HOME_DEST_NAMES = ['Goa', 'Thailand', 'Jaipur'];
+const HOME_DEST_IMG = ['/destinations/goa.jpg', '/destinations/thailand.jpg', '/destinations/jaipur.jpg', '/destinations/d4.jpg', '/destinations/d5.jpg'];
+
 interface DestinationDiscoveryProps {
   onOpenDetail?: () => void;
 }
@@ -17,6 +20,8 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
 
   const totalGenres = WEDDING_GENRES_DATA.length;
   const activeGenre = WEDDING_GENRES_DATA[currentIndex] || WEDDING_GENRES_DATA[0];
+  // Same names + photos as the Discover by Destination page (Region 1/2/3 = Goa/Thailand/Jaipur, then Destination 4, 5…)
+  const destName = HOME_DEST_NAMES[currentIndex] || `Destination ${currentIndex + 1}`;
 
   // Fast auto cycling progression (1100ms); smoothly pauses on hover
   useEffect(() => {
@@ -108,55 +113,36 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
             <ChevronRight className="w-4 h-4" />
           </button>
 
-          {/* Full-bleed image with text overlaid — fills the entire carousel container */}
+          {/* Full-bleed image with text overlaid — same card style as the Discover by Destination page
+              (dark fade, white type, number + name, eyebrow, one line, white pill CTA). Go back = tag checkpoint-before-dest-cards-palette */}
           <div
             onClick={handleOpenDetail}
-            className="relative h-[30rem] lg:h-[34rem] overflow-hidden bg-black cursor-pointer group"
+            className="home-dest-card relative h-[30rem] lg:h-[34rem] overflow-hidden bg-neutral-800 cursor-pointer group"
           >
             <img
               key={activeGenre.id}
-              src={web ? pick(DUMMY_DESTINATIONS, currentIndex) : activeGenre.image}
-              alt={`${activeGenre.genre} Wedding Type`}
-              className={web ? 'absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] dest-fade' : 'absolute inset-0 w-full h-full object-cover filter grayscale contrast-115 group-hover:scale-103 transition-transform duration-700 animate-fade-in'}
+              src={HOME_DEST_IMG[currentIndex % HOME_DEST_IMG.length]}
+              alt={destName}
+              data-real-photo=""
+              className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-[2200ms] ease-[cubic-bezier(0.16,1,0.3,1)] dest-fade"
               onError={(e) => {
-                (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(activeGenre.genre);
+                (e.target as HTMLImageElement).src = pick(DUMMY_DESTINATIONS, currentIndex);
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/40 to-white/10" />
+            <div className="home-dest-veil absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/5" />
 
-            {/* Text over image — black on a bright wash */}
-            <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10 text-black">
-              <div className="flex items-center space-x-2 text-[10px] font-sans text-neutral-600 uppercase tracking-widest mb-2">
-                <span className="bg-black text-white px-2.5 py-0.5 rounded-full font-bold">Destination {currentIndex + 1}</span>
-                <span className="hidden sm:inline">{activeGenre.tagline}</span>
-              </div>
-
-              <h3 className="font-serif text-2xl sm:text-4xl font-normal mb-2.5">
-                Destination {currentIndex + 1}
+            <div className="on-photo absolute inset-x-0 bottom-0 p-7 text-white">
+              <span className="home-dest-eyebrow block text-[11px] uppercase tracking-[0.28em] text-white/75 mb-3 whitespace-nowrap">Lorem ipsum dolor sit amet</span>
+              <h3 className="home-dest-name font-serif font-normal leading-[0.95] tracking-[-0.015em] text-[clamp(2.2rem,3.6vw,3.6rem)] whitespace-nowrap text-white">
+                <span className="text-white/55 mr-3 text-[0.55em] align-middle">{String(currentIndex + 1).padStart(2, '0')}</span>{destName}
               </h3>
-
-              <p className="font-serif text-sm sm:text-base italic text-neutral-700 leading-snug max-w-2xl line-clamp-2 mb-4">
-                "{activeGenre.heroSnippet}"
-              </p>
-
-              {/* Minimal facts row over image */}
-              <div className="flex flex-wrap gap-x-8 gap-y-1.5 pt-3 border-t border-black/15 text-[11px] font-sans text-neutral-800">
-                <div>
-                  <span className="text-neutral-500 uppercase tracking-wider text-[9px] block">Ideal Scale</span>
-                  {activeGenre.idealScale}
-                </div>
-                <div>
-                  <span className="text-neutral-500 uppercase tracking-wider text-[9px] block">Season</span>
-                  {activeGenre.recommendedSeason}
-                </div>
-                <div>
-                  <span className="text-neutral-500 uppercase tracking-wider text-[9px] block">Key Ritual</span>
-                  {activeGenre.signatureRituals[0]}
-                </div>
-              </div>
+              <p className="home-dest-copy mt-4 max-w-md text-sm font-light leading-relaxed text-white/85">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+              <button type="button" onClick={(e) => { e.stopPropagation(); handleOpenDetail(); }}
+                      className="home-dest-cta group/cta mt-5 inline-flex items-center gap-3 bg-white text-black text-[11px] uppercase tracking-wider font-medium pl-6 pr-5 py-3 rounded-full cursor-pointer">
+                <span>Discover {destName} Properties</span>
+                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-700 group-hover/cta:translate-x-1" />
+              </button>
             </div>
-
-            {/* (CTA lives top-right of the section header) */}
           </div>
 
         </div>
