@@ -2044,14 +2044,14 @@
   html.layout-mobile body #root .landing-home #real-weddings .stories-rail-arrow { top: 50% !important; }
 
   /* ═══════════ DESTINATIONS — 16:9 end-to-end band. Go back = tag checkpoint-before-dest-169 ═══════════ */
-  /* web: the whole section IS a full-bleed 16:9 photo; header sits over the top of the photo, destination text bottom-left */
-  html:not(.layout-mobile) body #root .landing-home section#destinations.dest-band { position: relative !important; padding: 0 !important; }
-  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head { position: absolute !important; left: 0; right: 0; top: 0; z-index: 45; padding-top: 72px !important; pointer-events: none; }
-  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head .sec-head > * { pointer-events: auto; }
+  /* web: header on a Dark Green band above; full-bleed 16:9 photo below, running to the end of the section */
+  html:not(.layout-mobile) body #root .landing-home section#destinations.dest-band { position: relative !important; padding: 0 !important; background-color: var(--green) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head { position: relative !important; z-index: 45; padding-top: 72px !important; padding-bottom: 40px !important; background-color: var(--green) !important; max-width: none !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head > .sec-head { max-width: 80rem; margin-left: auto; margin-right: auto; margin-bottom: 0 !important; padding-left: 2rem; padding-right: 2rem; box-sizing: border-box; }
   body #root .landing-home #destinations .dest-band-media { width: 100% !important; aspect-ratio: 16 / 9 !important; height: auto !important; border-radius: 0 !important; border: 0 !important; box-shadow: none !important; }
   body #root .landing-home #destinations .dest-band-media > .home-dest-card { position: absolute !important; inset: 0 !important; height: 100% !important; }
-  /* readable header over the photo: soft dark wash at the top as well as the bottom */
-  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card > .home-dest-veil { background-image: linear-gradient(to bottom, rgba(0,0,0,.6), rgba(0,0,0,.12) 34%, rgba(0,0,0,0) 48%, rgba(0,0,0,.45) 70%, rgba(0,0,0,.9)) !important; }
+  /* photo veil: bottom fade only (header no longer sits on the photo) */
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card > .home-dest-veil { background-image: linear-gradient(to top, rgba(0,0,0,.9), rgba(0,0,0,.45) 50%, rgba(0,0,0,.05)) !important; }
   body #root .landing-home #destinations .home-dest-inner { padding-bottom: 64px !important; }
   /* mobile: header on the green band above; 16:9 photo runs edge to edge to the end of the section */
   html.layout-mobile body #root .landing-home section#destinations.dest-band { padding-bottom: 0 !important; }
