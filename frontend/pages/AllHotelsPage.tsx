@@ -50,9 +50,18 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
   };
   const genreFilters = ['All Occasions', ...Object.keys(occasionLabels)];
 
+  // 72 cards on this page: the 10 real hotels + placeholder cards (display only; site data untouched).
+  // Placeholder cards copy a real hotel's details for the filters and open that hotel's page.
+  const PAGE_TOTAL = 72;
+  const PAGE_HOTELS = useMemo<HotelProperty[]>(() => Array.from({ length: PAGE_TOTAL }, (_, k) => {
+    const src = HOTELS_DATA[k % HOTELS_DATA.length];
+    return k < HOTELS_DATA.length ? src : { ...src, id: `${src.id}__p${k + 1}`, name: `Hotel ${k + 1}` };
+  }), []);
+  const sourceId = (id: string) => id.split('__p')[0];
+
   // Filtered hotels list based on city, genre, and search query
   const filteredHotels = useMemo(() => {
-    return HOTELS_DATA.filter((h) => {
+    return PAGE_HOTELS.filter((h) => {
       // 1. City filter
       if (selectedCity !== 'All Cities' && h.city !== selectedCity) {
         return false;
@@ -100,7 +109,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
     return () => io.disconnect();
   }, [visibleHotels.length, showAllMobile, mobileLayout]);
   // Dummy colour photo per hotel (same photo as that hotel's card on the homepage)
-  const hotelImg = (h: HotelProperty) => pick(DUMMY_HOTELS, Math.max(0, HOTELS_DATA.findIndex((x) => x.id === h.id)));
+  const hotelImg = (h: HotelProperty) => pick(DUMMY_HOTELS, Math.max(0, PAGE_HOTELS.findIndex((x) => x.id === h.id)));
 
   const handleClearAllFilters = () => {
     setSelectedCity('All Cities');
@@ -234,7 +243,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
                4 per row web / 2 mobile, rise-in + hover zoom; CTA on hover web / always mobile). Go back = tag checkpoint-before-all-hotels ═══ */}
           <div className="dest-grid hotels-grid grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
             {visibleHotels.map((hotel, i) => (
-              <button type="button" key={hotel.id} onClick={() => handleOpenFullPage(hotel.id)}
+              <button type="button" key={hotel.id} onClick={() => handleOpenFullPage(sourceId(hotel.id))}
                       style={{ ['--i' as any]: i % 4 }}
                       className="dest-tile group relative block w-full aspect-[3/4] overflow-hidden bg-neutral-200 rounded-sm text-left cursor-pointer">
                 <img src={hotelImg(hotel)} alt={hotel.name} data-real-photo="" loading="lazy"
@@ -243,11 +252,11 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
                 <div className="dest-tile-veil absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent transition-opacity duration-700" />
                 <div className="on-photo absolute inset-x-0 bottom-0 p-4 lg:p-5 text-white">
                   <span className="hotel-tile-loc block text-[10px] uppercase tracking-[0.28em] text-white/70 mb-1.5 truncate">
-                    <span className="tabular-nums">{String(i + 1).padStart(2, '0')}</span> · {hotel.location}
+                    <span className="tabular-nums">{String(i + 1).padStart(2, '0')}</span> · Lorem Ipsum
                   </span>
                   <h3 className="font-serif font-normal leading-[1.05] text-[clamp(1.25rem,1.9vw,1.75rem)]">{hotel.name}</h3>
                   <p className="dest-tile-copy mt-1.5 text-[13px] font-light leading-snug text-white/85">{hotel.capacityMin}–{hotel.capacityMax} Guests · {hotel.roomsCount} Rooms</p>
-                  <span className="dest-tile-cta hotel-tile-cta mt-3 inline-flex items-center gap-2 bg-white text-black text-[10px] uppercase tracking-[0.2em] font-medium px-4 rounded-full">
+                  <span className="dest-tile-cta mt-3 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] font-medium border-b border-white/70 pb-0.5">
                     Full Page <ArrowRight className="w-3 h-3" />
                   </span>
                 </div>
