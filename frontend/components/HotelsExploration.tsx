@@ -110,84 +110,25 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
               data-carousel-card
               data-wm={web && hi < 4 ? '' : undefined}
               style={{ ['--d' as any]: `${hi * 140}ms` }}
-              className="snap-start shrink-0 w-[85%] sm:w-[46%] lg:w-[calc((100%-3rem)/4)]"
+              className="home-hotel-slot snap-start shrink-0 w-[85%] sm:w-[46%] lg:w-[calc((100%-3rem)/4)]"
             >
-            <div
-              className="group bg-white rounded-2xl border border-neutral-200 hover:border-black overflow-hidden transition-all duration-300 flex flex-col justify-between shadow-2xs hover:shadow-md h-full"
-            >
-              <div>
-                {/* Photo with Overlay (Click opens preview) */}
-                <div 
-                  onClick={() => handleOpenFullPage(hotel)}
-                  className="relative h-56 overflow-hidden bg-neutral-900 cursor-pointer"
-                >
-                  <img
-                    src={pick(DUMMY_HOTELS, hi)}
-                    data-real-photo=""
-                    alt={hotel.name}
-                    className={web ? 'w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)]' : 'w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500'}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(hotel.name);
-                    }}
-                  />
-                  <span className="absolute top-3 left-3 bg-white/95 text-black text-[10px] uppercase tracking-wider font-sans px-2.5 py-0.5 rounded-full font-medium shadow-xs">
-                    {hotel.brand}
-                  </span>
-
-                  <span className="absolute top-3 right-3 bg-black/85 text-white text-[10px] uppercase tracking-wider font-sans px-2.5 py-0.5 rounded-full font-medium border border-white/20">
-                    {hotel.city}
-                  </span>
-
-                                  </div>
-
-                {/* Details */}
-                <div className="p-5">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] uppercase tracking-wider font-sans text-neutral-500 font-medium">
-                      {hotel.location}
-                    </span>
-                    <span className="text-[10px] bg-neutral-100 text-neutral-700 px-2 py-0.5 rounded-full font-medium">
-                      {hotel.genre}
-                    </span>
-                  </div>
-
-                  <h3 
-                    onClick={() => handleOpenFullPage(hotel)}
-                    className="font-serif text-lg font-normal text-black mb-2 hover:underline transition-colors cursor-pointer"
-                  >
-                    {hotel.name}
-                  </h3>
-
-                  <div className="flex items-center space-x-4 text-xs font-sans text-neutral-700 py-2 border-y border-neutral-200 mb-3">
-                    <span className="flex items-center space-x-1">
-                      <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                      <span>{hotel.capacityMin}–{hotel.capacityMax} Guests</span>
-                    </span>
-                    <span className="flex items-center space-x-1">
-                      <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                      <span>{hotel.roomsCount} Rooms</span>
-                    </span>
-                  </div>
-
-                  <p className="text-[11px] text-neutral-500 font-sans italic mb-2">
-                    Mandap: {hotel.mandapType}
-                  </p>
-                </div>
-              </div>
-
-              {/* Single Action Button: Full Hotel Page (Preview is hover-only via the image) */}
-              <div className="p-5 pt-0 text-xs font-sans">
-                <button
-                  type="button"
-                  onClick={() => handleOpenFullPage(hotel)}
-                  className="w-full text-center bg-black hover:bg-neutral-800 text-white text-[11px] uppercase tracking-wider font-medium py-2 rounded-xl transition-colors flex items-center justify-center space-x-1 cursor-pointer"
-                >
-                  <span>Full Page</span>
-                  <ArrowRight className="w-3 h-3" />
-                </button>
-              </div>
-
-            </div>
+            {/* Same tile as the Hotels page (3:4 photo, text on photo, dark fade, Full Page text link). Go back = tag checkpoint-before-home-hotel-tiles */}
+            <button type="button" onClick={() => handleOpenFullPage(hotel)}
+                    className="home-hotel-tile group/ht relative block w-full aspect-[3/4] overflow-hidden rounded-sm text-left cursor-pointer">
+              <img src={pick(DUMMY_HOTELS, hi)} alt={hotel.name} data-real-photo="" loading="lazy"
+                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/ht:scale-[1.07]" />
+              <span className="home-hotel-veil absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+              <span className="on-photo home-hotel-copy absolute inset-x-0 bottom-0 p-4 lg:p-5 text-white">
+                <span className="home-hotel-loc block text-[10px] uppercase tracking-[0.28em] text-white/70 mb-1.5 truncate">
+                  <span className="tabular-nums">{String(hi + 1).padStart(2, '0')}</span> · Lorem Ipsum
+                </span>
+                <span className="home-hotel-name block font-serif font-normal leading-[1.05] text-[clamp(1.25rem,1.9vw,1.75rem)]">{hotel.name}</span>
+                <span className="home-hotel-meta block mt-1.5 text-[13px] font-light leading-snug text-white/85">{hotel.capacityMin}–{hotel.capacityMax} Guests · {hotel.roomsCount} Rooms</span>
+                <span className="home-hotel-cta mt-3 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] font-medium border-b border-white/70 pb-0.5">
+                  Full Page <ArrowRight className="w-3 h-3" />
+                </span>
+              </span>
+            </button>
             </div>
           ))}
           </div>
