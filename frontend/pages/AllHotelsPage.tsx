@@ -4,6 +4,7 @@ import { HOTELS_DATA } from '../constants';
 import { HotelProperty } from '../types';
 import { ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react';
 import { COUNTRY_DEST_MAP } from '../components/DestinationDropdown';
+import { DUMMY_HOTELS, pick } from '../components/landingDummyImages';
 
 interface AllHotelsPageProps {
   initialCity?: string;
@@ -87,6 +88,19 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
 
   useEffect(() => { setShowAllMobile(false); }, [selectedCity, selectedGenre, searchQuery]);
   const visibleHotels = mobileLayout && !showAllMobile ? filteredHotels.slice(0, MOBILE_INITIAL) : filteredHotels;
+  // Tiles rise in as they scroll into view (same as the Discover by Destination grid; reversible when scrolled back above)
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll('.hotels-page .dest-grid .dest-tile'));
+    const io = new IntersectionObserver((ents) => ents.forEach((e) => {
+      const el = e.target as HTMLElement;
+      if (e.isIntersecting) el.setAttribute('data-seen', '');
+      else if (e.boundingClientRect.top > 0) el.removeAttribute('data-seen');
+    }), { rootMargin: '0px 0px -8% 0px', threshold: 0.15 });
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [visibleHotels.length, showAllMobile, mobileLayout]);
+  // Dummy colour photo per hotel (same photo as that hotel's card on the homepage)
+  const hotelImg = (h: HotelProperty) => pick(DUMMY_HOTELS, Math.max(0, HOTELS_DATA.findIndex((x) => x.id === h.id)));
 
   const handleClearAllFilters = () => {
     setSelectedCity('All Cities');
@@ -97,7 +111,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
   const hasActiveFilters = selectedCity !== 'All Cities' || selectedGenre !== 'All Occasions' || searchQuery.trim() !== '';
 
   return (
-    <div className="min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
+    <div className="hotels-page min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
       
       {/* Top Breadcrumb Bar */}
       <div className="border-b border-neutral-200 bg-neutral-50 py-3">
@@ -118,17 +132,18 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
         </div>
       </div>
 
-      {/* Hero Banner (Grayscale Luxury) with lorem placeholder text */}
+      {/* Hero Banner — dummy venue photo (Unsplash, free licence) until client imagery; size unchanged. Go back = tag checkpoint-before-all-hotels */}
       <div className="relative h-[380px] sm:h-[440px] w-full overflow-hidden bg-black">
         <img
-          src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-          alt="Hotels hero placeholder"
-          className="w-full h-full object-cover filter grayscale contrast-115"
-          onError={(e) => { (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E'; }}
+          src="https://images.unsplash.com/photo-1784460843252-0957395d2888?auto=format&fit=crop&w=2400&q=80"
+          alt="Hotels hero"
+          data-real-photo=""
+          className="hotels-hero-img w-full h-full object-cover"
+          onError={(e) => { (e.target as HTMLImageElement).src = DUMMY_HOTELS[0]; }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
-        <div className="absolute bottom-8 left-0 right-0">
+        <div className="on-photo absolute bottom-8 left-0 right-0">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
             <span className="bg-white text-black text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full font-bold inline-block mb-2.5">
               {selectedCity === 'All Cities' ? 'National Portfolio' : destinationLabels[selectedCity]}
@@ -153,7 +168,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
         {/* Page Title & Context — removed on request (National Portfolio / Hotels / Browse…) */}
 
         {/* Filter Bar — compact: 2 per row, labels inside the fields, count + reset on the last row; pinned under the header */}
-        <div className="filter-bar sticky z-20 bg-neutral-50/95 backdrop-blur-sm p-2.5 rounded-2xl border border-neutral-200">
+        <div className="filter-bar dest-filter hotels-filter sticky z-20 bg-neutral-50/95 backdrop-blur-sm p-2.5 rounded-2xl border border-neutral-200">
           <div className="grid grid-cols-2 gap-2">
               <label htmlFor="city-filter-dropdown" className="filter-field relative flex items-center h-9 bg-white border border-neutral-300 hover:border-black focus-within:border-black rounded-xl pl-3.5 transition-colors">
                 <span className="shrink-0 text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">Destination:</span>
@@ -215,77 +230,28 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
           </div>
         ) : (
           <>
-          <div className="hotel-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {visibleHotels.map((hotel) => (
-              <div
-                key={hotel.id}
-                className="hotel-card group bg-white rounded-2xl border border-neutral-200 hover:border-black overflow-hidden transition-all duration-300 flex flex-col justify-between shadow-2xs hover:shadow-md"
-              >
-                <div>
-                  {/* Photo with Overlay (Grayscale) */}
-                  <div 
-                    onClick={() => handleOpenFullPage(hotel.id)}
-                    className="hotel-card-img relative h-60 overflow-hidden bg-neutral-900 cursor-pointer"
-                  >
-                    <img
-                      src={hotel.image}
-                      alt={hotel.name}
-                      className="w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(hotel.name);
-                      }}
-                    />
-                    <span className="absolute top-3 right-3 bg-black/85 text-white text-[10px] uppercase tracking-wider font-sans px-2.5 py-0.5 rounded-full font-medium border border-white/20">
-                      {hotel.city}
-                    </span>
-
-                  </div>
-
-                  {/* Details */}
-                  <div className="hotel-card-body p-5">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-[10px] uppercase tracking-wider font-sans text-neutral-500 font-medium">
-                        {hotel.location}
-                      </span>
-                    </div>
-
-                    <h3 
-                      onClick={() => handleOpenFullPage(hotel.id)}
-                      className="font-serif text-lg font-normal text-black mb-2 hover:underline transition-colors cursor-pointer"
-                    >
-                      {hotel.name}
-                    </h3>
-
-                    <div className="flex items-center space-x-4 text-xs font-sans text-neutral-700 py-2 border-y border-neutral-200 mb-3">
-                      <span className="flex items-center space-x-1.5">
-                        <span className="inline-block w-2 h-2 border border-black shrink-0" />
-                        <span>{hotel.capacityMin}–{hotel.capacityMax} Guests</span>
-                      </span>
-                      <span className="flex items-center space-x-1.5">
-                        <span className="inline-block w-2 h-2 bg-neutral-400 shrink-0" />
-                        <span>{hotel.roomsCount} Rooms</span>
-                      </span>
-                    </div>
-
-                    <p className="text-[11px] text-neutral-500 font-sans italic mb-2">
-                      Mandap: {hotel.mandapType}
-                    </p>
-                  </div>
+          {/* ═══ HOTEL GRID — photo tiles in the Discover by Destination tile style (3:4, text on photo, dark fade,
+               4 per row web / 2 mobile, rise-in + hover zoom; CTA on hover web / always mobile). Go back = tag checkpoint-before-all-hotels ═══ */}
+          <div className="dest-grid hotels-grid grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+            {visibleHotels.map((hotel, i) => (
+              <button type="button" key={hotel.id} onClick={() => handleOpenFullPage(hotel.id)}
+                      style={{ ['--i' as any]: i % 4 }}
+                      className="dest-tile group relative block w-full aspect-[3/4] overflow-hidden bg-neutral-200 rounded-sm text-left cursor-pointer">
+                <img src={hotelImg(hotel)} alt={hotel.name} data-real-photo="" loading="lazy"
+                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
+                     onError={(e) => { (e.target as HTMLImageElement).src = DUMMY_HOTELS[0]; }} />
+                <div className="dest-tile-veil absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent transition-opacity duration-700" />
+                <div className="on-photo absolute inset-x-0 bottom-0 p-4 lg:p-5 text-white">
+                  <span className="hotel-tile-loc block text-[10px] uppercase tracking-[0.28em] text-white/70 mb-1.5 truncate">
+                    <span className="tabular-nums">{String(i + 1).padStart(2, '0')}</span> · {hotel.location}
+                  </span>
+                  <h3 className="font-serif font-normal leading-[1.05] text-[clamp(1.25rem,1.9vw,1.75rem)]">{hotel.name}</h3>
+                  <p className="dest-tile-copy mt-1.5 text-[13px] font-light leading-snug text-white/85">{hotel.capacityMin}–{hotel.capacityMax} Guests · {hotel.roomsCount} Rooms</p>
+                  <span className="dest-tile-cta hotel-tile-cta mt-3 inline-flex items-center gap-2 bg-white text-black text-[10px] uppercase tracking-[0.2em] font-medium px-4 rounded-full">
+                    Full Page <ArrowRight className="w-3 h-3" />
+                  </span>
                 </div>
-
-                {/* Single Action Button: Full Hotel Page (Preview is hover-only via the image) */}
-                <div className="hotel-card-cta p-5 pt-0 text-xs font-sans">
-                  <button
-                    type="button"
-                    onClick={() => handleOpenFullPage(hotel.id)}
-                    className="w-full text-center bg-black hover:bg-neutral-800 text-white text-[11px] uppercase tracking-wider font-medium py-2 rounded-xl transition-colors flex items-center justify-center space-x-1.5 cursor-pointer"
-                  >
-                    <span>Full Page</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </button>
-                </div>
-
-              </div>
+              </button>
             ))}
           </div>
           {mobileLayout && !showAllMobile && filteredHotels.length > MOBILE_INITIAL && (

@@ -1967,6 +1967,35 @@
   /* E: intro paragraphs no longer cut mid-line (full text) */
   html.layout-mobile body #root .landing-home section .sec-head h2 + p,
   html.layout-mobile body #root .landing-home section .sec-head p.text-sm { display: block !important; -webkit-line-clamp: unset !important; max-height: none !important; overflow: visible !important; }
+
+  /* ═══════════ HOTELS PAGE (View All) — Discover by Destination language. Go back = tag checkpoint-before-all-hotels ═══════════ */
+  body #root .hotels-page { background-color: var(--ivory) !important; }
+  /* breadcrumb strip */
+  body #root .hotels-page > div:first-child { background: var(--ivory) !important; border-bottom-color: rgba(137,56,74,.15) !important; }
+  body #root .hotels-page > div:first-child, body #root .hotels-page > div:first-child * { color: var(--maroon) !important; letter-spacing: .14em; text-transform: uppercase; font-size: 10px !important; }
+  /* hero photo in colour + outlined label */
+  body #root .hotels-page img.hotels-hero-img[data-real-photo] { visibility: visible !important; background-color: transparent !important; filter: none !important; }
+  body #root .hotels-page div:has(> img.hotels-hero-img[data-real-photo]) { background-color: #2b2b2b !important; }
+  body #root .hotels-page div:has(> img.hotels-hero-img[data-real-photo]) > div[class*="bg-gradient"] { display: block !important; }
+  body #root .hotels-page .on-photo > div > span.bg-white { background: transparent !important; color: #fff !important; border: 1px solid rgba(255,255,255,.85); font-weight: 500 !important; letter-spacing: .28em !important; padding: 4px 12px !important; }
+  /* filter bar = Destinations page bar (dest-filter rules) — mobile keeps its full-bleed strip */
+  /* tiles: same as destination tiles (photo visible, veil, rise-in, CTA on hover web / always mobile) */
+  body #root .hotels-page .dest-grid .dest-tile img[data-real-photo] { visibility: visible !important; background-color: transparent !important; filter: none !important; }
+  body #root .hotels-page .dest-grid .dest-tile:has(img[data-real-photo]) { background-color: #2b2b2b !important; }
+  body #root .hotels-page .dest-tile .hotel-tile-cta { height: 32px; min-height: 32px; }
+  body #root .hotels-page .dest-tile .hotel-tile-cta, body #root .hotels-page .dest-tile .hotel-tile-cta * { color: #000 !important; text-shadow: none !important; }
+  html.layout-mobile body #root .hotels-page .dest-grid.grid { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
+  html.layout-mobile body #root .hotels-page .dest-grid.grid > .dest-tile { grid-column: auto !important; min-width: 0 !important; min-height: 0 !important; padding: 0 !important; }
+  html.layout-mobile body #root .hotels-page .dest-grid .dest-tile h3 { font-size: 18px !important; line-height: 1.1 !important; }
+  html.layout-mobile body #root .hotels-page .dest-grid .dest-tile .on-photo { padding: 12px !important; }
+  html.layout-mobile body #root .hotels-page .dest-grid .dest-tile .hotel-tile-loc { font-size: 8px !important; letter-spacing: .16em !important; margin-bottom: 4px !important; }
+  html.layout-mobile body #root .hotels-page .dest-grid .dest-tile .dest-tile-copy { font-size: 11px !important; line-height: 1.35 !important; margin-top: 4px !important; }
+  html.layout-mobile body #root .hotels-page .dest-grid .dest-tile .hotel-tile-cta { height: 28px !important; min-height: 28px !important; font-size: 9px !important; letter-spacing: .16em !important; margin-top: 8px !important; padding: 0 12px !important; }
+  /* buttons: Load more = 44px maroon outline pill; Reset = maroon pill */
+  body #root .hotels-page .hotel-load-more { height: 44px !important; padding: 0 !important; border-color: var(--maroon) !important; color: var(--maroon) !important; background: transparent !important; letter-spacing: .2em !important; font-size: 11px !important; border-radius: 9999px !important; }
+  body #root .hotels-page .hotel-load-more:hover { background: var(--maroon) !important; color: #fff !important; }
+  body #root .hotels-page button.bg-black { background: var(--maroon) !important; color: #fff !important; }
+  body #root .hotels-page h3.text-black { color: var(--maroon) !important; }
 </style>
 
   </head>
