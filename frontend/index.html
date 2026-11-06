@@ -2154,6 +2154,12 @@
   .enquiry-confirm h2 { color: #89384A !important; }
   .enquiry-confirm button { background: #89384A !important; border-radius: 9999px !important; height: 44px !important; padding: 0 !important; letter-spacing: .2em !important; font-size: 11px !important; }
   .enquiry-confirm button:hover { background: #6E2B3A !important; }
+
+  /* ═══ FILTER BAR flush under the header (no strip of scrolling photos between). Go back = tag checkpoint-before-filter-gap ═══ */
+  html:not(.layout-mobile) body #root .filter-bar { top: 145px !important; }
+  html.layout-mobile body #root .filter-bar { top: 89px !important; }
+  body #root .filter-bar { border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  html:not(.layout-mobile) body #root .filter-bar.dest-filter, html.layout-mobile body #root .filter-bar.dest-filter, body #root .filter-bar { background: #F7F0E4 !important; }
 </style>
 
   </head>
