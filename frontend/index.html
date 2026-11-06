@@ -1994,6 +1994,25 @@
   body #root .hotels-page button.bg-black { background: var(--maroon) !important; color: #fff !important; }
   body #root .hotels-page h3.text-black { color: var(--maroon) !important; }
 
+  /* ═══ HOTELS PAGE — About the destination (dummy ~300 words). Go back = tag checkpoint-before-dest-about ═══ */
+  body #root .hotels-page .dest-about { padding: 8px 0 4px; border-bottom: 1px solid rgba(137,56,74,.15); padding-bottom: 36px; }
+  body #root .hotels-page .dest-about-eyebrow { color: var(--maroon) !important; }
+  body #root .hotels-page p.dest-about-eyebrow, html.layout-mobile body #root .hotels-page p.dest-about-eyebrow { display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: flex-start !important; text-align: left !important; gap: 12px !important; margin: 0 !important; color: var(--maroon) !important; }
+  body #root .hotels-page .dest-about-rule { display: block !important; width: 32px !important; height: 1px !important; min-height: 0 !important; background: var(--haldi) !important; border: 0 !important; flex: 0 0 32px; }
+  body #root .hotels-page .dest-about-title { font-size: 36px !important; line-height: 1.05 !important; color: var(--maroon) !important; }
+  body #root .hotels-page .dest-about-body p { font-size: 14px; line-height: 1.75; color: rgba(43,26,30,.82) !important; margin: 0 0 14px; break-inside: avoid; }
+  html:not(.layout-mobile) body #root .hotels-page .dest-about-body { column-count: 2; column-gap: 56px; }
+  html:not(.layout-mobile) body #root .hotels-page .dest-about-more { display: none !important; }
+  body #root .hotels-page .dest-about-more { color: var(--maroon) !important; border-color: var(--maroon) !important; background: transparent !important; min-height: 0 !important; }
+  /* mobile: first paragraph, Read more opens the rest */
+  html.layout-mobile body #root .hotels-page .dest-about { padding-bottom: 24px; }
+  html.layout-mobile body #root .hotels-page .dest-about-title { font-size: 26px !important; }
+  html.layout-mobile body #root .hotels-page .dest-about-body p { font-size: 13px; line-height: 1.65; display: block !important; max-height: none !important; -webkit-line-clamp: unset !important; overflow: visible !important; }
+  html.layout-mobile body #root .hotels-page .dest-about-body:not(.is-open) p:not(:first-child) { display: none !important; }
+  html.layout-mobile body #root .hotels-page p.dest-about-eyebrow { font-size: 10px !important; letter-spacing: .26em !important; line-height: 1.4 !important; }
+  html.layout-mobile body #root .hotels-page .dest-about { margin-top: 20px !important; padding-top: 0 !important; }
+  html.layout-mobile body #root .hotels-page .dest-about-title { margin-top: 8px !important; text-align: left !important; }
+
   /* ═══════════ HOMEPAGE HOTELS — cards = Hotels page tiles. Go back = tag checkpoint-before-home-hotel-tiles ═══════════ */
   body #root .landing-home #hotels-exploration .home-hotel-tile { background-color: #2b2b2b !important; border: 0 !important; padding: 0 !important; min-height: 0 !important; height: auto !important; max-height: none !important; display: block !important; }
   body #root .landing-home #hotels-exploration .home-hotel-tile img[data-real-photo] { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; max-height: none !important; min-height: 0 !important; visibility: visible !important; filter: none !important; background-color: transparent !important; }

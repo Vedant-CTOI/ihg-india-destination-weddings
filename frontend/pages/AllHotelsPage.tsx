@@ -36,8 +36,21 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
     'Region 3': 'City 3',
     'Region 4': 'City 4',
     'Region 5': 'City 5',
-    'Region 6': 'City 6'
+    'Region 6': 'City 6',
+    'Region 7': 'City 7',
+    'Region 8': 'City 8',
+    'Region 9': 'City 9'
   };
+  // Banner + About block keep the destination wording (Destination 1, 2 …); the filter says City 1, 2 …
+  const destinationName = (city: string) => city.replace(/^Region (\d+)$/, 'Destination $1');
+  // About-the-destination block: only when the user arrived from a destination card (initialCity set) and that destination is still selected
+  const arrivedCity = initialCity !== 'All Cities' ? initialCity : null;
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const ABOUT_DEST_COPY = [
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Curabitur pretium tincidunt lacus, nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris nunc.',
+    'Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi. Duis sapien sem, aliquet nec, commodo eget, consequat quis, neque. Aliquam faucibus, elit ut dictum aliquet, felis nisl adipiscing sapien, sed malesuada diam lacus eget erat. Cras mollis scelerisque nunc. Nullam arcu. Aliquam consequat. Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi sed tellus.',
+    'Aenean magna nisl, mollis quis, molestie eu, feugiat in, orci. In hac habitasse platea dictumst. Fusce convallis, mauris imperdiet gravida bibendum, nisl turpis suscipit mauris, sed placerat ipsum urna sed risus. In convallis tellus a mauris. Curabitur non elit ut libero tristique sodales. Mauris a lacus. Donec mattis semper leo. In hac habitasse platea dictumst. Vivamus facilisis diam at odio. Mauris dictum, nisi eget consequat elementum, lacus ligula molestie metus, non feugiat orci magna ac sem. Donec turpis. Donec vitae metus. Morbi tristique neque eu mauris. Quisque gravida ipsum non sapien. Proin turpis lacus, scelerisque vitae, elementum at, lobortis ac, quam. Aliquam dictum eleifend risus, vitae pharetra lorem tempus et magna.'
+  ];
   const citiesInIndia = ['All Cities', ...Object.keys(destinationLabels)];
 
   // Occasion presets — display labels map to actual occasion data keys
@@ -106,8 +119,10 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
       else if (e.boundingClientRect.top > 0) el.removeAttribute('data-seen');
     }), { rootMargin: '0px 0px -8% 0px', threshold: 0.15 });
     els.forEach((el) => io.observe(el));
+    // tiles already on screen (e.g. right after a filter change) show at once
+    requestAnimationFrame(() => els.forEach((el) => { const r = el.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) el.setAttribute('data-seen', ''); }));
     return () => io.disconnect();
-  }, [visibleHotels.length, showAllMobile, mobileLayout]);
+  }, [filteredHotels, showAllMobile, mobileLayout]);
   // Dummy colour photo per hotel (same photo as that hotel's card on the homepage)
   const hotelImg = (h: HotelProperty) => pick(DUMMY_HOTELS, Math.max(0, PAGE_HOTELS.findIndex((x) => x.id === h.id)));
 
@@ -155,11 +170,11 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
         <div className="on-photo absolute bottom-8 left-0 right-0">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
             <span className="bg-white text-black text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full font-bold inline-block mb-2.5">
-              {selectedCity === 'All Cities' ? 'National Portfolio' : destinationLabels[selectedCity]}
+              {selectedCity === 'All Cities' ? 'National Portfolio' : destinationName(selectedCity)}
             </span>
 
             <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white mb-2">
-              {selectedCity === 'All Cities' ? 'Lorem ipsum dolor sit amet' : `${destinationLabels[selectedCity]} dummy text`}
+              {selectedCity === 'All Cities' ? 'Lorem ipsum dolor sit amet' : `${destinationName(selectedCity)} dummy text`}
             </h1>
 
             <p className="text-xs sm:text-sm text-neutral-300 max-w-2xl font-light leading-relaxed">
@@ -218,6 +233,23 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
               </div>
           </div>
         </div>
+
+        {/* About the destination — dummy copy (~300 words); only when arriving from a destination card and it is still selected.
+             Go back = tag checkpoint-before-dest-about */}
+        {arrivedCity && selectedCity === arrivedCity && (
+          <section className="dest-about" aria-label="About the destination">
+            <p className="dest-about-eyebrow text-[11px] uppercase tracking-[0.32em]">
+              <i className="dest-about-rule" aria-hidden="true" />About the Destination
+            </p>
+            <h2 className="dest-about-title font-serif font-normal mt-3">{destinationName(selectedCity)}</h2>
+            <div className={`dest-about-body mt-5 ${aboutOpen ? 'is-open' : ''}`}>
+              {ABOUT_DEST_COPY.map((t, k) => <p key={k}>{t}</p>)}
+            </div>
+            <button type="button" onClick={() => setAboutOpen((v) => !v)} className="dest-about-more mt-4 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] font-medium border-b pb-0.5 cursor-pointer">
+              {aboutOpen ? 'Read less' : 'Read more'}
+            </button>
+          </section>
+        )}
 
         {/* Hotels Grid */}
         {filteredHotels.length === 0 ? (
