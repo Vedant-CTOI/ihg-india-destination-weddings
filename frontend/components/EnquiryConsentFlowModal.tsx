@@ -52,10 +52,13 @@ export const EnquiryConsentFlowModal: React.FC<EnquiryConsentFlowModalProps> = (
               <span className="text-neutral-400">Primary Contact:</span>
               <strong className="text-black font-medium">{data.primaryContactName}</strong>
             </div>
-            <div className="flex justify-between py-0.5 border-b border-neutral-100">
-              <span className="text-neutral-400">Phone:</span>
-              <strong className="text-black font-medium">{data.phone}</strong>
-            </div>
+            {/* Phone row only when a phone number was given (the forms don't ask for one). Go back = tag checkpoint-before-confirm-name */}
+            {data.phone?.trim() && (
+              <div className="flex justify-between py-0.5 border-b border-neutral-100">
+                <span className="text-neutral-400">Phone:</span>
+                <strong className="text-black font-medium">{data.phone}</strong>
+              </div>
+            )}
             <div className="flex justify-between py-0.5 border-b border-neutral-100">
               <span className="text-neutral-400">Target Window:</span>
               <strong className="text-black font-medium">{data.targetWindow}</strong>
