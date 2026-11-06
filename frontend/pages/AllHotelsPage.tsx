@@ -31,12 +31,12 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
 
   // Available destinations across IHG's portfolio — display labels map to city data keys
   const destinationLabels: Record<string, string> = {
-    'Region 1': 'Destination 1',
-    'Region 2': 'Destination 2',
-    'Region 3': 'Destination 3',
-    'Region 4': 'Destination 4',
-    'Region 5': 'Destination 5',
-    'Region 6': 'Destination 6'
+    'Region 1': 'City 1',
+    'Region 2': 'City 2',
+    'Region 3': 'City 3',
+    'Region 4': 'City 4',
+    'Region 5': 'City 5',
+    'Region 6': 'City 6'
   };
   const citiesInIndia = ['All Cities', ...Object.keys(destinationLabels)];
 
@@ -180,10 +180,10 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
         <div className="filter-bar dest-filter hotels-filter sticky z-20 bg-neutral-50/95 backdrop-blur-sm p-2.5 rounded-2xl border border-neutral-200">
           <div className="grid grid-cols-2 gap-2">
               <label htmlFor="city-filter-dropdown" className="filter-field relative flex items-center h-9 bg-white border border-neutral-300 hover:border-black focus-within:border-black rounded-xl pl-3.5 transition-colors">
-                <span className="shrink-0 text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">Destination:</span>
+                <span className="shrink-0 text-[10px] uppercase tracking-wider text-neutral-500 font-semibold">City:</span>
                 <select id="city-filter-dropdown" value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} className="flex-1 min-w-0 h-full appearance-none bg-transparent pl-2 pr-9 text-xs font-sans text-black font-medium focus:outline-none cursor-pointer truncate">
                   {citiesInIndia.map((o) => (
-                    <option key={o} value={o}>{o === 'All Cities' ? 'All Destinations' : destinationLabels[o]}</option>
+                    <option key={o} value={o}>{o === 'All Cities' ? 'All Cities' : destinationLabels[o]}</option>
                   ))}
                 </select>
                 <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-3 w-4 h-4 text-neutral-500" />
