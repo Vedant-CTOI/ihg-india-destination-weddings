@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PageView } from '../types';
-import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   currentView: PageView;
@@ -196,23 +196,19 @@ export const Header: React.FC<HeaderProps> = ({
                 <span>Enquire</span>
                 <ArrowUpRight className="w-3 h-3" />
               </button>
-              {/* Hamburger removed on mobile — the sections now sit in the horizontal bar below (same links, same actions) */}
+              {/* Hamburger (mobile) — opens the section menu below the header. Go back = tag checkpoint-before-hamburger */}
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen((v) => !v)}
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileMenuOpen}
+                className="mobile-burger inline-flex items-center justify-center w-9 h-9 rounded-full cursor-pointer"
+              >
+                {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              </button>
             </div>
 
           </div>
-
-          {/* Mobile section bar — horizontal, like the web version. Same navLinks + handleLinkClick as the web nav. */}
-          <nav aria-label="Sections" className="mobile-section-bar flex items-center justify-between gap-3 overflow-x-auto no-scrollbar border-t border-neutral-200 mt-2 pt-2 text-[9px] font-sans uppercase tracking-[0.1em] font-medium text-neutral-600 whitespace-nowrap">
-            {navLinks.map((link) => (
-              <button
-                key={link.label}
-                onClick={() => handleLinkClick(link)}
-                className="shrink-0 py-1 hover:text-black transition-colors cursor-pointer whitespace-nowrap"
-              >
-                {link.label}
-              </button>
-            ))}
-          </nav>
 
           {/* 'Luxury Destination Weddings / India Portfolio' line removed at client request */}
         </div>
@@ -221,7 +217,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-black/10 px-6 py-5 space-y-3 font-sans text-xs tracking-wider uppercase animate-fade-in shadow-lg">
+        <div className="mobile-drawer absolute left-0 right-0 top-full bg-white border-b border-black/10 px-6 py-5 space-y-3 font-sans text-xs tracking-wider uppercase animate-fade-in shadow-lg">
           <div className="flex flex-col space-y-3 text-neutral-700">
             {navLinks.map((link) => (
               <button
