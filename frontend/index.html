@@ -2135,6 +2135,25 @@
   html.layout-mobile body #root header .flex.items-center.space-x-2 > button:not(.mobile-burger) { padding-left: 10px !important; padding-right: 10px !important; letter-spacing: .06em !important; }
   html.layout-mobile body #root header .flex.items-center.justify-between > button.text-left { min-width: 0 !important; flex-shrink: 1 !important; }
   html.layout-mobile body #root header .flex.items-center.justify-between > button.text-left span { white-space: nowrap !important; }
+
+  /* ═══ ENQUIRY FORM (hotel page, mobile) — hotel dropdown + confirmation on top. Go back = tag checkpoint-before-cp-hotel-list ═══ */
+  body #root .mobile-hotel-dd-field, body .mobile-enquiry-popup .mobile-hotel-dd-field { height: 44px !important; min-height: 44px !important; padding: 0 2px !important; background: transparent !important; border: 0 !important; border-bottom: 1px solid rgba(58,6,24,.28) !important; border-radius: 0 !important; font-size: 13px !important; color: #2B1A1E !important; }
+  body .mobile-enquiry-popup .mobile-hotel-dd-field .is-placeholder { color: #9a8f91 !important; font-weight: 300; }
+  body .mobile-enquiry-popup .mobile-hotel-dd-field svg { color: #89384A; }
+  body .mobile-enquiry-popup .mobile-hotel-dd-list { margin-top: 6px; border: 1px solid rgba(137,56,74,.2) !important; border-radius: 12px !important; background: #fff !important; max-height: 240px !important; overflow-y: auto !important; box-shadow: 0 14px 28px -18px rgba(43,26,30,.45); }
+  body .mobile-enquiry-popup .mobile-hotel-dd-item { min-height: 44px !important; padding: 0 14px !important; border: 0 !important; border-bottom: 1px solid rgba(137,56,74,.1) !important; border-radius: 0 !important; background: #fff !important; font-size: 13px !important; color: #2B1A1E !important; }
+  body .mobile-enquiry-popup .mobile-hotel-dd-item.is-on { background: #F7F0E4 !important; color: #89384A !important; font-weight: 600; }
+  body .mobile-enquiry-popup .mobile-hotel-dd-this { margin-left: 6px; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: #9a8f91; font-weight: 400; }
+  body .mobile-enquiry-popup .mobile-hotel-dd-check { width: 20px; height: 20px; flex: 0 0 20px; border-radius: 9999px; border: 1px solid rgba(137,56,74,.4); display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: transparent; }
+  body .mobile-enquiry-popup .mobile-hotel-dd-item.is-on .mobile-hotel-dd-check { background: #89384A; border-color: #89384A; color: #fff; }
+  body .mobile-enquiry-popup .mobile-hotel-dd-done { height: 40px !important; min-height: 40px !important; padding: 0 !important; border: 0 !important; background: #F7F0E4 !important; color: #89384A !important; font-size: 10px !important; letter-spacing: .22em !important; text-transform: uppercase; font-weight: 600; border-radius: 0 !important; position: sticky; bottom: 0; }
+  /* confirmation popup: above the form, inside the phone frame, brand palette */
+  .enquiry-confirm { z-index: 300 !important; }
+  .enquiry-confirm [aria-label="Enquiry Registered Notification"] { border-radius: 18px !important; border-color: rgba(137,56,74,.2) !important; }
+  .enquiry-confirm [aria-label="Enquiry Registered Notification"] > div:first-child { background: #89384A !important; }
+  .enquiry-confirm h2 { color: #89384A !important; }
+  .enquiry-confirm button { background: #89384A !important; border-radius: 9999px !important; height: 44px !important; padding: 0 !important; letter-spacing: .2em !important; font-size: 11px !important; }
+  .enquiry-confirm button:hover { background: #6E2B3A !important; }
 </style>
 
   </head>

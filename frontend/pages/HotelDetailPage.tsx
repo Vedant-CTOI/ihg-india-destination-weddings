@@ -6,7 +6,7 @@ import { HOTELS_DATA } from '../constants';
 import { HotelSelectorModal } from '../components/HotelSelectorModal';
 import { COUNTRY_DEST_MAP, DestinationDropdown } from '../components/DestinationDropdown';
 import { OccasionDropdown } from '../components/OccasionDropdown';
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, X, PenLine } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, ChevronDown, X, PenLine } from 'lucide-react';
 import { useWeb, PALETTE } from '../components/webMotion';
 import { FEATURE_HOTEL_ID, FEATURE_HERO, FeatureHero, FeatureBody, withHotelCopy } from '../components/HotelFeature';
 
@@ -317,6 +317,10 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
     return HOTELS_DATA.filter((h) => names.includes(h.name));
   }, [selectedDestinations]);
 
+  // Mobile hotel dropdown in the enquiry form + display name (this hotel keeps its client name, others as on the site cards)
+  const [hotelDdOpen, setHotelDdOpen] = useState(false);
+  const hotelLabel = (h: HotelProperty) => (h.id === hotel.id ? shown.name : h.name);
+
   const toggleHotel = (id: string) => {
     setSelectedHotelIds((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
@@ -414,6 +418,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
     };
     setTimeout(() => {
       setSubmitting(false);
+      setHotelDdOpen(false);
       if (onSubmitSuccess) onSubmitSuccess(payload);
     }, 600);
   };
@@ -679,20 +684,35 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                       Select Hotels {selectedHotelIds.length > 0 && `(${selectedHotelIds.length} selected — enquiry routes to all)`}
                     </label>
                     {mobile ? (
-                      /* Mobile: hotels listed right inside the form — tap to add / remove (same selection state as the popup) */
-                      <div className="mobile-hotel-inline border border-neutral-300 rounded-xl divide-y divide-neutral-200 max-h-56 overflow-y-auto bg-white">
-                        {availableHotels.map((h) => {
-                          const on = selectedHotelIds.includes(h.id);
-                          return (
-                            <button key={h.id} type="button" onClick={() => toggleHotel(h.id)} aria-pressed={on}
-                                    className={`w-full flex items-center gap-3 p-2 text-left cursor-pointer ${on ? 'bg-neutral-50' : ''}`}>
-                              <span className="flex-1 min-w-0 py-1 pl-1">
-                                <span className="block text-[12px] text-black truncate">{`Hotel ${HOTELS_DATA.indexOf(h) + 1}`}{h.id === hotel.id && <span className="ml-1 text-[8px] uppercase tracking-wider text-neutral-400">(this property)</span>}</span>
-                              </span>
-                              <span aria-hidden="true" className={`w-5 h-5 rounded-full border flex items-center justify-center text-[11px] shrink-0 ${on ? 'bg-black border-black text-white' : 'border-neutral-400 text-transparent'}`}>✓</span>
-                            </button>
-                          );
-                        })}
+                      /* Mobile: dropdown — field shows the selection; tap opens the hotel list below it (multi-select, ✓ to add/remove).
+                         Names match the rest of the site (this hotel = its real name). Go back = tag checkpoint-before-cp-hotel-list */
+                      <div className="mobile-hotel-dd relative">
+                        <button type="button" onClick={() => setHotelDdOpen((v) => !v)} aria-expanded={hotelDdOpen} aria-haspopup="listbox"
+                                className="mobile-hotel-dd-field w-full flex items-center justify-between gap-3 text-left cursor-pointer">
+                          <span className={`min-w-0 truncate ${selectedHotelIds.length ? '' : 'is-placeholder'}`}>
+                            {selectedHotelIds.length
+                              ? HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map(hotelLabel).join(', ')
+                              : 'Choose properties'}
+                          </span>
+                          <ChevronDown aria-hidden="true" className={`w-4 h-4 shrink-0 transition-transform duration-300 ${hotelDdOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                        {hotelDdOpen && (
+                          <div role="listbox" aria-multiselectable="true" className="mobile-hotel-dd-list mobile-hotel-inline">
+                            {availableHotels.map((h) => {
+                              const on = selectedHotelIds.includes(h.id);
+                              return (
+                                <button key={h.id} type="button" role="option" aria-selected={on} onClick={() => toggleHotel(h.id)} aria-pressed={on}
+                                        className={`mobile-hotel-dd-item w-full flex items-center gap-3 text-left cursor-pointer ${on ? 'is-on' : ''}`}>
+                                  <span className="flex-1 min-w-0 truncate">
+                                    {hotelLabel(h)}{h.id === hotel.id && <span className="mobile-hotel-dd-this">(this property)</span>}
+                                  </span>
+                                  <span aria-hidden="true" className="mobile-hotel-dd-check">✓</span>
+                                </button>
+                              );
+                            })}
+                            <button type="button" onClick={() => setHotelDdOpen(false)} className="mobile-hotel-dd-done w-full cursor-pointer">Done</button>
+                          </div>
+                        )}
                       </div>
                     ) : (
                     <button

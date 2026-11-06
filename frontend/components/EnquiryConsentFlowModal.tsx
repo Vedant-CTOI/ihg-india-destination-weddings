@@ -20,7 +20,7 @@ export const EnquiryConsentFlowModal: React.FC<EnquiryConsentFlowModalProps> = (
 
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 transition-opacity animate-fade-in font-sans">
+    <div className="enquiry-confirm mobile-frame-fixed fixed inset-0 z-[300] overflow-y-auto bg-black/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 transition-opacity animate-fade-in font-sans">
       
       {/* POPUP 1: CONSENT FORM POPUP */}
       {/* POPUP: NOTIFICATION POPUP */}
