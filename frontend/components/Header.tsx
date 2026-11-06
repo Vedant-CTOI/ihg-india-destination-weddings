@@ -71,6 +71,13 @@ export const Header: React.FC<HeaderProps> = ({
     { label: 'Real Weddings', page: 'stories' },
   ];
 
+  // Current-page highlight in the nav (stays while on that page). Go back = tag checkpoint-before-nav-active
+  const ACTIVE_PAGE: Record<string, string> = {
+    'about-page': 'about', 'genre-listing': 'genre', 'genre-detail': 'genre', 'destination-detail': 'genre',
+    'all-hotels': 'hotels', 'hotel-detail': 'hotels', 'lorem-page': 'lorem', 'all-stories': 'stories', 'story-detail': 'stories'
+  };
+  const activePage = ACTIVE_PAGE[currentView.type as string];
+
   const handleLinkClick = (link: { label: string; anchor?: string; page?: string }) => {
     setMobileMenuOpen(false);
     if (link.page === 'about') { onNavigateToAboutPage?.(); return; }
@@ -148,7 +155,8 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   key={link.label}
                   onClick={() => handleLinkClick(link)}
-                  className={`transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-px hover:after:w-full after:transition-all cursor-pointer whitespace-nowrap ${overHero ? 'hover:text-white after:bg-white' : 'hover:text-black after:bg-black'}`}
+                  aria-current={activePage === link.page ? 'page' : undefined}
+                  className={`nav-link transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-px hover:after:w-full after:transition-all cursor-pointer whitespace-nowrap ${overHero ? 'hover:text-white after:bg-white' : 'hover:text-black after:bg-black'}`}
                 >
                   {link.label}
                 </button>
@@ -223,6 +231,7 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 key={link.label}
                 onClick={() => handleLinkClick(link)}
+                aria-current={activePage === link.page ? 'page' : undefined}
                 className="text-left hover:text-black transition-colors py-1.5 flex items-center justify-between border-b border-neutral-100 last:border-0"
               >
                 <span>{link.label}</span>
