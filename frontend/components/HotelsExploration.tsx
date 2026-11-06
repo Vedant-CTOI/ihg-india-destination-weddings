@@ -4,6 +4,7 @@ import { HotelProperty } from '../types';
 import { ChevronRight, ChevronLeft, ArrowRight } from 'lucide-react';
 import { useWeb, SplitText, PALETTE } from './webMotion';
 import { DUMMY_HOTELS, pick } from './landingDummyImages';
+import { RailDots } from './RailDots';
 
 interface HotelsExplorationProps {
   onSelectHotel: (hotel: HotelProperty) => void;
@@ -132,6 +133,8 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
             </div>
           ))}
           </div>
+          {/* Mobile only: swipe dots below the rail (arrows hidden on mobile) */}
+          <RailDots railRef={scrollRef} count={carouselHotels.length} className="home-rail-dots" label="Hotels" />
         </div>
 
       </div>

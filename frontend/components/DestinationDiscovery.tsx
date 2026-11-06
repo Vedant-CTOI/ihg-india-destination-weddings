@@ -16,6 +16,9 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const timerRef = useRef<any>(null);
+  // Mobile: swipe left/right on the photo to change destination (arrows hidden on mobile)
+  const touchX = useRef<number | null>(null);
+  const swiped = useRef(false);
   const web = useWeb(); // WEB VERSION ONLY styling/motion below
 
   const totalGenres = WEDDING_GENRES_DATA.length;
@@ -86,6 +89,12 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
         <div
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={(e) => { touchX.current = e.touches[0].clientX; setIsHovered(true); }}
+          onTouchEnd={(e) => {
+            const dx = e.changedTouches[0].clientX - (touchX.current ?? e.changedTouches[0].clientX);
+            touchX.current = null; setIsHovered(false);
+            if (Math.abs(dx) > 40) { swiped.current = true; dx < 0 ? handleNext() : handlePrev(); setTimeout(() => { swiped.current = false; }, 350); }
+          }}
           data-wm={web ? 'curtain' : undefined}
           className="dest-band-media relative bg-white overflow-hidden group"
         >
@@ -118,7 +127,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
           {/* Full-bleed image with text overlaid — same card style as the Discover by Destination page
               (dark fade, white type, number + name, eyebrow, one line, white pill CTA). Go back = tag checkpoint-before-dest-cards-palette */}
           <div
-            onClick={handleOpenDetail}
+            onClick={() => { if (!swiped.current) handleOpenDetail(); }}
             className="home-dest-card relative h-full overflow-hidden bg-neutral-800 cursor-pointer group"
           >
             <img

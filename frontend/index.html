@@ -2086,6 +2086,28 @@
   html.layout-mobile body #root .landing-home #destinations .dest-band-head { padding-bottom: 0 !important; }
   html.layout-mobile body #root .landing-home #destinations .sec-head .flex.items-center.gap-3 { height: auto !important; margin-top: 14px !important; }
   html.layout-mobile body #root .landing-home #destinations .sec-head .flex.items-center.gap-3 > button { position: static !important; transform: none !important; left: auto !important; bottom: auto !important; }
+
+  /* ═══════════ MOBILE HOMEPAGE CAROUSELS — no arrows, swipe dots below. Go back = tag checkpoint-before-mobile-dots ═══════════ */
+  html.layout-mobile body #root .landing-home #destinations button[aria-label$="wedding genre"],
+  html.layout-mobile body #root .landing-home #hotels-exploration button[aria-label$="hotels"],
+  html.layout-mobile body #root .landing-home #real-weddings .stories-rail-arrow,
+  html.layout-mobile #root section button.stories-rail-arrow.stories-rail-prev,
+  html.layout-mobile #root section button.stories-rail-arrow.stories-rail-next { display: none !important; }
+  .rail-dots { display: none; }
+  html.layout-mobile body #root .landing-home .rail-dots { display: flex !important; justify-content: center; align-items: center; gap: 6px; margin-top: 14px; }
+  html.layout-mobile body #root .landing-home .rail-dot { width: 6px !important; height: 4px !important; min-width: 0 !important; min-height: 0 !important; padding: 0 !important; border: 0 !important; border-radius: 9999px !important; background: rgba(247,240,228,.35) !important; transition: width .4s cubic-bezier(0.16,1,0.3,1), background-color .4s; cursor: pointer; }
+  html.layout-mobile body #root .landing-home .rail-dot.is-active { width: 22px !important; background: var(--haldi) !important; }
+  /* Hotels band is ivory: darker inactive dots */
+  html.layout-mobile body #root .landing-home #hotels-exploration .rail-dot { background: rgba(137,56,74,.22) !important; }
+  html.layout-mobile body #root .landing-home #hotels-exploration .rail-dot.is-active { background: var(--maroon) !important; }
+  /* Destinations: dots move from on-photo to below the photo, on the green band */
+  html.layout-mobile body #root .landing-home section#destinations.dest-band { padding-bottom: 14px !important; }
+  html.layout-mobile body #root .landing-home #destinations .dest-band-media { overflow: visible !important; margin-bottom: 26px !important; }
+  html.layout-mobile body #root .landing-home #destinations .dest-band-media > .home-dest-card { overflow: hidden !important; }
+  html.layout-mobile body #root .landing-home #destinations .dest-band-dots { display: flex !important; top: calc(100% + 14px) !important; bottom: auto !important; }
+  html.layout-mobile body #root .landing-home #destinations .dest-band-dots button { width: 6px !important; height: 4px !important; min-width: 0 !important; min-height: 0 !important; padding: 0 !important; background: rgba(247,240,228,.35) !important; }
+  html.layout-mobile body #root .landing-home #destinations .dest-band-dots button.w-6 { width: 22px !important; background: var(--haldi) !important; }
+  html.layout-mobile body #root .landing-home #destinations .home-dest-inner { padding-bottom: 18px !important; }
 </style>
 
   </head>

@@ -4,6 +4,7 @@ import { RealWeddingCase } from '../types';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useWeb, SplitText, PALETTE } from './webMotion';
 import { DUMMY_STORIES, pick } from './landingDummyImages';
+import { RailDots } from './RailDots';
 
 // Story cards use the homepage hero banner photos (client photos, same crop focus as the hero)
 const STORY_HERO_PHOTOS = [
@@ -119,6 +120,8 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
             </article>
           ))}
           </div>
+          {/* Mobile only: swipe dots below the rail (arrows hidden on mobile) */}
+          <RailDots railRef={railRef} count={visibleWeddings.length} className="home-rail-dots" label="Real wedding stories" />
         </div>
 
         {/* View More Stories Toggle / CTA */}
