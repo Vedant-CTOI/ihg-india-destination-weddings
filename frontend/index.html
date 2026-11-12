@@ -2160,6 +2160,38 @@
   html.layout-mobile body #root .filter-bar { top: 89px !important; }
   body #root .filter-bar { border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
   html:not(.layout-mobile) body #root .filter-bar.dest-filter, html.layout-mobile body #root .filter-bar.dest-filter, body #root .filter-bar { background: #F7F0E4 !important; }
+  /* ═══ LOYALTY PACKAGES PAGE (.lp-page) — dressed in the Discover by Destination language. Colour/type/image/motion only; layout & sizes unchanged.
+       Go back = tag checkpoint-before-loyalty-page-style ═══ */
+  body #root .lp-page { background-color: var(--ivory) !important; color: var(--ink) !important; }
+  body #root .lp-page > div:first-child { background: var(--ivory) !important; border-bottom-color: rgba(137,56,74,.15) !important; }
+  body #root .lp-page > div:first-child, body #root .lp-page > div:first-child * { color: var(--maroon) !important; letter-spacing: .14em; text-transform: uppercase; font-size: 10px !important; }
+  body #root .lp-page .lp-eyebrow { color: var(--maroon) !important; display: flex !important; align-items: center; gap: 12px; }
+  body #root .lp-page .lp-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--haldi); flex: none; }
+  body #root .lp-page .lp-title { color: var(--maroon) !important; }
+  body #root .lp-page .lp-lede { color: rgba(43,26,30,.72) !important; }
+  /* Tier cards: white card, maroon hairline, Destination-tile radius */
+  body #root .lp-page .lp-tier { background: #fff !important; border-color: rgba(137,56,74,.18) !important; border-radius: 2px !important;
+    transition: border-color .7s cubic-bezier(0.16,1,0.3,1), box-shadow .7s cubic-bezier(0.16,1,0.3,1), opacity 1.1s cubic-bezier(0.16,1,0.3,1), transform 1.1s cubic-bezier(0.16,1,0.3,1) !important; }
+  body #root .lp-page .lp-tier:hover { border-color: rgba(137,56,74,.45) !important; box-shadow: 0 18px 40px -28px rgba(43,26,30,.45); }
+  /* Media: real photo + bottom veil, number on the photo (Destination "01 Goa" treatment) */
+  body #root .lp-page .lp-tier-media { background: #d4d4d4 !important; border-color: rgba(137,56,74,.18) !important; }
+  body #root .lp-page .lp-tier-media img.lp-tier-img[data-real-photo] { visibility: visible !important; background-color: transparent !important; filter: none !important;
+    transform: scale(1); transition: transform 2.2s cubic-bezier(0.16,1,0.3,1); }
+  body #root .lp-page .lp-tier:hover .lp-tier-img { transform: scale(1.06); }
+  body #root .lp-page .lp-tier-media .lp-tier-num { position: absolute; left: 28px; bottom: 22px; z-index: 1; color: #fff !important; line-height: 1; }
+  body #root .lp-page .lp-tier-media .lp-tier-veil { opacity: .85; transition: opacity 1s cubic-bezier(0.16,1,0.3,1); }
+  body #root .lp-page .lp-tier:hover .lp-tier-veil { opacity: 1; }
+  /* Curtain reveal on the photo (web), same easing as the Destination featured panels */
+  html:not(.layout-mobile) body #root .lp-page .lp-tier-media[data-wm="curtain"] > .lp-tier-media-inner { clip-path: inset(100% 0 0 0); transition: clip-path 1.6s cubic-bezier(0.77,0,0.18,1); }
+  html:not(.layout-mobile) body #root .lp-page .lp-tier-media[data-wm="curtain"][data-wm-in] > .lp-tier-media-inner { clip-path: inset(0 0 0 0); }
+  html:not(.layout-mobile) body #root .lp-page .lp-tier-media[data-wm="curtain"] > .lp-tier-num { clip-path: none; }
+  /* Text side */
+  body #root .lp-page .lp-tier-eyebrow { color: var(--copper) !important; display: flex; align-items: center; gap: 10px; }
+  body #root .lp-page .lp-tier-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--haldi); flex: none; }
+  html.layout-mobile body #root .lp-page .lp-tier-eyebrow { justify-content: center; }
+  body #root .lp-page .lp-tier-title { color: var(--maroon) !important; }
+  body #root .lp-page .lp-tier-copy { color: rgba(43,26,30,.72) !important; }
+  @media (prefers-reduced-motion: reduce) { body #root .lp-page .lp-tier-media > .lp-tier-media-inner { clip-path: none !important; transition: none !important; } body #root .lp-page .lp-tier-img { transition: none !important; } }
 </style>
 
   </head>
