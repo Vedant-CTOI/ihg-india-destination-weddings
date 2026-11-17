@@ -91,7 +91,8 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
 
 
   return (
-    <div className="min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
+    <div className="cv-page min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
+      {/* Styled like About / Loyalty / Real Weddings (ivory, maroon, haldi). Colour & type only; fields, copy, layout unchanged. Go back = tag checkpoint-before-enquiry-style */}
       
       {/* Top Breadcrumb Bar */}
       <div className="border-b border-neutral-200 bg-neutral-50 py-3">
@@ -117,14 +118,14 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
         
         {/* Page Header */}
         <div className="space-y-2">
-          <div className="flex items-center space-x-2 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">
-            <span aria-hidden="true" className="w-4 h-4 inline-block border border-current"></span>
+          <div className="cv-eyebrow flex items-center space-x-2 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">
+            <span aria-hidden="true" className="cv-eyebrow-rule w-4 h-4 inline-block border border-current"></span>
             <span>Bespoke Sanctuary Intake</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-black leading-tight">
+          <h1 className="cv-title font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-black leading-tight">
             Begin the Conversation
           </h1>
-          <p className="text-xs sm:text-sm text-neutral-600 font-light max-w-2xl leading-relaxed">
+          <p className="cv-lede text-xs sm:text-sm text-neutral-600 font-light max-w-2xl leading-relaxed">
             Share your preliminary celebration plans. Our luxury wedding directors will review your dates, dietary requirements, and room inventory across your selected genres before orchestrating your personalized itinerary.
           </p>
         </div>
@@ -137,7 +138,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
           <form onSubmit={handleSubmit} className="space-y-7">
             {/* 1. Persona */}
             <div>
-              <label className="font-serif text-lg text-black font-normal block mb-2">Persona</label>
+              <label className="cv-persona-label font-serif text-lg text-black font-normal block mb-2">Persona</label>
               <select
                 value={formDataPersona}
                 onChange={(e) => setFormDataPersona(e.target.value)}
@@ -156,7 +157,7 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
                       type="button"
                       key={persona}
                       onClick={() => setFormDataPersona(persona)}
-                      className={`py-3 px-3 rounded-xl border text-center transition-all cursor-pointer ${
+                      className={`cv-persona py-3 px-3 rounded-xl border text-center transition-all cursor-pointer ${isSelected ? 'is-on ' : ''}${
                         isSelected
                           ? 'border-black bg-black text-white font-medium shadow-2xs'
                           : 'border-neutral-200 text-neutral-700 hover:border-black bg-neutral-50'
@@ -333,11 +334,11 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
             </div>
 
             {/* CTA */}
-            <div className="pt-4 border-t border-neutral-200">
+            <div className="cv-submit-row pt-4 border-t border-neutral-200">
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-black hover:bg-neutral-800 text-white py-4 rounded-xl font-medium tracking-wider uppercase text-xs transition-colors cursor-pointer shadow-xs"
+                className="cv-submit w-full bg-black hover:bg-neutral-800 text-white py-4 rounded-xl font-medium tracking-wider uppercase text-xs transition-colors cursor-pointer shadow-xs"
               >
                 {submitting ? "Submitting…" : "Submit Query"}
               </button>

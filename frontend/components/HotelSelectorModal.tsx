@@ -89,7 +89,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-6 font-sans"
+    <div className="hsm fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-6 font-sans"
       style={{ backgroundColor: "rgba(0,0,0,0.82)" }}
       role="dialog"
       aria-modal="true"
@@ -97,15 +97,15 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
       onClick={onClose}
     >
     <div 
-      className="relative bg-white rounded-3xl max-w-3xl w-full border border-neutral-300 shadow-2xl flex flex-col overflow-hidden my-auto"
+      className="hsm-box relative bg-white rounded-3xl max-w-3xl w-full border border-neutral-300 shadow-2xl flex flex-col overflow-hidden my-auto"
       style={{ maxHeight: '92vh' }}
       onClick={(e) => e.stopPropagation()}
     >
       {/* Overlay Header: Aligned with Form Padding */}
       <div className="p-5 sm:p-7 border-b border-neutral-200 flex items-center justify-between bg-neutral-50 shrink-0">
         <div>
-          <div className="flex items-center space-x-2 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold mb-1">
-            <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
+          <div className="hsm-eyebrow flex items-center space-x-2 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold mb-1">
+            <span aria-hidden="true" className="hsm-rule w-3.5 h-3.5 inline-block border border-current"></span>
             <span>Sanctuary Portfolio Selector</span>
           </div>
           <h2 className="font-serif text-xl sm:text-2xl font-normal text-black">
@@ -179,7 +179,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
                 type="button"
                 key={c}
                 onClick={() => setCityFilter(c)}
-                className={`px-3 py-1 rounded-full text-[11px] font-sans transition-all whitespace-nowrap cursor-pointer border ${
+                className={`hsm-pill ${active ? 'is-on ' : ''}px-3 py-1 rounded-full text-[11px] font-sans transition-all whitespace-nowrap cursor-pointer border ${
                   active
                     ? 'border-black bg-black text-white font-medium shadow-2xs'
                     : 'border-neutral-200 text-neutral-600 hover:border-black bg-white'
@@ -208,7 +208,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
                 <div
                   key={hotel.id}
                   onClick={() => toggleHotel(hotel.id)}
-                  className={`rounded-2xl border p-3 flex flex-col justify-between transition-all cursor-pointer relative overflow-hidden group select-none ${
+                  className={`hsm-card ${isChecked ? 'is-on ' : ''}rounded-2xl border p-3 flex flex-col justify-between transition-all cursor-pointer relative overflow-hidden group select-none ${
                     isChecked
                       ? 'border-black bg-neutral-50 ring-1 ring-black shadow-xs'
                       : 'border-neutral-200 hover:border-black bg-white'
@@ -224,7 +224,7 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
                       /><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span><span aria-hidden="true" className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none text-[10px] font-sans uppercase tracking-widest text-neutral-500 font-medium">Image here</span></span>
                       {/* Checkbox indicator */}
                       <div
-                        className={`w-5 h-5 rounded-md border flex items-center justify-center absolute top-2 right-2 transition-colors ${
+                        className={`hsm-check ${isChecked ? 'is-on ' : ''}w-5 h-5 rounded-md border flex items-center justify-center absolute top-2 right-2 transition-colors ${
                           isChecked
                             ? 'border-black bg-black text-white'
                             : 'border-white/80 bg-black/40 text-transparent'
@@ -275,14 +275,14 @@ export const HotelSelectorModal: React.FC<HotelSelectorModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="border border-neutral-300 hover:border-black text-black px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-medium transition-colors cursor-pointer bg-white"
+            className="hsm-cancel border border-neutral-300 hover:border-black text-black px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-medium transition-colors cursor-pointer bg-white"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={handleSave}
-            className="bg-black hover:bg-neutral-800 text-white px-5 py-2 rounded-xl text-xs uppercase tracking-wider font-medium transition-all shadow-xs cursor-pointer flex items-center space-x-1.5"
+            className="hsm-save bg-black hover:bg-neutral-800 text-white px-5 py-2 rounded-xl text-xs uppercase tracking-wider font-medium transition-all shadow-xs cursor-pointer flex items-center space-x-1.5"
           >
             <span>Attach to Form</span>
             <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
