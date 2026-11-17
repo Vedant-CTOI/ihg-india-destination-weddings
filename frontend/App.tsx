@@ -248,7 +248,8 @@ export const App: React.FC = () => {
           <StoryDetailPage
             storyId={currentView.storyId}
             onNavigateBack={() => handleNavigateToAllStories()}
-            onNavigateToInquiry={(title) => handleNavigateToConversation(undefined, title)}
+            onNavigateToInquiry={(hotel) => handleNavigateToConversation(undefined, hotel)}
+            onSelectStory={handleNavigateToStory}
           />
         )}
 

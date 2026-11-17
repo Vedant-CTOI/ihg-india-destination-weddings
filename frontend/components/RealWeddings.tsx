@@ -132,7 +132,7 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
               onClick={onViewAllStories}
               className="inline-flex items-center space-x-2 border border-neutral-300 hover:border-black text-black px-6 py-2.5 rounded-full text-xs uppercase tracking-wider font-medium bg-white transition-colors cursor-pointer"
             >
-              <span>Explore All {REAL_WEDDINGS_DATA.length} Real Wedding Stories</span>
+              <span>Explore All {Math.min(3, REAL_WEDDINGS_DATA.length)} Real Wedding Stories</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           ) : (

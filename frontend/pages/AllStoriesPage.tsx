@@ -1,7 +1,6 @@
-import React, { useState, useMemo } from 'react';
-import { REAL_WEDDINGS_DATA } from '../constants';
-import { RealWeddingCase } from '../types';
+import React from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { FEATURED_STORIES, photosFor } from '../components/storyPhotos';
 
 interface AllStoriesPageProps {
   initialCategory?: string;
@@ -10,61 +9,17 @@ interface AllStoriesPageProps {
 }
 
 export const AllStoriesPage: React.FC<AllStoriesPageProps> = ({
-  initialCategory = 'All',
+  initialCategory: _initialCategory,
   onNavigateBack,
   onSelectStory
 }) => {
-  const [selectedFilter, setSelectedFilter] = useState<string>(initialCategory);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-
-  const filterCategories = [
-    'All',
-    'Royal Heritage',
-    'Beachside',
-    'Temple & Waterway',
-    'Mountain Foothills'
-  ];
-
-  const filteredStories = useMemo(() => {
-    return REAL_WEDDINGS_DATA.filter((wedding) => {
-      // 1. Category Filter
-      if (selectedFilter !== 'All') {
-        if (selectedFilter === 'Royal Heritage' && !wedding.location.includes('Region 1') && !wedding.location.includes('Region 2')) {
-          return false;
-        }
-        if (selectedFilter === 'Beachside' && !wedding.location.includes('Region 3')) {
-          return false;
-        }
-        if (selectedFilter === 'Temple & Waterway' && !wedding.location.includes('Region 5') && !wedding.location.includes('Region 6')) {
-          return false;
-        }
-        if (selectedFilter === 'Mountain Foothills' && !wedding.location.includes('Region 4')) {
-          return false;
-        }
-      }
-
-      // 2. Search Filter
-      if (searchQuery.trim() !== '') {
-        const q = searchQuery.toLowerCase().trim();
-        const matchesCouple = wedding.couple.toLowerCase().includes(q);
-        const matchesLocation = wedding.location.toLowerCase().includes(q);
-        const matchesProperty = wedding.property.toLowerCase().includes(q);
-        const matchesConfluence = wedding.culturalConfluence.toLowerCase().includes(q);
-        if (!matchesCouple && !matchesLocation && !matchesProperty && !matchesConfluence) {
-          return false;
-        }
-      }
-
-      return true;
-    });
-  }, [selectedFilter, searchQuery]);
-
   return (
     <div className="rw-page min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
+      {/* Redesign: 3 case studies only, alternating editorial rows; About/Loyalty language. Go back = tag checkpoint-before-rw-pages */}
       
       {/* Top Breadcrumb Bar */}
       <div className="border-b border-neutral-200 bg-neutral-50 py-3">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-xs">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-xs">
           <div className="flex items-center space-x-2 text-neutral-500">
             <button onClick={onNavigateBack} className="hover:text-black cursor-pointer">Exploration</button>
             <span>/</span>
@@ -81,19 +36,20 @@ export const AllStoriesPage: React.FC<AllStoriesPageProps> = ({
         </div>
       </div>
 
-      {/* Hero Banner (Grayscale Luxury) with lorem placeholder text */}
-      <div className="relative h-[380px] sm:h-[440px] w-full overflow-hidden bg-black">
+      {/* Hero Banner with lorem placeholder text */}
+      <div className="rw-hero relative h-[380px] sm:h-[440px] w-full overflow-hidden bg-black">
         <img
-          src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+          src="/hero/hero-4-photo.jpg"
           alt="Real Weddings hero placeholder"
-          className="w-full h-full object-cover filter grayscale contrast-115"
-          onError={(e) => { (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E'; }}
+          data-real-photo=""
+          style={{ objectPosition: '55% 30%' }}
+          className="rw-hero-img w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
-        <div className="absolute bottom-8 left-0 right-0">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-            <span className="bg-white text-black text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full font-bold inline-block mb-2.5">
+        <div className="on-photo absolute bottom-8 left-0 right-0">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
+            <span className="rw-badge bg-white text-black text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full font-bold inline-block mb-2.5">
               Real Weddings
             </span>
 
@@ -108,113 +64,74 @@ export const AllStoriesPage: React.FC<AllStoriesPageProps> = ({
         </div>
       </div>
 
-      {/* Main Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-        
+      <div className="rw-wrap max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
         {/* Page Title & Context */}
-        <div className="space-y-2">
-          <span className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-semibold block">
+        <div className="rw-intro space-y-2">
+          <span className="rw-eyebrow text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-semibold block">
             Archive & Documentaries
           </span>
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-black leading-tight">
+          <h2 className="rw-title font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-black leading-tight">
             Real Weddings Archive
-          </h1>
-          <p className="text-xs sm:text-sm text-neutral-600 font-light max-w-2xl leading-relaxed">
+          </h2>
+          <p className="rw-lede text-xs sm:text-sm text-neutral-600 font-light max-w-2xl leading-relaxed">
             Read comprehensive case studies detailing how cross-cultural traditions, ceremonial timelines, and dietary requirements were harmonized across IHG destination sanctuaries.
           </p>
         </div>
 
-        {/* Stories Grid */}
-        {filteredStories.length === 0 ? (
-          <div className="text-center py-20 bg-neutral-50 rounded-2xl border border-dashed border-neutral-300 space-y-3">
-            <span className="inline-block w-8 h-8 border border-neutral-400 mx-auto" />
-            <h3 className="font-serif text-xl text-black font-normal">
-              No wedding stories matched your search.
-            </h3>
-            <p className="text-xs text-neutral-500 font-light">
-              Try selecting a different category or clearing the search box.
-            </p>
-            <button
-              onClick={() => {
-                setSelectedFilter('All');
-                setSearchQuery('');
-              }}
-              className="bg-black text-white text-xs uppercase tracking-wider font-medium px-5 py-2 rounded-full cursor-pointer"
-            >
-              Reset Filters
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredStories.map((wedding) => (
+        {/* Three case studies — alternating photo / text rows */}
+        <div className="rw-list">
+          {FEATURED_STORIES.map((wedding, i) => {
+            const ph = photosFor(wedding.id).cover;
+            return (
               <article
                 key={wedding.id}
                 onClick={() => onSelectStory(wedding.id)}
-                className="group bg-white rounded-2xl border border-neutral-200 hover:border-black overflow-hidden transition-all duration-300 flex flex-col justify-between cursor-pointer shadow-2xs hover:shadow-md"
+                className={`rw-case group cursor-pointer ${i % 2 === 1 ? 'is-flip' : ''}`}
               >
-                <div>
-                  {/* Photo with Overlay */}
-                  <div className="relative h-60 overflow-hidden bg-neutral-900">
-                    <img
-                      src={wedding.coverImage}
-                      alt={wedding.couple}
-                      className="w-full h-full object-cover filter grayscale contrast-110 group-hover:scale-103 transition-transform duration-500"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22800%22%20viewBox%3D%220%200%201200%20800%22%3E%3Crect%20width%3D%221200%22%20height%3D%22800%22%20fill%3D%22%23bfbfbf%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a8a8a%22%20stroke-width%3D%2222%22%20stroke-linejoin%3D%22round%22%20stroke-linecap%3D%22round%22%3E%3Crect%20x%3D%22470%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22200%22%20rx%3D%2214%22%2F%3E%3Ccircle%20cx%3D%22552%22%20cy%3D%22368%22%20r%3D%2217%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3Cpath%20d%3D%22M487%20480%20l75%20-62%2048%2040%2045%20-38%2070%2060%22%20fill%3D%22%238a8a8a%22%20stroke%3D%22none%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E' + encodeURIComponent(wedding.couple);
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                    <div className="absolute bottom-4 left-4 right-4 text-white">
-                      <span className="text-[10px] uppercase tracking-wider font-sans text-neutral-300 block">
-                        {wedding.location}
-                      </span>
-                      <h3 className="font-serif text-xl font-normal text-white">
-                        {wedding.couple}
-                      </h3>
-                    </div>
+                <div className="rw-case-media relative overflow-hidden">
+                  <img src={ph.src} alt={wedding.couple} data-real-photo="" loading="lazy" style={{ objectPosition: ph.focus }}
+                       className="rw-case-img absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-transparent" />
+                  <span className="rw-case-num on-photo font-serif">{String(i + 1).padStart(2, '0')}</span>
+                </div>
+
+                <div className="rw-case-text">
+                  <span className="rw-case-loc text-[10px] uppercase tracking-[0.25em] font-semibold block">
+                    {wedding.location}
+                  </span>
+                  <h3 className="rw-case-name font-serif font-normal">
+                    {wedding.couple}
+                  </h3>
+                  <div className="rw-case-facts">
+                    <span>{wedding.property}</span>
+                    <span>{wedding.guestCount} Guests</span>
                   </div>
-
-                  {/* Body Info */}
-                  <div className="p-5 space-y-3">
-                    <div className="flex items-center justify-between text-xs text-neutral-500 border-b border-neutral-100 pb-2">
-                      <span className="flex items-center space-x-1.5 truncate">
-                        <span aria-hidden="true" className="w-3.5 h-3.5  shrink-0 inline-block border border-current"></span>
-                        <span className="truncate">{wedding.property}</span>
-                      </span>
-                      <span className="flex items-center space-x-1 shrink-0">
-                        <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                        <span>{wedding.guestCount}</span>
-                      </span>
-                    </div>
-
-                    <div>
-                      <span className="text-[10px] font-sans font-semibold text-black uppercase tracking-wider block mb-1">
-                        The Confluence:
-                      </span>
-                      <p className="text-xs text-neutral-800 font-sans font-medium line-clamp-1">
-                        {wedding.culturalConfluence}
-                      </p>
-                    </div>
-
-                    <p className="text-xs text-neutral-600 font-sans leading-relaxed line-clamp-2 font-light">
-                      {wedding.resolutionStory}
+                  <div>
+                    <span className="rw-case-label text-[10px] font-sans font-semibold uppercase tracking-wider block mb-1">
+                      The Confluence:
+                    </span>
+                    <p className="rw-case-conf text-sm font-medium">
+                      {wedding.culturalConfluence}
                     </p>
                   </div>
-                </div>
-
-                <div className="p-5 pt-0">
-                  <button
-                    type="button"
-                    className="w-full border border-neutral-300 group-hover:bg-black group-hover:text-white text-black text-[11px] uppercase tracking-wider font-medium py-2.5 rounded-xl transition-colors flex items-center justify-center space-x-1.5 cursor-pointer"
-                  >
-                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                    <span>Read Full Story &amp; Run-of-Show</span>
-                  </button>
+                  <p className="rw-case-story text-sm font-light leading-relaxed">
+                    {wedding.resolutionStory}
+                  </p>
+                  <p className="rw-case-quote font-serif italic">
+                    {wedding.coupleTestimonial}
+                  </p>
+                  <div>
+                    <button type="button" className="rw-case-cta inline-flex items-center gap-2 text-[11px] uppercase tracking-wider font-medium px-6 py-3 rounded-full cursor-pointer">
+                      <span>Read Full Story &amp; Run-of-Show</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               </article>
-            ))}
-          </div>
-        )}
+            );
+          })}
+        </div>
 
       </div>
 
