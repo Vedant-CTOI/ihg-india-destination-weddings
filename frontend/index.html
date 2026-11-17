@@ -2193,6 +2193,36 @@
   body #root .lp-page .lp-tier-copy { color: rgba(43,26,30,.72) !important; }
   @media (prefers-reduced-motion: reduce) { body #root .lp-page .lp-tier-media > .lp-tier-media-inner { clip-path: none !important; transition: none !important; } body #root .lp-page .lp-tier-img { transition: none !important; } }
 
+  /* ═══ ABOUT PAGE (.ab-page) — dressed like Hotels + Loyalty Packages pages. Colour/type/image/motion only; layout, sizes & copy unchanged.
+       Go back = tag checkpoint-before-about-page-style ═══ */
+  body #root .ab-page { background-color: var(--ivory) !important; color: var(--ink) !important; }
+  body #root .ab-page > div:first-child { background: var(--ivory) !important; border-bottom-color: rgba(137,56,74,.15) !important; }
+  body #root .ab-page > div:first-child, body #root .ab-page > div:first-child * { color: var(--maroon) !important; letter-spacing: .14em; text-transform: uppercase; font-size: 10px !important; }
+  /* banner — full-colour photo like Hotels */
+  body #root .ab-page img.ab-hero-img[data-real-photo] { visibility: visible !important; background-color: transparent !important; filter: none !important; }
+  body #root .ab-page div:has(> img.ab-hero-img) { background-color: #2b2b2b !important; }
+  body #root .ab-page div:has(> img.ab-hero-img) > div[class*="bg-gradient"] { display: block !important; }
+  body #root .ab-page .on-photo h1 { color: #fff !important; }
+  body #root .ab-page .on-photo p { color: rgba(255,255,255,.92) !important; }
+  body #root .ab-page .on-photo span.ab-badge { background: transparent !important; color: #fff !important; border: 1px solid rgba(255,255,255,.85); font-weight: 500 !important; letter-spacing: .28em !important; padding: 4px 12px !important; }
+  /* photo boxes — Loyalty tier framing */
+  body #root .ab-page .ab-media { background: #d4d4d4 !important; border-color: rgba(137,56,74,.18) !important; border-radius: 2px !important; }
+  body #root .ab-page .ab-media img.ab-img[data-real-photo] { visibility: visible !important; background-color: transparent !important; filter: none !important; transition: transform 1.6s cubic-bezier(0.16,1,0.3,1); }
+  body #root .ab-page .ab-media:hover .ab-img { transform: scale(1.06); }
+  body #root .ab-page .ab-media .ab-veil { opacity: .85; transition: opacity 1s cubic-bezier(0.16,1,0.3,1); }
+  body #root .ab-page .ab-media:hover .ab-veil { opacity: 1; }
+  html:not(.layout-mobile) body #root .ab-page .ab-media[data-wm="curtain"] > .ab-media-inner { clip-path: inset(100% 0 0 0); transition: clip-path 1.6s cubic-bezier(0.77,0,0.18,1); }
+  html:not(.layout-mobile) body #root .ab-page .ab-media[data-wm="curtain"][data-wm-in] > .ab-media-inner { clip-path: inset(0 0 0 0); }
+  /* type */
+  body #root .ab-page .ab-eyebrow { color: var(--maroon) !important; display: flex !important; align-items: center; gap: 12px; }
+  body #root .ab-page .ab-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--haldi); flex: none; }
+  body #root .ab-page .ab-quote, body #root .ab-page .ab-title { color: var(--maroon) !important; }
+  body #root .ab-page .ab-body, body #root .ab-page .ab-body p, body #root .ab-page .ab-copy { color: rgba(43,26,30,.72) !important; }
+  body #root .ab-page .ab-rule { border-color: rgba(137,56,74,.15) !important; }
+  html body #root .ab-page section button.ab-cta { background: var(--maroon) !important; background-color: var(--maroon) !important; color: #fff !important; }
+  html body #root .ab-page section button.ab-cta:hover { background: var(--maroon-d) !important; background-color: var(--maroon-d) !important; }
+  @media (prefers-reduced-motion: reduce) { body #root .ab-page .ab-media > .ab-media-inner { clip-path: none !important; transition: none !important; } body #root .ab-page .ab-img { transition: none !important; } }
+
   /* ═══ FIGMA ROUND 1 — WEB homepage background #F9F6EE (all sections below the hero + footer on the homepage).
        Text that was white on the old colour bands -> Figma taupe so it stays readable. Ivory pill buttons -> maroon (they vanish on cream).
        Layout, sizes, fonts, hero, mobile and inner pages unchanged. Go back = tag checkpoint-before-figma-home ═══ */

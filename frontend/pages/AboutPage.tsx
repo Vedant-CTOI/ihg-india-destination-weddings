@@ -13,7 +13,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({
   onNavigateToInquiry
 }) => {
   return (
-    <div className="min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
+    <div className="ab-page min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
+      {/* Styled like Hotels + Loyalty Packages (ivory/maroon/haldi, real photos, curtain + hover zoom). Layout/copy unchanged. Go back = tag checkpoint-before-about-page-style */}
 
       {/* Top Breadcrumb Bar */}
       <div className="border-b border-neutral-200 bg-neutral-50 py-3">
@@ -37,16 +38,17 @@ export const AboutPage: React.FC<AboutPageProps> = ({
       {/* Hero Banner (Grayscale Luxury) with lorem placeholder text */}
       <div className="relative h-[380px] sm:h-[440px] w-full overflow-hidden bg-black">
         <img
-          src={HERO_IMG}
+          src="/destinations/d6.jpg"
           alt="About Us hero placeholder"
-          className="w-full h-full object-cover filter grayscale contrast-115"
+          data-real-photo=""
+          className="ab-hero-img w-full h-full object-cover filter grayscale contrast-115"
           onError={(e) => { (e.target as HTMLImageElement).src = HERO_IMG; }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
-        <div className="absolute bottom-8 left-0 right-0">
+        <div className="on-photo absolute bottom-8 left-0 right-0">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-            <span className="bg-white text-black text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full font-bold inline-block mb-2.5">
+            <span className="ab-badge bg-white text-black text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full font-bold inline-block mb-2.5">
               About Us — IHG Weddings
             </span>
 
@@ -63,8 +65,12 @@ export const AboutPage: React.FC<AboutPageProps> = ({
 
       {/* Wide feature visual placeholder */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-        <div className="w-full aspect-[16/9] bg-[#E5E5E5] border border-neutral-300 rounded-2xl flex items-center justify-center">
+        <div data-wm="curtain" className="ab-media group relative overflow-hidden w-full aspect-[16/9] bg-[#E5E5E5] border border-neutral-300 rounded-2xl flex items-center justify-center">
           <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">Visual Element</span>
+          <div className="ab-media-inner absolute inset-0">
+            <img src="/destinations/d5.jpg" alt="" data-real-photo="" loading="lazy" className="ab-img absolute inset-0 w-full h-full object-cover" />
+            <div className="ab-veil absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
+          </div>
         </div>
       </div>
 
@@ -74,13 +80,13 @@ export const AboutPage: React.FC<AboutPageProps> = ({
         {/* Opening Narrative — text left, small visual placeholders right */}
         <section className="grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-7 space-y-5">
-          <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1.5">
+          <span className="ab-eyebrow text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1.5">
             Our Story
           </span>
-          <p className="font-serif text-xl sm:text-2xl text-black italic leading-snug">
+          <p className="ab-quote font-serif text-xl sm:text-2xl text-black italic leading-snug">
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt."
           </p>
-          <div className="space-y-4 text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
+          <div className="ab-body space-y-4 text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </p>
@@ -92,37 +98,49 @@ export const AboutPage: React.FC<AboutPageProps> = ({
 
           {/* Small visual placeholders */}
           <div className="md:col-span-5 space-y-3">
-            <div className="aspect-[4/3] bg-[#E5E5E5] border border-neutral-300 rounded-xl flex items-center justify-center">
+            <div data-wm="curtain" className="ab-media group relative overflow-hidden aspect-[4/3] bg-[#E5E5E5] border border-neutral-300 rounded-xl flex items-center justify-center">
               <span className="text-[9px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">Visual Element</span>
+              <div className="ab-media-inner absolute inset-0">
+                <img src="/destinations/d7.jpg" alt="" data-real-photo="" loading="lazy" className="ab-img absolute inset-0 w-full h-full object-cover" />
+                <div className="ab-veil absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
+              </div>
             </div>
-            <div className="aspect-[4/3] bg-[#E5E5E5] border border-neutral-300 rounded-xl flex items-center justify-center">
+            <div data-wm="curtain" className="ab-media group relative overflow-hidden aspect-[4/3] bg-[#E5E5E5] border border-neutral-300 rounded-xl flex items-center justify-center">
               <span className="text-[9px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">Visual Element</span>
+              <div className="ab-media-inner absolute inset-0">
+                <img src="/destinations/jaipur.jpg" alt="" data-real-photo="" loading="lazy" className="ab-img absolute inset-0 w-full h-full object-cover" />
+                <div className="ab-veil absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
+              </div>
             </div>
-            <div className="aspect-[4/3] bg-[#E5E5E5] border border-neutral-300 rounded-xl flex items-center justify-center">
+            <div data-wm="curtain" className="ab-media group relative overflow-hidden aspect-[4/3] bg-[#E5E5E5] border border-neutral-300 rounded-xl flex items-center justify-center">
               <span className="text-[9px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">Visual Element</span>
+              <div className="ab-media-inner absolute inset-0">
+                <img src="/destinations/d8.jpg" alt="" data-real-photo="" loading="lazy" className="ab-img absolute inset-0 w-full h-full object-cover" />
+                <div className="ab-veil absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
+              </div>
             </div>
           </div>
         </section>
 
         {/* Divider */}
-        <div className="border-t border-neutral-200" />
+        <div className="ab-rule border-t border-neutral-200" />
 
         {/* Closing invitation + CTA */}
         <section className="space-y-5">
-          <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1.5">
+          <span className="ab-eyebrow text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold block mb-1.5">
             Begin the Conversation
           </span>
-          <h2 className="font-serif text-2xl sm:text-3xl font-normal text-black">
+          <h2 className="ab-title font-serif text-2xl sm:text-3xl font-normal text-black">
             Lorem ipsum dolor sit amet
           </h2>
-          <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed max-w-2xl">
+          <p className="ab-copy text-xs sm:text-sm text-neutral-600 font-light leading-relaxed max-w-2xl">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
           </p>
 
           <button
             type="button"
             onClick={onNavigateToInquiry}
-            className="inline-flex items-center space-x-2 text-[11px] font-sans uppercase tracking-wider bg-black hover:bg-neutral-800 text-white px-6 py-3 rounded-full transition-colors font-medium cursor-pointer shadow-2xs mt-2"
+            className="ab-cta inline-flex items-center space-x-2 text-[11px] font-sans uppercase tracking-wider bg-black hover:bg-neutral-800 text-white px-6 py-3 rounded-full transition-colors font-medium cursor-pointer shadow-2xs mt-2"
           >
             <span>Plan Celebration</span>
           </button>
