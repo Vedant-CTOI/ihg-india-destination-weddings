@@ -2552,6 +2552,98 @@
   html:not(.layout-mobile) body #root .landing-home #real-weddings .relative:has(> .grid)::before { content: ''; position: absolute; left: 50%; width: 100vw; transform: translateX(-50%); top: 22%; bottom: 22%; background: #EFE5D3; z-index: 0; }
   html:not(.layout-mobile) body #root .landing-home #real-weddings .relative:has(> .grid) > .grid { grid-template-columns: 1fr 1.28fr 1fr !important; align-items: center; gap: 28px !important; position: relative; z-index: 1; max-width: 68rem; margin: 0 auto; }
   html:not(.layout-mobile) body #root .landing-home #real-weddings .relative:has(> .grid) > .grid > article:nth-child(2) { aspect-ratio: 3 / 4.2 !important; }
+
+  /* ═══ HOME REFERENCE COLOURS (web homepage only; hero/header, mobile, inner pages unchanged).
+       Colours sampled from the client reference (Option 1). Go back = tag checkpoint-before-home-ref-colours ═══ */
+  html:not(.layout-mobile) { --rf-bg:#F9F7EF; --rf-head:#3A3026; --rf-body:#5B5750; --rf-soft:#8C8984; --rf-bronze:#7E4A16; --rf-eyebrow-a:#A8621E;
+    --rf-taupe:#C1AA8E; --rf-taupe-l:#C8B49C; --rf-taupe-d:#AD9475; --rf-sand1:#E2D4C3; --rf-panel-ink:#6B5843; --rf-dark:#2F2E2B; --rf-foot:#525252; --rf-rule:#827B72; }
+  html:not(.layout-mobile) body #root .landing-home,
+  html:not(.layout-mobile) body #root .landing-home #about,
+  html:not(.layout-mobile) body #root .landing-home #destinations,
+  html:not(.layout-mobile) body #root .landing-home section#destinations.dest-band,
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head,
+  html:not(.layout-mobile) body #root .landing-home #real-weddings,
+  html:not(.layout-mobile) body #root .landing-home #contact,
+  html:not(.layout-mobile) body:has(.landing-home) #root footer { background-color: var(--rf-bg) !important; }
+  /* eyebrows (bronze) + their rules */
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-eyebrow, html:not(.layout-mobile) body #root .landing-home .home-about .ha-eyebrow * { color: var(--rf-eyebrow-a) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-rule { background: var(--rf-eyebrow-a) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head span.block,
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head span:not([data-wm="split"]):not(.split-w):not(.split-c),
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head span:not([data-wm="split"]):not(.split-w):not(.split-c),
+  html:not(.layout-mobile) body #root .landing-home #contact .sec-head span:not([data-wm="split"]):not(.split-w):not(.split-c),
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-eyebrow, html:not(.layout-mobile) body #root .landing-home .loyalty-band span.block { color: var(--rf-bronze) !important; }
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-rule { background: var(--rf-bronze) !important; }
+  /* headings */
+  html:not(.layout-mobile) body #root .landing-home .sec-head h2, html:not(.layout-mobile) body #root .landing-home .sec-head h2 *,
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-title, html:not(.layout-mobile) body #root .landing-home .home-about .ha-title *,
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-title, html:not(.layout-mobile) body #root .landing-home .lp .lp-title em { color: var(--rf-head) !important; }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head h2, html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head h2 *,
+  html:not(.layout-mobile) body #root .landing-home #contact .sec-head h2, html:not(.layout-mobile) body #root .landing-home #contact .sec-head h2 *,
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head h2, html:not(.layout-mobile) body #root .landing-home #destinations .sec-head h2 *,
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head h2, html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head h2 * { color: var(--rf-head) !important; }
+  /* body copy: darker warm grey in About / Destinations / Hotels / Loyalty; Real Weddings + form stay soft grey */
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-paras p,
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head p,
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head p,
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-copy, html:not(.layout-mobile) body #root .landing-home .loyalty-band p { color: var(--rf-body) !important; opacity: 1 !important; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head p, html:not(.layout-mobile) body #root .landing-home #contact .sec-head p { color: var(--rf-soft) !important; }
+  /* About stats */
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-num, html:not(.layout-mobile) body #root .landing-home .home-about .ha-num > span:first-child { color: var(--rf-head) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-unit, html:not(.layout-mobile) body #root .landing-home .home-about .ha-label { color: var(--rf-bronze) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-stat + .ha-stat { border-color: rgba(58,48,38,.16) !important; }
+  /* pills: taupe filled */
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-cta,
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head button,
+  html:not(.layout-mobile) body #root .landing-home #contact button[type="submit"] { background: var(--rf-taupe) !important; color: #fff !important; border-color: var(--rf-taupe) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-cta *, html:not(.layout-mobile) body #root .landing-home #destinations .sec-head button *,
+  html:not(.layout-mobile) body #root .landing-home #contact button[type="submit"] * { color: #fff !important; background-color: transparent !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-cta:hover,
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head button:hover,
+  html:not(.layout-mobile) body #root .landing-home #contact button[type="submit"]:hover { background: var(--rf-taupe-d) !important; }
+  /* Hotels: soft peach→ivory gradient, outlined dark View All, quiet arrows */
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration { background-color: var(--rf-bg) !important; background-image: linear-gradient(180deg, #FBF1E2 0%, #F9F7EE 100%) !important; }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button { background: transparent !important; color: var(--rf-dark) !important; border: 1px solid var(--rf-dark) !important; }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button * { color: var(--rf-dark) !important; background-color: transparent !important; }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button:hover { background: var(--rf-dark) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button:hover * { color: #fff !important; }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration button[aria-label$="hotels"] { background: #fff !important; color: var(--rf-panel-ink) !important; border-color: rgba(107,88,67,.25) !important; }
+  /* Destinations: sand gradient panel, taupe round button + dots */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-media { border-top: 0 !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .on-photo { background: linear-gradient(180deg, rgba(226,212,195,.92) 0%, rgba(209,194,175,.94) 50%, rgba(193,170,142,.96) 100%) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name, html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name *,
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name > span { color: var(--rf-panel-ink) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-eyebrow { color: var(--rf-bronze) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-copy { color: #463D33 !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-cta, html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-cta * { color: #fff !important; border-color: #fff !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label$="wedding genre"] { background: var(--rf-taupe-l) !important; border-color: rgba(255,255,255,.7) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label$="wedding genre"]:hover { background: var(--rf-taupe-d) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label^="Go to slide"] { background: rgba(255,255,255,.55) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label^="Go to slide"].w-6 { background: var(--rf-taupe) !important; }
+  /* Loyalty: deeper sand band, white pill */
+  html:not(.layout-mobile) body #root .landing-home .loyalty-band.lp.lp-text { background-color: #DED1C0 !important; background-image: linear-gradient(180deg, #E6DCCD 0%, #DED1C0 50%, #D4C4AF 100%) !important; }
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-cta, html:not(.layout-mobile) body #root .landing-home .loyalty-band button { background: #fff !important; color: var(--rf-head) !important; }
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-cta *, html:not(.layout-mobile) body #root .landing-home .loyalty-band button * { color: var(--rf-head) !important; }
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-cta:hover, html:not(.layout-mobile) body #root .landing-home .loyalty-band button:hover { background: var(--rf-bg) !important; }
+  /* Real Weddings: taupe stripe fading in from the left, outlined Explore button */
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .relative:has(> .grid)::before { background: linear-gradient(90deg, #E1D6C6 0%, #D9CCB9 8%, #C1AA8E 30%, #C1AA8E 100%) !important; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .text-center > button { background: transparent !important; color: var(--rf-head) !important; border: 1px solid var(--rf-dark) !important; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .text-center > button * { color: var(--rf-head) !important; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .text-center > button:hover { background: var(--rf-dark) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .text-center > button:hover * { color: #fff !important; }
+  /* Form: white inputs + persona pills, soft-grey labels, taupe selected state */
+  html:not(.layout-mobile) body #root .landing-home #contact label { color: var(--rf-soft) !important; }
+  html:not(.layout-mobile) body #root .landing-home #contact input:not([type="checkbox"]), html:not(.layout-mobile) body #root .landing-home #contact textarea,
+  html:not(.layout-mobile) body #root .landing-home #contact form button:not([type="submit"]) { background-color: #fff !important; border-color: rgba(58,48,38,.08) !important; }
+  html:not(.layout-mobile) body #root .landing-home #contact form button.bg-black, html:not(.layout-mobile) body #root .landing-home #contact form button[aria-pressed="true"] { background-color: var(--rf-taupe) !important; border-color: var(--rf-taupe) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root .landing-home #contact input[type="checkbox"] { accent-color: var(--rf-taupe); }
+  /* Footer */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-media > .absolute.top-0.h-0\.5 { background: rgba(255,255,255,.3) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-media > .absolute.top-0.h-0\.5 > div { background: var(--rf-taupe) !important; }
+  html:not(.layout-mobile) body #root .landing-home #contact form > div.rounded-3xl, html:not(.layout-mobile) body #root .landing-home #contact .rounded-3xl.border { border-color: rgba(58,48,38,.1) !important; }
+  html:not(.layout-mobile) body:has(.landing-home) #root footer *:not(img), html:not(.layout-mobile) body:has(.landing-home) #root footer .font-serif { color: var(--rf-foot) !important; }
+  html:not(.layout-mobile) body:has(.landing-home) #root footer span.uppercase.block { color: var(--rf-bronze) !important; }
+  html:not(.layout-mobile) body:has(.landing-home) #root footer, html:not(.layout-mobile) body:has(.landing-home) #root footer .border-b, html:not(.layout-mobile) body:has(.landing-home) #root footer .border-t { border-color: var(--rf-rule) !important; }
 </style>
 
   </head>
