@@ -2223,6 +2223,39 @@
   html body #root .ab-page section button.ab-cta:hover { background: var(--maroon-d) !important; background-color: var(--maroon-d) !important; }
   @media (prefers-reduced-motion: reduce) { body #root .ab-page .ab-media > .ab-media-inner { clip-path: none !important; transition: none !important; } body #root .ab-page .ab-img { transition: none !important; } }
 
+  /* ═══ ABOUT PAGE LAYOUT (option A — editorial collage). Go back = tag checkpoint-before-about-layout ═══ */
+  body #root .ab-page .ab-story { display: grid; grid-template-columns: 1fr; gap: 40px; }
+  body #root .ab-page .ab-story-text { display: flex; flex-direction: column; gap: 22px; }
+  body #root .ab-page .ab-collage { position: relative; }
+  body #root .ab-page .ab-media.ab-tall { aspect-ratio: 4/5; }
+  body #root .ab-page .ab-media.ab-small { aspect-ratio: 4/3; }
+  body #root .ab-page .ab-close { margin-top: 96px; background: #fff; border: 1px solid rgba(137,56,74,.18); border-radius: 2px; transition: border-color .6s, box-shadow .6s; }
+  body #root .ab-page .ab-close:hover { border-color: rgba(137,56,74,.45); box-shadow: 0 18px 40px -28px rgba(43,26,30,.45); }
+  body #root .ab-page .ab-close-media { border: 0 !important; aspect-ratio: 4/3; }
+  body #root .ab-page .ab-close:hover .ab-img { transform: scale(1.06); }
+  body #root .ab-page .ab-close-text { padding: 28px 24px; }
+  /* web */
+  html:not(.layout-mobile) body #root .ab-page .ab-story { grid-template-columns: repeat(12, minmax(0,1fr)); gap: 24px; align-items: center; }
+  html:not(.layout-mobile) body #root .ab-page .ab-story-text { grid-column: 1 / span 5; }
+  html:not(.layout-mobile) body #root .ab-page .ab-story .ab-quote { font-size: 34px !important; line-height: 1.22 !important; }
+  html:not(.layout-mobile) body #root .ab-page .ab-story .ab-body { font-size: 15px !important; line-height: 1.8 !important; }
+  html:not(.layout-mobile) body #root .ab-page .ab-collage { grid-column: 7 / span 6; padding-bottom: 96px; }
+  html:not(.layout-mobile) body #root .ab-page .ab-media.ab-tall { width: 78%; margin-left: auto; }
+  html:not(.layout-mobile) body #root .ab-page .ab-media.ab-small { position: absolute; left: 0; bottom: 0; width: 52%; z-index: 2; box-shadow: 0 0 0 10px var(--ivory); }
+  html:not(.layout-mobile) body #root .ab-page .ab-close { margin-top: 120px; }
+  html:not(.layout-mobile) body #root .ab-page .ab-close-media { width: 55%; flex: none; aspect-ratio: auto; min-height: 380px; }
+  html:not(.layout-mobile) body #root .ab-page .ab-close-text { padding: 48px 56px; }
+  /* mobile — text, collage, card stacked */
+  html.layout-mobile body #root .ab-page .ab-wrap { padding-top: 40px !important; padding-bottom: 8px !important; }
+  html.layout-mobile body #root .ab-page .ab-collage { padding-bottom: 56px; }
+  html.layout-mobile body #root .ab-page .ab-media.ab-tall { width: 82%; margin-left: auto; }
+  html.layout-mobile body #root .ab-page .ab-media.ab-small { position: absolute; left: 0; bottom: 0; width: 56%; z-index: 2; box-shadow: 0 0 0 6px var(--ivory); }
+  html.layout-mobile body #root .ab-page .ab-close { margin-top: 56px; flex-direction: column !important; }
+  html.layout-mobile body #root .ab-page .ab-close-media { width: 100% !important; height: auto !important; aspect-ratio: 4/3 !important; flex: none !important; display: block !important; }
+  html.layout-mobile body #root .ab-page .ab-close-text { align-items: flex-start; text-align: left; }
+  html.layout-mobile body #root .ab-page section.ab-close { padding: 0 !important; }
+  html.layout-mobile body #root .ab-page .ab-close .ab-copy, html.layout-mobile body #root .ab-page .ab-story .ab-body p { -webkit-line-clamp: unset !important; line-clamp: unset !important; overflow: visible !important; display: block !important; max-height: none !important; }
+
   /* ═══ FIGMA ROUND 1 — WEB homepage background #F9F6EE (all sections below the hero + footer on the homepage).
        Text that was white on the old colour bands -> Figma taupe so it stays readable. Ivory pill buttons -> maroon (they vanish on cream).
        Layout, sizes, fonts, hero, mobile and inner pages unchanged. Go back = tag checkpoint-before-figma-home ═══ */
