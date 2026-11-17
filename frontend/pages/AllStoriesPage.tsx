@@ -123,7 +123,7 @@ export const AllStoriesPage: React.FC<AllStoriesPageProps> = ({
                   </p>
                   <div>
                     <button type="button" className="rw-case-cta inline-flex items-center gap-2 text-[11px] uppercase tracking-wider font-medium px-6 py-3 rounded-full cursor-pointer">
-                      <span>Read Full Story &amp; Run-of-Show</span>
+                      <span>Read Full Story</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>

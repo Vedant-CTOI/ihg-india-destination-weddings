@@ -2382,6 +2382,15 @@
   html.layout-mobile body #root .sd-page > div:first-child > div > button { display: none !important; }
   html.layout-mobile body #root .sd-page > div:first-child > div > div { flex-wrap: nowrap !important; white-space: nowrap; }
 
+  /* ═══ STORY PAGE — short version (banner + story/photos + small testimonial). Go back = tag checkpoint-before-story-short ═══ */
+  html:not(.layout-mobile) body #root .sd-page.sd-short .sd-hero { height: 440px; }
+  body #root .sd-page.sd-short { padding-bottom: 0 !important; }
+  html:not(.layout-mobile) body #root .sd-page.sd-short .sd-story { padding: 88px 0 104px; }
+  html.layout-mobile body #root .sd-page.sd-short .sd-story { padding: 48px 0 56px; }
+  body #root .sd-page .sd-testimonial { margin: 12px 0 0; padding: 4px 0 4px 18px; border-left: 1px solid var(--haldi); }
+  body #root .sd-page .sd-testimonial-quote { color: var(--maroon) !important; font-size: 18px; line-height: 1.45; margin: 0; }
+  body #root .sd-page .sd-testimonial-by { margin-top: 10px; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--copper); font-weight: 600; }
+
   /* ═══ FIGMA ROUND 1 — WEB homepage background #F9F6EE (all sections below the hero + footer on the homepage).
        Text that was white on the old colour bands -> Figma taupe so it stays readable. Ivory pill buttons -> maroon (they vanish on cream).
        Layout, sizes, fonts, hero, mobile and inner pages unchanged. Go back = tag checkpoint-before-figma-home ═══ */

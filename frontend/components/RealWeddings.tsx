@@ -114,7 +114,7 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
                 <span className="story-tile-name block font-serif font-normal leading-[1.05] text-[clamp(1.25rem,1.9vw,1.75rem)]">{wedding.couple}</span>
                 <span className="story-tile-meta block mt-1.5 text-[13px] font-light leading-snug text-white/85 truncate">{wedding.culturalConfluence}</span>
                 <span className="story-tile-cta mt-3 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] font-medium border-b border-white/70 pb-0.5">
-                  Read Full Story &amp; Run-of-Show <ArrowRight className="w-3 h-3 shrink-0" />
+                  Read Full Story <ArrowRight className="w-3 h-3 shrink-0" />
                 </span>
               </span>
             </article>
