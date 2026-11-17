@@ -54,10 +54,10 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
               Case Studies
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-black font-normal mb-2">
-              {web ? <SplitText text="Placeholder Text (Real Wedding Stories)" /> : 'Placeholder Text (Real Wedding Stories)'}
+              {web ? <SplitText text="Real Wedding Stories" /> : 'Real Wedding Stories'}
             </h2>
             <p data-wm={web ? '' : undefined} style={{ ['--d' as any]: '300ms' }} className="font-sans text-neutral-600 text-sm font-light">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna
             </p>
           </div>
 

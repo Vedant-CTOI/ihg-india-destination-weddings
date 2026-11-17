@@ -14,8 +14,8 @@ export const LoyaltyPackages: React.FC<LoyaltyPackagesProps> = ({ onViewPackages
   <section id="loyalty-packages" className="loyalty-band lp lp-text">
     <div className="lp-wrap">
       <div className="lp-body">
-        <span data-wm="" className="lp-eyebrow block"><span className="lp-rule" />Loyalty Packages</span>
-        <h2 data-wm="" style={{ ['--d' as any]: '120ms' }} className="lp-title">Placeholder Text <em>(Loyalty Packages)</em></h2>
+        <span data-wm="" className="lp-eyebrow block"><span className="lp-rule" />Lorem Ipsum</span>
+        <h2 data-wm="" style={{ ['--d' as any]: '120ms' }} className="lp-title">Loyalty Packages</h2>
         <p data-wm="" style={{ ['--d' as any]: '220ms' }} className="lp-copy">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
         </p>

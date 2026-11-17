@@ -105,7 +105,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
             Consultation &amp; Reservation
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl text-black font-normal mb-3">
-            {web ? <SplitText text="Placeholder Text (Lead Form Capture)" /> : 'Placeholder Text (Lead Form Capture)'}
+            {web ? <SplitText text="Get in Touch" /> : 'Get in Touch'}
           </h2>
           <p data-wm={web ? '' : undefined} style={{ ['--d' as any]: '300ms' }} className="font-sans text-neutral-600 text-sm font-light leading-relaxed">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.

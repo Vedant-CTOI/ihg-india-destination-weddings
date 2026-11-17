@@ -20,7 +20,7 @@ export const HeroSectionClassic: React.FC = () => {
       tagline: 'Hero Banner Text 1',
       titlePrefix: 'Hero Banner Text 1',
       titleItalic: 'continues here.',
-      subtitle: 'Hero banner subtext line for the first carousel slide, kept brief for the overlay layout.',
+      subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
       locationLabel: 'Hotel 1 • Destination 1',
       image: '/hero/hero-1-photo-m.jpg', // client photo DSC00472
       realPhoto: true,

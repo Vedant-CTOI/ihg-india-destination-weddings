@@ -25,8 +25,8 @@ const IMAGES = [
 const CYCLE_MS = 5000;
 
 const PARAGRAPHS = [
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.'
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.'
 ];
 
 // Same figures as before, split into a counting number + its unit
@@ -34,9 +34,9 @@ const PARAGRAPHS = [
 const STILL_LANDING = true;
 
 const STATS = [
-  { to: 6000, unit: '+', label: 'Global Heritage', duration: 2200 },
-  { to: 5, unit: '-Point', label: 'Ceremony Audit', duration: 1400 },
-  { to: 100, unit: '%', label: 'Kitchen Custody', duration: 1800 }
+  { to: 6000, unit: '+', label: 'Lorem Ipsum', duration: 2200 },
+  { to: 5, unit: '-Point', label: 'Lorem Ipsum', duration: 1400 },
+  { to: 100, unit: '%', label: 'Lorem Ipsum', duration: 1800 }
 ];
 const fmt = (n: number) => n.toLocaleString('en-US');
 const easeOutExpo = (t: number) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
@@ -394,10 +394,9 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
     <section id="about" className={`home-about ${mobile ? 'is-mobile' : ''}`} aria-label="About Us — IHG Weddings">
      <div className="ha-wrap">
       <div className="ha-copy">
-        <div data-wm="" className="ha-eyebrow"><span className="ha-rule" /><span>About Us — IHG Weddings</span></div>
+        <div data-wm="" className="ha-eyebrow"><span className="ha-rule" /><span>About Us</span></div>
         <h2 data-wm="" style={{ ['--d' as any]: '120ms' }} className="ha-title">
-          Placeholder Text <br />
-          <span className="ha-title-it">(About Us)</span>
+          About IHG Weddings
         </h2>
         <div className="ha-paras">
           {PARAGRAPHS.map((t, i) => (
@@ -431,10 +430,10 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
       {mobile && <div className="ha-visual" aria-hidden="true">
         {/* Dummy photo (Unsplash, petal ritual) until client imagery — frame size unchanged */}
         <div data-wm="curtain" className="ha-frame"><div className="ha-ph ha-ph-photo"><img src={IMAGES[0].src} alt={IMAGES[0].alt} data-real-photo="" className="ha-img" /></div></div>
-        <span data-wm="" style={{ ['--d' as any]: '500ms' }} className="ha-caption"><span className="ha-dot" />{IMAGES[active].caption}</span>
+        <span data-wm="" style={{ ['--d' as any]: '500ms' }} className="ha-caption"><span className="ha-dot" />@tiara.celebratinglife</span>
       </div>}
      </div>
-      {!mobile && <div className="ha-col-bg" aria-hidden="true"><img src={IMAGES[0].src} alt="" data-real-photo="" className="ha-img" /><span className="ha-col-cap">{IMAGES[0].caption}</span></div>}
+      {!mobile && <div className="ha-col-bg" aria-hidden="true"><img src={IMAGES[0].src} alt="" data-real-photo="" className="ha-img" /><span className="ha-col-cap">@tiara.celebratinglife</span></div>}
     </section>
   );
 };

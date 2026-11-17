@@ -57,9 +57,9 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
               Portfolio
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-black font-normal mb-1">
-              {web ? <SplitText text="Placeholder Text (List of Hotels)" /> : 'Placeholder Text (List of Hotels)'}</h2>
+              {web ? <SplitText text="IHG Properties" /> : 'IHG Properties'}</h2>
             <p data-wm={web ? '' : undefined} style={{ ['--d' as any]: '300ms' }} className="text-xs text-neutral-500 font-sans font-light">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
           </div>
 
@@ -123,11 +123,8 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                 <span className="home-hotel-loc block text-[10px] uppercase tracking-[0.28em] text-white/70 mb-1.5 truncate">
                   <span className="tabular-nums">{String(hi + 1).padStart(2, '0')}</span> · Lorem Ipsum
                 </span>
-                <span className="home-hotel-name block font-serif font-normal leading-[1.05] text-[clamp(1.25rem,1.9vw,1.75rem)]">{hotel.name}</span>
+                <span className="home-hotel-name block font-serif font-normal leading-[1.05] text-[clamp(1.25rem,1.9vw,1.75rem)]">{hotel.name.replace(/ Today$/, '')}</span>
                 <span className="home-hotel-meta block mt-1.5 text-[13px] font-light leading-snug text-white/85">{hotel.capacityMin}–{hotel.capacityMax} Guests · {hotel.roomsCount} Rooms</span>
-                <span className="home-hotel-cta mt-3 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] font-medium border-b border-white/70 pb-0.5">
-                  Full Page <ArrowRight className="w-3 h-3" />
-                </span>
               </span>
             </button>
             </div>

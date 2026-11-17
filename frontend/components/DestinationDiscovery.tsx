@@ -64,10 +64,10 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
               Curated Wedding Types
             </span>
             <h2 className="font-serif text-2xl sm:text-3xl text-black font-normal mb-1.5">
-              {web ? <SplitText text="Placeholder Text (Discover by Destination)" /> : 'Placeholder Text (Discover by Destination)'}
+              {web ? <SplitText text="Discover by Destination" /> : 'Discover by Destination'}
             </h2>
             <p data-wm={web ? '' : undefined} style={{ ['--d' as any]: '300ms' }} className="font-sans text-neutral-500 text-xs font-light leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et veniam, quis nostrud exercitation ullamco.
             </p>
           </div>
 
@@ -144,11 +144,10 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
 
             <div className="on-photo absolute inset-x-0 bottom-0 text-white">
              <div className="home-dest-inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14">
-              <span className="home-dest-eyebrow block text-[11px] uppercase tracking-[0.28em] text-white/75 mb-3 whitespace-nowrap">Lorem ipsum dolor sit amet</span>
-              <h3 className="home-dest-name font-serif font-normal leading-[0.95] tracking-[-0.015em] text-[clamp(2.2rem,3.6vw,3.6rem)] whitespace-nowrap text-white">
+                            <h3 className="home-dest-name font-serif font-normal leading-[0.95] tracking-[-0.015em] text-[clamp(2.2rem,3.6vw,3.6rem)] whitespace-nowrap text-white">
                 <span className="text-white/55 mr-3 text-[0.55em] align-middle">{String(currentIndex + 1).padStart(2, '0')}</span>{destName}
               </h3>
-              <p className="home-dest-copy mt-4 max-w-md text-sm font-light leading-relaxed text-white/85">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+              <p className="home-dest-copy mt-4 max-w-md text-sm font-light leading-relaxed text-white/85">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor, incididunt ut labore.</p>
               <button type="button" onClick={(e) => { e.stopPropagation(); handleOpenDetail(); }}
                       className="home-dest-cta group/cta mt-5 inline-flex items-center gap-3 bg-white text-black text-[11px] uppercase tracking-wider font-medium pl-6 pr-5 py-3 rounded-full cursor-pointer">
                 <span>Discover {destName} Properties</span>
