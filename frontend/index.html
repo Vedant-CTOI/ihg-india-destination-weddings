@@ -2192,6 +2192,52 @@
   body #root .lp-page .lp-tier-title { color: var(--maroon) !important; }
   body #root .lp-page .lp-tier-copy { color: rgba(43,26,30,.72) !important; }
   @media (prefers-reduced-motion: reduce) { body #root .lp-page .lp-tier-media > .lp-tier-media-inner { clip-path: none !important; transition: none !important; } body #root .lp-page .lp-tier-img { transition: none !important; } }
+
+  /* ═══ FIGMA ROUND 1 — WEB homepage background #F9F6EE (all sections below the hero + footer on the homepage).
+       Text that was white on the old colour bands -> Figma taupe so it stays readable. Ivory pill buttons -> maroon (they vanish on cream).
+       Layout, sizes, fonts, hero, mobile and inner pages unchanged. Go back = tag checkpoint-before-figma-home ═══ */
+  html:not(.layout-mobile) { --fg-bg:#F9F6EE; --fg-head:#3A3026; --fg-body:#8C8984; --fg-eyebrow:#C29162; --fg-rule:rgba(58,48,38,.14); }
+  html:not(.layout-mobile) body #root .landing-home,
+  html:not(.layout-mobile) body #root .landing-home #about,
+  html:not(.layout-mobile) body #root .landing-home #destinations,
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration,
+  html:not(.layout-mobile) body #root .landing-home .loyalty-band,
+  html:not(.layout-mobile) body #root .landing-home #real-weddings,
+  html:not(.layout-mobile) body #root .landing-home #contact { background-color: var(--fg-bg) !important; border-color: transparent !important; }
+  html:not(.layout-mobile) body #root .landing-home section#destinations.dest-band { background-color: var(--fg-bg) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about::before { display: none; }
+  /* About */
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-eyebrow, html:not(.layout-mobile) body #root .landing-home .home-about .ha-eyebrow * { color: var(--fg-eyebrow) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-title, html:not(.layout-mobile) body #root .landing-home .home-about .ha-title * { color: var(--fg-head) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-paras p { color: var(--fg-body) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-stats, html:not(.layout-mobile) body #root .landing-home .home-about .ha-stat + .ha-stat { border-color: var(--fg-rule) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-num, html:not(.layout-mobile) body #root .landing-home .home-about .ha-num > span:first-child { color: var(--fg-head) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-unit { color: #7E4A16 !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-label, html:not(.layout-mobile) body #root .landing-home .home-about .ha-caption { color: var(--fg-body) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-cta { background: var(--maroon) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-cta:hover { background: var(--maroon-d) !important; }
+  /* Section headers that were white (Destinations, Real Weddings) */
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head span.block,
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head span:not([data-wm="split"]):not(.split-w):not(.split-c) { color: var(--fg-eyebrow) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head h2, html:not(.layout-mobile) body #root .landing-home #destinations .sec-head h2 *,
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head h2, html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head h2 * { color: var(--fg-head) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head p,
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head p { color: var(--fg-body) !important; opacity: 1 !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head button, html:not(.layout-mobile) body #root .landing-home #destinations .sec-head button *,
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head button, html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head button * { background-color: var(--maroon) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head button * , html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head button * { background-color: transparent !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head button:hover, html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head button:hover { background-color: var(--maroon-d) !important; }
+  /* Loyalty band (was white type on Haldi) */
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-eyebrow, html:not(.layout-mobile) body #root .landing-home .loyalty-band span.block { color: var(--fg-eyebrow) !important; }
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-title { color: var(--fg-head) !important; }
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-copy, html:not(.layout-mobile) body #root .landing-home .loyalty-band p { color: var(--fg-body) !important; opacity: 1 !important; }
+  /* Footer — homepage only (inner pages keep the green footer) */
+  html:not(.layout-mobile) body:has(.landing-home) #root footer { background-color: var(--fg-bg) !important; border-color: var(--fg-rule) !important; }
+  html:not(.layout-mobile) body:has(.landing-home) #root footer .border-b { border-color: var(--fg-rule) !important; }
+  html:not(.layout-mobile) body:has(.landing-home) #root footer *:not(img) { color: var(--fg-body) !important; }
+  html:not(.layout-mobile) body:has(.landing-home) #root footer .font-serif { color: var(--fg-head) !important; }
+  html:not(.layout-mobile) body:has(.landing-home) #root footer span.uppercase.block { color: var(--fg-eyebrow) !important; }
+  html:not(.layout-mobile) body:has(.landing-home) #root footer button:hover { color: var(--fg-head) !important; }
 </style>
 
   </head>
