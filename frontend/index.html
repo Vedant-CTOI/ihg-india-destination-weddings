@@ -2256,6 +2256,12 @@
   html.layout-mobile body #root .ab-page section.ab-close { padding: 0 !important; }
   html.layout-mobile body #root .ab-page .ab-close .ab-copy, html.layout-mobile body #root .ab-page .ab-story .ab-body p { -webkit-line-clamp: unset !important; line-clamp: unset !important; overflow: visible !important; display: block !important; max-height: none !important; }
 
+  /* ═══ NO IMAGE LOADING ANIMATION — About, Loyalty Packages, Real Weddings pages: no page fade/rise, no curtain wipe, no card rise.
+       Images are simply there on arrival. Hover zoom kept. Go back = tag checkpoint-before-no-load-anim ═══ */
+  html body #root .ab-page, html body #root .lp-page, html body #root .rw-page { animation: none !important; opacity: 1 !important; transform: none !important; }
+  html body #root .ab-page .ab-media > .ab-media-inner, html body #root .lp-page .lp-tier-media > .lp-tier-media-inner { clip-path: none !important; transition: none !important; }
+  html body #root .lp-page .lp-tier[data-wm], html body #root .ab-page .ab-close[data-wm] { opacity: 1 !important; transform: none !important; transition: border-color .6s, box-shadow .6s !important; }
+
   /* ═══ FIGMA ROUND 1 — WEB homepage background #F9F6EE (all sections below the hero + footer on the homepage).
        Text that was white on the old colour bands -> Figma taupe so it stays readable. Ivory pill buttons -> maroon (they vanish on cream).
        Layout, sizes, fonts, hero, mobile and inner pages unchanged. Go back = tag checkpoint-before-figma-home ═══ */

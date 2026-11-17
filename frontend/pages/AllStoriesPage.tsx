@@ -60,7 +60,7 @@ export const AllStoriesPage: React.FC<AllStoriesPageProps> = ({
   }, [selectedFilter, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
+    <div className="rw-page min-h-screen bg-white text-black font-sans pb-24 animate-fade-in">
       
       {/* Top Breadcrumb Bar */}
       <div className="border-b border-neutral-200 bg-neutral-50 py-3">
