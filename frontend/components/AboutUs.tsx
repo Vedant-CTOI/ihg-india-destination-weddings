@@ -421,13 +421,20 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
           </div>
         )}
       </div>
-      {/* Visual: one simple 16:9 rectangle; placeholder until client images arrive */}
-      <div className="ha-visual" aria-hidden="true">
+      {/* WEB: reference-layout collage — large photo bleeding to the right edge + overlapping portrait inset. Go back = tag checkpoint-before-home-ref-layout */}
+      {!mobile && (
+        <div className="ha-collage" aria-hidden="true">
+          <div className="ha-col-inset"><img src={IMAGES[1].src} alt="" data-real-photo="" className="ha-img" /></div>
+        </div>
+      )}
+      {/* Visual: one simple 16:9 rectangle; placeholder until client images arrive (mobile) */}
+      {mobile && <div className="ha-visual" aria-hidden="true">
         {/* Dummy photo (Unsplash, petal ritual) until client imagery — frame size unchanged */}
         <div data-wm="curtain" className="ha-frame"><div className="ha-ph ha-ph-photo"><img src={IMAGES[0].src} alt={IMAGES[0].alt} data-real-photo="" className="ha-img" /></div></div>
         <span data-wm="" style={{ ['--d' as any]: '500ms' }} className="ha-caption"><span className="ha-dot" />{IMAGES[active].caption}</span>
-      </div>
+      </div>}
      </div>
+      {!mobile && <div className="ha-col-bg" aria-hidden="true"><img src={IMAGES[0].src} alt="" data-real-photo="" className="ha-img" /><span className="ha-col-cap">{IMAGES[0].caption}</span></div>}
     </section>
   );
 };

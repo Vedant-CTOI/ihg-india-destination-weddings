@@ -2499,6 +2499,59 @@
   html:not(.layout-mobile) body:has(.landing-home) #root footer .font-serif { color: var(--fg-head) !important; }
   html:not(.layout-mobile) body:has(.landing-home) #root footer span.uppercase.block { color: var(--fg-eyebrow) !important; }
   html:not(.layout-mobile) body:has(.landing-home) #root footer button:hover { color: var(--fg-head) !important; }
+
+  /* ═══ HOME REFERENCE LAYOUT (web homepage only — About, Destinations, Loyalty, Real Weddings).
+       Layout only: colours, fonts, copy, photos unchanged. Mobile untouched. Go back = tag checkpoint-before-home-ref-layout ═══ */
+  /* About — 40/60 split, stats pinned to the column bottom, collage: large photo bleeding right + overlapping 3:4 inset */
+  html:not(.layout-mobile) body #root .landing-home .home-about { position: relative; overflow: hidden; padding: 96px 32px 96px !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-wrap { grid-template-columns: 2fr 3fr !important; gap: 56px !important; align-items: stretch !important; position: relative; z-index: 1; min-height: 600px; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-copy { display: flex; flex-direction: column; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-title { white-space: normal !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-stats { margin-top: auto !important; padding-top: 0; border-top: 0 !important; border-bottom: 0 !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-paras { margin-bottom: 48px; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-collage { position: relative; display: flex; align-items: center; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-col-inset { position: relative; width: 46%; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 2px; box-shadow: 0 0 0 10px var(--fg-bg); }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-col-bg { position: absolute; top: 0; bottom: 0; right: 0; width: 42%; overflow: hidden; z-index: 0; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-col-inset .ha-img,
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-col-bg .ha-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; visibility: visible !important; filter: none !important; transition: transform 1.6s cubic-bezier(0.16,1,0.3,1); }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-col-inset:hover .ha-img,
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-col-bg:hover .ha-img { transform: scale(1.05); }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-col-cap { position: absolute; top: 28px; right: 32px; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.88) !important; text-shadow: 0 1px 8px rgba(0,0,0,.35); }
+
+  /* Destinations — centred header (View All under the copy), slider with a translucent left panel */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head > .sec-head { flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center; gap: 18px !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head > .sec-head > .max-w-xl { max-width: 40rem; margin: 0 auto; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head > .sec-head span.block { display: inline-flex !important; justify-content: center; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head { padding-bottom: 44px !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card > .home-dest-veil { background-image: linear-gradient(to right, rgba(0,0,0,.18), rgba(0,0,0,0) 45%) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .on-photo { top: 0 !important; bottom: 0 !important; left: 0 !important; right: auto !important; width: 32%; min-width: 360px; background: rgba(249,246,238,.9); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); display: flex; align-items: flex-end; z-index: 35; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .on-photo, html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .on-photo * { text-shadow: none !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-inner { max-width: none !important; margin: 0 !important; width: 100%; padding: 0 48px 72px 56px !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-eyebrow { color: var(--fg-eyebrow) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name,
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name * { color: var(--fg-head) !important; white-space: normal !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name > span { display: block; margin: 0 0 10px !important; font-size: 1.15em !important; color: var(--maroon) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-copy { color: var(--fg-body) !important; font-weight: 400 !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-cta { background: transparent !important; color: var(--maroon) !important; padding: 0 0 4px !important; height: auto !important; min-height: 0 !important; border-radius: 0 !important; border-bottom: 1px solid var(--maroon) !important; margin-top: 26px !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-cta * { color: var(--maroon) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label="Next wedding genre"] { top: auto !important; bottom: 32px !important; right: 40px !important; transform: none !important; width: 48px !important; height: 48px !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label="Previous wedding genre"] { left: calc(max(32%, 360px) + 20px) !important; }
+
+  /* Loyalty Packages — centred, stacked, soft ivory→sand tonal band */
+  html:not(.layout-mobile) body #root .landing-home .loyalty-band.lp.lp-text { background-color: var(--fg-bg) !important; background-image: linear-gradient(180deg, #F9F6EE 0%, #EFE5D3 100%) !important; padding: 80px 0 !important; }
+  html:not(.layout-mobile) body #root .landing-home .lp.lp-text .lp-wrap { flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center; gap: 30px !important; }
+  html:not(.layout-mobile) body #root .landing-home .lp.lp-text .lp-eyebrow { justify-content: center; }
+  html:not(.layout-mobile) body #root .landing-home .lp.lp-text .lp-copy { margin-left: auto; margin-right: auto; }
+
+  /* Real Weddings — centred header, larger centre card over a full-width tonal stripe */
+  html:not(.layout-mobile) body #root .landing-home #real-weddings { overflow-x: clip; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head { flex-direction: column !important; align-items: center !important; text-align: center; margin-bottom: 56px !important; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head > .max-w-2xl { margin: 0 auto; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head span:not([data-wm="split"]):not(.split-w):not(.split-c) { justify-content: center; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head > div.flex { display: none !important; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .relative:has(> .grid)::before { content: ''; position: absolute; left: 50%; width: 100vw; transform: translateX(-50%); top: 22%; bottom: 22%; background: #EFE5D3; z-index: 0; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .relative:has(> .grid) > .grid { grid-template-columns: 1fr 1.28fr 1fr !important; align-items: center; gap: 28px !important; position: relative; z-index: 1; max-width: 68rem; margin: 0 auto; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .relative:has(> .grid) > .grid > article:nth-child(2) { aspect-ratio: 3 / 4.2 !important; }
 </style>
 
   </head>
