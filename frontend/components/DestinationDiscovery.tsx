@@ -26,12 +26,12 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
   // Same names + photos as the Discover by Destination page (Region 1/2/3 = Goa/Thailand/Jaipur, then Destination 4, 5…)
   const destName = HOME_DEST_NAMES[currentIndex] || `Destination ${currentIndex + 1}`;
 
-  // Fast auto cycling progression (1100ms); smoothly pauses on hover
+  // Auto cycling progression (4500ms); smoothly pauses on hover
   useEffect(() => {
     if (!isHovered) {
       timerRef.current = setInterval(() => {
         setCurrentIndex((prev) => (prev + 1) % totalGenres);
-      }, 1100);
+      }, 4500);
     }
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
