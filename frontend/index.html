@@ -2534,8 +2534,14 @@
   html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-copy { color: var(--fg-body) !important; font-weight: 400 !important; }
   html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-cta { background: transparent !important; color: var(--maroon) !important; padding: 0 0 4px !important; height: auto !important; min-height: 0 !important; border-radius: 0 !important; border-bottom: 1px solid var(--maroon) !important; margin-top: 26px !important; }
   html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-cta * { color: var(--maroon) !important; }
-  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label="Next wedding genre"] { top: auto !important; bottom: 32px !important; right: 40px !important; transform: none !important; width: 48px !important; height: 48px !important; }
-  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label="Previous wedding genre"] { display: none !important; }
+  /* Destinations arrows: ‹ in the 80px photo strip left of the panel, › on the right edge, both vertically centred; dots kept at the bottom.
+     Go back = tag checkpoint-before-dest-arrows */
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label="Next wedding genre"] { display: flex !important; top: 50% !important; bottom: auto !important; right: 24px !important; left: auto !important; transform: translateY(-50%) !important; width: 48px !important; height: 48px !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label="Previous wedding genre"] { display: flex !important; top: 50% !important; bottom: auto !important; left: 16px !important; right: auto !important; transform: translateY(-50%) !important; width: 48px !important; height: 48px !important; }
+  /* dots: visible on any photo (were 4px and lost on busy images) */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-dots { bottom: 28px !important; gap: 8px; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-dots button { height: 6px !important; width: 8px !important; box-shadow: 0 0 0 1px rgba(0,0,0,.18), 0 1px 6px rgba(0,0,0,.35); }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-dots button.w-6 { width: 28px !important; }
 
   /* Loyalty Packages — centred, stacked, soft ivory→sand tonal band */
   html:not(.layout-mobile) body #root .landing-home .loyalty-band.lp.lp-text { background-color: var(--fg-bg) !important; background-image: linear-gradient(180deg, #F9F6EE 0%, #EFE5D3 100%) !important; padding: 80px 0 !important; }

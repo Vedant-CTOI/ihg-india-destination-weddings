@@ -26,7 +26,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
   // Same names + photos as the Discover by Destination page (Region 1/2/3 = Goa/Thailand/Jaipur, then Destination 4, 5…)
   const destName = HOME_DEST_NAMES[currentIndex] || `Destination ${currentIndex + 1}`;
 
-  // Auto cycling progression (4500ms); smoothly pauses on hover
+  // Auto cycling progression (4500ms); pauses on hover; any slide change (arrow, dot, auto) restarts the 4.5s timer
   useEffect(() => {
     if (!isHovered) {
       timerRef.current = setInterval(() => {
@@ -36,7 +36,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isHovered, totalGenres]);
+  }, [isHovered, totalGenres, currentIndex]);
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % totalGenres);
