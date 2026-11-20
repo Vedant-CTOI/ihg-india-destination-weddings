@@ -169,10 +169,6 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
 
         <div className="on-photo absolute bottom-8 left-0 right-0">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-            <span className="bg-white text-black text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full font-bold inline-block mb-2.5">
-              {selectedCity === 'All Cities' ? 'National Portfolio' : destinationName(selectedCity)}
-            </span>
-
             <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white mb-2">
               {selectedCity === 'All Cities' ? 'Lorem ipsum dolor sit amet' : `${destinationName(selectedCity)} dummy text`}
             </h1>

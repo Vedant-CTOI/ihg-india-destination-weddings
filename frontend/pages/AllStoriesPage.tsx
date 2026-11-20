@@ -49,10 +49,6 @@ export const AllStoriesPage: React.FC<AllStoriesPageProps> = ({
 
         <div className="on-photo absolute bottom-8 left-0 right-0">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-            <span className="rw-badge bg-white text-black text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full font-bold inline-block mb-2.5">
-              Real Weddings
-            </span>
-
             <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white mb-2">
               Lorem ipsum dolor sit amet
             </h1>
