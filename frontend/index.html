@@ -2644,6 +2644,13 @@
   html:not(.layout-mobile) body:has(.landing-home) #root footer *:not(img), html:not(.layout-mobile) body:has(.landing-home) #root footer .font-serif { color: var(--rf-foot) !important; }
   html:not(.layout-mobile) body:has(.landing-home) #root footer span.uppercase.block { color: var(--rf-bronze) !important; }
   html:not(.layout-mobile) body:has(.landing-home) #root footer, html:not(.layout-mobile) body:has(.landing-home) #root footer .border-b, html:not(.layout-mobile) body:has(.landing-home) #root footer .border-t { border-color: var(--rf-rule) !important; }
+
+  /* ═══ INNER-PAGE HERO BANNERS 16:9 (web only) — About, Discover by Destination, Hotels, Real Weddings.
+       Was fixed 440px (3.27:1 at 1440). Mobile already 16:9, untouched. Go back = tag checkpoint-before-hero-169 ═══ */
+  html:not(.layout-mobile) body #root .ab-page > div.relative.w-full.overflow-hidden.bg-black:has(> img.ab-hero-img),
+  html:not(.layout-mobile) body #root .dest-page > div.relative.w-full.overflow-hidden.bg-black:has(> img.dest-hero-img),
+  html:not(.layout-mobile) body #root .hotels-page > div.relative.w-full.overflow-hidden.bg-black:has(> img.hotels-hero-img),
+  html:not(.layout-mobile) body #root .rw-page > div.rw-hero { height: auto !important; min-height: 0 !important; max-height: none !important; aspect-ratio: 16 / 9 !important; }
 </style>
 
   </head>
