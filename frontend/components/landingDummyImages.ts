@@ -3,34 +3,36 @@
  * boxes on the landing page. Data (constants.ts) is untouched; Mobile view and all
  * inner pages keep their existing images. Swap any URL here for real photography later.
  */
-const u = (id: string, w = 1600) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
+// All images are self-hosted web copies (public/vogue = client Vogue shoot, public/stock = former Unsplash dummies).
+// Originals: OneDrive "IHG DUMP/VOGUE IMAGES". Go back = tag checkpoint-before-image-optimise
 
 export const DUMMY_ABOUT = [
-  { src: u('1754782915842-aa4fca6c203a', 2000), caption: 'Ceremonial Sacredness' }, // petal ritual
-  { src: u('1744804298093-07e5cb188a5f', 2000), caption: 'Timeless Vows' },        // floral arch, couple at night
-  { src: u('1784460843252-0957395d2888', 2000), caption: 'Historic Citadels' }     // palace courtyard through a doorway
+  { src: '/vogue/about-bg.jpg', caption: 'Ceremonial Sacredness' },    // client DSC00255 — collage large photo
+  { src: '/vogue/about-inset.jpg', caption: 'Timeless Vows' },         // client DSC00286 — collage 3:4 inset
+  { src: '/destinations/jaipur.jpg', caption: 'Historic Citadels' }
 ];
+// Mobile About frame is 16:9 — landscape crop of the same client photo
+export const ABOUT_WIDE = '/vogue/about-wide.jpg';
 
-// Discover by Destination — one per carousel slide (Royal, Beachside, Mountain, Temple, Backwater)
+// Discover by Destination — fallback only (if a destination photo fails to load)
 export const DUMMY_DESTINATIONS = [
-  u('1545126178-862cdb469409', 2400),  // palace façade at night
-  u('1723275763631-2f53c56ee251', 2400), // coastline from above
-  u('1544735716-392fe2489ffa', 2400),  // Himalayan foothills
-  u('1582510003544-4d00b7f74220', 2400), // temple at dusk
-  u('1602216056096-3b40cc0c9944', 2400)  // backwater houseboat
+  '/destinations/goa.jpg', '/destinations/thailand.jpg', '/destinations/jaipur.jpg', '/destinations/d4.jpg', '/destinations/d5.jpg'
 ];
 
-// Hotels carousel — one per card, in carousel order
+// Hotels carousel — one per card, in carousel order (1-3 client Vogue photos, 4-8 self-hosted stock)
 export const DUMMY_HOTELS = [
-  u('1791233176122-eb6067a2cc51', 900),
-  u('1784460843252-0957395d2888', 900),
-  u('1560179406-1c6c60e0dc76', 900),
-  u('1593620529462-619501b0f7f1', 900),
-  u('1585229190075-5d94076e3c81', 900),
-  u('1582510003544-4d00b7f74220', 900),
-  u('1593693411515-c20261bcad6e', 900),
-  u('1545126178-862cdb469409', 900)
+  '/vogue/hotel-card-1.jpg',  // client DSC00134
+  '/vogue/hotel-card-2.jpg',  // client DSC00633
+  '/vogue/hotel-card-3.jpg',  // client DSC09699
+  '/stock/hotel-card-4.jpg',
+  '/stock/hotel-card-5.jpg',
+  '/stock/hotel-card-6.jpg',
+  '/stock/hotel-card-7.jpg',
+  '/stock/hotel-card-8.jpg'
 ];
+
+// Hotels page 16:9 banner — client DSC00633
+export const HOTELS_HERO = '/vogue/hotels-hero.jpg';
 
 // Real Wedding stories — one per visible card
 // Real Weddings — ceremony moments (Unsplash, free licence; dummy until client photography):

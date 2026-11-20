@@ -16,16 +16,13 @@ import { useMobileLayout } from './useMobileLayout';
 
 export const FEATURE_HOTEL_ID = 'six-senses-fort-barwara';
 
-const uimg = (id: string, w = 1600) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
 export const FEATURE_HERO = '/hero/hotel1-hero.jpg'; // client photo: lawn set for dinner at dusk
 const FEATURE_ABOUT = '/hero/hotel1-about.jpg'; // client photo: hotel facade + lawn setup
+// Fallback pool (only used for venues without their own photos) — self-hosted, no external downloads
 const POOL = [
-  '1744805624890-9931ebb50428', '1754782915842-aa4fca6c203a', '1744804298093-07e5cb188a5f',
-  '1791233176122-eb6067a2cc51', '1582510003544-4d00b7f74220', '1788026187470-1c78e51047d5',
-  '1787831536851-7b8e9ef4a18c', '1760080839097-eff1408e48d8', '1787831082627-e7f0dae60c64',
-  '1787831536189-aa3bea3049eb', '1787831536285-534e63115355', '1779253806487-401be91cc024',
-  '1545126178-862cdb469409', '1784460843252-0957395d2888'
-].map((id) => uimg(id, 1600));
+  '/venues/hotel1-petal-1.jpg', '/venues/hotel1-tulip-1.jpg', '/venues/hotel1-orchid-1.jpg', '/venues/hotel1-lotus-1.jpg',
+  '/venues/hotel1-petal-3.jpg', '/venues/hotel1-tulip-3.jpg', '/venues/hotel1-orchid-3.jpg', '/venues/hotel1-lotus-3.jpg'
+];
 // Client venue photos (folder order; pre-cropped to true 16:9, 1920×1080 max). Dummy pool only as a fallback.
 const set = (slug: string, n: number) => Array.from({ length: n }, (_, k) => ({ url: `/venues/hotel1-${slug}-${k + 1}.jpg`, pos: '50% 50%' }));
 const VENUE_PHOTOS: Record<number, { url: string; pos: string }[]> = {

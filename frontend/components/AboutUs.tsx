@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AboutUsClassic, AboutUsProps } from './AboutUsClassic';
 import { useMobileLayout } from './useMobileLayout';
-import { DUMMY_ABOUT } from './landingDummyImages';
+import { DUMMY_ABOUT, ABOUT_WIDE } from './landingDummyImages';
 import { PALETTE } from './webMotion';
 
 /**
@@ -429,7 +429,7 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
       {/* Visual: one simple 16:9 rectangle; placeholder until client images arrive (mobile) */}
       {mobile && <div className="ha-visual" aria-hidden="true">
         {/* Dummy photo (Unsplash, petal ritual) until client imagery — frame size unchanged */}
-        <div data-wm="curtain" className="ha-frame"><div className="ha-ph ha-ph-photo"><img src={IMAGES[0].src} alt={IMAGES[0].alt} data-real-photo="" className="ha-img" /></div></div>
+        <div data-wm="curtain" className="ha-frame"><div className="ha-ph ha-ph-photo"><img src={ABOUT_WIDE} alt={IMAGES[0].alt} data-real-photo="" className="ha-img" /></div></div>
         <span data-wm="" style={{ ['--d' as any]: '500ms' }} className="ha-caption"><span className="ha-dot" />@tiara.celebratinglife</span>
       </div>}
      </div>

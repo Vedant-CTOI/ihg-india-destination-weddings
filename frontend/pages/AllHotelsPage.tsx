@@ -4,7 +4,7 @@ import { HOTELS_DATA } from '../constants';
 import { HotelProperty } from '../types';
 import { ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react';
 import { COUNTRY_DEST_MAP } from '../components/DestinationDropdown';
-import { DUMMY_HOTELS, pick } from '../components/landingDummyImages';
+import { DUMMY_HOTELS, HOTELS_HERO, pick } from '../components/landingDummyImages';
 
 interface AllHotelsPageProps {
   initialCity?: string;
@@ -159,7 +159,7 @@ export const AllHotelsPage: React.FC<AllHotelsPageProps> = ({
       {/* Hero Banner — dummy venue photo (Unsplash, free licence) until client imagery; size unchanged. Go back = tag checkpoint-before-all-hotels */}
       <div className="relative h-[380px] sm:h-[440px] w-full overflow-hidden bg-black">
         <img
-          src="https://images.unsplash.com/photo-1784460843252-0957395d2888?auto=format&fit=crop&w=2400&q=80"
+          src={HOTELS_HERO}
           alt="Hotels hero"
           data-real-photo=""
           className="hotels-hero-img w-full h-full object-cover"
