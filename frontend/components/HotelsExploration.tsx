@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { HOTELS_DATA } from '../constants';
 import { HotelProperty } from '../types';
 import { ChevronRight, ChevronLeft, ArrowRight } from 'lucide-react';
-import { useWeb, SplitText, PALETTE } from './webMotion';
+import { useWeb, SplitText, PALETTE, useRevealOnce } from './webMotion';
 import { DUMMY_HOTELS, pick } from './landingDummyImages';
 import { RailDots } from './RailDots';
 
@@ -19,6 +19,8 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
   const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
   const [canScrollRight, setCanScrollRight] = useState<boolean>(true);
   const web = useWeb(); // WEB VERSION ONLY styling/motion below
+  // Staggered card reveal (web, once per visit). Go back = tag checkpoint-before-props-loyalty-rw
+  const [sxRef, sxIn] = useRevealOnce<HTMLElement>();
 
   const updateArrows = () => {
     const el = scrollRef.current;
@@ -47,24 +49,24 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
   };
 
   return (
-    <section id="hotels-exploration" className={`py-20 bg-white border-b border-neutral-200 ${web ? 'cine' : ''}`} data-tone={web ? 'dark' : undefined} style={web ? { backgroundColor: PALETTE.red, borderColor: 'transparent' } : undefined}>
+    <section ref={sxRef} data-sx-in={web && sxIn ? '' : undefined} id="hotels-exploration" className={`py-20 bg-white border-b border-neutral-200 ${web ? 'cine sx-props' : ''}`} data-tone={web ? 'dark' : undefined} style={web ? { backgroundColor: PALETTE.red, borderColor: 'transparent' } : undefined}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header with 'View All' CTA */}
         <div className="sec-head flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
           <div>
-            <span data-wm={web ? '' : undefined} className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-sans font-medium block mb-2">
+            <span data-wm={undefined} className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-sans font-medium block mb-2">
               Portfolio
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-black font-normal mb-1">
               {web ? <SplitText text="IHG Properties" /> : 'IHG Properties'}</h2>
-            <p data-wm={web ? '' : undefined} style={{ ['--d' as any]: '300ms' }} className="text-xs text-neutral-500 font-sans font-light">
+            <p data-wm={undefined} style={{ ['--d' as any]: '300ms' }} className="text-xs text-neutral-500 font-sans font-light">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
           </div>
 
           {/* View All CTA top right */}
-          <div data-wm={web ? '' : undefined} style={{ ['--d' as any]: '450ms' }} className="flex items-center space-x-3">
+          <div data-wm={undefined} style={{ ['--d' as any]: '450ms' }} className="flex items-center space-x-3">
             <button
               onClick={onViewAll}
               className="inline-flex items-center space-x-2 text-xs font-sans uppercase tracking-widest bg-black text-white px-6 py-2.5 rounded-full hover:bg-neutral-800 transition-colors shadow-2xs font-medium cursor-pointer"
@@ -109,8 +111,9 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
             <div
               key={hotel.id}
               data-carousel-card
-              data-wm={web && hi < 4 ? '' : undefined}
-              style={{ ['--d' as any]: `${hi * 140}ms` }}
+              data-wm={web ? undefined : undefined}
+              data-sx={web && hi < 4 ? (hi % 2 ? 'down' : 'up') : undefined}
+              style={{ ['--i' as any]: hi }}
               className="home-hotel-slot snap-start shrink-0 w-[85%] sm:w-[46%] lg:w-[calc((100%-3rem)/4)]"
             >
             {/* Same tile as the Hotels page (3:4 photo, text on photo, dark fade, Full Page text link). Go back = tag checkpoint-before-home-hotel-tiles */}
@@ -125,6 +128,11 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
                 </span>
                 <span className="home-hotel-name block font-serif font-normal leading-[1.05] text-[clamp(1.25rem,1.9vw,1.75rem)]">{hotel.name.replace(/ Today$/, '')}</span>
                 <span className="home-hotel-meta block mt-1.5 text-[13px] font-light leading-snug text-white/85">{hotel.capacityMin}–{hotel.capacityMax} Guests · {hotel.roomsCount} Rooms</span>
+                {web && (
+                  <span className="home-hotel-cta mt-3 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] font-medium pb-0.5">
+                    Discover Property <ArrowRight className="w-3 h-3 shrink-0" />
+                  </span>
+                )}
               </span>
             </button>
             </div>

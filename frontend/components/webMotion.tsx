@@ -72,6 +72,22 @@ export const WebMotionDirector: React.FC = () => {
   return null;
 };
 
+/** One-shot section reveal (web): adds data-sx-in when the element is `threshold` in view; plays once per visit.
+ *  Reduced-motion users get it immediately. Used by Properties / Loyalty / Real Weddings. */
+export const useRevealOnce = <T extends HTMLElement>(threshold = 0) => {
+  const ref = React.useRef<T | null>(null);
+  const [inView, setInView] = React.useState(false);
+  React.useEffect(() => {
+    const el = ref.current; if (!el) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setInView(true); return; }
+    // fires when the section's top passes ~72% of the viewport height (not when a sliver of its header peeks in)
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); setInView(true); } }, { threshold, rootMargin: '0px 0px -28% 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [threshold]);
+  return [ref, inView] as const;
+};
+
 /** Count-up figure (easeOutExpo, tabular numerals). Counts when it enters view; resets when scrolled back above. */
 export const CountUp: React.FC<{ to: number; duration?: number; delay?: number }> = ({ to, duration = 1800, delay = 0 }) => {
   const ref = useRef<HTMLSpanElement | null>(null);

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { REAL_WEDDINGS_DATA } from '../constants';
 import { RealWeddingCase } from '../types';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useWeb, SplitText, PALETTE } from './webMotion';
+import { useWeb, SplitText, PALETTE, useRevealOnce } from './webMotion';
 import { DUMMY_STORIES, pick } from './landingDummyImages';
 import { RailDots } from './RailDots';
 
@@ -24,6 +24,8 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
   const [selectedFilter, setSelectedFilter] = useState<string>('All');
   const [showAllStories, setShowAllStories] = useState<boolean>(false);
   const web = useWeb(); // WEB VERSION ONLY styling/motion below
+  // Layered editorial reveal (web, once per visit). Go back = tag checkpoint-before-props-loyalty-rw
+  const [sxRef, sxIn] = useRevealOnce<HTMLElement>();
 
   const filters = ['All', 'Royal Heritage', 'Beachside', 'Temple & Waterway', 'Foothills'];
 
@@ -44,19 +46,19 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
   const railNext = () => railRef.current?.scrollBy({ left: railRef.current.clientWidth - 20, behavior: 'smooth' });
 
   return (
-    <section id="real-weddings" className={`py-20 bg-neutral-50 border-b border-neutral-200 ${web ? 'cine' : ''}`} data-tone={web ? 'dark' : undefined} style={web ? { backgroundColor: PALETTE.maroon, borderColor: 'transparent' } : undefined}>
+    <section ref={sxRef} data-sx-in={web && sxIn ? '' : undefined} id="real-weddings" className={`py-20 bg-neutral-50 border-b border-neutral-200 ${web ? 'cine sx-rw' : ''}`} data-tone={web ? 'dark' : undefined} style={web ? { backgroundColor: PALETTE.maroon, borderColor: 'transparent' } : undefined}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Minimal Header with Section CTAs */}
         <div className="sec-head flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div className="max-w-2xl">
-            <span data-wm={web ? '' : undefined} className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-sans font-medium block mb-2">
+            <span data-wm={undefined} className="text-[11px] uppercase tracking-[0.25em] text-neutral-500 font-sans font-medium block mb-2">
               Case Studies
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl text-black font-normal mb-2">
               {web ? <SplitText text="Real Wedding Stories" /> : 'Real Wedding Stories'}
             </h2>
-            <p data-wm={web ? '' : undefined} style={{ ['--d' as any]: '300ms' }} className="font-sans text-neutral-600 text-sm font-light">
+            <p data-wm={undefined} style={{ ['--d' as any]: '300ms' }} className="font-sans text-neutral-600 text-sm font-light">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna
             </p>
           </div>
@@ -97,8 +99,8 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
           {visibleWeddings.map((wedding, wi) => (
             <article
               key={wedding.id}
-              data-wm={web ? '' : undefined}
-              style={{ ['--d' as any]: `${wi * 160}ms` }}
+              data-wm={web ? undefined : undefined}
+              data-sx={web ? (wi === 1 ? 'centre' : wi === 0 ? 'left' : 'right') : undefined}
               onClick={() => onSelectStory(wedding)}
               className="story-tile group/st relative block w-full aspect-[3/4] overflow-hidden rounded-sm cursor-pointer"
             >
@@ -125,7 +127,7 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
         </div>
 
         {/* View More Stories Toggle / CTA */}
-        <div data-wm={web ? '' : undefined} className="text-center mt-10">
+        <div data-wm={undefined} className="text-center mt-10">
           {onViewAllStories ? (
             <button
               type="button"
