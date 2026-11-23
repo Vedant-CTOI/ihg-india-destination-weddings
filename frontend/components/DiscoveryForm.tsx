@@ -33,8 +33,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
     ? HOTELS_DATA.find((h) => h.id === preselectedHotelId)
     : undefined;
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [name, setName] = useState(''); // single Name field (First/Last/Full Name removed)
   const [email, setEmail] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
@@ -72,7 +71,7 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
     e.preventDefault();
     setSubmitting(true);
     const payload: InquiryFormData = {
-      primaryContactName: `${firstName} ${lastName}`.trim(),
+      primaryContactName: name.trim(),
       email,
       phone: '',
       decisionRole: (formDataPersona === 'Family' ? 'Parent' : formDataPersona === 'Wedding Planner' ? 'Wedding Planner' : 'Bride') as UserPersona,
@@ -157,28 +156,12 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
               </div>
             </div>
 
-            {/* 2. Core fields — First / Last name, Email */}
+            {/* 2. Core fields — Name (own row), Email (own row) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="mobile-fullname-wrap">
-                <label className={labelCls}>Full Name *</label>
-                <input type="text" required placeholder="Full name"
-                  value={[firstName, lastName].filter(Boolean).join(' ')}
-                  onChange={(e) => {
-                    const parts = e.target.value.trim().split(/\s+/);
-                    setFirstName(parts[0] || '');
-                    setLastName(parts.slice(1).join(' ') || '');
-                  }}
-                  className={inputCls} />
-              </div>
-              <div>
-                <label className={labelCls}>First Name *</label>
-                <input type="text" required placeholder="First name" value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)} className={inputCls} />
-              </div>
-              <div>
-                <label className={labelCls}>Last Name *</label>
-                <input type="text" required placeholder="Last name" value={lastName}
-                  onChange={(e) => setLastName(e.target.value)} className={inputCls} />
+              <div className="form-field-name sm:col-span-2">
+                <label className={labelCls}>Name *</label>
+                <input type="text" required placeholder="Name" value={name}
+                  onChange={(e) => setName(e.target.value)} className={inputCls} />
               </div>
               <div className="form-field-email sm:col-span-2">
                 <label className={labelCls}>Email *</label>

@@ -296,8 +296,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
   const OCCASIONS = ['Occasion 1', 'Occasion 2', 'Occasion 3', 'Occasion 4', 'Occasion 5'];
   const [formDataPersona, setFormDataPersona] = useState<string>('Bride or Groom');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [name, setName] = useState(''); // single Name field (First/Last/Full Name removed)
   const [email, setEmail] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
@@ -402,7 +401,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
     e.preventDefault();
     setSubmitting(true);
     const payload: InquiryFormData = {
-      primaryContactName: `${firstName} ${lastName}`.trim(),
+      primaryContactName: name.trim(),
       email,
       phone: '',
       decisionRole: (formDataPersona === 'Family' ? 'Parent' : formDataPersona === 'Wedding Planner' ? 'Wedding Planner' : 'Bride') as UserPersona,
@@ -617,16 +616,10 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
                   {/* 2. Core fields */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">First Name *</label>
-                      <input type="text" required placeholder="First name" value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Last Name *</label>
-                      <input type="text" required placeholder="Last name" value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
+                    <div className="form-field-name sm:col-span-2">
+                      <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">Name *</label>
+                      <input type="text" required placeholder="Name" value={name}
+                        onChange={(e) => setName(e.target.value)}
                         className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black" />
                     </div>
                     <div className="form-field-email sm:col-span-2">
