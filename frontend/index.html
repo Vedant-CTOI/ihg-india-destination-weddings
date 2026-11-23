@@ -3172,6 +3172,47 @@
     color: var(--p-ink) !important; font-weight: 400 !important; opacity: 1 !important; }
   html:not(.layout-mobile) body #root main .sd-p, html:not(.layout-mobile) body #root main .ab-body p, html:not(.layout-mobile) body #root main .lp-lede, html:not(.layout-mobile) body #root main .lp-tier-copy,
   html:not(.layout-mobile) body #root main .rw-lede, html:not(.layout-mobile) body #root main .rw-case-conf, html:not(.layout-mobile) body #root main .ab-copy { color: var(--p-ink) !important; font-weight: 400 !important; opacity: 1 !important; }
+
+  /* ═══ ABOUT HERO CAPSULE OFF + PALETTE LEFTOVERS (web only). Go back = tag checkpoint-before-palette-leftovers ═══ */
+  html:not(.layout-mobile) body #root .ab-page .ab-badge { display: none !important; }
+  /* 1/6/8. photo frames + placeholders — sand instead of charcoal / grey / green (visible only while images load or at edges) */
+  html:not(.layout-mobile) body #root .landing-home #destinations .group:not(#_x), html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card:not(#_x),
+  html:not(.layout-mobile) body #root .landing-home #destinations .group .relative.overflow-hidden:not(#_x), html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-media:not(#_x),
+  html:not(.layout-mobile) body #root .hotels-page div:has(> img.hotels-hero-img[data-real-photo]):not(#_x), html:not(.layout-mobile) body #root .hotels-page .dest-grid .dest-tile:has(img[data-real-photo]):not(#_x),
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .home-hotel-tile:not(#_x), html:not(.layout-mobile) body #root .landing-home #real-weddings article.story-tile:not(#_x),
+  html:not(.layout-mobile) body #root .ab-page div:has(> img.ab-hero-img):not(#_x), html:not(.layout-mobile) body #root main [class*="bg-neutral-900"]:has(img):not(#_x),
+  html:not(.layout-mobile) body #root main div.relative[class*="h-[380px]"]:not(#_x), html:not(.layout-mobile) body #root main .dest-tile:not(#_x), html:not(.layout-mobile) body #root main .rw-case-media:not(#_x) { background-color: var(--p-sand3) !important; }
+  html:not(.layout-mobile) body #root footer [class*="bg-neutral-"]:not(#_x), html:not(.layout-mobile) body #root footer [class*="bg-[#E5E5E5]"]:not(#_x),
+  html:not(.layout-mobile) body #root footer div:not(#_x):is([style*="229, 229, 229"], [style*="#E5E5E5"]) { background-color: var(--p-sand1) !important; }
+  /* 2. nav hover underline — maroon */
+  html:not(.layout-mobile) body #root header nav .nav-link::after { background-color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root header.header-over-hero nav .nav-link::after { background-color: #fff !important; }
+  /* 3. Web/Mobile switch border */
+  html:not(.layout-mobile) body #root header .inline-flex.items-center:has(> button + button):not(#_x) { border-color: rgba(91,87,80,.45) !important; }
+  /* 4. Crowne Plaza venue dividers — #3A3026 hairline tints */
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues:not(#_x), html:not(.layout-mobile) body #root .hotel-feature .hf-venues [id^="venue-anchor-"]:not(#_x),
+  html:not(.layout-mobile) body #root .hotel-feature .hf-jumpbar > div:not(#_x), html:not(.layout-mobile) body #root .hotel-feature [style*="58, 6, 24"]:not(#_x) { border-color: rgba(58,48,38,.16) !important; }
+  /* 5. Crowne Plaza side form — persona dot + close-button border */
+  html:not(.layout-mobile) body #root form .py-2.px-1::before, html:not(.layout-mobile) body #root form .py-2.px-1::after { background-color: var(--p-maroon) !important; border-color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root form .w-4.h-4:not(#_x), html:not(.layout-mobile) body #root form [class*="border-neutral-400"]:not(#_x) { border-color: var(--p-maroon) !important; }
+  /* 7. filter bars — sand */
+  html:not(.layout-mobile) body #root main .filter-bar:not(#_x), html:not(.layout-mobile) body #root main .dest-filter:not(#_x) { background-color: var(--p-sand1) !important; }
+  /* 9. destination dots — no black shadow (dots sit on sand) */
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label^="Go to slide"]:not(#_x) { box-shadow: none !important; }
+  /* second pass: brand strip backing, Go-to-top, Loyalty/Story photo placeholders, slider dots, side-form persona row, dropdown shadow */
+  html:not(.layout-mobile) body #root footer div:has(> img[src*="ihg-footer-brand"]):not(#_x) { background-color: var(--p-sand1) !important; }
+  html:not(.layout-mobile) body #root button[aria-label="Go to top"]:not(#_x) { background-color: var(--p-ivory) !important; border-color: rgba(137,56,74,.35) !important; color: var(--p-maroon) !important; box-shadow: none !important; }
+  html:not(.layout-mobile) body #root button[aria-label="Go to top"]:not(#_x) svg { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root button[aria-label="Go to top"]:not(#_x):hover { background-color: var(--p-maroon) !important; border-color: var(--p-maroon) !important; color: var(--p-ivory) !important; }
+  html:not(.layout-mobile) body #root button[aria-label="Go to top"]:not(#_x):hover svg { color: var(--p-ivory) !important; }
+  html:not(.layout-mobile) body #root .lp-page .lp-tier-media:not(#_x), html:not(.layout-mobile) body #root .sd-page .sd-media:not(#_x) { background-color: var(--p-sand3) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label^="Go to slide"]:not(#_x):not(#_y) { background-color: var(--p-ivory) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label^="Go to slide"].w-6:not(#_x):not(#_y),
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label^="Go to slide"][aria-current="true"]:not(#_x):not(#_y) { background-color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root form .persona-buttons-web:not(#_x) { border-color: rgba(58,48,38,.16) !important; }
+  html:not(.layout-mobile) body #root form .absolute.z-30:not(#_x) { box-shadow: 0 10px 28px -14px rgba(58,48,38,.35) !important; }
+  html:not(.layout-mobile) body #root .sd-page .sd-hero:not(#_x) { background-color: var(--p-sand3) !important; }
+  html:not(.layout-mobile) body #root main .filter-bar:not(#_x) { box-shadow: 0 10px 28px -20px rgba(58,48,38,.35) !important; }
 </style>
 
   </head>

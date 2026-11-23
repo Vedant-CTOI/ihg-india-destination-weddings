@@ -48,6 +48,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
 
         <div className="on-photo absolute bottom-8 left-0 right-0">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
+            {/* "About Us — IHG Weddings" capsule removed on web (mobile keeps it). Go back = tag checkpoint-before-palette-leftovers */}
             <span className="ab-badge bg-white text-black text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full font-bold inline-block mb-2.5">
               About Us — IHG Weddings
             </span>
