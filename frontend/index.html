@@ -3213,6 +3213,53 @@
   html:not(.layout-mobile) body #root form .absolute.z-30:not(#_x) { box-shadow: 0 10px 28px -14px rgba(58,48,38,.35) !important; }
   html:not(.layout-mobile) body #root .sd-page .sd-hero:not(#_x) { background-color: var(--p-sand3) !important; }
   html:not(.layout-mobile) body #root main .filter-bar:not(#_x) { box-shadow: 0 10px 28px -20px rgba(58,48,38,.35) !important; }
+
+  /* ═══ HERO — CINEMATIC ENTRANCE (web, every homepage load). t=0 when the first photo has decoded.
+         0–.25s black stage · .25–2.05s soft directional mask L→R · .25–6.25s settle 1.08→1 · .9–2.3s dark veil rises
+         1.5/1.7s headline lines rise out of masks · 2.3s description · 2.8–3.8s header + controls fade in.
+         Go back = tag checkpoint-before-hero-intro ═══ */
+  html:not(.layout-mobile) .cine { --hi-cine: cubic-bezier(.76,0,.24,1); --hi-out: cubic-bezier(.16,1,.3,1); }
+  /* the stage: deep warm black (palette ink, darkened) during the opening, so the photo emerges from darkness */
+  html:not(.layout-mobile) body #root .landing-home section.cine.hero-intro-run:not(#_x) { background-color: #140f0b !important; }
+  /* hold everything at its "before" frame until the photo is ready */
+  html:not(.layout-mobile) .cine.hero-intro-run:not(.hi-go) .hi-mask { -webkit-mask-image: linear-gradient(90deg,#000 0,#000 40%,transparent 60%); mask-image: linear-gradient(90deg,#000 0,#000 40%,transparent 60%);
+    -webkit-mask-size: 250% 100%; mask-size: 250% 100%; -webkit-mask-position: 100% 0; mask-position: 100% 0; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+  html:not(.layout-mobile) .cine.hero-intro-run:not(.hi-go) .hi-settle { transform: scale(1.08); }
+  html:not(.layout-mobile) .cine.hero-intro-run:not(.hi-go) :is(.hi-veil, .hi-top, .hi-controls, .hi-cue) { opacity: 0; }
+  html:not(.layout-mobile) .cine.hero-intro-run:not(.hi-go) :is(.hi-h1 .mask-line > span, .hi-sub) { animation-play-state: paused !important; }
+  /* 1. soft-edged directional mask, left → right (option C) */
+  @keyframes hi-mask { from { -webkit-mask-position: 100% 0; mask-position: 100% 0; } to { -webkit-mask-position: 0% 0; mask-position: 0% 0; } }
+  html:not(.layout-mobile) .cine.hi-go .hi-mask {
+    -webkit-mask-image: linear-gradient(90deg,#000 0,#000 40%,transparent 60%); mask-image: linear-gradient(90deg,#000 0,#000 40%,transparent 60%);
+    -webkit-mask-size: 250% 100%; mask-size: 250% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+    animation: hi-mask 1.8s var(--hi-cine) .25s both; }
+  /* 2. slow settle 1.08 → 1 */
+  @keyframes hi-settle { from { transform: scale(1.08); } to { transform: scale(1); } }
+  html:not(.layout-mobile) .cine.hi-go .hi-settle { animation: hi-settle 6s var(--hi-out) .25s both; }
+  /* 3. dark overlay rises from the bottom */
+  @keyframes hi-veil { from { opacity: 0; transform: translate3d(0, 38%, 0); } to { opacity: 1; transform: none; } }
+  html:not(.layout-mobile) .cine.hi-go .hi-veil { animation: hi-veil 1.4s var(--hi-out) .9s both; }
+  @keyframes hi-fade { from { opacity: 0; } to { opacity: 1; } }
+  html:not(.layout-mobile) .cine.hi-go .hi-top { animation: hi-fade 1.6s ease .25s both; }
+  /* 4. headline line by line, masked upward rise */
+  html:not(.layout-mobile) .cine.hero-intro-run .hi-h1 .mask-line > span { animation-duration: 1.3s !important; animation-timing-function: var(--hi-out) !important; }
+  html:not(.layout-mobile) .cine.hero-intro-run .hi-h1 .mask-line:nth-child(1) > span { animation-delay: 1.5s !important; }
+  html:not(.layout-mobile) .cine.hero-intro-run .hi-h1 .mask-line:nth-child(2) > span { animation-delay: 1.7s !important; }
+  /* 5. description, slight delay */
+  html:not(.layout-mobile) .cine.hero-intro-run .hi-sub { animation-duration: 1.1s !important; animation-delay: 2.3s !important; }
+  /* 6. navigation + CTA — opacity only, staggered */
+  html.hero-intro:not(.layout-mobile) body #root header :is(img.vows-logo, nav, .flex.items-center.space-x-4) { opacity: 0; }
+  html.hero-intro.hero-intro-go:not(.layout-mobile) body #root header img.vows-logo { animation: hi-fade 1s ease 2.8s both; }
+  html.hero-intro.hero-intro-go:not(.layout-mobile) body #root header nav { animation: hi-fade 1s ease 2.92s both; }
+  html.hero-intro.hero-intro-go:not(.layout-mobile) body #root header .flex.items-center.space-x-4 { animation: hi-fade 1s ease 3.04s both; }
+  html.hero-intro:not(.layout-mobile) body #root header.header-over-hero { border-bottom-color: transparent !important; }
+  html.hero-intro:not(.layout-mobile) body #root header .border-t:has(> nav) { border-top-color: transparent !important; }
+  html:not(.layout-mobile) body #root header .border-t:has(> nav) { transition: border-color 1s ease !important; }
+  html:not(.layout-mobile) .cine.hi-go .hi-controls { animation: hi-fade 1s ease 3.16s both; }
+  html:not(.layout-mobile) .cine.hi-go .hi-cue { animation: hi-fade 1s ease 3.4s both; }
+  @media (prefers-reduced-motion: reduce) {
+    html:not(.layout-mobile) .cine :is(.hi-mask, .hi-settle, .hi-veil, .hi-top, .hi-controls, .hi-cue) { animation: none !important; opacity: 1 !important; -webkit-mask-image: none !important; mask-image: none !important; transform: none !important; }
+  }
 </style>
 
   </head>

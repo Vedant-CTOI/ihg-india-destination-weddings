@@ -93,6 +93,30 @@ const HeroSectionCinematic: React.FC = () => {
   const imageLayerRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
 
+  // CINEMATIC ENTRANCE (web, every homepage load — option A). One directed opening shot; slide changes keep the
+  // existing wipe. The <html> class lets the fixed header fade in with the sequence. Go back = tag checkpoint-before-hero-intro
+  const INTRO_MS = 4400; // last fade (controls) ends at ~4.2s
+  const [intro, setIntro] = useState<boolean>(() => typeof window !== 'undefined' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const [introGo, setIntroGo] = useState<boolean>(false); // sequence waits for the first photo so the mask never opens on black
+  const playedIntro = useRef<boolean>(intro); // fixed for the life of the hero (keeps slide-1 timer delay stable)
+  React.useLayoutEffect(() => {
+    if (!intro) return;
+    const root = document.documentElement;
+    root.classList.add('hero-intro'); // before first paint, so the header never flashes
+    let done = false; let t = 0;
+    const start = () => {
+      if (done) return; done = true;
+      root.classList.add('hero-intro-go'); setIntroGo(true);
+      t = window.setTimeout(() => setIntro(false), INTRO_MS);
+    };
+    const img = new Image(); img.src = slides[0].image;
+    (img.decode ? img.decode() : Promise.resolve()).then(start, start);
+    const fallback = window.setTimeout(start, 1500);
+    return () => { window.clearTimeout(t); window.clearTimeout(fallback); root.classList.remove('hero-intro', 'hero-intro-go'); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => { if (!intro) document.documentElement.classList.remove('hero-intro', 'hero-intro-go'); }, [intro]);
+
   const currentSlide = slides[currentIndex];
   const nextSlide = slides[(currentIndex + 1) % totalSlides];
 
@@ -132,8 +156,9 @@ const HeroSectionCinematic: React.FC = () => {
       if (sec) {
         const h = sec.offsetHeight || 1;
         const y = Math.min(Math.max(window.scrollY, 0), h);
-        curX += (pointerX - curX) * 0.06;
-        curY += (pointerY - curY) * 0.06;
+        const live = !document.documentElement.classList.contains('hero-intro');
+        curX += ((live ? pointerX : 0) - curX) * 0.06;
+        curY += ((live ? pointerY : 0) - curY) * 0.06;
         if (imageLayerRef.current) {
           imageLayerRef.current.style.transform =
             `translate3d(${curX * -14}px, ${y * 0.32 + curY * -10}px, 0) scale(1.06)`;
@@ -167,7 +192,7 @@ const HeroSectionCinematic: React.FC = () => {
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
-      className="cine grain relative overflow-hidden h-[100svh] min-h-[640px] text-white select-none"
+      className={`cine grain relative overflow-hidden h-[100svh] min-h-[640px] text-white select-none ${intro ? 'hero-intro-run' : ''} ${introGo ? 'hi-go' : ''}`}
       style={{ backgroundColor: '#000' }}
       aria-label="IHG Weddings Splash Screen Carousel"
     >
@@ -182,14 +207,14 @@ const HeroSectionCinematic: React.FC = () => {
               key={isActive ? `${slide.id}-${cycle}` : `${slide.id}-prev`}
               className={`absolute inset-0 overflow-hidden ${slide.realPhoto ? 'hero-real' : ''} ${isActive ? 'z-10' : 'z-0'} ${
                 isActive && prevIndex !== null ? 'hero-wipe-in' : ''
-              }`}
+              } ${isActive && prevIndex === null && cycle === 0 ? 'hi-mask' : ''}`}
             >
               <img
                 src={slide.image}
                 alt={`${slide.tagline} - ${slide.locationLabel}`}
                 style={{ objectPosition: slide.focus || 'center' }}
                 className={`w-full h-full object-cover ${slide.trueColour ? '' : 'grayscale contrast-[1.1] brightness-[0.92]'} ${
-                  isActive ? 'hero-zoom' : ''
+                  isActive ? (prevIndex === null && cycle === 0 ? 'hi-settle' : 'hero-zoom') : ''
                 }`}
                 onError={(e) => {
                   (e.target as HTMLImageElement).src =
@@ -207,20 +232,20 @@ const HeroSectionCinematic: React.FC = () => {
           3. a top gradient keeps the white header legible */}
       {/* Bright photo, dark only where type sits: light 8% veil, bottom-left vignette under the headline, short top fade under the header */}
       <div className="absolute inset-0 z-20 pointer-events-none" style={{ background: 'rgba(0,0,0,0.08)' }} />
-      <div className="absolute inset-x-0 bottom-0 h-[62%] z-20 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0.32) 45%, transparent)' }} />
-      <div className="absolute inset-0 z-20 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 60% at 18% 82%, rgba(0,0,0,0.38), transparent 70%)' }} />
-      <div className="absolute inset-x-0 top-0 h-56 z-20 pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.58), rgba(0,0,0,0.3) 60%, transparent)' }} />
+      <div className="hi-veil absolute inset-x-0 bottom-0 h-[62%] z-20 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0.32) 45%, transparent)' }} />
+      <div className="hi-veil absolute inset-0 z-20 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 60% at 18% 82%, rgba(0,0,0,0.38), transparent 70%)' }} />
+      <div className="hi-top absolute inset-x-0 top-0 h-56 z-20 pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.58), rgba(0,0,0,0.3) 60%, transparent)' }} />
 
       {/* ── Foreground ── */}
       <div ref={contentRef} className="on-photo relative z-30 h-full max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-14 flex flex-col will-change-transform">
 
         {/* Headline block — bottom-anchored; subtext sits directly under the headline. (Repeated top eyebrow removed at client request.) */}
         <div className="mt-auto pb-32 sm:pb-36 lg:pb-40 max-w-3xl">
-          <h1 key={`h1-${cycle}`} className="font-display font-normal text-white leading-[1] tracking-[-0.015em] text-[clamp(2.2rem,4.2vw,4.6rem)]">
+          <h1 key={`h1-${cycle}`} className="hi-h1 font-display font-normal text-white leading-[1] tracking-[-0.015em] text-[clamp(2.2rem,4.2vw,4.6rem)]">
             <span className="mask-line"><span>{currentSlide.titlePrefix}</span></span>
             <span className="mask-line"><span className="italic text-white/85" style={{ animationDelay: '120ms' }}>{currentSlide.titleItalic}</span></span>
           </h1>
-          <div key={`sub-${cycle}`} className="mt-6 max-w-lg soft-rise" style={{ animationDelay: '320ms' }}>
+          <div key={`sub-${cycle}`} className="hi-sub mt-6 max-w-lg soft-rise" style={{ animationDelay: '320ms' }}>
             <p className="font-sans text-sm sm:text-[15px] text-white/90 font-normal leading-relaxed">
               {currentSlide.subtitle}
             </p>
@@ -229,7 +254,7 @@ const HeroSectionCinematic: React.FC = () => {
       </div>
 
       {/* ── Bottom control strip: timed chapters · arrows · next-slide preview ── */}
-      <div className="absolute bottom-0 inset-x-0 z-30">
+      <div className="hi-controls absolute bottom-0 inset-x-0 z-30">
         <div className="max-w-[1600px] mx-auto px-5 sm:px-8 lg:px-14 pb-6 sm:pb-8 flex items-end gap-6 lg:gap-10">
 
           {/* Chapters — progress bar timing drives the auto-advance */}
@@ -250,7 +275,7 @@ const HeroSectionCinematic: React.FC = () => {
                       <span
                         key={`bar-${cycle}`}
                         className="hero-progress block h-full bg-white"
-                        style={{ animationDuration: `${SLIDE_MS}ms`, animationPlayState: isPaused ? 'paused' : 'running' }}
+                        style={{ animationDuration: `${SLIDE_MS}ms`, animationDelay: playedIntro.current && cycle === 0 ? `${INTRO_MS}ms` : '0ms', animationPlayState: isPaused || (playedIntro.current && cycle === 0 && !introGo) ? 'paused' : 'running' }}
                         onAnimationEnd={handleNext}
                       />
                     ) : (
@@ -284,7 +309,7 @@ const HeroSectionCinematic: React.FC = () => {
       </div>
 
       {/* Scroll cue */}
-      <div className="hidden lg:flex absolute z-30 left-1/2 -translate-x-1/2 bottom-28 flex-col items-center gap-2 pointer-events-none">
+      <div className="hi-cue hidden lg:flex absolute z-30 left-1/2 -translate-x-1/2 bottom-28 flex-col items-center gap-2 pointer-events-none">
         <span className="block w-px h-10 bg-white/20 overflow-hidden"><span className="scroll-cue block w-full h-full bg-white" /></span>
       </div>
     </section>
