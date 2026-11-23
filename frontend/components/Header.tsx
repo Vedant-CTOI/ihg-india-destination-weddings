@@ -150,19 +150,19 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex lg:hidden flex-col justify-center min-h-[88px] py-3">
           <div className="flex items-center justify-between">
             
-            {/* Wordmark without Celebrations */}
+            {/* VOWS logo on every page (compact header too). Go back = tag checkpoint-before-vows-footer-motion */}
             <button
               onClick={() => onNavigateHome()}
-              className="text-left"
+              className="text-left cursor-pointer"
+              aria-label="VOWS by IHG — home"
             >
-              <div>
-                <span className="font-serif text-lg tracking-wider text-black font-normal block leading-tight">
-                  IHG
-                </span>
-                <span className="text-[9px] uppercase font-sans tracking-[0.24em] text-neutral-500 block">
-                  India Sanctuaries
-                </span>
-              </div>
+              <img
+                src={overHero ? '/brand/vows-logo-ivory.png' : '/brand/vows-logo-maroon.png'}
+                alt="VOWS by IHG"
+                data-real-photo=""
+                className="vows-logo vows-logo-compact block h-[36px] w-auto select-none"
+                draggable={false}
+              />
             </button>
 
             {/* Mobile Actions */}

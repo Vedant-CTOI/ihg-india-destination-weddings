@@ -3497,6 +3497,33 @@
       rgba(222,209,192,.92) 46%, rgba(220,206,188,.98) 54%, rgba(214,199,179,1) 70%, rgba(212,197,176,1) 100%) !important;
     -webkit-backdrop-filter: blur(2px) !important; backdrop-filter: blur(2px) !important;
   }
+  /* ═══ VOWS LOGO ON EVERY PAGE — compact header shows VOWS (was IHG wordmark); homepage logo no longer waits for the
+     hero intro (A). Go back = tag checkpoint-before-vows-footer-motion ═══ */
+  html.hero-intro:not(.layout-mobile) body #root header img.vows-logo { opacity: 1 !important; animation: none !important; }
+  html body #root header img.vows-logo-compact { visibility: visible !important; background-color: transparent !important; filter: none !important; }
+
+  /* ═══ 08 FOOTER — Minimal Closing Transition (web, once per visit). divider draws L→R · columns rise in order ·
+     description + contact fade · brand-logo strip opacity. Quiet, minimal.
+     Uses the independent `opacity`-free channels (filter: opacity() + translate) because an older footer rule pins
+     opacity:1 !important. Go back = tag checkpoint-before-vows-footer-motion ═══ */
+  html:not(.layout-mobile) body #root .ft-fx { --ft-ease: cubic-bezier(.22,.61,.36,1); }
+  html:not(.layout-mobile) body #root .ft-fx .ft-cols { border-bottom-color: transparent !important; }
+  html:not(.layout-mobile) body #root .ft-fx .ft-rule { position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: rgba(82,82,82,.35);
+    transform-origin: left center; pointer-events: none; }
+  @keyframes ft-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes ft-rise { from { filter: opacity(0); translate: 0 10px; } to { filter: opacity(1); translate: 0 0; } }
+  @keyframes ft-fade { from { filter: opacity(0); } to { filter: opacity(1); } }
+  html:not(.layout-mobile) body #root .ft-fx[data-ft="pre"] .ft-rule { transform: scaleX(0); }
+  html:not(.layout-mobile) body #root .ft-fx[data-ft="pre"] :is(.ft-head, .ft-copy, .ft-logos) { filter: opacity(0); }
+  html:not(.layout-mobile) body #root .ft-fx[data-ft="pre"] .ft-head { translate: 0 10px; }
+  html:not(.layout-mobile) body #root .ft-fx[data-ft="in"] .ft-rule { animation: ft-draw 1.2s var(--ft-ease) both; }
+  html:not(.layout-mobile) body #root .ft-fx[data-ft="in"] .ft-col .ft-head { animation: ft-rise .8s var(--ft-ease) calc(.15s + var(--i) * .15s) both; }
+  html:not(.layout-mobile) body #root .ft-fx[data-ft="in"] .ft-col .ft-head + .ft-head { animation-delay: calc(.23s + var(--i) * .15s); }
+  html:not(.layout-mobile) body #root .ft-fx[data-ft="in"] .ft-col .ft-copy { animation: ft-fade .9s ease calc(.4s + var(--i) * .15s) both; }
+  html:not(.layout-mobile) body #root .ft-fx[data-ft="in"] .ft-logos { animation: ft-fade 1.4s ease 1.2s both; }
+  @media (prefers-reduced-motion: reduce) {
+    html:not(.layout-mobile) body #root .ft-fx :is(.ft-rule, .ft-head, .ft-copy, .ft-logos) { animation: none !important; filter: none !important; translate: none !important; transform: none !important; }
+  }
 </style>
 
   </head>
