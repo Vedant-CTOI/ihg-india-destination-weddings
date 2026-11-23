@@ -3038,6 +3038,38 @@
   html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child, html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child * { color: var(--p-body) !important; }
   html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child span.text-black, html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child span.font-medium,
   html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child button:hover { color: var(--p-maroon) !important; }
+
+  /* ═══ NAV UPPERCASE · HOVER STATES ON-PALETTE · ABOUT NUMBERS (web only). Go back = tag checkpoint-before-nav-hover-nums ═══ */
+  /* 1. top nav headings uppercase */
+  html:not(.layout-mobile) body #root header nav .nav-link { text-transform: uppercase !important; }
+
+  /* 2. hover catch-all — map the code's black / neutral hover utilities onto the palette */
+  html:not(.layout-mobile) body #root [class*="hover:text-black"]:hover, html:not(.layout-mobile) body #root [class*="hover:text-neutral-"]:hover,
+  html:not(.layout-mobile) body #root .group:hover [class*="group-hover:text-black"] { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root [class*="hover:border-black"]:hover, html:not(.layout-mobile) body #root [class*="hover:border-neutral-"]:hover { border-color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root [class*="hover:bg-black"]:hover, html:not(.layout-mobile) body #root [class*="hover:bg-neutral-800"]:hover,
+  html:not(.layout-mobile) body #root .group:hover [class*="group-hover:bg-black"] { background-color: var(--p-maroon-d) !important; border-color: var(--p-maroon-d) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root [class*="hover:bg-neutral-50"]:hover, html:not(.layout-mobile) body #root [class*="hover:bg-neutral-100"]:hover,
+  html:not(.layout-mobile) body #root [class*="hover:bg-neutral-200"]:hover, html:not(.layout-mobile) body #root [class*="hover:bg-neutral-400"]:hover { background-color: var(--p-sand1) !important; }
+  /* header Main Exploration pill: #5B5750 hairline at rest, maroon on hover */
+  html:not(.layout-mobile) body #root header button.border-neutral-300 { border-color: rgba(91,87,80,.45) !important; color: var(--p-ink) !important; }
+  html:not(.layout-mobile) body #root header button.border-neutral-300:hover { border-color: var(--p-maroon) !important; color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root header button.border-neutral-300:hover * { color: var(--p-maroon) !important; }
+  /* VOWS logo — no colour shift */
+  html:not(.layout-mobile) body #root header button:has(> img.vows-logo):hover { color: inherit !important; }
+  /* dropdown rows (Occasion / Destination / Hotels) — sand highlight */
+  html:not(.layout-mobile) body #root form .absolute.z-30 label:hover, html:not(.layout-mobile) body #root .hotel-dd-list label:hover { background-color: var(--p-sand1) !important; }
+  /* keep correct hovers that the catch-all must not override */
+  html:not(.layout-mobile) body #root .on-photo [class*="hover:text-"]:hover, html:not(.layout-mobile) body #root .dest-tile [class*="hover:text-"]:hover,
+  html:not(.layout-mobile) body #root .hf-crumb [class*="hover:text-"]:hover, html:not(.layout-mobile) body #root .grain [class*="hover:text-"]:hover,
+  html:not(.layout-mobile) body #root header.header-over-hero [class*="hover:text-"]:hover { color: #fff !important; }
+  html:not(.layout-mobile) body #root button[type="submit"][class*="hover:bg-"]:hover, html:not(.layout-mobile) body #root .cv-submit:hover { background-color: var(--p-maroon-d) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root header:not(.header-over-hero) button.bg-black:hover { background-color: var(--p-maroon-d) !important; color: #fff !important; }
+
+  /* 3. About stats — maroon numbers, bronze units, body-grey labels (option A) */
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-num, html:not(.layout-mobile) body #root .landing-home .home-about .ha-num > span:first-child { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-num .ha-unit { color: var(--p-bronze) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-label { color: var(--p-body) !important; }
 </style>
 
   </head>
