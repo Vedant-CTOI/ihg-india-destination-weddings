@@ -109,19 +109,19 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Upper Tier: Brand Monogram & Enquire Action */}
           <div className="flex items-center justify-between">
             
-            {/* Wordmark without the word Celebrations */}
+            {/* Brand logo — VOWS by IHG (web header only; mobile header keeps its own wordmark). Go back = tag checkpoint-before-palette-v6 */}
             <button
               onClick={() => onNavigateHome()}
               className="group text-left cursor-pointer"
+              aria-label="VOWS by IHG — home"
             >
-              <div>
-                <div className={`font-serif text-2xl tracking-widest font-normal leading-none transition-colors duration-700 ${overHero ? 'text-white' : 'text-black'}`}>
-                  IHG
-                </div>
-                <div className={`text-[10px] uppercase font-sans tracking-[0.32em] font-medium mt-1 transition-colors duration-700 ${overHero ? 'text-white/60' : 'text-neutral-500'}`}>
-                  Hotels & Resorts India
-                </div>
-              </div>
+              <img
+                src={overHero ? '/brand/vows-logo-ivory.png' : '/brand/vows-logo-maroon.png'}
+                alt="VOWS by IHG"
+                data-real-photo=""
+                className="vows-logo block h-[46px] w-auto select-none"
+                draggable={false}
+              />
             </button>
 
             {/* Right: Layout toggle (TEMP) & Enquire & Back-to-explore Actions */}

@@ -2657,6 +2657,248 @@
   html:not(.layout-mobile) body #root .dest-page > div.relative.w-full.overflow-hidden.bg-black:has(> img.dest-hero-img),
   html:not(.layout-mobile) body #root .hotels-page > div.relative.w-full.overflow-hidden.bg-black:has(> img.hotels-hero-img),
   html:not(.layout-mobile) body #root .rw-page > div.rw-hero { height: auto !important; min-height: 0 !important; max-height: none !important; aspect-ratio: 16 / 9 !important; }
+
+  /* ═══════════════════════════════════════════════════════════════════════════════════════════
+     FINAL PALETTE — "Option 05 · Ivory, Sand & Maroon" (web only, every page; mobile untouched)
+     Source: IHG DUMP/Final Colour Palette.pdf + FInal Lyout with Colour Palette.pdf
+     Primary 81% Ivory #F9F7EF · Secondary 16% Sand gradient #E5DBCC→#DED1C0→#D4C5B0
+     Tertiary 1% Maroon #89384A (headings, submit, pager) · Quaternary 1% Bronze #A8621E (eyebrows, underlines)
+     Text neutrals #3A3026 (numbers/strong) · #5B5750 (body) · #525252 (footer)
+     Go back = tag checkpoint-before-palette-v6 (V5 milestone = tag milestone-v5)
+     ═══════════════════════════════════════════════════════════════════════════════════════════ */
+  html:not(.layout-mobile) {
+    --p-ivory:#F9F7EF; --p-sand1:#E5DBCC; --p-sand2:#DED1C0; --p-sand3:#D4C5B0;
+    --p-maroon:#89384A; --p-maroon-d:#74303F; --p-bronze:#A8621E;
+    --p-ink:#3A3026; --p-body:#5B5750; --p-foot:#525252;
+    --p-sand-grad: linear-gradient(180deg, #E5DBCC 0%, #DED1C0 50%, #D4C5B0 100%);
+    --p-rule: rgba(58,48,38,.14);
+    /* remap the old brand vars so every earlier rule that used them lands on the palette */
+    --maroon:#89384A; --maroon-d:#74303F; --green:#89384A; --green-d:#74303F; --haldi:#A8621E; --copper:#A8621E;
+    --ivory:#F9F7EF; --ivory-acc:#DED1C0; --ink:#3A3026;
+    --rf-bg:#F9F7EF; --rf-head:#89384A; --rf-body:#5B5750; --rf-soft:#5B5750; --rf-bronze:#A8621E; --rf-eyebrow-a:#A8621E;
+    --rf-taupe:#DED1C0; --rf-taupe-l:#E5DBCC; --rf-taupe-d:#D4C5B0; --rf-sand1:#E5DBCC; --rf-panel-ink:#89384A; --rf-dark:#3A3026; --rf-foot:#525252; --rf-rule:#525252;
+    --fg-bg:#F9F7EF; --fg-body:#5B5750;
+  }
+  html:not(.layout-mobile) body { background:#F9F7EF; }
+
+  /* 1. Primary — ivory grounds on every page (white surfaces → ivory) */
+  html:not(.layout-mobile) body #root,
+  html:not(.layout-mobile) body #root main,
+  html:not(.layout-mobile) body #root main > div,
+  html:not(.layout-mobile) body #root .landing-home,
+  html:not(.layout-mobile) body #root .landing-home > section:not(.loyalty-band),
+  html:not(.layout-mobile) body #root .ab-page, html:not(.layout-mobile) body #root .dest-page,
+  html:not(.layout-mobile) body #root .hotels-page, html:not(.layout-mobile) body #root .lp-page,
+  html:not(.layout-mobile) body #root .rw-page, html:not(.layout-mobile) body #root .sd-page,
+  html:not(.layout-mobile) body #root .cv-page,
+  html:not(.layout-mobile) body #root .hotel-feature,
+  html:not(.layout-mobile) body #root footer { background-color: var(--p-ivory) !important; }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration { background-image: none !important; }
+  /* homepage cinematic sections had inline maroon/marigold/red grounds */
+  html:not(.layout-mobile) body #root .landing-home section[style] { background-color: var(--p-ivory) !important; }
+  /* header on light pages: ivory glass instead of white */
+  html:not(.layout-mobile) body #root header:not(.header-over-hero) { background-color: rgba(249,247,239,.96) !important; border-color: var(--p-rule) !important; }
+  html:not(.layout-mobile) body #root header:not(.header-over-hero) nav { color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root header:not(.header-over-hero) nav button:hover { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root header:not(.header-over-hero) .border-t { border-color: var(--p-rule) !important; }
+  /* breadcrumb strips + filter bars on inner pages (were #F7F0E4 cream) */
+  html:not(.layout-mobile) body #root main [class*="bg-[#F7F0E4]"], html:not(.layout-mobile) body #root main .bg-neutral-50 { background-color: var(--p-ivory) !important; }
+
+  /* 2. Secondary — sand gradient (Jaipur panel, Loyalty band, Stories strip) */
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .on-photo { background: linear-gradient(180deg, rgba(229,219,204,.94) 0%, rgba(222,209,192,.95) 50%, rgba(212,197,176,.96) 100%) !important; }
+  html:not(.layout-mobile) body #root .landing-home .loyalty-band.lp.lp-text { background-color: var(--p-sand2) !important; background-image: var(--p-sand-grad) !important; }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .relative:has(> .grid)::before { background: linear-gradient(90deg, rgba(229,219,204,0) 0%, #E5DBCC 10%, #DED1C0 45%, #D4C5B0 100%) !important; }
+
+  /* 3. Tertiary — maroon headings everywhere (not on photos) */
+  html:not(.layout-mobile) body #root .landing-home .sec-head h2, html:not(.layout-mobile) body #root .landing-home .sec-head h2 *,
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-title, html:not(.layout-mobile) body #root .landing-home .home-about .ha-title *,
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-title, html:not(.layout-mobile) body #root .landing-home .lp .lp-title *,
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name, html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name *,
+  html:not(.layout-mobile) body #root main h1:not(.text-white):not([class*="sd-her"]), html:not(.layout-mobile) body #root main h2, html:not(.layout-mobile) body #root main h3,
+  html:not(.layout-mobile) body #root main .ab-title, html:not(.layout-mobile) body #root main .lp-title, html:not(.layout-mobile) body #root main .lp-tier-title,
+  html:not(.layout-mobile) body #root main .rw-title, html:not(.layout-mobile) body #root main .rw-case-name, html:not(.layout-mobile) body #root main .sd-h2,
+  html:not(.layout-mobile) body #root main .cv-title { color: var(--p-maroon) !important; }
+  /* …but anything sitting on a photo stays white */
+  html:not(.layout-mobile) body #root main .bg-black h1, html:not(.layout-mobile) body #root main .bg-black h2, html:not(.layout-mobile) body #root main .bg-black h3,
+  html:not(.layout-mobile) body #root main .rw-hero h1, html:not(.layout-mobile) body #root main .dest-tile h3, html:not(.layout-mobile) body #root main .dest-tile *,
+  html:not(.layout-mobile) body #root main .on-photo h1, html:not(.layout-mobile) body #root main .on-photo h3, html:not(.layout-mobile) body #root main .on-photo:not(.home-dest-card .on-photo) *,
+  html:not(.layout-mobile) body #root main [class*="hero"] h1 { color: #fff !important; }
+  /* hotel detail page (was #3A0618 deep maroon ink) */
+  html:not(.layout-mobile) body #root .hotel-feature h2, html:not(.layout-mobile) body #root .hotel-feature h3:not(.text-white) { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature [style*="58, 6, 24"], html:not(.layout-mobile) body #root .hotel-feature [style*="#3a0618"], html:not(.layout-mobile) body #root .hotel-feature [style*="#3A0618"] { color: var(--p-ink) !important; }
+
+  /* 4. Quaternary — bronze eyebrows + their underlines */
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-eyebrow, html:not(.layout-mobile) body #root .landing-home .home-about .ha-eyebrow *,
+  html:not(.layout-mobile) body #root .landing-home .sec-head span.block,
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head span:not([data-wm="split"]):not(.split-w):not(.split-c),
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head span:not([data-wm="split"]):not(.split-w):not(.split-c),
+  html:not(.layout-mobile) body #root .landing-home #contact .sec-head span:not([data-wm="split"]):not(.split-w):not(.split-c),
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-eyebrow, html:not(.layout-mobile) body #root .landing-home .loyalty-band span.block,
+  html:not(.layout-mobile) body:has(.landing-home) #root footer span.uppercase.block,
+  html:not(.layout-mobile) body #root footer span.uppercase.block,
+  html:not(.layout-mobile) body #root main .ab-eyebrow, html:not(.layout-mobile) body #root main .lp-eyebrow, html:not(.layout-mobile) body #root main .rw-eyebrow,
+  html:not(.layout-mobile) body #root main .cv-eyebrow, html:not(.layout-mobile) body #root main .sd-eyebrow,
+  html:not(.layout-mobile) body #root main [class*="text-[#A76548]"], html:not(.layout-mobile) body #root main [class*="text-[#C97F27]"] { color: var(--p-bronze) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-rule, html:not(.layout-mobile) body #root .landing-home .lp .lp-rule,
+  html:not(.layout-mobile) body #root main .ab-rule, html:not(.layout-mobile) body #root main .lp-rule, html:not(.layout-mobile) body #root main .rw-rule,
+  html:not(.layout-mobile) body #root main [class*="bg-[#C97F27]"], html:not(.layout-mobile) body #root main [class*="bg-[#A76548]"] { background: var(--p-bronze) !important; }
+
+  /* Text neutrals — body #5B5750, strong numbers #3A3026, footer #525252 */
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-paras p,
+  html:not(.layout-mobile) body #root .landing-home .sec-head p,
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-copy, html:not(.layout-mobile) body #root .landing-home .loyalty-band p,
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-copy,
+  html:not(.layout-mobile) body #root main p:not(.on-photo p):not(.text-white) { color: var(--p-body) !important; opacity: 1 !important; }
+  html:not(.layout-mobile) body #root main .bg-black p, html:not(.layout-mobile) body #root main .rw-hero p, html:not(.layout-mobile) body #root main .dest-tile p,
+  html:not(.layout-mobile) body #root main [class*="hero"] p, html:not(.layout-mobile) body #root main .on-photo:not(.home-dest-card .on-photo) p { color: rgba(255,255,255,.86) !important; }
+  html:not(.layout-mobile) body #root main [class*="text-[#2B1A1E]"], html:not(.layout-mobile) body #root main .text-neutral-700, html:not(.layout-mobile) body #root main .text-neutral-600 { color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-num, html:not(.layout-mobile) body #root .landing-home .home-about .ha-num > span:first-child { color: var(--p-ink) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-unit { color: var(--p-bronze) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-label { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-stat + .ha-stat { border-color: var(--p-rule) !important; }
+
+  /* Destinations panel ink + link */
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-eyebrow { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-cta,
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-cta * { color: var(--p-maroon) !important; border-color: var(--p-maroon) !important; background: transparent !important; }
+
+  /* Round arrows (option C): sand fill, thin maroon ring, maroon icon — hero, About, Destinations, Hotels, Real Weddings, inner rails */
+  html:not(.layout-mobile) body #root button[aria-label$="wedding genre"],
+  html:not(.layout-mobile) body #root button[aria-label$="splash slide"],
+  html:not(.layout-mobile) body #root button[aria-label$=" hotels"],
+  html:not(.layout-mobile) body #root button[aria-label$="wedding stories"],
+  html:not(.layout-mobile) body #root button.stories-rail-arrow,
+  html:not(.layout-mobile) body #root .landing-home .home-about button[aria-label^="Next"], html:not(.layout-mobile) body #root .landing-home .home-about button[aria-label^="Previous"] {
+    background: var(--p-sand2) !important; border: 1px solid var(--p-maroon) !important; color: var(--p-maroon) !important; box-shadow: none !important; }
+  html:not(.layout-mobile) body #root button[aria-label$="wedding genre"] *, html:not(.layout-mobile) body #root button[aria-label$="splash slide"] *,
+  html:not(.layout-mobile) body #root button[aria-label$=" hotels"] *, html:not(.layout-mobile) body #root button[aria-label$="wedding stories"] *,
+  html:not(.layout-mobile) body #root button.stories-rail-arrow * { color: var(--p-maroon) !important; stroke: currentColor; }
+  html:not(.layout-mobile) body #root button[aria-label$="wedding genre"]:hover, html:not(.layout-mobile) body #root button[aria-label$="splash slide"]:hover,
+  html:not(.layout-mobile) body #root button[aria-label$=" hotels"]:hover:not(:disabled), html:not(.layout-mobile) body #root button[aria-label$="wedding stories"]:hover,
+  html:not(.layout-mobile) body #root button.stories-rail-arrow:hover { background: var(--p-sand3) !important; }
+
+  /* Pager dots — maroon active, ivory inactive */
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label^="Go to slide"] { background: rgba(249,247,239,.85) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label^="Go to slide"].w-6,
+  html:not(.layout-mobile) body #root button[aria-label^="Jump to slide"][aria-current="true"], html:not(.layout-mobile) body #root button[aria-label^="Go to slide"][aria-current="true"] { background: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-media > .absolute.top-0.h-0\.5 > div { background: var(--p-maroon) !important; }
+
+  /* Buttons — maroon solid (Submit, About pill, inner CTAs), dark outline (View All / Explore), white pill (Loyalty) */
+  html:not(.layout-mobile) body #root button[type="submit"],
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-cta,
+  html:not(.layout-mobile) body #root main .ab-cta, html:not(.layout-mobile) body #root main .rw-case-cta, html:not(.layout-mobile) body #root main .cv-submit {
+    background: var(--p-maroon) !important; border-color: var(--p-maroon) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root button[type="submit"] *, html:not(.layout-mobile) body #root .landing-home .home-about .ha-cta *,
+  html:not(.layout-mobile) body #root main .ab-cta *, html:not(.layout-mobile) body #root main .rw-case-cta *, html:not(.layout-mobile) body #root main .cv-submit * { color: #fff !important; background-color: transparent !important; }
+  html:not(.layout-mobile) body #root button[type="submit"]:hover, html:not(.layout-mobile) body #root .landing-home .home-about .ha-cta:hover,
+  html:not(.layout-mobile) body #root main .ab-cta:hover, html:not(.layout-mobile) body #root main .rw-case-cta:hover, html:not(.layout-mobile) body #root main .cv-submit:hover { background: var(--p-maroon-d) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head button,
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button,
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .text-center > button { background: transparent !important; color: var(--p-ink) !important; border: 1px solid var(--p-ink) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head button *, html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button *,
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .text-center > button * { color: var(--p-ink) !important; background-color: transparent !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head button:hover, html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button:hover,
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .text-center > button:hover { background: var(--p-ink) !important; color: var(--p-ivory) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head button:hover *, html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button:hover *,
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .text-center > button:hover * { color: var(--p-ivory) !important; }
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-cta, html:not(.layout-mobile) body #root .landing-home .loyalty-band button { background: #fff !important; color: var(--p-ink) !important; }
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-cta *, html:not(.layout-mobile) body #root .landing-home .loyalty-band button * { color: var(--p-ink) !important; }
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-cta:hover, html:not(.layout-mobile) body #root .landing-home .loyalty-band button:hover { background: var(--p-ivory) !important; }
+  /* header Enquire: white pill over the hero, maroon on light pages */
+  html:not(.layout-mobile) body #root header.header-over-hero button:has(> span + svg) { background: #fff !important; color: var(--p-ink) !important; border-color: #fff !important; }
+  html:not(.layout-mobile) body #root header:not(.header-over-hero) button.bg-black { background: var(--p-maroon) !important; border-color: var(--p-maroon) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root header:not(.header-over-hero) button.bg-black:hover { background: var(--p-maroon-d) !important; }
+
+  /* Forms (homepage, Enquire page, hotel side form) — white fields on ivory, maroon selected persona, maroon checks */
+  html:not(.layout-mobile) body #root form label, html:not(.layout-mobile) body #root #contact label { color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root form input:not([type="checkbox"]), html:not(.layout-mobile) body #root form textarea,
+  html:not(.layout-mobile) body #root form .hotel-dd > button, html:not(.layout-mobile) body #root form button.w-full.bg-white { background-color: #fff !important; border-color: rgba(58,48,38,.10) !important; color: var(--p-ink) !important; }
+  html:not(.layout-mobile) body #root form button[aria-pressed="true"], html:not(.layout-mobile) body #root #contact form button.bg-black:not([type="submit"]),
+  html:not(.layout-mobile) body #root main .cv-persona[aria-pressed="true"] { background-color: var(--p-maroon) !important; border-color: var(--p-maroon) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root form input[type="checkbox"], html:not(.layout-mobile) body #root .hotel-dd-list input[type="checkbox"] { accent-color: var(--p-maroon); }
+  html:not(.layout-mobile) body #root #contact form > div.rounded-3xl, html:not(.layout-mobile) body #root #contact .rounded-3xl.border, html:not(.layout-mobile) body #root main form .rounded-3xl { background-color: transparent !important; border-color: var(--p-rule) !important; }
+
+  /* Hotel detail page — saffron/marigold accents → palette */
+  html:not(.layout-mobile) body #root [style*="237, 140, 12"], html:not(.layout-mobile) body #root [style*="#ED8C0C"], html:not(.layout-mobile) body #root [style*="#ed8c0c"] { background-color: var(--p-sand2) !important; color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root [style*="96, 11, 42"], html:not(.layout-mobile) body #root [style*="#600B2A"], html:not(.layout-mobile) body #root [style*="#600b2a"] { background-color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root [style*="249, 227, 196"], html:not(.layout-mobile) body #root [style*="#F9E3C4"] { background-color: var(--p-sand1) !important; }
+  html:not(.layout-mobile) body #root [style*="253, 244, 231"], html:not(.layout-mobile) body #root [style*="#FDF4E7"] { background-color: var(--p-ivory) !important; }
+
+  /* Footer — ivory ground, #525252 text, bronze headings, #525252 hairlines */
+  html:not(.layout-mobile) body #root footer *:not(img) { color: var(--p-foot) !important; }
+  html:not(.layout-mobile) body #root footer span.uppercase.block { color: var(--p-bronze) !important; }
+  html:not(.layout-mobile) body #root footer, html:not(.layout-mobile) body #root footer .border-b, html:not(.layout-mobile) body #root footer .border-t { border-color: rgba(82,82,82,.6) !important; }
+  html:not(.layout-mobile) body #root footer a:hover, html:not(.layout-mobile) body #root footer button:hover { color: var(--p-maroon) !important; }
+
+  /* Clean-up pass — remaining off-palette pieces found by the colour audit */
+  html:not(.layout-mobile) body { background-color: var(--p-ivory) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card { background-color: var(--p-sand2) !important; } /* was green behind the photo */
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-col-inset { background-color: var(--p-sand1) !important; }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration button[aria-label$="hotels"] { border-color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root main .filter-bar { background-color: rgba(249,247,239,.96) !important; border-color: var(--p-rule) !important; }
+  html:not(.layout-mobile) body #root main .border-neutral-200, html:not(.layout-mobile) body #root main .border-neutral-300,
+  html:not(.layout-mobile) body #root footer .border-neutral-200, html:not(.layout-mobile) body #root .landing-home .border-neutral-200 { border-color: var(--p-rule) !important; }
+  html:not(.layout-mobile) body #root main .bg-neutral-200, html:not(.layout-mobile) body #root main .bg-neutral-300 { background-color: var(--p-rule) !important; }
+  html:not(.layout-mobile) body #root main .text-neutral-400, html:not(.layout-mobile) body #root main .text-neutral-500,
+  html:not(.layout-mobile) body #root main ::placeholder, html:not(.layout-mobile) body #root form ::placeholder { color: rgba(91,87,80,.62) !important; }
+  html:not(.layout-mobile) body #root main .text-black:not(.on-photo *):not(.bg-black *), html:not(.layout-mobile) body #root main strong.text-black,
+  html:not(.layout-mobile) body #root main [class*="text-[#2B1A1E]"], html:not(.layout-mobile) body #root main span:not(.on-photo *):not(.bg-black *):not(.dest-tile *) { color: inherit; }
+  html:not(.layout-mobile) body #root main .rw-case dd, html:not(.layout-mobile) body #root main .rw-case dt,
+  html:not(.layout-mobile) body #root main .rw-case span:not(.rw-eyebrow) { color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root main form label span, html:not(.layout-mobile) body #root main form p { color: var(--p-body) !important; }
+  /* hotel detail side form + body (earlier rules hard-coded #3a0618 deep maroon ink + saffron) */
+  html:not(.layout-mobile) body #root .hotel-feature, html:not(.layout-mobile) body #root .hotel-feature p,
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form, html:not(.layout-mobile) body #root .hotel-feature .hf-form h3 + p,
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form h3 + p strong, html:not(.layout-mobile) body #root .hotel-feature .hf-form label.block,
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form > div:first-child > div:first-child { color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form h3 { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form > div:first-child > div:first-child { color: var(--p-bronze) !important; opacity: 1 !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form > div:first-child > div:first-child span[aria-hidden] { background: var(--p-bronze) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form .persona-buttons-web button { color: var(--p-body) !important; border-color: rgba(58,48,38,.14) !important; background: #fff !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form .persona-buttons-web button.bg-black { background: var(--p-maroon) !important; border-color: var(--p-maroon) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form span.rounded-full.bg-neutral-50 { border-color: rgba(137,56,74,.35) !important; color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form button[type="submit"]:hover { background: var(--p-maroon-d) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form .text-neutral-500, html:not(.layout-mobile) body #root .hotel-feature .hf-form .text-neutral-400 { color: rgba(91,87,80,.75) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form .hotel-dd-list label { color: var(--p-ink) !important; }
+  html:not(.layout-mobile) body #root [data-tone="light"] .sec-head h2 { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .loyalty-band span:not(.lp-eyebrow):not(.block), html:not(.layout-mobile) body #root .loyalty-band p { color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root [data-tone="light"] .sec-head button:hover { background: var(--p-ink) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature [class*="border-current"] { color: var(--p-bronze) !important; }
+  /* header: VOWS logo needs no box; keep Web/Mobile prototype toggle neutral-on-ivory */
+  html:not(.layout-mobile) body #root header button:has(> img.vows-logo) { background: transparent !important; }
+  html:not(.layout-mobile) body #root header img.vows-logo { visibility: visible !important; background-color: transparent !important; filter: none !important; }
+  /* anything on a photo keeps its white type (hotel hero breadcrumb + address, grain heroes) */
+  html:not(.layout-mobile) body #root main .hf-crumb, html:not(.layout-mobile) body #root main .hf-crumb * { color: rgba(255,255,255,.78) !important; }
+  html:not(.layout-mobile) body #root main .hf-crumb span.font-medium { color: #fff !important; }
+  html:not(.layout-mobile) body #root main .grain.text-white .on-photo, html:not(.layout-mobile) body #root main .grain.text-white .on-photo *:not(svg):not(path) { color: inherit !important; }
+  html:not(.layout-mobile) body #root main .grain.text-white .on-photo h1 { color: #fff !important; }
+  html:not(.layout-mobile) body #root main .grain.text-white .on-photo .text-white\/70, html:not(.layout-mobile) body #root main .grain.text-white .on-photo [class*="tracking"] { color: rgba(255,255,255,.78) !important; }
+
+  /* ═══ RATIO PASS — bring Secondary (sand) up to ~16% page area and Maroon down to ~1%, subtly (tonal gradients, no loud blocks) ═══ */
+  /* breadcrumb strips: sand1 */
+  html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child { background-color: var(--p-sand1) !important; border-color: transparent !important; }
+  /* footer info block: soft sand gradient (brand-logo strip below stays ivory) */
+  html:not(.layout-mobile) body #root footer:first-of-type, html:not(.layout-mobile) body:has(.landing-home) #root footer:first-of-type { background-color: var(--p-sand2) !important; background-image: linear-gradient(180deg, #E5DBCC 0%, #DED1C0 55%, #D4C5B0 100%) !important; border-color: transparent !important; }
+  html:not(.layout-mobile) body #root footer:first-of-type .border-b, html:not(.layout-mobile) body #root footer:first-of-type .border-t { border-color: rgba(82,82,82,.35) !important; }
+  /* inner pages stay plain ivory — the sand footer + sand breadcrumb strip carry the secondary tone */
+  html:not(.layout-mobile) body #root .ab-page, html:not(.layout-mobile) body #root .dest-page, html:not(.layout-mobile) body #root .hotels-page,
+  html:not(.layout-mobile) body #root .lp-page, html:not(.layout-mobile) body #root .rw-page, html:not(.layout-mobile) body #root .sd-page,
+  html:not(.layout-mobile) body #root .cv-page { background-image: none !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues { background-color: var(--p-ivory) !important; background-image: none !important; }
+  /* hotel detail: the two solid maroon bands become sand with maroon type (maroon stays an accent) */
+  html:not(.layout-mobile) body #root .hotel-feature section.text-white { background-color: var(--p-sand2) !important; background-image: var(--p-sand-grad) !important; color: var(--p-maroon) !important; border-color: rgba(137,56,74,.18) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature section.text-white * { color: var(--p-maroon) !important; border-color: rgba(137,56,74,.22) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature section.text-white p, html:not(.layout-mobile) body #root .hotel-feature section.text-white .text-white\/70,
+  html:not(.layout-mobile) body #root .hotel-feature section.text-white [class*="text-[10px]"], html:not(.layout-mobile) body #root .hotel-feature section.text-white [class*="text-[11px]"] { color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature section.text-white button, html:not(.layout-mobile) body #root .hotel-feature section.text-white a[class*="rounded-full"] { background: var(--p-maroon) !important; color: #fff !important; border-color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature section.text-white button *, html:not(.layout-mobile) body #root .hotel-feature section.text-white a[class*="rounded-full"] * { color: #fff !important; }
+  /* phone / email are plain links, not pills */
+  html:not(.layout-mobile) body #root .hotel-feature section.text-white a:not([class*="rounded-full"]) { background: transparent !important; color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature section.text-white a:not([class*="rounded-full"]) * { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature section.text-white button > span.rounded-full, html:not(.layout-mobile) body #root .hotel-feature section.text-white button > span[class*="bg-white"] { background: #fff !important; }
+  html:not(.layout-mobile) body #root .hotel-feature section.text-white button > span.rounded-full *, html:not(.layout-mobile) body #root .hotel-feature section.text-white button > span[class*="bg-white"] * { color: var(--p-maroon) !important; }
+  /* hairline between the sand closing band and the sand footer */
+  html:not(.layout-mobile) body #root .hotel-feature section.text-white:last-of-type { border-bottom: 1px solid rgba(82,82,82,.35) !important; }
 </style>
 
   </head>
