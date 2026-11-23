@@ -383,6 +383,7 @@ export const FeatureBody: React.FC<{
   const [hovered, setHovered] = useState<number | null>(null);
   const canHover = typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const jumpRef = useRef<HTMLDivElement | null>(null);
+  const mobile = useMobileLayout();
 
   // underline the venue currently in view
   useEffect(() => {
@@ -473,10 +474,19 @@ export const FeatureBody: React.FC<{
         {/* jump bar — venue numbers on a hairline; current one underlined */}
         <div ref={jumpRef} className="hf-jumpbar sticky top-[146px] z-20" style={{ backgroundColor: 'rgba(253,244,231,.97)' }}>
           <div className={`${W} relative border-y flex items-start justify-center gap-7 overflow-x-auto overflow-y-hidden no-scrollbar`} style={{ borderColor: 'rgba(58,6,24,.2)' }}>
-            {/* hotel name — pinned left inside the same band (context while scrolling); venue buttons unchanged */}
-            <span className="hf-bar-hotel absolute left-4 sm:left-6 lg:left-8 top-1/2 -translate-y-1/2 font-arpona text-[17px] leading-none whitespace-nowrap pointer-events-none" style={{ color: INK }}>
-              {hotel.name}
-            </span>
+            {/* hotel name — pinned left inside the same band (context while scrolling); venue buttons unchanged.
+                Web: phone + email under the name (go back = tag checkpoint-before-cta-footer-contrast) */}
+            <div className="hf-bar-hotel absolute left-4 sm:left-6 lg:left-8 top-1/2 -translate-y-1/2 flex flex-col gap-[6px]">
+              <span className="font-arpona text-[17px] leading-none whitespace-nowrap pointer-events-none" style={{ color: INK }}>
+                {hotel.name}
+              </span>
+              {!mobile && (
+                <span className="hf-bar-contact flex flex-col gap-[3px] text-[11px] leading-[1.25] whitespace-nowrap">
+                  <a href="tel:+919876543210" className="inline-flex items-center gap-1.5"><Phone strokeWidth={1.5} aria-hidden="true" className="w-3 h-3 shrink-0" /><span>+91 98765 43210</span></a>
+                  <a href="mailto:weddings@ihg.com" className="inline-flex items-center gap-1.5"><Mail strokeWidth={1.5} aria-hidden="true" className="w-3 h-3 shrink-0" /><span>weddings@ihg.com</span></a>
+                </span>
+              )}
+            </div>
             {venues.map((venue, v) => {
               const shown = current === v || hovered === v; // selected venue always shows its photo
               const ph = venuePhotos(v)[0];

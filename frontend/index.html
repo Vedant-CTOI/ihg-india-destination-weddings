@@ -3129,6 +3129,49 @@
     html:not(.layout-mobile) body #root .landing-home .home-about.ab-reveal .ha-eyebrow, html:not(.layout-mobile) body #root .landing-home .home-about.ab-reveal .ha-title,
     html:not(.layout-mobile) body #root .landing-home .home-about.ab-reveal .ha-paras > p, html:not(.layout-mobile) body #root .landing-home .home-about.ab-reveal .ha-cta-row { clip-path: none !important; transition: none !important; }
   }
+
+  /* ═══ SECTION CTAs MAROON · FOOTER CONTRAST · ENQUIRY TAB · STICKY BAR CONTACT · PARAGRAPH CONTRAST (web only)
+         Go back = tag checkpoint-before-cta-footer-contrast ═══ */
+  /* 1. outline CTAs — maroon border + text; hover maroon fill, ivory text */
+  html:not(.layout-mobile) body #root .landing-home :is(#destinations, #hotels-exploration, #real-weddings) button:is(.border, [class*="border-"]):not([aria-label]):not(#_x),
+  html:not(.layout-mobile) body #root .landing-home :is(#destinations, #hotels-exploration) .sec-head button:not(#_x) {
+    border: 1px solid var(--p-maroon) !important; color: var(--p-maroon) !important; background: transparent !important; }
+  html:not(.layout-mobile) body #root .landing-home :is(#destinations, #hotels-exploration, #real-weddings) button:is(.border, [class*="border-"]):not([aria-label]):not(#_x) *,
+  html:not(.layout-mobile) body #root .landing-home :is(#destinations, #hotels-exploration) .sec-head button:not(#_x) span:not(#_y) { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .landing-home :is(#destinations, #hotels-exploration, #real-weddings) button:is(.border, [class*="border-"]):not([aria-label]):not(#_x):hover,
+  html:not(.layout-mobile) body #root .landing-home :is(#destinations, #hotels-exploration) .sec-head button:not(#_x):hover {
+    background: var(--p-maroon) !important; border-color: var(--p-maroon) !important; color: var(--p-ivory) !important; }
+  html:not(.layout-mobile) body #root .landing-home :is(#destinations, #hotels-exploration, #real-weddings) button:is(.border, [class*="border-"]):not([aria-label]):not(#_x):hover *,
+  html:not(.layout-mobile) body #root .landing-home :is(#destinations, #hotels-exploration) .sec-head button:not(#_x):hover span:not(#_y) { color: var(--p-ivory) !important; }
+
+  /* 2. footer — #3A3026 text, 12px minimum, bronze headings kept */
+  html:not(.layout-mobile) body #root footer, html:not(.layout-mobile) body #root footer p, html:not(.layout-mobile) body #root footer li,
+  html:not(.layout-mobile) body #root footer a, html:not(.layout-mobile) body #root footer button, html:not(.layout-mobile) body #root footer span:not([class*="uppercase"][class*="tracking"]) { color: var(--p-ink) !important; opacity: 1 !important; }
+  html:not(.layout-mobile) body #root footer :is(p, li, a, button, span):not(h1 *, h2 *, h3 *, h4 *) { font-size: max(12px, 1em) !important; }
+  html:not(.layout-mobile) body #root footer :is(h3, h4, h5, [class*="uppercase"][class*="tracking"]):not(a):not(button) { color: var(--p-bronze) !important; }
+  html:not(.layout-mobile) body #root footer a:hover, html:not(.layout-mobile) body #root footer button:hover { color: var(--p-maroon) !important; }
+  /* specificity lift over the older "body:has(.landing-home) #root footer *:not(img)" rule */
+  html:not(.layout-mobile) body:is(*) #root footer :is(p, li, a, button, span, div):not(img):not(#_x):not(#_y) { color: var(--p-ink) !important; opacity: 1 !important; font-weight: 400 !important; }
+  html:not(.layout-mobile) body:is(*) #root footer :is(h3, h4, h5, [class*="uppercase"][class*="tracking"]):not(a):not(button):not(#_x):not(#_y),
+  html:not(.layout-mobile) body:is(*) #root footer :is(h3, h4, h5, [class*="uppercase"][class*="tracking"]):not(a):not(button):not(#_x):not(#_y) * { color: var(--p-bronze) !important; }
+  html:not(.layout-mobile) body:is(*) #root footer :is(a, button):not(#_x):not(#_y):hover, html:not(.layout-mobile) body:is(*) #root footer :is(a, button):not(#_x):not(#_y):hover * { color: var(--p-maroon) !important; }
+
+  /* 3. Crowne Plaza "Open Enquiry Form" tab — sand text on maroon */
+  html:not(.layout-mobile) body #root button[aria-label="Open enquiry form"]:not(#_x) { background-color: var(--p-maroon) !important; color: var(--p-sand1) !important; border-color: var(--p-maroon) !important; opacity: 1 !important; }
+  html:not(.layout-mobile) body #root button[aria-label="Open enquiry form"]:not(#_x) * { color: var(--p-sand1) !important; }
+  html:not(.layout-mobile) body #root button[aria-label="Open enquiry form"]:not(#_x):hover { background-color: var(--p-maroon-d) !important; }
+
+  /* 4. sticky venue bar — phone + email under the hotel name */
+  html:not(.layout-mobile) body #root .hotel-feature .hf-bar-hotel > span:first-child { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-bar-contact a { color: var(--p-body) !important; transition: color .3s ease; pointer-events: auto; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-bar-contact a svg { color: var(--p-bronze) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-bar-contact a:hover, html:not(.layout-mobile) body #root .hotel-feature .hf-bar-contact a:hover svg { color: var(--p-maroon) !important; }
+
+  /* 5. body paragraphs — #3A3026 at regular weight (About, Loyalty, Real Weddings list + story) */
+  html:not(.layout-mobile) body #root :is(.ab-page, .lp-page, .rw-page, .sd-page) :is(p, .ab-copy, .ab-body, .lp-lede, .lp-tier-copy, .rw-lede, .rw-case-conf, .sd-p):not(.ab-quote):not(.rw-case-quote):not(.on-photo *):not([class*="hero"] *):not(.rw-hero *) {
+    color: var(--p-ink) !important; font-weight: 400 !important; opacity: 1 !important; }
+  html:not(.layout-mobile) body #root main .sd-p, html:not(.layout-mobile) body #root main .ab-body p, html:not(.layout-mobile) body #root main .lp-lede, html:not(.layout-mobile) body #root main .lp-tier-copy,
+  html:not(.layout-mobile) body #root main .rw-lede, html:not(.layout-mobile) body #root main .rw-case-conf, html:not(.layout-mobile) body #root main .ab-copy { color: var(--p-ink) !important; font-weight: 400 !important; opacity: 1 !important; }
 </style>
 
   </head>
