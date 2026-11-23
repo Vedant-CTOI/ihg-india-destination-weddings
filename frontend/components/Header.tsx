@@ -24,33 +24,14 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigateToLoremPage,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileLayout, setMobileLayout] = useState<boolean>(() => {
-    try { return sessionStorage.getItem('ihg-layout') === 'mobile'; } catch { return false; }
-  });
-
+  // V6 is web-only: the Web/Mobile preview switch is removed and the mobile layout can never be enabled.
+  // (Mobile version lives on V5.) Clears any leftover 'mobile' choice from an earlier session.
+  const mobileLayout = false;
   React.useEffect(() => {
-    const root = document.documentElement;
-    if (mobileLayout) root.classList.add('layout-mobile');
-    else root.classList.remove('layout-mobile');
-    try { sessionStorage.setItem('ihg-layout', mobileLayout ? 'mobile' : 'web'); } catch {}
-  }, [mobileLayout]);
+    document.documentElement.classList.remove('layout-mobile');
+    try { sessionStorage.setItem('ihg-layout', 'web'); } catch {}
+  }, []);
 
-  const LayoutToggle = (
-    <div className="inline-flex items-center border border-neutral-300 rounded-full overflow-hidden text-[10px] font-sans uppercase tracking-wider font-semibold shrink-0" role="group" aria-label="Layout preview toggle">
-      <button
-        type="button"
-        onClick={() => setMobileLayout(false)}
-        className={`px-3 py-1.5 transition-colors cursor-pointer ${!mobileLayout ? 'bg-black text-white' : 'bg-white text-neutral-500 hover:text-black'}`}
-        aria-pressed={!mobileLayout}
-      >Web</button>
-      <button
-        type="button"
-        onClick={() => setMobileLayout(true)}
-        className={`px-3 py-1.5 transition-colors cursor-pointer ${mobileLayout ? 'bg-black text-white' : 'bg-white text-neutral-500 hover:text-black'}`}
-        aria-pressed={mobileLayout}
-      >Mobile</button>
-    </div>
-  );
   const isHome = currentView.type === 'home';
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -124,9 +105,8 @@ export const Header: React.FC<HeaderProps> = ({
               />
             </button>
 
-            {/* Right: Layout toggle (TEMP) & Enquire & Back-to-explore Actions */}
+            {/* Right: Enquire & Back-to-explore Actions */}
             <div className="flex items-center space-x-4">
-              {LayoutToggle}
               {!isHome && (
                 <button
                   onClick={() => onNavigateHome()}
@@ -169,7 +149,6 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Mobile & Small Screen Layout */}
         <div className="flex lg:hidden flex-col justify-center min-h-[88px] py-3">
           <div className="flex items-center justify-between">
-            {LayoutToggle}
             
             {/* Wordmark without Celebrations */}
             <button
