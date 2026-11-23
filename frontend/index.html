@@ -3260,6 +3260,97 @@
   @media (prefers-reduced-motion: reduce) {
     html:not(.layout-mobile) .cine :is(.hi-mask, .hi-settle, .hi-veil, .hi-top, .hi-controls, .hi-cue) { animation: none !important; opacity: 1 !important; -webkit-mask-image: none !important; mask-image: none !important; transform: none !important; }
   }
+
+  /* ═══ DISCOVER BY DESTINATION — EXPANDING COLOUR-BLOCK REVEAL + DIRECTIONAL TRANSITIONS (web only)
+         Blocks = the info panel's own geometry + its three palette sands (E). Reveal once per visit (C). Go back = tag checkpoint-before-dest-colourblock ═══ */
+  html:not(.layout-mobile) #destinations .dd-stage { --dd-arch: cubic-bezier(.83,0,.17,1); --dd-out: cubic-bezier(.16,1,.3,1); --dd-pw: max(26%, 340px); --dd-px: 80px; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-stage .dd-blk { position: absolute; z-index: 36; pointer-events: none; will-change: transform, clip-path; }
+  /* block 1 — panel column: full height, from the left edge to the panel's right edge (contracts into the panel) */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-stage .dd-blk-1 { top: 0; bottom: 0; left: 0; width: calc(var(--dd-px) + var(--dd-pw)); background: #E5DBCC; }
+  /* block 2 — upper image field (panel edge → right, top 58%) */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-stage .dd-blk-2 { top: 0; height: 58%; left: calc(var(--dd-px) + var(--dd-pw)); right: 0; background: #DED1C0; }
+  /* block 3 — lower image field (panel edge → right, bottom 42%) */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-stage .dd-blk-3 { bottom: 0; height: 42%; left: calc(var(--dd-px) + var(--dd-pw)); right: 0; background: #D4C5B0; }
+  /* resting / done: blocks gone */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-stage.dd-done .dd-blk { display: none; }
+  /* PRE (before view): blocks parked off-stage, photo hidden, panel + text + controls hidden */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-pre .dd-blk-1 { transform: translate3d(-100%,0,0); }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-pre .dd-blk-2 { transform: translate3d(100%,0,0); }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-pre .dd-blk-3 { transform: translate3d(0,100%,0); }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-pre .dd-photo { opacity: 0; }
+  html:not(.layout-mobile) body #root .landing-home #destinations :is(.dd-pre, .dd-run) .home-dest-card .on-photo.dd-panel { opacity: 0; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-pre :is(.dd-mi, .dd-copy, .dd-cta) { visibility: hidden; }
+  html:not(.layout-mobile) body #root .landing-home #destinations :is(.dd-pre, .dd-run) ~ * , html:not(.layout-mobile) body #root .landing-home #destinations :is(.dd-pre) :is(button[aria-label$="wedding genre"], .dest-band-dots, .absolute.top-0.h-0\.5) { opacity: 0; }
+  /* RUN — 0–.7s blocks slide in from left / right / bottom and lock */
+  @keyframes dd-in-l { from { transform: translate3d(-100%,0,0); } to { transform: none; } }
+  @keyframes dd-in-r { from { transform: translate3d(100%,0,0); } to { transform: none; } }
+  @keyframes dd-in-b { from { transform: translate3d(0,100%,0); } to { transform: none; } }
+  /* .8–1.6s block 2 expands up + slides out right; block 3 drops down + out */
+  @keyframes dd-blk2 { 0%,22% { transform: none; clip-path: inset(0 0 0 0); } 45% { transform: none; clip-path: inset(0 0 0 0); } 100% { transform: translate3d(100%,0,0); clip-path: inset(0 0 0 0); } }
+  @keyframes dd-blk3 { 0%,22% { transform: none; } 45% { transform: none; } 100% { transform: translate3d(0,100%,0); } }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-blk-1 { animation: dd-in-l .7s var(--dd-arch) both, dd-contract .7s var(--dd-arch) 1.2s forwards; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-blk-2 { animation: dd-in-r .7s var(--dd-arch) .06s both, dd-out-r .8s var(--dd-arch) .8s forwards; transform-origin: right center; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-blk-3 { animation: dd-in-b .7s var(--dd-arch) .12s both, dd-out-b .8s var(--dd-arch) .92s forwards; }
+  @keyframes dd-out-r { 0% { transform: none; clip-path: inset(0 0 0 0); } 35% { transform: none; clip-path: inset(-72% 0 0 0); } 100% { transform: translate3d(100%,0,0); clip-path: inset(-72% 0 0 0); } }
+  @keyframes dd-out-b { 0% { transform: none; } 30% { transform: scaleY(1.06); transform-origin: bottom; } 100% { transform: translate3d(0,100%,0); } }
+  /* block 1 contracts from the full left column into the panel (inset 80px) and hands over to the translucent panel */
+  @keyframes dd-contract { from { clip-path: inset(0 0 0 0); opacity: 1; } 70% { clip-path: inset(0 0 0 var(--dd-px)); opacity: 1; } to { clip-path: inset(0 0 0 var(--dd-px)); opacity: 0; } }
+  /* photo appears behind the departing blocks + settles 1.08 → 1 */
+  @keyframes dd-photo-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes dd-settle { from { transform: scale(1.08); } to { transform: scale(1); } }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-photo-cur { animation: dd-photo-in .01s linear .72s both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-photo-cur .dd-img { animation: dd-settle 2.6s var(--dd-out) .72s both; }
+  /* panel (translucent) takes over from block 1 */
+  @keyframes dd-panel-in { from { opacity: 0; } to { opacity: 1; } }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .home-dest-card .on-photo.dd-panel { animation: dd-panel-in .5s ease 1.55s both; }
+  /* masked text */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-ml { display: block; overflow: hidden; padding-bottom: .08em; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-mi { display: block; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-num { margin: 0 0 10px; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-num .dd-mi { font-size: .64em; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-num { color: var(--p-maroon) !important; }
+  @keyframes dd-rise { from { transform: translate3d(0,125%,0); } to { transform: none; } }
+  @keyframes dd-up { from { clip-path: inset(0 0 100% 0); transform: translate3d(0,12px,0); } to { clip-path: inset(-20% -4% -20% -4%); transform: none; } }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-num .dd-mi { animation: dd-rise 1s var(--dd-out) 1.8s both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-nm .dd-mi { animation: dd-rise 1s var(--dd-out) 2.0s both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-copy { animation: dd-up .9s var(--dd-out) 2.3s both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-cta { animation: dd-up .9s var(--dd-out) 2.6s both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-run :is(button[aria-label$="wedding genre"], .dest-band-dots, .absolute.top-0.h-0\.5) { animation: dd-panel-in .8s ease 2.8s both; }
+  /* hover zoom stays, on the current photo only */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-done .dd-photo-cur .dd-img { transition: transform 2.2s var(--dd-out); }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-done .home-dest-card:hover .dd-photo-cur .dd-img { transform: scale(1.04); }
+
+  /* ── DESTINATION SWITCH (1.2s, consistent): photo slides in behind a clean vertical edge, outgoing shifts + dims; text exits up, new rises ── */
+  @keyframes dd-ph-in-f { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes dd-ph-in-b { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes dd-ph-img-f { from { transform: translate3d(8%,0,0) scale(1.04); } to { transform: none; } }
+  @keyframes dd-ph-img-b { from { transform: translate3d(-8%,0,0) scale(1.04); } to { transform: none; } }
+  @keyframes dd-ph-out-f { from { transform: none; filter: brightness(1); } to { transform: translate3d(-12%,0,0); filter: brightness(.55); } }
+  @keyframes dd-ph-out-b { from { transform: none; filter: brightness(1); } to { transform: translate3d(12%,0,0); filter: brightness(.55); } }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-fwd .dd-photo-in { z-index: 2; animation: dd-ph-in-f 1.2s var(--dd-arch) both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-back .dd-photo-in { z-index: 2; animation: dd-ph-in-b 1.2s var(--dd-arch) both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-fwd .dd-photo-in .dd-img { animation: dd-ph-img-f 1.2s var(--dd-arch) both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-back .dd-photo-in .dd-img { animation: dd-ph-img-b 1.2s var(--dd-arch) both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-fwd .dd-photo-out { z-index: 1; animation: dd-ph-out-f 1.2s var(--dd-arch) both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-back .dd-photo-out { z-index: 1; animation: dd-ph-out-b 1.2s var(--dd-arch) both; }
+  /* panel text: outgoing layer sits on top of the incoming one in the same spot */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-panel { display: grid !important; align-items: end; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-panel > .dd-txt { grid-area: 1 / 1; }
+  @keyframes dd-exit { from { transform: none; } to { transform: translate3d(0,-125%,0); } }
+  @keyframes dd-fade-out { from { opacity: 1; } to { opacity: 0; } }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-txt-out { pointer-events: none; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-txt-out .dd-mi { animation: dd-exit .55s var(--dd-arch) both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-txt-out .dd-nm .dd-mi { animation-delay: .05s; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-txt-out :is(.dd-copy, .dd-cta) { animation: dd-wipe-out .45s var(--dd-arch) both; }
+  @keyframes dd-wipe-out { from { clip-path: inset(-20% -4% -20% -4%); } to { clip-path: inset(-20% -4% 100% -4%); } }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-txt-in .dd-num .dd-mi { animation: dd-rise .8s var(--dd-out) .4s both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-txt-in .dd-nm .dd-mi { animation: dd-rise .8s var(--dd-out) .5s both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-txt-in .dd-copy { animation: dd-up .7s var(--dd-out) .65s both; }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-txt-in .dd-cta { animation: dd-up .7s var(--dd-out) .75s both; }
+  @media (prefers-reduced-motion: reduce) {
+    html:not(.layout-mobile) body #root .landing-home #destinations .dd-stage *, html:not(.layout-mobile) body #root .landing-home #destinations .dd-stage { animation: none !important; }
+    html:not(.layout-mobile) body #root .landing-home #destinations .dd-stage .dd-blk, html:not(.layout-mobile) body #root .landing-home #destinations .dd-photo-out, html:not(.layout-mobile) body #root .landing-home #destinations .dd-txt-out { display: none !important; }
+  }
 </style>
 
   </head>

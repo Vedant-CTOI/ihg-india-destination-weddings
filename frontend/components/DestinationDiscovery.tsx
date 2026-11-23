@@ -26,8 +26,80 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
   // Same names + photos as the Discover by Destination page (Region 1/2/3 = Goa/Thailand/Jaipur, then Destination 4, 5…)
   const destName = HOME_DEST_NAMES[currentIndex] || `Destination ${currentIndex + 1}`;
 
-  // Auto cycling progression (4500ms); pauses on hover; any slide change (arrow, dot, auto) restarts the 4.5s timer
+  // ── WEB: Expanding colour-block reveal + directional destination transitions. Go back = tag checkpoint-before-dest-colourblock ──
+  const N_WEB_MS = 6000; // auto-advance on web (option A); mobile keeps 4.5s
+  const TRANS_MS = 1200;
+  const reduceMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [phase, setPhase] = useState<'pre' | 'run' | 'done'>(() => (reduceMotion ? 'done' : 'pre'));
+  const [prevIdx, setPrevIdx] = useState<number | null>(null);
+  const [dir, setDir] = useState<number>(1);
+  const [tick, setTick] = useState<number>(0);
+  const idxRef = useRef<number>(0);
+  const busy = useRef(false);
+  const pending = useRef<{ t: number; d: number } | null>(null);
+  const transTimer = useRef<number>(0);
+  const mediaRef = useRef<HTMLDivElement | null>(null);
+  const parRef = useRef<HTMLDivElement | null>(null);
+  idxRef.current = currentIndex;
+
+  const go = (target: number, d: number) => {
+    if (target === idxRef.current) return;
+    if (busy.current) { pending.current = { t: target, d }; return; }
+    busy.current = true;
+    setPrevIdx(idxRef.current); setDir(d); setTick((t) => t + 1);
+    idxRef.current = target; setCurrentIndex(target);
+    transTimer.current = window.setTimeout(() => {
+      busy.current = false; setPrevIdx(null);
+      const p = pending.current; pending.current = null;
+      if (p && p.t !== idxRef.current) go(p.t, p.d);
+    }, reduceMotion ? 0 : TRANS_MS + 40);
+  };
+  useEffect(() => () => window.clearTimeout(transTimer.current), []);
+
+  // reveal plays once per visit, when the band is ~30% in view (option C)
   useEffect(() => {
+    if (!web || phase !== 'pre') return;
+    const el = mediaRef.current; if (!el) return;
+    HOME_DEST_IMG.forEach((s) => { const i = new Image(); i.src = s; });
+    let t = 0;
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect(); setPhase('run'); t = window.setTimeout(() => setPhase('done'), 3600);
+    }, { threshold: 0.3 });
+    io.observe(el);
+    return () => { io.disconnect(); window.clearTimeout(t); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [web]);
+
+  // very subtle parallax on the photo (≈ ±40px, lags the scroll)
+  useEffect(() => {
+    if (!web || reduceMotion) return;
+    let raf = 0;
+    const tickPar = () => {
+      raf = 0;
+      const el = mediaRef.current, par = parRef.current; if (!el || !par) return;
+      const r = el.getBoundingClientRect(); const vh = window.innerHeight || 1;
+      const p = Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / vh));
+      par.style.transform = `translate3d(0, ${(-p * 40).toFixed(1)}px, 0)`;
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(tickPar); };
+    tickPar();
+    window.addEventListener('scroll', onScroll, { passive: true }); window.addEventListener('resize', onScroll);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [web]);
+
+  // web auto-advance: 6s, starts after the reveal, pauses on hover; any change restarts it
+  useEffect(() => {
+    if (!web || phase !== 'done' || isHovered) return;
+    const t = window.setTimeout(() => go((idxRef.current + 1) % totalGenres, 1), N_WEB_MS);
+    return () => window.clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [web, phase, isHovered, currentIndex, totalGenres]);
+
+  // Auto cycling progression (4500ms, MOBILE); pauses on hover; any slide change (arrow, dot, auto) restarts the 4.5s timer
+  useEffect(() => {
+    if (web) return;
     if (!isHovered) {
       timerRef.current = setInterval(() => {
         setCurrentIndex((prev) => (prev + 1) % totalGenres);
@@ -36,15 +108,38 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isHovered, totalGenres, currentIndex]);
+  }, [isHovered, totalGenres, currentIndex, web]);
 
   const handleNext = () => {
+    if (web) { go((idxRef.current + 1) % totalGenres, 1); return; }
     setCurrentIndex((prev) => (prev + 1) % totalGenres);
   };
 
   const handlePrev = () => {
+    if (web) { go((idxRef.current - 1 + totalGenres) % totalGenres, -1); return; }
     setCurrentIndex((prev) => (prev - 1 + totalGenres) % totalGenres);
   };
+  const handleDot = (idx: number) => {
+    if (web) { go(idx, idx > idxRef.current ? 1 : -1); return; }
+    setCurrentIndex(idx);
+  };
+  const nameOf = (i: number) => HOME_DEST_NAMES[i] || `Destination ${i + 1}`;
+  const imgOf = (i: number) => HOME_DEST_IMG[i % HOME_DEST_IMG.length];
+  const WebInner = (i: number, mode: 'static' | 'in' | 'out') => (
+    <div key={`${mode}-${mode === 'static' ? 0 : tick}`} aria-hidden={mode === 'out' ? true : undefined}
+         className={`home-dest-inner dd-txt dd-txt-${mode} max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14`}>
+      <h3 className="home-dest-name font-serif font-normal leading-[0.95] tracking-[-0.015em] text-[clamp(2.2rem,3.6vw,3.6rem)] text-white">
+        <span className="dd-ml dd-num"><span className="dd-mi">{String(i + 1).padStart(2, '0')}</span></span>
+        <span className="dd-ml dd-nm"><span className="dd-mi">{nameOf(i)}</span></span>
+      </h3>
+      <p className="home-dest-copy dd-copy mt-4 max-w-md text-sm font-light leading-relaxed text-white/85">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor, incididunt ut labore.</p>
+      <button type="button" tabIndex={mode === 'out' ? -1 : undefined} onClick={(e) => { e.stopPropagation(); handleOpenDetail(); }}
+              className="home-dest-cta dd-cta group/cta mt-5 inline-flex items-center gap-3 bg-white text-black text-[11px] uppercase tracking-wider font-medium pl-6 pr-5 py-3 rounded-full cursor-pointer">
+        <span>Discover {nameOf(i)} Properties</span>
+        <ArrowRight className="w-3.5 h-3.5 transition-transform duration-700 group-hover/cta:translate-x-1" />
+      </button>
+    </div>
+  );
 
   const handleOpenDetail = () => {
     if (onOpenDetail) {
@@ -95,8 +190,9 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
             touchX.current = null; setIsHovered(false);
             if (Math.abs(dx) > 40) { swiped.current = true; dx < 0 ? handleNext() : handlePrev(); setTimeout(() => { swiped.current = false; }, 350); }
           }}
-          data-wm={web ? 'curtain' : undefined}
-          className="dest-band-media relative bg-white overflow-hidden group"
+          ref={mediaRef}
+          data-wm={web ? undefined : undefined}
+          className={`dest-band-media relative bg-white overflow-hidden group ${web ? `dd-stage dd-${phase} ${prevIdx !== null ? (dir > 0 ? 'dd-trans dd-fwd' : 'dd-trans dd-back') : ''}` : ''}`}
         >
           {/* Subtle Carousel Progress Line */}
           <div className="absolute top-0 left-0 right-0 h-0.5 bg-neutral-100 z-30">
@@ -130,6 +226,28 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
             onClick={() => { if (!swiped.current) handleOpenDetail(); }}
             className="home-dest-card relative h-full overflow-hidden bg-neutral-800 cursor-pointer group"
           >
+            {web ? (
+              <>
+                {/* photo stack inside a parallax layer; outgoing photo stays beneath the incoming one */}
+                <div ref={parRef} className="dd-par absolute inset-x-0 -top-[50px] -bottom-[50px] will-change-transform">
+                  {prevIdx !== null && (
+                    <div key={`p-${tick}`} className="dd-photo dd-photo-out absolute inset-0"><img src={imgOf(prevIdx)} alt="" data-real-photo="" className="absolute inset-0 w-full h-full object-cover" /></div>
+                  )}
+                  <div key={`c-${tick}`} className={`dd-photo ${prevIdx !== null ? 'dd-photo-in' : 'dd-photo-cur'} absolute inset-0`}>
+                    <img src={imgOf(currentIndex)} alt={destName} data-real-photo="" className="dd-img absolute inset-0 w-full h-full object-cover" />
+                  </div>
+                </div>
+                <div className="home-dest-veil absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/5" />
+                {/* the design's own colour panels (panel sands) — they cover, expand and slide away */}
+                <div className="dd-blk dd-blk-1" aria-hidden="true" />
+                <div className="dd-blk dd-blk-2" aria-hidden="true" />
+                <div className="dd-blk dd-blk-3" aria-hidden="true" />
+                <div className="on-photo dd-panel absolute inset-x-0 bottom-0 text-white">
+                  {prevIdx !== null && WebInner(prevIdx, 'out')}
+                  {WebInner(currentIndex, prevIdx !== null ? 'in' : 'static')}
+                </div>
+              </>
+            ) : (<>
             <img
               key={activeGenre.id}
               src={HOME_DEST_IMG[currentIndex % HOME_DEST_IMG.length]}
@@ -155,6 +273,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
               </button>
              </div>
             </div>
+            </>)}
           </div>
 
         {/* Carousel indicator dots — inside the band, bottom centre */}
@@ -162,7 +281,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
           {WEDDING_GENRES_DATA.map((_, idx) => (
             <button
               key={idx}
-              onClick={(e) => { e.stopPropagation(); setCurrentIndex(idx); }}
+              onClick={(e) => { e.stopPropagation(); handleDot(idx); }}
               className={`h-1 rounded-full transition-all cursor-pointer ${
                 idx === currentIndex ? 'w-6 bg-black' : 'w-1.5 bg-neutral-300 hover:bg-neutral-400'
               }`}
