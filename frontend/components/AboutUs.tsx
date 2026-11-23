@@ -352,6 +352,7 @@ const PinnedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
 /* ───────────────────────────── Mobile / tablet: stacked ───────────────────────────── */
 const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
   const [active, setActive] = useState(0);
+  const mobile = useMobileLayout();
   const statsRef = useRef<HTMLDivElement | null>(null);
   const numRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
@@ -363,7 +364,9 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
     return () => clearInterval(t);
   }, []);
 
+  // Mobile count-up (web uses the Split Editorial Reveal below)
   useEffect(() => {
+    if (!mobile) return;
     const el = statsRef.current;
     if (!el) return;
     let raf = 0;
@@ -387,11 +390,44 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
     io.observe(el);
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { io.disconnect(); numRefs.current.forEach((n, i) => { if (n) n.textContent = fmt(STATS[i].to); }); }
     return () => { io.disconnect(); cancelAnimationFrame(raf); };
-  }, []);
+  }, [mobile]);
 
-  const mobile = useMobileLayout();
+  // WEB: Split Editorial Reveal — one trigger, plays once (option C); count-up synced to the stats rise.
+  // Mobile keeps its own data-wm motion. Go back = tag checkpoint-before-about-reveal
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [revealed, setRevealed] = useState(false);
+  useEffect(() => {
+    if (mobile) return;
+    const el = sectionRef.current; if (!el) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let raf = 0; let t0 = 0;
+    const COUNT_DELAY = [1150, 1300, 1450]; // ms after trigger — matches each stat's rise
+    const COUNT_MS = 1600;
+    const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+    const run = () => {
+      setRevealed(true);
+      if (reduce) { numRefs.current.forEach((n, i) => { if (n) n.textContent = fmt(STATS[i].to); }); return; }
+      t0 = performance.now();
+      const step = (now: number) => {
+        let done = true;
+        STATS.forEach((st, i) => {
+          const n = numRefs.current[i]; if (!n) return;
+          const t = clamp01((now - t0 - COUNT_DELAY[i]) / COUNT_MS);
+          if (t < 1) done = false;
+          n.textContent = fmt(Math.round(st.to * easeOut(t)));
+        });
+        if (!done) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    };
+    numRefs.current.forEach((n) => { if (n) n.textContent = '0'; });
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); run(); } }, { threshold: 0.25 });
+    io.observe(el);
+    return () => { io.disconnect(); cancelAnimationFrame(raf); };
+  }, [mobile]);
+
   return (
-    <section id="about" className={`home-about ${mobile ? 'is-mobile' : ''}`} aria-label="About Us — IHG Weddings">
+    <section ref={sectionRef} id="about" className={`home-about ${mobile ? 'is-mobile' : 'ab-reveal'}`} data-ab-in={!mobile && revealed ? '' : undefined} aria-label="About Us — IHG Weddings">
      <div className="ha-wrap">
       <div className="ha-copy">
         <div data-wm="" className="ha-eyebrow"><span className="ha-rule" /><span>About Us</span></div>
