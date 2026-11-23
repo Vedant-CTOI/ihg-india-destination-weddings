@@ -656,8 +656,8 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     </div>
                   </div>
 
-                  {/* 3. Select Destination — Country dropdown + Destination multi-checkbox dropdown */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* 3. Select Destination — full width, same length as Select Hotels */}
+                  <div className="grid grid-cols-1 gap-3">
                     <div>
                       <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1">
                         Destination {selectedDestinations.length > 0 && `(${selectedDestinations.length} selected)`}

@@ -3485,6 +3485,10 @@
     html:not(.layout-mobile) body #root .filter-bar.dest-filter:not(.hotels-filter) > .grid.grid-cols-2 { flex-wrap: wrap !important; row-gap: 10px !important; }
     html:not(.layout-mobile) body #root .filter-bar.dest-filter:not(.hotels-filter) > .grid.grid-cols-2 > div.flex { flex: 1 1 100% !important; }
   }
+  /* ═══ HOTEL FEATURE FORM — selected persona = white text on maroon (a later grey-text rule was winning the tie).
+     Go back = tag checkpoint-before-persona-dest-width ═══ */
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form .persona-buttons-web button.bg-black:not(#_x),
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form .persona-buttons-web button.bg-black:not(#_x) * { color: #fff !important; }
 </style>
 
   </head>

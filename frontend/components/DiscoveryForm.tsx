@@ -193,8 +193,8 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
               </div>
             </div>
 
-            {/* 3. Select Destination — Country dropdown + Destination multi-checkbox dropdown */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* 3. Select Destination — full width, same length as Select Hotels */}
+            <div className="grid grid-cols-1 gap-4">
               <div className="form-field-destination">
                 <label className={labelCls}>Destination {selectedDestinations.length > 0 && `(${selectedDestinations.length} selected)`}</label>
                 <DestinationDropdown
