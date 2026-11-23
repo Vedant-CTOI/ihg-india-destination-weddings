@@ -2,9 +2,9 @@ import React, { useState, useMemo } from 'react';
 import { InquiryFormData, UserPersona } from '../types';
 import { HOTELS_DATA } from '../constants';
 import { ArrowRight } from 'lucide-react';
-import { HotelSelectorModal } from './HotelSelectorModal';
 import { COUNTRY_DEST_MAP, DestinationDropdown } from './DestinationDropdown';
 import { OccasionDropdown } from './OccasionDropdown';
+import { HotelDropdown } from './HotelDropdown';
 import { useWeb, SplitText, PALETTE } from './webMotion';
 
 interface DiscoveryFormProps {
@@ -223,33 +223,17 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
               </div>
             </div>
 
-            {/* 4. Hotel multi-select — popup with visual images */}
+            {/* 4. Hotel multi-select — checkbox dropdown (filtered by destination). Go back = tag checkpoint-before-hotel-dropdown */}
             <div>
               <label className={labelCls}>
                 Select Hotels {selectedHotelIds.length > 0 && `(${selectedHotelIds.length} selected — enquiry routes to all)`}
               </label>
-              <button
-                type="button"
-                onClick={() => {
-                  document.getElementById('discovery-form-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  setHotelModalOpen(true);
-                }}
-                className="w-full bg-white border border-neutral-300 hover:border-black rounded-xl p-2.5 text-left text-xs text-black flex items-center justify-between cursor-pointer transition-colors"
-              >
-                <span className={selectedHotelIds.length ? 'font-medium' : 'text-neutral-400 font-light'}>
-                  {selectedHotelIds.length
-                    ? `${selectedHotelIds.length} propert${selectedHotelIds.length > 1 ? 'ies' : 'y'} selected`
-                    : 'Choose properties'}
-                </span>
-                <span className="flex items-center space-x-1.5 shrink-0">
-                  {selectedHotelIds.length > 0 && (
-                    <span className="text-[10px] text-neutral-400 font-light max-w-[140px] truncate">
-                      {HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).slice(0, 2).map((h) => h.name).join(', ')}{selectedHotelIds.length > 2 ? '…' : ''}
-                    </span>
-                  )}
-                  <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                </span>
-              </button>
+              <HotelDropdown
+                hotels={availableHotels}
+                selectedHotelIds={selectedHotelIds}
+                onToggle={toggleHotel}
+                inputCls={inputCls}
+              />
               {selectedHotelIds.length > 0 && (
                 <div className="mt-2.5 flex flex-wrap gap-1.5">
                   {HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => (
@@ -338,14 +322,6 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
 
       </div>
 
-      {/* Hotel selector popup with visual images — page level */}
-      <HotelSelectorModal
-        isOpen={hotelModalOpen}
-        selectedHotelIds={selectedHotelIds}
-        hotelNameFilter={availableHotels.map((h) => h.name)}
-        onClose={() => setHotelModalOpen(false)}
-        onConfirmSelection={(ids) => setSelectedHotelIds(ids)}
-      />
     </section>
   );
 };

@@ -3,9 +3,9 @@ import { createPortal } from 'react-dom';
 import { useMobileLayout } from '../components/useMobileLayout';
 import { HotelProperty, InquiryFormData, UserPersona, HotelVenueSpace } from '../types';
 import { HOTELS_DATA } from '../constants';
-import { HotelSelectorModal } from '../components/HotelSelectorModal';
 import { COUNTRY_DEST_MAP, DestinationDropdown } from '../components/DestinationDropdown';
 import { OccasionDropdown } from '../components/OccasionDropdown';
+import { HotelDropdown } from '../components/HotelDropdown';
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, ChevronDown, X, PenLine } from 'lucide-react';
 import { useWeb, PALETTE } from '../components/webMotion';
 import { FEATURE_HOTEL_ID, FEATURE_HERO, FeatureHero, FeatureBody, withHotelCopy } from '../components/HotelFeature';
@@ -715,28 +715,15 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                         )}
                       </div>
                     ) : (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        document.querySelector('.sticky.top-20')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        setHotelModalOpen(true);
-                      }}
-                      className="w-full bg-white border border-neutral-300 hover:border-black rounded-xl p-2.5 text-left text-xs text-black flex items-center justify-between cursor-pointer transition-colors"
-                    >
-                      <span className={selectedHotelIds.length ? 'font-medium' : 'text-neutral-400 font-light'}>
-                        {selectedHotelIds.length
-                          ? `${selectedHotelIds.length} propert${selectedHotelIds.length > 1 ? 'ies' : 'y'} selected`
-                          : 'Choose properties'}
-                      </span>
-                      <span className="flex items-center space-x-1.5 shrink-0">
-                        {selectedHotelIds.length > 0 && (
-                          <span className="text-[10px] text-neutral-400 font-light max-w-[140px] truncate">
-                            {HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).slice(0, 2).map((h) => h.name).join(', ')}{selectedHotelIds.length > 2 ? '…' : ''}
-                          </span>
-                        )}
-                        <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                      </span>
-                    </button>
+                    /* Web: checkbox dropdown (filtered by destination). Go back = tag checkpoint-before-hotel-dropdown */
+                    <HotelDropdown
+                      hotels={availableHotels}
+                      selectedHotelIds={selectedHotelIds}
+                      onToggle={toggleHotel}
+                      labelFor={hotelLabel}
+                      currentHotelId={hotel.id}
+                      inputCls="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
+                    />
                     )}
                     {!mobile && selectedHotelIds.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-1.5">
@@ -1122,16 +1109,6 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
           </button>
         </div>, document.body)}
 
-      {/* Hotel selector popup with visual images (side-rail form) */}
-      <HotelSelectorModal
-        isOpen={hotelModalOpen}
-        selectedHotelIds={selectedHotelIds}
-        hotelNameFilter={availableHotels.map((h) => h.name)}
-        
-      
-        onClose={() => setHotelModalOpen(false)}
-        onConfirmSelection={(ids) => setSelectedHotelIds(ids)}
-      />
 
       {/* POPUP OVERLAY FOR PREVIEWING VENUE GALLERY AND DRAFT DRAWING LAYOUT */}
       {previewModalOpen && activeLightboxSlide && (

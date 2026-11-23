@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { InquiryFormData, UserPersona } from '../types';
 import { HOTELS_DATA } from '../constants';
-import { HotelSelectorModal } from '../components/HotelSelectorModal';
 import { COUNTRY_DEST_MAP, DestinationDropdown } from '../components/DestinationDropdown';
 import { OccasionDropdown } from '../components/OccasionDropdown';
+import { HotelDropdown } from '../components/HotelDropdown';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface ConversationPageProps {
@@ -250,20 +250,13 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
               <label className="block text-[11px] uppercase tracking-wider text-neutral-500 font-semibold mb-1.5">
                 Select Hotels {selectedHotelIds.length > 0 && `(${selectedHotelIds.length} selected — enquiry routes to all)`}
               </label>
-              {availableHotels.length === 0 ? (
-                <p className="text-neutral-400 font-light">No hotels in this destination yet.</p>
-              ) : (
-                <div className="relative">
-                  <button
-                    type="button"
-                    onClick={() => setHotelModalOpen(true)}
-                    className="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-left text-black cursor-pointer flex items-center justify-between"
-                  >
-                    <span>{selectedHotelIds.length > 0 ? `${selectedHotelIds.length} selected` : 'Choose properties'}</span>
-                    <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>
-                  </button>
-                </div>
-              )}
+              {/* checkbox dropdown (filtered by destination). Go back = tag checkpoint-before-hotel-dropdown */}
+              <HotelDropdown
+                hotels={availableHotels}
+                selectedHotelIds={selectedHotelIds}
+                onToggle={toggleHotel}
+                inputCls="w-full bg-white border border-neutral-300 rounded-xl p-2.5 focus:outline-none focus:border-black text-xs text-black"
+              />
               {selectedHotelIds.length > 0 && (
                 <div className="mt-2.5 flex flex-wrap gap-1.5">
                   {HOTELS_DATA.filter((h) => selectedHotelIds.includes(h.id)).map((h) => (
@@ -345,16 +338,6 @@ export const ConversationPage: React.FC<ConversationPageProps> = ({
             </div>
           </form>
 
-          {/* Hotel selector popup with visual images */}
-          <HotelSelectorModal
-            isOpen={hotelModalOpen}
-            selectedHotelIds={selectedHotelIds}
-            hotelNameFilter={availableHotels.map((h) => h.name)}
-            
-          
-            onClose={() => setHotelModalOpen(false)}
-            onConfirmSelection={(ids, _names) => setSelectedHotelIds(ids)}
-          />
 
         </div>
 
