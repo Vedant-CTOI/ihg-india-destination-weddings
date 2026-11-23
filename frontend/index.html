@@ -3489,6 +3489,14 @@
      Go back = tag checkpoint-before-persona-dest-width ═══ */
   html:not(.layout-mobile) body #root .hotel-feature .hf-form .persona-buttons-web button.bg-black:not(#_x),
   html:not(.layout-mobile) body #root .hotel-feature .hf-form .persona-buttons-web button.bg-black:not(#_x) * { color: #fff !important; }
+  /* ═══ DESTINATION SAND PANEL — diagonal transparency (PDF): see-through at the top, fading diagonally to solid sand
+     by mid-bottom so the number / name / copy / CTA sit on solid sand. Light frost (A). Go back = tag checkpoint-before-dd-panel-transparency ═══ */
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .on-photo.dd-panel {
+    background: linear-gradient(160deg,
+      rgba(229,219,204,.42) 0%, rgba(228,217,201,.55) 18%, rgba(225,213,196,.74) 34%,
+      rgba(222,209,192,.92) 46%, rgba(220,206,188,.98) 54%, rgba(214,199,179,1) 70%, rgba(212,197,176,1) 100%) !important;
+    -webkit-backdrop-filter: blur(2px) !important; backdrop-filter: blur(2px) !important;
+  }
 </style>
 
   </head>
