@@ -2899,6 +2899,145 @@
   html:not(.layout-mobile) body #root .hotel-feature section.text-white button > span.rounded-full *, html:not(.layout-mobile) body #root .hotel-feature section.text-white button > span[class*="bg-white"] * { color: var(--p-maroon) !important; }
   /* hairline between the sand closing band and the sand footer */
   html:not(.layout-mobile) body #root .hotel-feature section.text-white:last-of-type { border-bottom: 1px solid rgba(82,82,82,.35) !important; }
+
+  /* ═══ BUTTONS · ENQUIRY FORMS · PAGE TEXT (web only). Go back = tag checkpoint-before-btn-form-text ═══ */
+  /* --- 1. Button visibility --- */
+  /* homepage Submit (earlier taupe var made it sand+white) → maroon pill */
+  html:not(.layout-mobile) body #root .landing-home #contact button[type="submit"] { background: var(--p-maroon) !important; border-color: var(--p-maroon) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root .landing-home #contact button[type="submit"]:hover { background: var(--p-maroon-d) !important; }
+  html:not(.layout-mobile) body #root .landing-home #contact button[type="submit"] * { color: #fff !important; }
+  /* Real Weddings page "Read Full Story" — white text on maroon */
+  html:not(.layout-mobile) body #root main .rw-case-cta, html:not(.layout-mobile) body #root main .rw-case-cta *, html:not(.layout-mobile) body #root main .rw-case-cta span { color: #fff !important; }
+  /* homepage destination slider arrows — sand + maroon ring/icon (earlier taupe rule won) */
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label$="wedding genre"] { background: var(--p-sand2) !important; border: 1px solid var(--p-maroon) !important; color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label$="wedding genre"] * { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label$="wedding genre"]:hover { background: var(--p-sand3) !important; }
+  /* hotel detail venue gallery arrows + dots (white on light frames) */
+  html:not(.layout-mobile) body #root .hotel-feature button[aria-label$="venue picture"] { background: var(--p-sand2) !important; border: 1px solid var(--p-maroon) !important; color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature button[aria-label$="venue picture"] * { color: var(--p-maroon) !important; }
+  /* IHG Properties View All — dark text + dark outline (bronze text was 4.4:1) */
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button, html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button * { color: var(--p-ink) !important; }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button:hover, html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button:hover * { color: var(--p-ivory) !important; }
+  /* dropdown placeholders on all forms — full-strength body grey (was 2.9:1) */
+  html:not(.layout-mobile) body #root form button .text-neutral-400, html:not(.layout-mobile) body #root form button .font-light.text-neutral-400,
+  html:not(.layout-mobile) body #root form .hotel-dd > button span, html:not(.layout-mobile) body #root form ::placeholder { color: var(--p-body) !important; opacity: 1 !important; }
+  /* header Web/Mobile prototype toggle */
+  html:not(.layout-mobile) body #root header .text-neutral-500, html:not(.layout-mobile) body #root header button.text-neutral-500 { color: var(--p-body) !important; }
+  /* Discover by Destination featured cards: "FULL PAGE →" white text link */
+  html:not(.layout-mobile) body #root main .dest-fullpage-cta { background: transparent !important; color: #fff !important; border-color: rgba(255,255,255,.7) !important; border-radius: 0 !important; padding: 0 0 2px 0 !important; }
+  html:not(.layout-mobile) body #root main .dest-fullpage-cta * { color: #fff !important; }
+  html:not(.layout-mobile) body #root main .dest-fullpage-cta:hover { border-color: #fff !important; }
+
+  /* --- 2. Enquiry forms — homepage + Enquire page share one look (fields straight on ivory, as in the layout PDF) --- */
+  html:not(.layout-mobile) body #root #contact .rounded-3xl:has(> form), html:not(.layout-mobile) body #root main .cv-page .rounded-3xl:has(> form),
+  html:not(.layout-mobile) body #root main .cv-page div:has(> form.space-y-7) {
+    background: transparent !important; border: 0 !important; box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; }
+  html:not(.layout-mobile) body #root #contact form, html:not(.layout-mobile) body #root main .cv-page form { background: transparent !important; }
+  html:not(.layout-mobile) body #root #contact .rounded-3xl:has(> form), html:not(.layout-mobile) body #root main .cv-page div:has(> form.space-y-7) { max-width: 766px !important; margin-left: auto !important; margin-right: auto !important; }
+  html:not(.layout-mobile) body #root main .cv-page form.space-y-7 > * + * { margin-top: 1.25rem !important; }
+  /* persona title */
+  html:not(.layout-mobile) body #root #contact form > div:first-child > label, html:not(.layout-mobile) body #root main .cv-page .cv-persona-label {
+    font-family: "Menca", "Inter", sans-serif !important; font-style: italic !important; font-size: 16px !important; color: var(--p-body) !important; margin-bottom: 10px !important; }
+  /* persona pills — white, faint border; selected maroon */
+  html:not(.layout-mobile) body #root #contact .persona-buttons-web button, html:not(.layout-mobile) body #root main .cv-page .persona-buttons-web button {
+    background: #fff !important; border: 1px solid rgba(58,48,38,.08) !important; border-radius: 9999px !important; color: var(--p-body) !important; height: 40px !important; padding: 0 12px !important; font-size: 12px !important; }
+  html:not(.layout-mobile) body #root #contact .persona-buttons-web button[aria-pressed="true"], html:not(.layout-mobile) body #root #contact .persona-buttons-web button.bg-black,
+  html:not(.layout-mobile) body #root main .cv-page .persona-buttons-web button[aria-pressed="true"], html:not(.layout-mobile) body #root main .cv-page .persona-buttons-web button.bg-black {
+    background: var(--p-maroon) !important; border-color: var(--p-maroon) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root #contact .persona-buttons-web button[aria-pressed="true"] *, html:not(.layout-mobile) body #root main .cv-page .persona-buttons-web button[aria-pressed="true"] *,
+  html:not(.layout-mobile) body #root #contact .persona-buttons-web button.bg-black *, html:not(.layout-mobile) body #root main .cv-page .persona-buttons-web button.bg-black * { color: #fff !important; }
+  /* field labels */
+  html:not(.layout-mobile) body #root #contact form label.block, html:not(.layout-mobile) body #root main .cv-page form label.block {
+    font-size: 11px !important; letter-spacing: .06em !important; font-weight: 600 !important; text-transform: uppercase !important; color: var(--p-body) !important; margin-bottom: 6px !important; }
+  /* inputs, selects, dropdown triggers, textarea — white, faint border, same 12px radius on both forms */
+  html:not(.layout-mobile) body #root #contact form input:not([type="checkbox"]), html:not(.layout-mobile) body #root #contact form textarea,
+  html:not(.layout-mobile) body #root #contact form .relative > button[type="button"], html:not(.layout-mobile) body #root #contact form .hotel-dd > button,
+  html:not(.layout-mobile) body #root main .cv-page form input:not([type="checkbox"]), html:not(.layout-mobile) body #root main .cv-page form textarea,
+  html:not(.layout-mobile) body #root main .cv-page form .relative > button[type="button"], html:not(.layout-mobile) body #root main .cv-page form .hotel-dd > button {
+    background: #fff !important; border: 1px solid rgba(58,48,38,.10) !important; border-radius: 12px !important; color: var(--p-ink) !important; min-height: 40px !important; font-size: 12px !important; box-shadow: none !important; }
+  html:not(.layout-mobile) body #root #contact form input:focus, html:not(.layout-mobile) body #root #contact form textarea:focus,
+  html:not(.layout-mobile) body #root main .cv-page form input:focus, html:not(.layout-mobile) body #root main .cv-page form textarea:focus { border-color: var(--p-maroon) !important; outline: none !important; }
+  /* consent checkboxes + (MANDATORY)/(OPTIONAL) */
+  html:not(.layout-mobile) body #root #contact form input[type="checkbox"], html:not(.layout-mobile) body #root main .cv-page form input[type="checkbox"] { accent-color: var(--p-maroon); }
+  html:not(.layout-mobile) body #root #contact form label:has(input[type="checkbox"]) *, html:not(.layout-mobile) body #root main .cv-page form label:has(input[type="checkbox"]) * { color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root #contact form label:has(input[type="checkbox"]) [class*="uppercase"], html:not(.layout-mobile) body #root main .cv-page form label:has(input[type="checkbox"]) [class*="uppercase"],
+  html:not(.layout-mobile) body #root #contact form label:has(input[type="checkbox"]) [class*="text-[#A76548]"], html:not(.layout-mobile) body #root main .cv-page form label:has(input[type="checkbox"]) [class*="text-[#A76548]"] { color: var(--p-body) !important; opacity: .75; }
+  /* submit — full-width maroon pill, same height on both */
+  html:not(.layout-mobile) body #root #contact form button[type="submit"], html:not(.layout-mobile) body #root main .cv-page form button[type="submit"] {
+    background: var(--p-maroon) !important; border-color: var(--p-maroon) !important; color: #fff !important; border-radius: 9999px !important; height: 46px !important; padding: 0 24px !important; font-size: 11px !important; letter-spacing: .22em !important; }
+  html:not(.layout-mobile) body #root #contact form button[type="submit"]:hover, html:not(.layout-mobile) body #root main .cv-page form button[type="submit"]:hover { background: var(--p-maroon-d) !important; }
+  /* specificity lift: earlier "#contact form button.bg-black" (taupe) out-ranked the rules above */
+  html:not(.layout-mobile) body #root .landing-home #contact form button.bg-black[type="submit"]:is(button),
+  html:not(.layout-mobile) body #root .landing-home #contact form button[type="submit"]:is(.bg-black, button):not(#_x) { background: var(--p-maroon) !important; background-color: var(--p-maroon) !important; border-color: var(--p-maroon) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root .landing-home #contact form button[type="submit"]:not(#_x):hover { background: var(--p-maroon-d) !important; background-color: var(--p-maroon-d) !important; }
+  /* specificity lifts for two buttons whose text was taken by broader span rules */
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button:not(#_x) span:not(#_y), html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button:not(#_x) { color: var(--p-ink) !important; }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button:not(#_x):hover span:not(#_y), html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head button:not(#_x):hover { color: var(--p-ivory) !important; }
+  html:not(.layout-mobile) body #root main .rw-case .rw-case-cta:not(#_x), html:not(.layout-mobile) body #root main .rw-case .rw-case-cta:not(#_x) span:not(#_y), html:not(.layout-mobile) body #root main .rw-case .rw-case-cta:not(#_x) svg { color: #fff !important; }
+  /* Enquire page card has an id — match it by id so it reads exactly like the homepage form */
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card { background: transparent !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 !important; max-width: 766px !important; margin-left: auto !important; margin-right: auto !important; }
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form input:not([type="checkbox"]), html:not(.layout-mobile) body #root .cv-page #conversation-form-card form textarea,
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form select, html:not(.layout-mobile) body #root .cv-page #conversation-form-card form button.w-full:not(.cv-submit) {
+    border-color: rgba(58,48,38,.10) !important; border-radius: 12px !important; background: #fff !important; color: var(--p-ink) !important; }
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form input:not([type="checkbox"]):focus, html:not(.layout-mobile) body #root .cv-page #conversation-form-card form textarea:focus,
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form button.w-full:not(.cv-submit):focus, html:not(.layout-mobile) body #root .cv-page #conversation-form-card form button.w-full:not(.cv-submit):hover { border-color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form input::placeholder, html:not(.layout-mobile) body #root .cv-page #conversation-form-card form textarea::placeholder { color: var(--p-body) !important; opacity: 1 !important; }
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form label, html:not(.layout-mobile) body #root .cv-page #conversation-form-card form label * { color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form label.cursor-pointer, html:not(.layout-mobile) body #root .cv-page #conversation-form-card form label.cursor-pointer > span,
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form label.cursor-pointer span span { color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form label.cursor-pointer span span { opacity: .75; }
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form button span[aria-hidden="true"].border-current { border-color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form span.rounded-full.border { border-color: rgba(137,56,74,.3) !important; background: #fff !important; color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card .persona-buttons-web button:not(.bg-black):not([aria-pressed="true"]) { background: #fff !important; border-color: rgba(58,48,38,.08) !important; color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card .persona-buttons-web button.bg-black, html:not(.layout-mobile) body #root .cv-page #conversation-form-card .persona-buttons-web button[aria-pressed="true"] { background: var(--p-maroon) !important; border-color: var(--p-maroon) !important; color: #fff !important; }
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card .cv-persona-label { font-family: "Menca", "Inter", sans-serif !important; font-style: italic !important; font-size: 16px !important; text-transform: uppercase !important; color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root .landing-home #contact form > div:first-child > label { text-transform: uppercase !important; }
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card .cv-submit { height: 46px !important; border-radius: 9999px !important; }
+  html:not(.layout-mobile) body #root #contact form .border-t, html:not(.layout-mobile) body #root main .cv-page form .border-t { border-color: var(--p-rule) !important; }
+
+  /* --- 3a. Crowne Plaza (hotel detail) text — palette only --- */
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues article h4 { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues article p { color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues article dt, html:not(.layout-mobile) body #root .hotel-feature .hf-venues article dt *,
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues article dl span[class*="uppercase"], html:not(.layout-mobile) body #root .hotel-feature .hf-venues article [class*="tracking-[0.2"] { color: var(--p-bronze) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues article dd, html:not(.layout-mobile) body #root .hotel-feature .hf-venues article li { color: var(--p-ink) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues article li::before, html:not(.layout-mobile) body #root .hotel-feature .hf-venues article li > span[aria-hidden],
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues article li > span.rounded-full { background: var(--p-bronze) !important; color: var(--p-bronze) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues article dt svg, html:not(.layout-mobile) body #root .hotel-feature .hf-venues article dl svg { color: var(--p-bronze) !important; stroke: currentColor; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues article dl > div, html:not(.layout-mobile) body #root .hotel-feature .hf-venues article .border-t,
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues article .border-b { border-color: var(--p-rule) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature button:has(> span + svg[class*="plus"]), html:not(.layout-mobile) body #root .hotel-feature [class*="read-more"],
+  html:not(.layout-mobile) body #root .hotel-feature button span:only-child { color: inherit; }
+  html:not(.layout-mobile) body #root .hotel-feature button[aria-expanded] > span:first-child { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature button[aria-expanded] > span:last-child { border-color: var(--p-maroon) !important; color: var(--p-maroon) !important; }
+  /* venue tabs strip: property name maroon, active tab maroon, inactive body grey */
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues [role="tablist"] button, html:not(.layout-mobile) body #root .hotel-feature .hf-venues nav button { color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues [role="tablist"] button[aria-selected="true"], html:not(.layout-mobile) body #root .hotel-feature .hf-venues nav button[aria-current="true"],
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues [role="tablist"] button[aria-selected="true"] * { color: var(--p-maroon) !important; border-color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues > div:first-child span.font-serif, html:not(.layout-mobile) body #root .hotel-feature .hf-venues .sticky span.font-serif,
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues .sticky > div > span:first-child { color: var(--p-maroon) !important; }
+  /* section eyebrows ("About Us — Crowne Plaza Today", "Celebration Grounds") + their rule */
+  html:not(.layout-mobile) body #root .hotel-feature section > div span[class*="tracking-[0.3"], html:not(.layout-mobile) body #root .hotel-feature .hf-about span[class*="uppercase"],
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues > div span[class*="uppercase"][class*="tracking"]:not(button *) { color: var(--p-bronze) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-about span[aria-hidden].h-px, html:not(.layout-mobile) body #root .hotel-feature span.w-8.h-px,
+  html:not(.layout-mobile) body #root .hotel-feature span[class*="h-px"][class*="w-"] { background: var(--p-bronze) !important; }
+  /* stats band labels bronze, numbers maroon (kept), captions body */
+  html:not(.layout-mobile) body #root .hotel-feature section.text-white span[class*="uppercase"][class*="tracking"] { color: var(--p-bronze) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-about button, html:not(.layout-mobile) body #root .hotel-feature .hf-about button * { color: var(--p-maroon) !important; border-color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-form .text-white:not(button *):not(.bg-black *) { color: var(--p-body) !important; }
+
+  /* --- 3b. About page text --- */
+  html:not(.layout-mobile) body #root .ab-page .ab-eyebrow { color: var(--p-bronze) !important; opacity: 1 !important; }
+  html:not(.layout-mobile) body #root .ab-page .ab-quote, html:not(.layout-mobile) body #root .ab-page .ab-story-text .ab-quote:not(#_x) { color: var(--p-maroon) !important; }
+  html:not(.layout-mobile) body #root .ab-page .ab-body, html:not(.layout-mobile) body #root .ab-page .ab-body p, html:not(.layout-mobile) body #root .ab-page .ab-close-text p { color: var(--p-body) !important; opacity: 1 !important; }
+  html:not(.layout-mobile) body #root .ab-page .ab-close-text { background: var(--p-ivory) !important; }
+  html:not(.layout-mobile) body #root .ab-page .ab-close { border-color: var(--p-rule) !important; background: var(--p-ivory) !important; }
+  html:not(.layout-mobile) body #root .ab-page .ab-close:hover { border-color: rgba(137,56,74,.35) !important; box-shadow: none !important; }
+  html:not(.layout-mobile) body #root .ab-page .ab-media { border-color: transparent !important; background-color: var(--p-sand1) !important; }
+  /* breadcrumb strips on every inner page: body grey, current page maroon */
+  html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child, html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child * { color: var(--p-body) !important; }
+  html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child span.text-black, html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child span.font-medium,
+  html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child button:hover { color: var(--p-maroon) !important; }
 </style>
 
   </head>

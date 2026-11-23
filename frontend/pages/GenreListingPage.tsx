@@ -315,10 +315,14 @@ export const GenreListingPage: React.FC<GenreListingPageProps> = ({
                                style={{ gridTemplateRows: active ? '1fr' : '0fr', opacity: active ? 1 : 0 }}>
                             <div className="overflow-hidden">
                               <p className="mt-4 max-w-md text-sm font-light leading-relaxed text-white/85">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                              {/* Web: "FULL PAGE →" white text link (same as Hotels tiles); mobile keeps the white pill. Go back = tag checkpoint-before-btn-form-text */}
                               <button type="button" onClick={(e) => { e.stopPropagation(); handleOpenDestinationProperties(hotel); }}
-                                      className="group/cta mt-5 inline-flex items-center gap-3 bg-white text-black text-[11px] uppercase tracking-wider font-medium pl-6 pr-5 py-3 rounded-full cursor-pointer">
-                                <span>Discover {name} Properties</span>
-                                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-700 group-hover/cta:translate-x-1" />
+                                      aria-label={`Discover ${name} properties — full page`}
+                                      className={mobileLayout
+                                        ? 'group/cta mt-5 inline-flex items-center gap-3 bg-white text-black text-[11px] uppercase tracking-wider font-medium pl-6 pr-5 py-3 rounded-full cursor-pointer'
+                                        : 'dest-fullpage-cta group/cta mt-5 inline-flex items-center gap-2 text-white text-[10px] uppercase tracking-[0.22em] font-medium border-b border-white/70 pb-0.5 cursor-pointer'}>
+                                <span>{mobileLayout ? `Discover ${name} Properties` : 'Full Page'}</span>
+                                <ArrowRight className={`${mobileLayout ? 'w-3.5 h-3.5' : 'w-3 h-3'} transition-transform duration-700 group-hover/cta:translate-x-1`} />
                               </button>
                             </div>
                           </div>
