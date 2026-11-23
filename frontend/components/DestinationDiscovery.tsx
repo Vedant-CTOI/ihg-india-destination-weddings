@@ -124,18 +124,51 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
     setCurrentIndex(idx);
   };
   const nameOf = (i: number) => HOME_DEST_NAMES[i] || `Destination ${i + 1}`;
+
+  /* Web: destination name always on ONE line — names that don't fit the panel shrink just enough (A); names that fit
+     keep the normal size. Re-measured on slide change + resize. Go back = tag checkpoint-before-dest45-oneline */
+  const fitRoot = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (!web) return;
+    const fit = () => {
+      const root = fitRoot.current; if (!root) return;
+      root.querySelectorAll<HTMLElement>('.dd-fit').forEach((el) => {
+        el.style.removeProperty('font-size');
+        el.style.setProperty('white-space', 'nowrap', 'important');
+        const box = (el.closest('.dd-txt') as HTMLElement) || el.parentElement!;
+        const cs = getComputedStyle(box);
+        // available = the sand panel's width minus the text block's own side padding (the text block itself grows with content)
+        const avail = root.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+        const range = document.createRange(); range.selectNodeContents(el);
+        const need = range.getBoundingClientRect().width; // real text width (the span itself is a full-width block)
+        if (avail > 0 && need > avail) {
+          const base = parseFloat(getComputedStyle(el).fontSize);
+          el.style.setProperty('font-size', `${Math.floor(base * (avail / need) * 0.98 * 10) / 10}px`, 'important');
+        }
+      });
+    };
+    fit();
+    const raf = requestAnimationFrame(fit);
+    const fonts = (document as any).fonts; fonts?.ready?.then(fit);
+    window.addEventListener('resize', fit);
+    // slide text is re-mounted when a transition settles — re-fit whenever the panel's content changes
+    const mo = new MutationObserver(() => requestAnimationFrame(fit));
+    if (fitRoot.current) mo.observe(fitRoot.current, { childList: true, subtree: true });
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', fit); mo.disconnect(); };
+  }, [web, currentIndex, tick]);
   const imgOf = (i: number) => HOME_DEST_IMG[i % HOME_DEST_IMG.length];
   const WebInner = (i: number, mode: 'static' | 'in' | 'out') => (
     <div key={`${mode}-${mode === 'static' ? 0 : tick}`} aria-hidden={mode === 'out' ? true : undefined}
          className={`home-dest-inner dd-txt dd-txt-${mode} max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14`}>
       <h3 className="home-dest-name font-serif font-normal leading-[0.95] tracking-[-0.015em] text-[clamp(2.2rem,3.6vw,3.6rem)] text-white">
         <span className="dd-ml dd-num"><span className="dd-mi">{String(i + 1).padStart(2, '0')}</span></span>
-        <span className="dd-ml dd-nm"><span className="dd-mi">{nameOf(i)}</span></span>
+        <span className="dd-ml dd-nm"><span className="dd-mi dd-fit">{nameOf(i)}</span></span>
       </h3>
       <p className="home-dest-copy dd-copy mt-4 max-w-md text-sm font-light leading-relaxed text-white/85">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor, incididunt ut labore.</p>
       <button type="button" tabIndex={mode === 'out' ? -1 : undefined} onClick={(e) => { e.stopPropagation(); handleOpenDetail(); }}
               className="home-dest-cta dd-cta group/cta mt-5 inline-flex items-center gap-3 bg-white text-black text-[11px] uppercase tracking-wider font-medium pl-6 pr-5 py-3 rounded-full cursor-pointer">
-        <span>Discover {nameOf(i)} Properties</span>
+        {/* Destination 4 & 5: short CTA (D) */}
+        <span className="whitespace-nowrap">{i === 3 || i === 4 ? 'Discover Properties' : `Discover ${nameOf(i)} Properties`}</span>
         <ArrowRight className="w-3.5 h-3.5 transition-transform duration-700 group-hover/cta:translate-x-1" />
       </button>
     </div>
@@ -242,7 +275,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
                 <div className="dd-blk dd-blk-1" aria-hidden="true" />
                 <div className="dd-blk dd-blk-2" aria-hidden="true" />
                 <div className="dd-blk dd-blk-3" aria-hidden="true" />
-                <div className="on-photo dd-panel absolute inset-x-0 bottom-0 text-white">
+                <div ref={fitRoot} className="on-photo dd-panel absolute inset-x-0 bottom-0 text-white">
                   {prevIdx !== null && WebInner(prevIdx, 'out')}
                   {WebInner(currentIndex, prevIdx !== null ? 'in' : 'static')}
                 </div>
