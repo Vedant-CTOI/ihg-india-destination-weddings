@@ -421,7 +421,7 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
       raf = requestAnimationFrame(step);
     };
     numRefs.current.forEach((n) => { if (n) n.textContent = '0'; });
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); run(); } }, { threshold: 0.25 });
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); run(); } }, { threshold: window.innerWidth < 1024 ? 0.12 : 0.25 });
     io.observe(el);
     return () => { io.disconnect(); cancelAnimationFrame(raf); };
   }, [mobile]);

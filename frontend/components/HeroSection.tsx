@@ -180,7 +180,9 @@ const HeroSectionCinematic: React.FC = () => {
     };
     if (!reduce) {
       raf = requestAnimationFrame(tick);
-      window.addEventListener('pointermove', onMove, { passive: true });
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        window.addEventListener('pointermove', onMove, { passive: true });
+      }
     }
     return () => {
       cancelAnimationFrame(raf);

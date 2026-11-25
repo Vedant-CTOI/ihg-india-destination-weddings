@@ -65,7 +65,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
     const io = new IntersectionObserver(([e]) => {
       if (!e.isIntersecting) return;
       io.disconnect(); setPhase('run'); t = window.setTimeout(() => setPhase('done'), 3600);
-    }, { threshold: 0.3 });
+    }, { threshold: window.innerWidth < 1024 ? 0.15 : 0.3 });
     io.observe(el);
     return () => { io.disconnect(); window.clearTimeout(t); };
     // eslint-disable-next-line react-hooks/exhaustive-deps

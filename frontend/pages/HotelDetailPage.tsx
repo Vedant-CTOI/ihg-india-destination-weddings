@@ -284,6 +284,16 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   const web = useWeb();
   const feature = hotel.id === FEATURE_HOTEL_ID; // Web + Mobile (Mobile adapts the same design to the phone canvas)
   const mobile = useMobileLayout(); // Mobile: the side form becomes a popup + floating button (same form, same fields)
+  const [isNarrow, setIsNarrow] = useState<boolean>(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches
+  );
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1023px)');
+    const on = () => setIsNarrow(mq.matches);
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, []);
+  const drawerMode = mobile || isNarrow;
   const shown = feature ? withHotelCopy(hotel) : hotel; // client copy, display only
 
   // Gallery Preview Lightbox Overlay Modal State
@@ -379,23 +389,26 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
   const [consentNewsletter, setConsentNewsletter] = useState<boolean>(false);
   const [consentContact, setConsentContact] = useState<boolean>(false);
 
-  // Collapsible side-nav form: open on arrival, auto-collapse after landing, manually toggleable
-  const [sideFormOpen, setSideFormOpen] = useState<boolean>(() => !(typeof document !== 'undefined' && document.documentElement.classList.contains('layout-mobile')));
+  // Collapsible side-nav form: open on arrival on desktop, auto-collapse after landing; closed on mobile until tapped
+  const [sideFormOpen, setSideFormOpen] = useState<boolean>(() =>
+    !(typeof document !== 'undefined' && (document.documentElement.classList.contains('layout-mobile') || (typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches)))
+  );
 
   useEffect(() => {
+    if (drawerMode) return;
     const t = setTimeout(() => setSideFormOpen(false), 2200);
     return () => clearTimeout(t);
-  }, []);
-  // Mobile: never auto-open the popup on arrival / when switching to Mobile
-  useEffect(() => { if (mobile) setSideFormOpen(false); }, [mobile]);
-  // Mobile popup: lock page scroll while open, Esc closes
+  }, [drawerMode]);
+  // Mobile / narrow viewport: never auto-open the sheet on arrival / resize
+  useEffect(() => { if (drawerMode) setSideFormOpen(false); }, [drawerMode]);
+  // Mobile sheet: lock page scroll while open, Esc closes
   useEffect(() => {
-    if (!(mobile && sideFormOpen)) return;
+    if (!(drawerMode && sideFormOpen)) return;
     const prev = document.body.style.overflow; document.body.style.overflow = 'hidden';
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setSideFormOpen(false); };
     window.addEventListener('keydown', onKey);
     return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey); };
-  }, [mobile, sideFormOpen]);
+  }, [drawerMode, sideFormOpen]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -505,38 +518,38 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
       {/* Page Content + Collapsible Side-Nav Form */}
       <div className="relative">
 
-        {/* Collapsible Side-Nav Lead Form — absolute right rail on Web; on Mobile the SAME form opens as a centred popup from a floating button */}
-        {((node: React.ReactElement) => (mobile ? createPortal(node, document.body) : node))(
+        {/* Collapsible Side-Nav Lead Form — absolute right rail on Desktop (>=1024px); on Mobile (<1024px) the SAME form opens as a slide-up sheet from a compact bottom Enquire button */}
+        {((node: React.ReactElement) => (drawerMode ? createPortal(node, document.body) : node))(
         <div
-          {...(mobile && sideFormOpen ? { role: 'dialog', 'aria-modal': true, 'aria-label': 'Enquiry form' } : {})}
-          onClick={mobile && sideFormOpen ? (e) => { if (e.target === e.currentTarget) setSideFormOpen(false); } : undefined}
-          className={mobile
+          {...(drawerMode && sideFormOpen ? { role: 'dialog', 'aria-modal': true, 'aria-label': 'Enquiry form' } : {})}
+          onClick={drawerMode && sideFormOpen ? (e) => { if (e.target === e.currentTarget) setSideFormOpen(false); } : undefined}
+          className={drawerMode
             ? `${feature ? 'hotel-feature ' : ''}${sideFormOpen
-                ? 'mobile-enquiry-popup mobile-frame-fixed fixed top-0 bottom-0 z-[150] flex items-center justify-center p-3 animate-fade-in'
-                : 'mobile-enquiry-fab fixed z-[140] bottom-5'}`
+                ? 'resp-enquiry-backdrop fixed inset-0 z-[150] flex items-end justify-center bg-black/55 backdrop-blur-xs animate-fade-in'
+                : 'resp-enquiry-fab fixed z-[140] right-4'}`
             : `hidden lg:block absolute top-0 right-0 z-40 min-h-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             sideFormOpen ? 'w-[400px]' : 'w-12'
           }`}
         >
-          <div className={mobile
-                 ? `relative bg-white flex flex-col overflow-hidden ${sideFormOpen ? 'w-full rounded-2xl shadow-2xl' : 'rounded-full shadow-xl'}`
+          <div className={drawerMode
+                 ? `relative flex flex-col overflow-hidden ${sideFormOpen ? 'resp-enquiry-sheet w-full max-w-[600px] rounded-t-2xl shadow-2xl' : 'rounded-full shadow-xl'}`
                  : `sticky ${feature ? (sideFormOpen ? 'top-[146px]' : 'top-[260px]') : 'top-20'} bg-white border-l border-neutral-200 ${feature ? '' : 'shadow-lg'} flex flex-col overflow-hidden`}
-               style={mobile
-                 ? (sideFormOpen ? { height: 'min(86vh, 760px)' } : undefined)
+               style={drawerMode
+                 ? (sideFormOpen ? { maxHeight: '88svh', backgroundColor: '#F9F7EF' } : undefined)
                  : { height: sideFormOpen ? (feature ? 'calc(100vh - 146px)' : 'calc(100vh - 5rem)') : '15rem', transition: 'top 700ms cubic-bezier(0.16,1,0.3,1)' }}>
 
-            {/* Collapse state: vertical black tab pinned to the right margin; Open state: slim close bar */}
+            {/* Collapse state: vertical tab on desktop / compact bottom Enquire pill on mobile; Open state: slim close bar */}
             {sideFormOpen ? (
               <button
                 type="button"
                 onClick={() => setSideFormOpen(false)}
-                className="shrink-0 h-12 flex items-center justify-center border-b border-neutral-200 hover:bg-neutral-50 transition-colors cursor-pointer"
+                className="resp-sheet-close shrink-0 h-12 flex items-center justify-center border-b border-neutral-200 hover:bg-neutral-50 transition-colors cursor-pointer"
                 aria-expanded={sideFormOpen}
                 aria-label="Collapse lead form"
                 title="Collapse"
               >
                 <span className="group/x flex items-center space-x-1.5 text-[10px] uppercase tracking-widest text-neutral-500 font-semibold">
-                  {feature || mobile
+                  {feature || drawerMode
                     ? <X strokeWidth={1.25} aria-hidden="true" className="w-4 h-4 transition-transform duration-700 group-hover/x:rotate-90" />
                     : <span aria-hidden="true" className="w-3.5 h-3.5 inline-block border border-current"></span>}
                   <span>Close Form</span>
@@ -546,17 +559,19 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
               <button
                 type="button"
                 onClick={() => setSideFormOpen(true)}
-                className={mobile
-                  ? 'w-12 h-12 bg-black text-white rounded-full cursor-pointer flex items-center justify-center'
+                className={drawerMode
+                  ? 'resp-enquiry-trigger h-11 px-5 rounded-full cursor-pointer inline-flex items-center justify-center gap-2 text-[11px] uppercase tracking-[0.2em] font-medium'
                   : `w-12 shrink-0 flex-1 ${feature ? 'hover:opacity-90' : 'bg-black hover:bg-neutral-800 text-white'} transition-colors cursor-pointer flex items-start justify-center pt-5`}
-                style={feature ? (mobile ? { backgroundColor: PALETTE.maroon, color: '#fff' } : { backgroundColor: PALETTE.saffron, color: '#3a0618' }) : undefined}
+                style={drawerMode
+                  ? { backgroundColor: '#89384A', color: '#F9F7EF' }
+                  : (feature ? { backgroundColor: PALETTE.saffron, color: '#3a0618' } : undefined)}
                 aria-expanded={sideFormOpen}
                 aria-label="Open enquiry form"
                 title="Open enquiry form"
               >
-                {mobile && <PenLine strokeWidth={1.5} aria-hidden="true" className="w-5 h-5" />}
-                <span className={mobile ? 'sr-only' : '[writing-mode:vertical-rl] rotate-180 text-[11px] uppercase tracking-[0.32em] font-medium whitespace-nowrap'}>
-                  Open Enquiry Form
+                {drawerMode && <PenLine strokeWidth={1.5} aria-hidden="true" className="w-4 h-4 shrink-0" />}
+                <span className={drawerMode ? 'whitespace-nowrap' : '[writing-mode:vertical-rl] rotate-180 text-[11px] uppercase tracking-[0.32em] font-medium whitespace-nowrap'}>
+                  {drawerMode ? 'Enquire' : 'Open Enquiry Form'}
                 </span>
               </button>
             )}
@@ -788,8 +803,8 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
                     </label>
                   </div>
 
-                  {/* Submit — sticky at the bottom of the popup on Mobile */}
-                  <div className={mobile ? 'mobile-sticky-submit sticky bottom-0 -mx-5 px-5 pt-3 pb-4 bg-white border-t border-neutral-200 z-10' : 'pt-2'}>
+                  {/* Submit — sticky at the bottom of the sheet on Mobile */}
+                  <div className={drawerMode ? 'resp-sheet-submit sticky bottom-0 -mx-5 px-5 pt-3 pb-4 border-t z-10' : 'pt-2'}>
                     <button
                       type="submit"
                       disabled={submitting}
@@ -814,7 +829,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
         {/* Main content — dynamically spreads when the side form collapses */}
         <div className={`transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${sideFormOpen ? 'lg:pr-[400px]' : 'lg:pr-0'}`}>
           {feature ? (
-            <FeatureBody hotel={shown} onPreview={handleOpenPreview} onNavigateToInquiry={() => (mobile ? setSideFormOpen(true) : onNavigateToInquiry(hotel.name))} />
+            <FeatureBody hotel={shown} onPreview={handleOpenPreview} onNavigateToInquiry={() => (drawerMode ? setSideFormOpen(true) : onNavigateToInquiry(hotel.name))} />
           ) : (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="space-y-14">
@@ -1074,7 +1089,7 @@ export const HotelDetailPage: React.FC<HotelDetailPageProps> = ({
 
                   <button
                     type="button"
-                    onClick={() => (mobile ? setSideFormOpen(true) : onNavigateToInquiry(hotel.name))}
+                    onClick={() => (drawerMode ? setSideFormOpen(true) : onNavigateToInquiry(hotel.name))}
                     className="bg-white text-black hover:bg-neutral-200 px-5 py-2.5 rounded-lg text-[11px] uppercase tracking-wider font-medium transition-colors flex items-center space-x-2 cursor-pointer"
                   >
                     <span>Begin the Conversation</span>

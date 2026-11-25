@@ -203,11 +203,19 @@ const LineCarousel: React.FC<{ slides: Slide[]; alt: string; onPreview: PreviewF
   const [cycle, setCycle] = useState(0);
   const go = (n: number) => { setI(((n % slides.length) + slides.length) % slides.length); setCycle((c) => c + 1); };
   const [box, setBox] = useState<number | null>(null);
+  const touchX = useRef<number | null>(null);
+  const swiped = useRef(false);
   return (<>
     {box !== null && <Lightbox slides={slides} start={box} alt={alt} onClose={() => setBox(null)} />}
     <div className="hf-carousel relative w-full h-full overflow-hidden group/lc cursor-pointer" style={{ backgroundColor: BAND }}
          onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
-         onClick={() => setBox(i)} title="Click to enlarge">
+         onTouchStart={(e) => { touchX.current = e.touches[0].clientX; setPaused(true); }}
+         onTouchEnd={(e) => {
+           const dx = e.changedTouches[0].clientX - (touchX.current ?? e.changedTouches[0].clientX);
+           touchX.current = null; setPaused(false);
+           if (Math.abs(dx) > 36) { swiped.current = true; go(dx < 0 ? i + 1 : i - 1); setTimeout(() => { swiped.current = false; }, 300); }
+         }}
+         onClick={() => { if (!swiped.current) setBox(i); }} title="Click to enlarge">
       {slides.map((s, k) => (
         <img key={s.url + k} src={s.url} alt={`${alt} — ${s.caption}`}
              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${k === i ? 'about-drift' : ''}`}

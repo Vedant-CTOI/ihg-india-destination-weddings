@@ -1,0 +1,1333 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   IHG VOWS — INDEPENDENT MOBILE & TABLET RESPONSIVE LAYER (V6 Design Language)
+   Strictly scoped to @media (max-width: 1023px) and @media (hover: none).
+   Desktop (>= 1024px) receives ZERO rule changes — 100% identical to V6.
+   Preserves: Arpona/Menca type, Option 05 Ivory/Sand/Maroon/Bronze palette,
+   all copy, imagery, assets, and every V6 animation & interaction.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+@keyframes resp-drawer-in {
+  from { opacity: 0; transform: translate3d(0, -10px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes resp-sheet-up {
+  from { transform: translate3d(0, 100%, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+
+/* ── Touch-only interaction adaptations (hover-hidden CTAs stay accessible on touch devices) ── */
+@media (hover: none) {
+  html:not(.layout-mobile) body #root .landing-home .sx-props .home-hotel-tile:not(:hover) .home-hotel-copy {
+    transform: none !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .home-hotel-cta,
+  html:not(.layout-mobile) body #root .landing-home #real-weddings article.story-tile .story-tile-cta,
+  html:not(.layout-mobile) body #root main .dest-grid .dest-tile .dest-tile-cta {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   1. TABLET & MOBILE FOUNDATION (<= 1023px)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 1023px) {
+  html:not(.layout-mobile),
+  html:not(.layout-mobile) body {
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  html:not(.layout-mobile) body #root section[id] {
+    scroll-margin-top: calc(80px + env(safe-area-inset-top, 0px));
+  }
+
+  /* ── 1A. HEADER & MOBILE DRAWER (re-enable drawer, V6 ivory/maroon + safe-area top) ── */
+  html:not(.layout-mobile) body #root header {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  html:not(.layout-mobile) body #root header > div > div.flex.lg\:hidden {
+    min-height: 72px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+  html:not(.layout-mobile) body #root header img.vows-logo-compact {
+    height: 34px !important;
+    width: auto !important;
+  }
+  /* Over hero: crisp white Enquire pill + ivory hamburger ring */
+  html:not(.layout-mobile) body #root header.header-over-hero button.bg-black {
+    background: #fff !important;
+    color: var(--p-ink) !important;
+    border: 1px solid #fff !important;
+    height: 36px !important;
+    padding-left: 14px !important;
+    padding-right: 12px !important;
+    letter-spacing: 0.16em !important;
+  }
+  html:not(.layout-mobile) body #root header.header-over-hero button.bg-black * {
+    color: var(--p-ink) !important;
+  }
+  html:not(.layout-mobile) body #root header.header-over-hero .mobile-burger {
+    border: 1px solid rgba(255, 255, 255, 0.55) !important;
+    color: #fff !important;
+    background: rgba(20, 15, 11, 0.22) !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+  html:not(.layout-mobile) body #root header.header-over-hero .mobile-burger * {
+    color: #fff !important;
+  }
+  /* Scrolled / inner pages: V6 maroon Enquire pill + maroon ring burger + hairline Back */
+  html:not(.layout-mobile) body #root header:not(.header-over-hero) button.bg-black {
+    background: var(--p-maroon) !important;
+    border: 1px solid var(--p-maroon) !important;
+    color: #fff !important;
+    height: 36px !important;
+    padding-left: 14px !important;
+    padding-right: 12px !important;
+    letter-spacing: 0.16em !important;
+  }
+  html:not(.layout-mobile) body #root header:not(.header-over-hero) button.bg-black * {
+    color: #fff !important;
+  }
+  html:not(.layout-mobile) body #root header:not(.header-over-hero) button.border-neutral-300 {
+    height: 36px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    border-color: rgba(91, 87, 80, 0.35) !important;
+    color: var(--p-ink) !important;
+  }
+  html:not(.layout-mobile) body #root header:not(.header-over-hero) .mobile-burger {
+    border: 1px solid rgba(137, 56, 74, 0.38) !important;
+    color: var(--p-maroon) !important;
+    background: transparent !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+  html:not(.layout-mobile) body #root header .mobile-burger[aria-expanded="true"] {
+    background: var(--p-maroon) !important;
+    border-color: var(--p-maroon) !important;
+    color: var(--p-ivory) !important;
+  }
+  html:not(.layout-mobile) body #root header .mobile-burger[aria-expanded="true"] * {
+    color: var(--p-ivory) !important;
+  }
+  /* CRITICAL: re-enable the mobile drawer (was display:none in legacy V5 CSS) */
+  html:not(.layout-mobile) body #root header .mobile-drawer {
+    display: block !important;
+    background: var(--p-ivory) !important;
+    border-bottom: 1px solid var(--p-rule) !important;
+    box-shadow: 0 24px 48px -20px rgba(58, 48, 38, 0.32) !important;
+    padding: 12px 20px 22px !important;
+    max-height: calc(100svh - 76px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    animation: resp-drawer-in 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  html:not(.layout-mobile) body #root header .mobile-drawer .flex-col {
+    gap: 0 !important;
+  }
+  html:not(.layout-mobile) body #root header .mobile-drawer .flex-col > * + * {
+    margin-top: 0 !important;
+  }
+  html:not(.layout-mobile) body #root header .mobile-drawer .flex-col > button {
+    min-height: 48px !important;
+    padding: 12px 0 !important;
+    font-size: 11.5px !important;
+    letter-spacing: 0.22em !important;
+    color: var(--p-ink) !important;
+    border-color: var(--p-rule) !important;
+  }
+  html:not(.layout-mobile) body #root header .mobile-drawer .flex-col > button span:last-child {
+    color: var(--p-bronze) !important;
+  }
+  html:not(.layout-mobile) body #root header .mobile-drawer .flex-col > button[aria-current="page"] {
+    color: var(--p-maroon) !important;
+    font-weight: 600 !important;
+  }
+  html:not(.layout-mobile) body #root header .mobile-drawer .flex-col > button[aria-current="page"] > span:first-child::before {
+    background: var(--p-bronze) !important;
+  }
+  html:not(.layout-mobile) body #root header .mobile-drawer .pt-3 {
+    border-color: var(--p-rule) !important;
+    padding-top: 16px !important;
+  }
+  html:not(.layout-mobile) body #root header .mobile-drawer .pt-3 button {
+    background: var(--p-maroon) !important;
+    color: #fff !important;
+    height: 46px !important;
+    min-height: 46px !important;
+    font-size: 11px !important;
+    letter-spacing: 0.22em !important;
+  }
+  html:not(.layout-mobile) body #root header .mobile-drawer .pt-3 button * {
+    color: #fff !important;
+  }
+
+  /* ── 1B. 01 HERO BANNER (keep L→R intro mask, L→R horizontal push-scroll, settle zoom, masked rise) ── */
+  html:not(.layout-mobile) body #root .landing-home section.cine {
+    height: 100svh !important;
+    min-height: 540px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home section.cine .on-photo > div.mt-auto {
+    padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
+    max-width: 100% !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home section.cine h1 {
+    font-size: clamp(2.15rem, 8.8vw, 3.5rem) !important;
+    line-height: 1.04 !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home section.cine .hi-sub {
+    margin-top: 14px !important;
+    max-width: 34ch !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home section.cine .hi-sub p {
+    font-size: 13.5px !important;
+    line-height: 1.55 !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home section.cine .hi-controls > div {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+    gap: 14px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home section.cine .hero-bar {
+    flex: 1 1 0% !important;
+    width: auto !important;
+    max-width: 56px !important;
+    min-width: 24px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home section.cine button[aria-label$="splash slide"] {
+    width: 42px !important;
+    height: 42px !important;
+  }
+
+  /* ── 1C. 02 ABOUT US — Stacked editorial copy + overlapping 2-photo collage (all Split Editorial Reveal animations preserved) ── */
+  html:not(.layout-mobile) body #root .landing-home section.home-about {
+    padding: 56px 20px 56px !important;
+    overflow: hidden !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    min-height: 0 !important;
+    max-width: 680px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-copy {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-title {
+    font-size: clamp(1.95rem, 7.6vw, 2.75rem) !important;
+    line-height: 1.06 !important;
+    white-space: normal !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-paras {
+    margin-top: 16px !important;
+    margin-bottom: 32px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-paras p {
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-stats {
+    margin-top: 16px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+    width: 100% !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-stat {
+    padding: 0 10px 0 12px !important;
+    min-width: 0 !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-stat:first-child {
+    padding-left: 0 !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-num {
+    font-size: clamp(1.35rem, 5.4vw, 2rem) !important;
+    white-space: nowrap !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-unit {
+    font-size: 0.72em !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-label {
+    font-size: 9.5px !important;
+    letter-spacing: 0.16em !important;
+    margin-top: 6px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-cta-row {
+    margin-top: 26px !important;
+  }
+  /* Two-photo architectural collage cleanly below copy — zero collision with text */
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-collage {
+    position: relative !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    height: clamp(270px, 72vw, 390px) !important;
+    margin-top: 36px !important;
+    z-index: 2 !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-col-inset {
+    position: relative !important;
+    width: 44% !important;
+    max-width: 240px !important;
+    aspect-ratio: 3 / 4 !important;
+    z-index: 2 !important;
+    box-shadow: 0 14px 36px -14px rgba(58, 48, 38, 0.28) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-col-bg {
+    position: absolute !important;
+    top: auto !important;
+    left: auto !important;
+    right: 20px !important;
+    bottom: 84px !important; /* section pb 56px + 28px overlap step */
+    width: calc(74% - 14px) !important;
+    max-width: 500px !important;
+    height: calc(clamp(270px, 72vw, 390px) - 28px) !important;
+    z-index: 0 !important;
+    border-radius: 2px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-col-cap {
+    top: 12px !important;
+    right: 12px !important;
+    font-size: 8.5px !important;
+    letter-spacing: 0.22em !important;
+  }
+
+  /* ── 1D. 03 DISCOVER BY DESTINATION (Choice A: Tall portrait photo + bottom diagonal sand panel, all colour-block & directional slide animations preserved) ── */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head {
+    padding-top: 52px !important;
+    padding-bottom: 28px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head > .sec-head {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    gap: 14px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .sec-head h2 {
+    white-space: normal !important;
+    font-size: clamp(1.85rem, 7.2vw, 2.65rem) !important;
+    line-height: 1.06 !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-media {
+    aspect-ratio: auto !important;
+    height: clamp(490px, 128vw, 600px) !important;
+    min-height: 480px !important;
+  }
+  /* Colour-block reveal seamlessly adapted to full-width mobile band */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-stage {
+    --dd-px: 0px;
+    --dd-pw: 100%;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-stage .dd-blk-1 {
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 48% !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-stage .dd-blk-2 {
+    top: 0 !important;
+    left: 0 !important;
+    right: auto !important;
+    width: 56% !important;
+    height: 52% !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-stage .dd-blk-3 {
+    top: 0 !important;
+    bottom: auto !important;
+    left: 56% !important;
+    right: 0 !important;
+    height: 52% !important;
+  }
+  /* Diagonal smooth transparent-to-solid sand panel anchored across bottom half — zero top blur seam */
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .on-photo.dd-panel {
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    background: linear-gradient(174deg,
+      rgba(229, 219, 204, 0) 0%,
+      rgba(229, 219, 204, 0.45) 14%,
+      rgba(225, 213, 196, 0.85) 28%,
+      rgba(222, 209, 192, 0.96) 42%,
+      rgba(214, 199, 179, 1) 66%,
+      rgba(212, 197, 176, 1) 100%) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-inner {
+    padding: 44px 20px 54px 20px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name {
+    font-size: clamp(1.85rem, 7.2vw, 2.6rem) !important;
+    line-height: 0.98 !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name > span.dd-num {
+    margin: 0 0 4px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-copy {
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+    max-width: 44ch !important;
+    margin-top: 8px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-cta {
+    margin-top: 16px !important;
+    font-size: 10.5px !important;
+    letter-spacing: 0.16em !important;
+    padding-bottom: 5px !important;
+    min-height: 32px !important;
+  }
+  /* Hide prev/next arrows on mobile & tablet — swipe gesture + bottom dots carry navigation */
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label="Previous wedding genre"],
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label="Next wedding genre"] {
+    display: none !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-dots {
+    bottom: 18px !important;
+    gap: 8px !important;
+  }
+
+  /* ── 1E. 04 IHG PROPERTIES (staggered reveal preserved + peek snap-rail + touch-visible CTA + rail dots) ── */
+  html:not(.layout-mobile) body #root .landing-home section#hotels-exploration {
+    padding-top: 56px !important;
+    padding-bottom: 56px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head {
+    margin-bottom: 24px !important;
+    gap: 14px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head h2 {
+    font-size: clamp(1.85rem, 7.2vw, 2.65rem) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .flex.overflow-x-auto.snap-x {
+    gap: 14px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    margin-left: -16px !important;
+    margin-right: -16px !important;
+    scroll-padding-left: 16px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .home-hotel-slot {
+    width: 78% !important;
+    flex: 0 0 78% !important;
+  }
+  @media (min-width: 640px) and (max-width: 1023px) {
+    html:not(.layout-mobile) body #root .landing-home #hotels-exploration .home-hotel-slot {
+      width: 44% !important;
+      flex: 0 0 44% !important;
+    }
+  }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sx-props .home-hotel-tile:not(:hover) .home-hotel-copy,
+  html:not(.layout-mobile) body #root .landing-home .sx-props .home-hotel-tile:not(:hover) .home-hotel-copy {
+    transform: none !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .home-hotel-cta {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .home-hotel-copy {
+    padding: 16px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .home-hotel-name {
+    font-size: clamp(1.25rem, 5vw, 1.55rem) !important;
+  }
+  /* Hide prev/next arrows on mobile & tablet — peeking rail + swipe dots carry navigation */
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration button[aria-label="Previous hotels"],
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration button[aria-label="Next hotels"] {
+    display: none !important;
+  }
+
+  /* Touch pagination dots (V6 palette) for Hotels + Real Weddings rails */
+  html:not(.layout-mobile) body #root .landing-home .rail-dots {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 7px !important;
+    margin-top: 18px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .rail-dot {
+    width: 7px !important;
+    height: 5px !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 9999px !important;
+    background: rgba(137, 56, 74, 0.24) !important;
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s !important;
+    cursor: pointer;
+  }
+  html:not(.layout-mobile) body #root .landing-home .rail-dot.is-active {
+    width: 24px !important;
+    background: var(--p-maroon) !important;
+  }
+
+  /* ── 1F. 05 LOYALTY PACKAGES (expanding sand band + masked rise + underline draw preserved) ── */
+  html:not(.layout-mobile) body #root .landing-home .loyalty-band.lp.lp-text {
+    padding: 56px 20px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .lp.lp-text .lp-wrap {
+    gap: 22px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-title {
+    white-space: normal !important;
+    font-size: clamp(1.9rem, 7.6vw, 2.75rem) !important;
+    line-height: 1.06 !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .lp .lp-copy {
+    font-size: 13.5px !important;
+    line-height: 1.65 !important;
+    max-width: 36ch !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .sx-loyalty .lp-cta:not(#_x):active {
+    background: var(--p-maroon) !important;
+    color: var(--p-ivory) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .sx-loyalty .lp-cta:not(#_x):active * {
+    color: var(--p-ivory) !important;
+  }
+
+  /* ── 1G. 06 REAL WEDDING STORIES (Choice C: Swipeable horizontal snap rail + expanding sand band + layered reveal) ── */
+  html:not(.layout-mobile) body #root .landing-home section#real-weddings {
+    padding-top: 56px !important;
+    padding-bottom: 56px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head {
+    margin-bottom: 30px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .sec-head h2 {
+    font-size: clamp(1.85rem, 7.2vw, 2.65rem) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .relative:has(> .grid)::before {
+    top: 16% !important;
+    bottom: 16% !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .relative:has(> .grid) > .grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch;
+    gap: 14px !important;
+    padding: 6px 16px 8px !important;
+    margin: 0 -16px !important;
+    max-width: none !important;
+    scrollbar-width: none;
+    align-items: stretch !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .relative:has(> .grid) > .grid::-webkit-scrollbar {
+    display: none;
+  }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .relative:has(> .grid) > .grid > article.story-tile {
+    flex: 0 0 78% !important;
+    width: 78% !important;
+    min-width: 78% !important;
+    aspect-ratio: 3 / 4 !important;
+    scroll-snap-align: center !important;
+  }
+  @media (min-width: 640px) and (max-width: 1023px) {
+    html:not(.layout-mobile) body #root .landing-home #real-weddings .relative:has(> .grid) > .grid > article.story-tile {
+      flex: 0 0 46% !important;
+      width: 46% !important;
+      min-width: 46% !important;
+    }
+  }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings article.story-tile .story-tile-copy {
+    padding: 16px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings article.story-tile .story-tile-name {
+    font-size: clamp(1.3rem, 5.2vw, 1.65rem) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings article.story-tile .story-tile-cta {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .text-center.mt-10 {
+    margin-top: 28px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #real-weddings .text-center > button {
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 44px !important;
+    padding: 11px 22px !important;
+    white-space: normal !important;
+    text-align: center !important;
+    line-height: 1.35 !important;
+  }
+
+  /* ── 1H. 07 ENQUIRY FORMS (Homepage #contact + Enquire .cv-page + Hotel Sheet) ── */
+  html:not(.layout-mobile) body #root .landing-home section#contact {
+    padding-top: 56px !important;
+    padding-bottom: 56px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #contact .sec-head {
+    margin-bottom: 32px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #contact .sec-head h2 {
+    font-size: clamp(1.85rem, 7.2vw, 2.65rem) !important;
+  }
+  /* 16px inputs prevent iOS Safari forced zoom on focus; 44px tap targets */
+  html:not(.layout-mobile) body #root #contact form input:not([type="checkbox"]),
+  html:not(.layout-mobile) body #root #contact form textarea,
+  html:not(.layout-mobile) body #root #contact form .relative > button[type="button"],
+  html:not(.layout-mobile) body #root #contact form .hotel-dd > button,
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form input:not([type="checkbox"]),
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form textarea,
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card form button.w-full:not(.cv-submit),
+  html:not(.layout-mobile) body .resp-enquiry-sheet form input:not([type="checkbox"]),
+  html:not(.layout-mobile) body .resp-enquiry-sheet form textarea,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form .relative > button[type="button"],
+  html:not(.layout-mobile) body .resp-enquiry-sheet form .hotel-dd > button {
+    font-size: 16px !important;
+    min-height: 44px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+  html:not(.layout-mobile) body #root #contact .persona-buttons-web,
+  html:not(.layout-mobile) body #root .cv-page .persona-buttons-web,
+  html:not(.layout-mobile) body .resp-enquiry-sheet .persona-buttons-web {
+    gap: 8px !important;
+  }
+  html:not(.layout-mobile) body #root #contact .persona-buttons-web button,
+  html:not(.layout-mobile) body #root .cv-page .persona-buttons-web button,
+  html:not(.layout-mobile) body .resp-enquiry-sheet .persona-buttons-web button {
+    min-height: 44px !important;
+    height: auto !important;
+    padding: 8px 6px !important;
+    line-height: 1.25 !important;
+    white-space: normal !important;
+    font-size: 11.5px !important;
+  }
+  /* Keep paired fields cleanly side-by-side on >= 360px phones */
+  @media (min-width: 360px) and (max-width: 639px) {
+    html:not(.layout-mobile) body #root #contact form > div.grid.grid-cols-1,
+    html:not(.layout-mobile) body #root .cv-page form > div.grid.grid-cols-1,
+    html:not(.layout-mobile) body .resp-enquiry-sheet form > div.grid.grid-cols-1 {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+    }
+    html:not(.layout-mobile) body #root form .form-field-name,
+    html:not(.layout-mobile) body #root form .form-field-email,
+    html:not(.layout-mobile) body #root form .form-field-destination,
+    html:not(.layout-mobile) body #root .cv-page form > div.grid.grid-cols-1:has(label) > div:only-child,
+    html:not(.layout-mobile) body .resp-enquiry-sheet form .form-field-name,
+    html:not(.layout-mobile) body .resp-enquiry-sheet form .form-field-email,
+    html:not(.layout-mobile) body .resp-enquiry-sheet form > div.grid.grid-cols-1 > div:only-child {
+      grid-column: 1 / -1 !important;
+    }
+  }
+  html:not(.layout-mobile) body #root form input[type="date"],
+  html:not(.layout-mobile) body .resp-enquiry-sheet form input[type="date"] {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 14px !important;
+  }
+  html:not(.layout-mobile) body #root form input[type="checkbox"],
+  html:not(.layout-mobile) body .resp-enquiry-sheet form input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px !important;
+    margin-top: 2px !important;
+  }
+  html:not(.layout-mobile) body #root form .absolute.z-30,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form .absolute.z-30 {
+    max-height: 220px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  html:not(.layout-mobile) body #root form .absolute.z-30 label,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form .absolute.z-30 label {
+    min-height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  html:not(.layout-mobile) body #root #contact form button[type="submit"],
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card .cv-submit,
+  html:not(.layout-mobile) body .resp-enquiry-sheet button[type="submit"] {
+    min-height: 48px !important;
+    height: 48px !important;
+  }
+
+  /* ── 1I. 08 FOOTER (Minimal Closing Transition preserved + balanced mobile columns + safe area) ── */
+  html:not(.layout-mobile) body #root footer:first-of-type > div {
+    padding-top: 40px !important;
+    padding-bottom: 32px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  html:not(.layout-mobile) body #root footer .ft-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 24px 20px !important;
+    padding-bottom: 24px !important;
+  }
+  html:not(.layout-mobile) body #root footer .ft-cols > .ft-col:nth-of-type(1) {
+    grid-column: 1 / -1 !important;
+    padding-bottom: 18px !important;
+    border-bottom: 1px solid rgba(82, 82, 82, 0.2) !important;
+  }
+  html:not(.layout-mobile) body #root footer .ft-cols ul button {
+    padding: 5px 0 !important;
+    min-height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+  html:not(.layout-mobile) body #root footer:last-of-type > div {
+    padding-top: 18px !important;
+    padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  /* ── 1J. FLOATING GO-TO-TOP BUTTON (safe-area aware, clears Hotel bottom Enquire button) ── */
+  html:not(.layout-mobile) body #root button[aria-label="Go to top"] {
+    left: 16px !important;
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+    width: 42px !important;
+    height: 42px !important;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════════════════
+     2. INNER PAGES — ALL 10 VIEWS (Zero overflow, full V6 visual fidelity)
+     ═════════════════════════════════════════════════════════════════════════════ */
+
+  /* ── 2A. Shared Inner Breadcrumb Bar & Hero Banners ── */
+  html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child > div {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    gap: 10px !important;
+  }
+  html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child > div > div:first-child {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+  html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child > div > button {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+  /* Inner heroes: taller 4:3 editorial ratio on narrow phones so white Arpona title + lede breathe comfortably */
+  @media (max-width: 767px) {
+    html:not(.layout-mobile) body #root .ab-page > div.relative.w-full.overflow-hidden.bg-black:has(> img.ab-hero-img),
+    html:not(.layout-mobile) body #root .dest-page > div.relative.w-full.overflow-hidden.bg-black:has(> img.dest-hero-img),
+    html:not(.layout-mobile) body #root .hotels-page > div.relative.w-full.overflow-hidden.bg-black:has(> img.hotels-hero-img),
+    html:not(.layout-mobile) body #root .rw-page > div.rw-hero {
+      aspect-ratio: 4 / 3 !important;
+      min-height: 250px !important;
+      max-height: 360px !important;
+    }
+    html:not(.layout-mobile) body #root main > div > div.border-b.bg-neutral-50:first-child > div > button span {
+      display: none !important; /* arrow icon stays crisp; header already has "Back" */
+    }
+  }
+  html:not(.layout-mobile) body #root :is(.ab-page, .dest-page, .hotels-page, .rw-page) .on-photo {
+    bottom: 20px !important;
+  }
+  html:not(.layout-mobile) body #root :is(.ab-page, .dest-page, .hotels-page, .rw-page) .on-photo h1 {
+    font-size: clamp(1.7rem, 6.8vw, 2.6rem) !important;
+    line-height: 1.06 !important;
+  }
+
+  /* ── 2B. STICKY FILTER BAR (Hotels + Discover by Destination — FIXES 619px OVERFLOW!) ── */
+  html:not(.layout-mobile) body #root .filter-bar {
+    top: calc(72px + env(safe-area-inset-top, 0px)) !important;
+    padding: 12px !important;
+    border-radius: 12px !important;
+  }
+  html:not(.layout-mobile) body #root .filter-bar.dest-filter {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  html:not(.layout-mobile) body #root .filter-bar > .grid.grid-cols-2 {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+  html:not(.layout-mobile) body #root .filter-bar > .grid.grid-cols-2 > div.min-w-0:not(.flex),
+  html:not(.layout-mobile) body #root .filter-bar > .grid.grid-cols-2 > label.filter-field,
+  html:not(.layout-mobile) body #root .filter-bar > .grid.grid-cols-2 > div.flex > label.filter-field {
+    min-width: 0 !important;
+    width: 100% !important;
+    flex-shrink: 1 !important;
+  }
+  html:not(.layout-mobile) body #root .filter-bar > .grid.grid-cols-2 > div.flex {
+    grid-column: 1 / -1 !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+  html:not(.layout-mobile) body #root .filter-bar > .grid.grid-cols-2 > div.flex > label.filter-field {
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
+  }
+  html:not(.layout-mobile) body #root .filter-bar .filter-field {
+    min-height: 40px !important;
+    height: 40px !important;
+    padding-left: 10px !important;
+  }
+  /* Destinations filter bar has 4 fields — give Destination full width on row 1 on narrow phones so nothing truncates */
+  @media (max-width: 520px) {
+    html:not(.layout-mobile) body #root .dest-page .filter-bar.dest-filter > .grid.grid-cols-2 > div.min-w-0:first-child {
+      grid-column: 1 / -1 !important;
+    }
+  }
+  html:not(.layout-mobile) body #root .filter-bar .filter-field > span:first-child {
+    font-size: 9px !important;
+    letter-spacing: 0.05em !important;
+  }
+  html:not(.layout-mobile) body #root .filter-bar select,
+  html:not(.layout-mobile) body #root .filter-bar input {
+    font-size: 13.5px !important;
+  }
+  html:not(.layout-mobile) body #root .filter-bar .filter-count {
+    width: 100% !important;
+    justify-content: space-between !important;
+    padding-left: 2px !important;
+    padding-top: 2px !important;
+    white-space: normal !important;
+  }
+
+  /* ── 2C. ABOUT PAGE (.ab-page) ── */
+  html:not(.layout-mobile) body #root .ab-page .ab-wrap {
+    padding-top: 40px !important;
+    padding-bottom: 16px !important;
+  }
+  html:not(.layout-mobile) body #root .ab-page .ab-story {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  html:not(.layout-mobile) body #root .ab-page .ab-story-text,
+  html:not(.layout-mobile) body #root .ab-page .ab-collage {
+    grid-column: 1 / -1 !important;
+  }
+  html:not(.layout-mobile) body #root .ab-page .ab-story .ab-quote {
+    font-size: clamp(1.35rem, 5.5vw, 1.9rem) !important;
+    line-height: 1.28 !important;
+  }
+  html:not(.layout-mobile) body #root .ab-page .ab-story .ab-body {
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+  }
+  html:not(.layout-mobile) body #root .ab-page .ab-collage {
+    padding-bottom: 52px !important;
+  }
+  html:not(.layout-mobile) body #root .ab-page .ab-media.ab-tall {
+    width: 82% !important;
+  }
+  html:not(.layout-mobile) body #root .ab-page .ab-media.ab-small {
+    width: 56% !important;
+    box-shadow: 0 0 0 6px var(--p-ivory) !important;
+  }
+  html:not(.layout-mobile) body #root .ab-page .ab-close {
+    margin-top: 56px !important;
+    flex-direction: column !important;
+  }
+  html:not(.layout-mobile) body #root .ab-page .ab-close-media {
+    width: 100% !important;
+    min-height: 0 !important;
+    aspect-ratio: 4 / 3 !important;
+  }
+  html:not(.layout-mobile) body #root .ab-page .ab-close-text {
+    padding: 28px 20px !important;
+  }
+
+  /* ── 2D. DISCOVER BY DESTINATION PAGE (.dest-page) ── */
+  html:not(.layout-mobile) body #root .dest-page > div.max-w-7xl {
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+  }
+  /* Featured 3 accordion panels → full-width stacked editorial cards with copy + Full Page CTA revealed */
+  html:not(.layout-mobile) body #root .dest-page .dest-featured-row {
+    flex-direction: column !important;
+    height: auto !important;
+    gap: 14px !important;
+  }
+  html:not(.layout-mobile) body #root .dest-page .dest-featured-row .dest-feat {
+    flex: none !important;
+    width: 100% !important;
+    aspect-ratio: 4 / 3 !important;
+    min-height: 290px !important;
+  }
+  html:not(.layout-mobile) body #root .dest-page .dest-featured-row .dest-feat .on-photo {
+    padding: 20px !important;
+  }
+  html:not(.layout-mobile) body #root .dest-page .dest-featured-row .dest-feat h3 {
+    font-size: clamp(1.9rem, 7.6vw, 2.6rem) !important;
+  }
+  html:not(.layout-mobile) body #root .dest-page .dest-featured-row .dest-feat .on-photo > div.grid {
+    grid-template-rows: 1fr !important;
+    opacity: 1 !important;
+  }
+  html:not(.layout-mobile) body #root .dest-page .dest-featured-row .dest-feat .on-photo p {
+    margin-top: 8px !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+  html:not(.layout-mobile) body #root .dest-page .dest-featured-row .dest-feat .dest-fullpage-cta {
+    margin-top: 12px !important;
+  }
+  html:not(.layout-mobile) body #root .dest-page .dest-viewall {
+    margin-bottom: 24px !important;
+  }
+  html:not(.layout-mobile) body #root .dest-page .dest-grid .dest-tile .on-photo,
+  html:not(.layout-mobile) body #root .hotels-page .dest-grid .dest-tile .on-photo {
+    padding: 12px !important;
+  }
+  html:not(.layout-mobile) body #root .dest-page .dest-grid .dest-tile h3,
+  html:not(.layout-mobile) body #root .hotels-page .dest-grid .dest-tile h3 {
+    font-size: clamp(1.05rem, 4.4vw, 1.35rem) !important;
+    line-height: 1.1 !important;
+  }
+  html:not(.layout-mobile) body #root .dest-page .dest-grid .dest-tile .dest-tile-copy,
+  html:not(.layout-mobile) body #root .hotels-page .dest-grid .dest-tile .dest-tile-copy {
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+    margin-top: 4px !important;
+  }
+  html:not(.layout-mobile) body #root .dest-page .dest-grid .dest-tile .dest-tile-cta,
+  html:not(.layout-mobile) body #root .hotels-page .dest-grid .dest-tile .dest-tile-cta {
+    opacity: 1 !important;
+    transform: none !important;
+    margin-top: 8px !important;
+    font-size: 9px !important;
+    letter-spacing: 0.16em !important;
+  }
+
+  /* ── 2E. ALL HOTELS PAGE (.hotels-page) ── */
+  html:not(.layout-mobile) body #root .hotels-page > div.max-w-7xl {
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+  }
+  html:not(.layout-mobile) body #root .hotels-page .dest-about-body {
+    column-count: 1 !important;
+  }
+  html:not(.layout-mobile) body #root .hotels-page .dest-about-title {
+    font-size: clamp(1.65rem, 6.8vw, 2.25rem) !important;
+  }
+  html:not(.layout-mobile) body #root .hotels-page .dest-about-more {
+    display: inline-flex !important;
+  }
+  html:not(.layout-mobile) body #root .hotels-page .dest-about-body:not(.is-open) p:not(:first-child) {
+    display: none !important;
+  }
+
+  /* ── 2F. LOYALTY PACKAGES PAGE (.lp-page) ── */
+  html:not(.layout-mobile) body #root .lp-page > div.max-w-4xl {
+    padding-top: 32px !important;
+    padding-bottom: 24px !important;
+  }
+  html:not(.layout-mobile) body #root .lp-page .lp-tier {
+    flex-direction: column !important;
+  }
+  html:not(.layout-mobile) body #root .lp-page .lp-tier-media {
+    width: 100% !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(137, 56, 74, 0.16) !important;
+  }
+  html:not(.layout-mobile) body #root .lp-page .lp-tier-media .lp-tier-num {
+    left: 18px !important;
+    bottom: 14px !important;
+    font-size: 38px !important;
+  }
+  html:not(.layout-mobile) body #root .lp-page .lp-tier > div:last-child {
+    width: 100% !important;
+    padding: 20px !important;
+  }
+
+  /* ── 2G. REAL WEDDINGS ARCHIVE (.rw-page — FIXES 449px OVERFLOW!) ── */
+  html:not(.layout-mobile) body #root .rw-page .rw-wrap {
+    padding-top: 36px !important;
+    padding-bottom: 24px !important;
+  }
+  html:not(.layout-mobile) body #root .rw-page .rw-intro {
+    padding-bottom: 24px !important;
+  }
+  html:not(.layout-mobile) body #root .rw-page .rw-list {
+    gap: 52px !important;
+    margin-top: 40px !important;
+  }
+  html:not(.layout-mobile) body #root .rw-page .rw-case {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  html:not(.layout-mobile) body #root .rw-page .rw-case .rw-case-media,
+  html:not(.layout-mobile) body #root .rw-page .rw-case.is-flip .rw-case-media {
+    grid-column: 1 / -1 !important;
+    grid-row: 1 !important;
+    aspect-ratio: 4 / 3 !important;
+  }
+  html:not(.layout-mobile) body #root .rw-page .rw-case .rw-case-text,
+  html:not(.layout-mobile) body #root .rw-page .rw-case.is-flip .rw-case-text {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    gap: 14px !important;
+  }
+  html:not(.layout-mobile) body #root .rw-page .rw-case-num {
+    font-size: 42px !important;
+    left: 18px !important;
+    bottom: 14px !important;
+  }
+  html:not(.layout-mobile) body #root .rw-page .rw-case-name {
+    font-size: clamp(1.75rem, 7vw, 2.35rem) !important;
+  }
+  html:not(.layout-mobile) body #root .rw-page .rw-case-facts {
+    flex-wrap: wrap !important;
+    gap: 6px 0 !important;
+  }
+
+  /* ── 2H. STORY DETAIL PAGE (.sd-page) ── */
+  html:not(.layout-mobile) body #root .sd-page.sd-short .sd-hero,
+  html:not(.layout-mobile) body #root .sd-page .sd-hero {
+    height: clamp(290px, 76vw, 400px) !important;
+  }
+  html:not(.layout-mobile) body #root .sd-page .sd-hero .on-photo {
+    bottom: 24px !important;
+  }
+  html:not(.layout-mobile) body #root .sd-page .sd-hero-title {
+    font-size: clamp(2rem, 8.6vw, 3rem) !important;
+    line-height: 1.04 !important;
+  }
+  html:not(.layout-mobile) body #root .sd-page .sd-story,
+  html:not(.layout-mobile) body #root .sd-page.sd-short .sd-story {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+    padding: 40px 0 52px !important;
+  }
+  html:not(.layout-mobile) body #root .sd-page .sd-story-text,
+  html:not(.layout-mobile) body #root .sd-page .sd-collage {
+    grid-column: 1 / -1 !important;
+  }
+  html:not(.layout-mobile) body #root .sd-page .sd-h2 {
+    font-size: clamp(1.65rem, 6.8vw, 2.25rem) !important;
+  }
+  html:not(.layout-mobile) body #root .sd-page .sd-collage {
+    padding-bottom: 52px !important;
+  }
+
+  /* ── 2I. HOTEL 1 FEATURE PAGE (.hotel-feature) & STANDARD HOTEL DETAIL ── */
+  html:not(.layout-mobile) body #root .hotel-feature > div.grain {
+    height: clamp(380px, 72svh, 520px) !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-crumb > div > button {
+    display: none !important; /* header has Back button; prevents crumb wrap */
+  }
+  html:not(.layout-mobile) body #root .hotel-feature > div.grain .on-photo > div {
+    padding-bottom: 28px !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature > div.grain h1 {
+    font-size: clamp(2rem, 8.6vw, 3.2rem) !important;
+    line-height: 1.02 !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature > div.grain .soft-rise {
+    margin-top: 14px !important;
+    padding-top: 12px !important;
+    letter-spacing: 0.14em !important;
+    font-size: 10.5px !important;
+  }
+  /* Facts strip: crisp 2-col grid, 5th item centred full width */
+  html:not(.layout-mobile) body #root .hotel-feature .hf-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    row-gap: 20px !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-facts > div {
+    border-right: 0 !important;
+    padding: 10px 10px !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-facts > div:nth-child(odd):not(:last-child) {
+    border-right: 1px solid rgba(137, 56, 74, 0.2) !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-facts > div:nth-child(5) {
+    grid-column: 1 / -1 !important;
+    border-top: 1px solid rgba(137, 56, 74, 0.2) !important;
+    padding-top: 16px !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-about-photo {
+    aspect-ratio: 4 / 3 !important;
+    min-height: 240px !important;
+  }
+  /* Sticky Venue Jumpbar: sits flush under mobile header, left-aligned scrollable venue tabs, zero overlap! */
+  html:not(.layout-mobile) body #root .hotel-feature .hf-jumpbar {
+    top: calc(72px + env(safe-area-inset-top, 0px)) !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-jumpbar > div {
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 18px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-bar-hotel {
+    position: static !important;
+    transform: none !important;
+    flex-shrink: 0 !important;
+    padding-right: 16px !important;
+    border-right: 1px solid rgba(58, 48, 38, 0.16) !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-bar-contact {
+    display: none !important; /* contact links live in the closing Contact Us band on mobile */
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues > div:first-child {
+    padding-top: 44px !important;
+    padding-bottom: 24px !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues > div:last-child {
+    padding-bottom: 48px !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues article {
+    padding-top: 32px !important;
+    padding-bottom: 32px !important;
+    gap: 20px !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues .hf-carousel > div.p-5 {
+    padding: 12px !important;
+    gap: 10px !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-venues article dd {
+    font-size: 14px !important;
+  }
+  /* Lightbox modal close button stays strictly inside mobile viewport */
+  html:not(.layout-mobile) body .hf-lightbox {
+    padding: 16px !important;
+  }
+  html:not(.layout-mobile) body .hf-lightbox button[aria-label="Close photo"] {
+    top: 10px !important;
+    right: 10px !important;
+  }
+  /* Standard Hotel Detail (Hotels 2–10) mobile refinements */
+  html:not(.layout-mobile) body #root main .group\/banner {
+    height: 300px !important;
+  }
+  html:not(.layout-mobile) body #root main [id^="venue-anchor-"] .grid.grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  /* ── 2J. HOTEL DETAIL SLIDE-UP ENQUIRY DRAWER (Choice E — Portalled directly to <body>) ── */
+  html:not(.layout-mobile) body .resp-enquiry-fab {
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 16px !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-trigger {
+    box-shadow: 0 10px 28px -8px rgba(58, 48, 38, 0.45) !important;
+    border: 1px solid rgba(249, 247, 239, 0.25) !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet {
+    animation: resp-sheet-up 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+    border-top: 1px solid rgba(137, 56, 74, 0.22) !important;
+    background-color: #F9F7EF !important;
+    color: #3A3026 !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet .resp-sheet-close {
+    background-color: #E5DBCC !important;
+    border-bottom-color: rgba(58, 48, 38, 0.14) !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet .resp-sheet-close * {
+    color: #89384A !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet h3 {
+    font-family: "Arpona", "Bodoni Moda", serif !important;
+    color: #89384A !important;
+    font-size: 24px !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet form label {
+    color: #5B5750 !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet .hf-form input:not([type="checkbox"]),
+  html:not(.layout-mobile) body .resp-enquiry-sheet .hf-form textarea,
+  html:not(.layout-mobile) body .resp-enquiry-sheet .hf-form [class*="rounded-xl"][class*="border-neutral-300"]:not(.absolute),
+  html:not(.layout-mobile) body .resp-enquiry-sheet form input:not([type="checkbox"]),
+  html:not(.layout-mobile) body .resp-enquiry-sheet form textarea,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form .relative > button[type="button"],
+  html:not(.layout-mobile) body .resp-enquiry-sheet form .hotel-dd > button {
+    background: #fff !important;
+    border: 1px solid rgba(58, 48, 38, 0.14) !important;
+    border-radius: 12px !important;
+    color: #3A3026 !important;
+    padding: 10px 12px !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet form input::placeholder,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form textarea::placeholder,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form button .text-neutral-400 {
+    color: rgba(91, 87, 80, 0.72) !important;
+    opacity: 1 !important;
+  }
+  /* Turn placeholder empty-square dropdown icons into crisp chevrons inside the sheet */
+  html:not(.layout-mobile) body .resp-enquiry-sheet form button span[aria-hidden="true"].border-current {
+    width: 7px !important;
+    height: 7px !important;
+    border: 0 !important;
+    border-right: 1.5px solid #89384A !important;
+    border-bottom: 1.5px solid #89384A !important;
+    transform: translateY(-2px) rotate(45deg);
+    margin-right: 4px;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet .persona-buttons-web {
+    border-bottom: 0 !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet .persona-buttons-web button {
+    border-radius: 9999px !important;
+    background: #fff !important;
+    border: 1px solid rgba(58, 48, 38, 0.12) !important;
+    color: #5B5750 !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet .persona-buttons-web button::after {
+    display: none !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet .persona-buttons-web button.bg-black {
+    background: #89384A !important;
+    border-color: #89384A !important;
+    color: #fff !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet .persona-buttons-web button.bg-black * {
+    color: #fff !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet .resp-sheet-submit {
+    background-color: #F9F7EF !important;
+    border-top-color: rgba(58, 48, 38, 0.14) !important;
+    margin-bottom: -24px !important;
+    margin-left: -24px !important;
+    margin-right: -24px !important;
+    padding: 12px 24px calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet button[type="submit"] {
+    background: #89384A !important;
+    border-color: #89384A !important;
+    color: #fff !important;
+    border-radius: 9999px !important;
+    letter-spacing: 0.2em !important;
+  }
+  html:not(.layout-mobile) body .resp-enquiry-sheet button[type="submit"] * {
+    color: #fff !important;
+  }
+  /* Add subtle clearance at bottom of footer when Hotel Enquiry FAB is present */
+  html:not(.layout-mobile) body:has(.resp-enquiry-fab) #root footer:last-of-type > div {
+    padding-bottom: calc(74px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* ── 2K. CONVERSATION PAGE, LEGAL PAGE, SITEMAP PAGE & CONFIRMATION MODAL ── */
+  html:not(.layout-mobile) body #root .cv-page > div.max-w-4xl {
+    padding-top: 28px !important;
+    padding-bottom: 24px !important;
+  }
+  html:not(.layout-mobile) body #root .cv-page #conversation-form-card {
+    min-height: 0 !important;
+  }
+  html:not(.layout-mobile) body .enquiry-confirm {
+    padding: 16px !important;
+  }
+  html:not(.layout-mobile) body .enquiry-confirm [role="dialog"] {
+    max-height: 90svh !important;
+    overflow-y: auto !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   3. SMALL SMARTPHONES (<= 374px — e.g. 320px / 360px SE / compact Android)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 374px) {
+  html:not(.layout-mobile) body #root header img.vows-logo-compact {
+    height: 28px !important;
+  }
+  html:not(.layout-mobile) body #root header .flex.items-center.space-x-2 {
+    gap: 6px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-stats {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-stat {
+    padding: 12px 0 0 0 !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-stat + .ha-stat::before {
+    display: none !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home .home-about .ha-stat + .ha-stat {
+    border-top: 1px solid var(--p-rule) !important;
+  }
+  html:not(.layout-mobile) body #root .filter-bar > .grid.grid-cols-2 {
+    grid-template-columns: 1fr !important;
+  }
+  html:not(.layout-mobile) body #root footer .ft-cols {
+    grid-template-columns: 1fr !important;
+  }
+  html:not(.layout-mobile) body #root .hotels-page .dest-grid,
+  html:not(.layout-mobile) body #root .dest-page .dest-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   4. LANDSCAPE SMARTPHONES (short viewport height <= 500px)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 1023px) and (max-height: 500px) {
+  html:not(.layout-mobile) body #root .landing-home section.cine {
+    min-height: 100svh !important;
+    height: 100svh !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home section.cine .on-photo > div.mt-auto {
+    padding-bottom: 68px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home section.cine h1 {
+    font-size: clamp(1.75rem, 5.2vw, 2.4rem) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home section.cine .hi-sub {
+    margin-top: 8px !important;
+  }
+  /* Landscape smartphones have wide aspect ratios — return Destination panel cleanly to the left side like desktop */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-media {
+    height: clamp(320px, 86svh, 400px) !important;
+    min-height: 320px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .on-photo.dd-panel {
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 24px !important;
+    right: auto !important;
+    width: clamp(270px, 42vw, 340px) !important;
+    background: linear-gradient(160deg,
+      rgba(229, 219, 204, 0.44) 0%, rgba(225, 213, 196, 0.78) 28%,
+      rgba(222, 209, 192, 0.94) 40%, rgba(212, 197, 176, 1) 66%, rgba(212, 197, 176, 1) 100%) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-inner {
+    padding: 0 24px 36px 28px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name {
+    font-size: clamp(1.65rem, 3.6vw, 2.2rem) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-copy {
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature > div.grain {
+    height: 82svh !important;
+    min-height: 300px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   5. REDUCED MOTION COMPLIANCE
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  html:not(.layout-mobile) body #root header .mobile-drawer,
+  html:not(.layout-mobile) body .resp-enquiry-sheet {
+    animation: none !important;
+  }
+}
