@@ -71,7 +71,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [web]);
 
-  // very subtle parallax on the photo (≈ ±40px, lags the scroll)
+  // very subtle parallax on the photo (scales dynamically with the 21:9 band height, max ±34px)
   useEffect(() => {
     if (!web || reduceMotion) return;
     let raf = 0;
@@ -80,7 +80,8 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
       const el = mediaRef.current, par = parRef.current; if (!el || !par) return;
       const r = el.getBoundingClientRect(); const vh = window.innerHeight || 1;
       const p = Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / vh));
-      par.style.transform = `translate3d(0, ${(-p * 40).toFixed(1)}px, 0)`;
+      const travel = Math.min(34, Math.max(18, r.height * 0.055));
+      par.style.transform = `translate3d(0, ${(-p * travel).toFixed(1)}px, 0)`;
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(tickPar); };
     tickPar();
@@ -151,10 +152,14 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
     const raf = requestAnimationFrame(fit);
     const fonts = (document as any).fonts; fonts?.ready?.then(fit);
     window.addEventListener('resize', fit);
-    // slide text is re-mounted when a transition settles — re-fit whenever the panel's content changes
+    // slide text is re-mounted when a transition settles — re-fit whenever the panel's content or width changes
     const mo = new MutationObserver(() => requestAnimationFrame(fit));
-    if (fitRoot.current) mo.observe(fitRoot.current, { childList: true, subtree: true });
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', fit); mo.disconnect(); };
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => requestAnimationFrame(fit)) : null;
+    if (fitRoot.current) {
+      mo.observe(fitRoot.current, { childList: true, subtree: true });
+      ro?.observe(fitRoot.current);
+    }
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', fit); mo.disconnect(); ro?.disconnect(); };
   }, [web, currentIndex, tick]);
   const imgOf = (i: number) => HOME_DEST_IMG[i % HOME_DEST_IMG.length];
   const WebInner = (i: number, mode: 'static' | 'in' | 'out') => (
@@ -262,7 +267,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
             {web ? (
               <>
                 {/* photo stack inside a parallax layer; outgoing photo stays beneath the incoming one */}
-                <div ref={parRef} className="dd-par absolute inset-x-0 -top-[50px] -bottom-[50px] will-change-transform">
+                <div ref={parRef} className="dd-par absolute inset-x-0 -top-[42px] -bottom-[42px] will-change-transform">
                   {prevIdx !== null && (
                     <div key={`p-${tick}`} className="dd-photo dd-photo-out absolute inset-0"><img src={imgOf(prevIdx)} alt="" data-real-photo="" className="absolute inset-0 w-full h-full object-cover" /></div>
                   )}

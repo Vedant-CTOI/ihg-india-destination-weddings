@@ -3524,6 +3524,84 @@
   @media (prefers-reduced-motion: reduce) {
     html:not(.layout-mobile) body #root .ft-fx :is(.ft-rule, .ft-head, .ft-copy, .ft-logos) { animation: none !important; filter: none !important; translate: none !important; transform: none !important; }
   }
+
+  /* ═══ HERO BANNER — HORIZONTAL PUSH-SCROLL (L→R on auto/next, R→L on prev; option A + D)
+         Go back = tag checkpoint-before-hero-dest219 ═══ */
+  @keyframes hero-slide-in-ltr  { from { transform: translate3d(-100%, 0, 0); } to { transform: translate3d(0, 0, 0); } }
+  @keyframes hero-slide-in-rtl  { from { transform: translate3d(100%, 0, 0); }  to { transform: translate3d(0, 0, 0); } }
+  @keyframes hero-slide-out-ltr { from { transform: translate3d(0, 0, 0); filter: brightness(1); } to { transform: translate3d(22%, 0, 0); filter: brightness(0.58); } }
+  @keyframes hero-slide-out-rtl { from { transform: translate3d(0, 0, 0); filter: brightness(1); } to { transform: translate3d(-22%, 0, 0); filter: brightness(0.58); } }
+  .hero-slide-in-ltr  { animation: hero-slide-in-ltr 1.25s cubic-bezier(0.76, 0, 0.24, 1) both; }
+  .hero-slide-in-rtl  { animation: hero-slide-in-rtl 1.25s cubic-bezier(0.76, 0, 0.24, 1) both; }
+  .hero-slide-out-ltr { animation: hero-slide-out-ltr 1.25s cubic-bezier(0.76, 0, 0.24, 1) both; }
+  .hero-slide-out-rtl { animation: hero-slide-out-rtl 1.25s cubic-bezier(0.76, 0, 0.24, 1) both; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide-in-ltr, .hero-slide-in-rtl, .hero-slide-out-ltr, .hero-slide-out-rtl { animation: none !important; transform: none !important; filter: none !important; }
+  }
+
+  /* ═══ DESTINATIONS BANNER — 21:9 ASPECT RATIO + DYNAMIC ELEMENT SCALING (web only, option F)
+         Go back = tag checkpoint-before-hero-dest219 ═══ */
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-media {
+    aspect-ratio: 21 / 9 !important;
+    min-height: 360px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dd-stage {
+    --dd-px: clamp(54px, 5.5vw, 80px);
+    --dd-pw: clamp(296px, 24.8vw, 368px);
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .on-photo.dd-panel {
+    left: var(--dd-px) !important;
+    width: var(--dd-pw) !important;
+    min-width: 0 !important;
+    background: linear-gradient(160deg,
+      rgba(229,219,204,.42) 0%, rgba(228,217,201,.58) 16%, rgba(225,213,196,.78) 30%,
+      rgba(222,209,192,.93) 40%, rgba(220,206,188,.98) 48%, rgba(214,199,179,1) 64%, rgba(212,197,176,1) 100%) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-inner {
+    padding: 0 clamp(24px, 3vw, 44px) clamp(36px, 4vw, 56px) clamp(28px, 3.4vw, 50px) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name {
+    font-size: clamp(1.75rem, 3.05vw, 3.1rem) !important;
+    line-height: 0.96 !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name > span.dd-num {
+    margin: 0 0 clamp(4px, 0.55vw, 8px) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-name > span.dd-nm {
+    margin-bottom: 0 !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-copy {
+    font-size: clamp(11.5px, 0.94vw, 13.5px) !important;
+    line-height: 1.55 !important;
+    margin-top: clamp(8px, 0.9vw, 14px) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-cta {
+    margin-top: clamp(12px, 1.45vw, 21px) !important;
+    font-size: clamp(9px, 0.72vw, 10.5px) !important;
+    letter-spacing: 0.15em !important;
+    gap: clamp(6px, 0.65vw, 10px) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label="Previous wedding genre"] {
+    width: clamp(34px, 3vw, 44px) !important;
+    height: clamp(34px, 3vw, 44px) !important;
+    left: clamp(10px, 1.1vw, 16px) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations button[aria-label="Next wedding genre"] {
+    width: clamp(34px, 3vw, 44px) !important;
+    height: clamp(34px, 3vw, 44px) !important;
+    right: clamp(14px, 1.65vw, 24px) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-dots {
+    bottom: clamp(14px, 1.55vw, 22px) !important;
+    gap: 7px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-dots button {
+    height: 5px !important;
+    width: 7px !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-dots button.w-6 {
+    width: 26px !important;
+  }
 </style>
 
   </head>

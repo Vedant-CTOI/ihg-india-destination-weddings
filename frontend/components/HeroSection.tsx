@@ -86,6 +86,7 @@ const HeroSectionCinematic: React.FC = () => {
   const totalSlides = slides.length;
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
+  const [slideDir, setSlideDir] = useState<1 | -1>(1); // 1 = left→right (auto/next), -1 = right→left (prev)
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [cycle, setCycle] = useState<number>(0); // re-keys animations on every change
 
@@ -120,14 +121,16 @@ const HeroSectionCinematic: React.FC = () => {
   const currentSlide = slides[currentIndex];
   const nextSlide = slides[(currentIndex + 1) % totalSlides];
 
-  const goTo = (idx: number) => {
+  const goTo = (idx: number, dir?: 1 | -1) => {
     if (idx === currentIndex) return;
+    if (intro) setIntro(false);
+    setSlideDir(dir ?? (idx > currentIndex ? 1 : -1));
     setPrevIndex(currentIndex);
     setCurrentIndex(idx);
     setCycle((c) => c + 1);
   };
-  const handleNext = () => goTo((currentIndex + 1) % totalSlides);
-  const handlePrev = () => goTo((currentIndex - 1 + totalSlides) % totalSlides);
+  const handleNext = () => goTo((currentIndex + 1) % totalSlides, 1);
+  const handlePrev = () => goTo((currentIndex - 1 + totalSlides) % totalSlides, -1);
 
   // Touch swipe (existing behaviour): left -> next, right -> previous
   const touchStartX = useRef<number | null>(null);
@@ -196,18 +199,24 @@ const HeroSectionCinematic: React.FC = () => {
       style={{ backgroundColor: '#000' }}
       aria-label="IHG Weddings Splash Screen Carousel"
     >
-      {/* ── Image stack: previous slide stays underneath, active slide wipes up over it ── */}
+      {/* ── Image stack: horizontal push-scroll (L→R on auto/next, R→L on prev) with outgoing parallax lag ── */}
       <div ref={imageLayerRef} className="absolute inset-0 z-0 pointer-events-none will-change-transform">
         {slides.map((slide, idx) => {
           const isActive = idx === currentIndex;
           const isPrev = idx === prevIndex;
           if (!isActive && !isPrev) return null;
+          const moveCls =
+            prevIndex !== null
+              ? isActive
+                ? (slideDir > 0 ? 'hero-slide-in-ltr' : 'hero-slide-in-rtl')
+                : (slideDir > 0 ? 'hero-slide-out-ltr' : 'hero-slide-out-rtl')
+              : '';
           return (
             <div
-              key={isActive ? `${slide.id}-${cycle}` : `${slide.id}-prev`}
-              className={`absolute inset-0 overflow-hidden ${slide.realPhoto ? 'hero-real' : ''} ${isActive ? 'z-10' : 'z-0'} ${
-                isActive && prevIndex !== null ? 'hero-wipe-in' : ''
-              } ${isActive && prevIndex === null && cycle === 0 ? 'hi-mask' : ''}`}
+              key={isActive ? `${slide.id}-in-${cycle}` : `${slide.id}-out-${cycle}`}
+              className={`absolute inset-0 overflow-hidden ${slide.realPhoto ? 'hero-real' : ''} ${isActive ? 'z-10' : 'z-0'} ${moveCls} ${
+                isActive && prevIndex === null && cycle === 0 ? 'hi-mask' : ''
+              }`}
             >
               <img
                 src={slide.image}
