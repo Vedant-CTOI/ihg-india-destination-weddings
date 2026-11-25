@@ -16,6 +16,90 @@
   to   { transform: translate3d(0, 0, 0); }
 }
 
+@keyframes sx-img-settle {
+  from { transform: scale(1.05); }
+  to   { transform: scale(1); }
+}
+
+/* ── V7 Shared: Progressive blur-up images (zero sandy beige box flash) + Option 05 unclicked Enquire CTA ── */
+html:not(.layout-mobile) .prog-img.is-loading {
+  opacity: 0;
+  filter: blur(10px);
+  transform: scale(1.02);
+}
+html:not(.layout-mobile) .prog-img.is-loaded {
+  opacity: 1;
+  filter: blur(0);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), filter 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* Remove flat sandy beige #D4C5B0 backing behind homepage photo frames so blurred LQIP fills seamlessly */
+html:not(.layout-mobile) body #root .landing-home .home-about .ha-col-inset:not(#_x):not(#_y),
+html:not(.layout-mobile) body #root .landing-home .home-about .ha-col-bg:not(#_x):not(#_y),
+html:not(.layout-mobile) body #root .landing-home #destinations .group:not(#_x):not(#_y),
+html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card:not(#_x):not(#_y),
+html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-media:not(#_x):not(#_y),
+html:not(.layout-mobile) body #root .landing-home #hotels-exploration .home-hotel-tile:not(#_x):not(#_y),
+html:not(.layout-mobile) body #root .landing-home #real-weddings article.story-tile:not(#_x):not(#_y) {
+  background-color: transparent !important;
+}
+/* Seamless Destination entrance (no opaque beige block curtains flashing over photos) */
+html:not(.layout-mobile) body #root .landing-home #destinations .dd-pre .dd-photo {
+  opacity: 1 !important;
+}
+html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-photo-cur {
+  animation: dd-photo-in 0.7s ease 0s both !important;
+}
+html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-photo-cur .dd-img {
+  animation: dd-settle 1.9s var(--dd-out) 0s both !important;
+}
+html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .home-dest-card .on-photo.dd-panel {
+  animation: dd-panel-in 0.65s ease 0.2s both !important;
+}
+html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-num .dd-mi {
+  animation: dd-rise 0.85s var(--dd-out) 0.35s both !important;
+}
+html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-nm .dd-mi {
+  animation: dd-rise 0.85s var(--dd-out) 0.45s both !important;
+}
+html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-copy {
+  animation: dd-up 0.75s var(--dd-out) 0.6s both !important;
+}
+html:not(.layout-mobile) body #root .landing-home #destinations .dd-run .dd-cta {
+  animation: dd-up 0.75s var(--dd-out) 0.72s both !important;
+}
+html:not(.layout-mobile) body #root .landing-home #destinations .dd-run :is(button[aria-label$="wedding genre"], .dest-band-dots, .absolute.top-0.h-0\.5) {
+  animation: dd-panel-in 0.65s ease 0.8s both !important;
+}
+/* Hotels & Real Weddings: keep staggered entrance & subtle zoom without clipping images to empty beige boxes */
+html:not(.layout-mobile) body #root .landing-home .sx-props:not([data-sx-in]) [data-sx] .home-hotel-tile img,
+html:not(.layout-mobile) body #root .landing-home .sx-rw:not([data-sx-in]) [data-sx="centre"] .story-tile-img {
+  clip-path: none !important;
+}
+html:not(.layout-mobile) body #root .landing-home .sx-props[data-sx-in] [data-sx="up"] .home-hotel-tile img,
+html:not(.layout-mobile) body #root .landing-home .sx-props[data-sx-in] [data-sx="down"] .home-hotel-tile img {
+  animation: sx-img-settle 1.15s var(--sx-out) calc(var(--sx-d) + 0.05s) both !important;
+}
+html:not(.layout-mobile) body #root .landing-home .sx-rw[data-sx-in] [data-sx="centre"] .story-tile-img {
+  animation: sx-img-settle 1.1s var(--sx-out) both !important;
+}
+/* Unclicked Header Enquire CTA over Hero: V6 Option 05 Maroon + Ivory (matches entire site palette) */
+html:not(.layout-mobile) body #root header.header-over-hero button:has(> span + svg),
+html:not(.layout-mobile) body #root header.header-over-hero button.bg-black {
+  background: var(--p-maroon) !important;
+  background-color: var(--p-maroon) !important;
+  color: var(--p-ivory) !important;
+  border: 1px solid rgba(249, 247, 239, 0.36) !important;
+}
+html:not(.layout-mobile) body #root header.header-over-hero button:has(> span + svg) *,
+html:not(.layout-mobile) body #root header.header-over-hero button.bg-black * {
+  color: var(--p-ivory) !important;
+}
+html:not(.layout-mobile) body #root header.header-over-hero button:has(> span + svg):hover,
+html:not(.layout-mobile) body #root header.header-over-hero button.bg-black:hover {
+  background: var(--p-maroon-d) !important;
+  background-color: var(--p-maroon-d) !important;
+}
+
 /* ── Touch-only interaction adaptations (hover-hidden CTAs stay accessible on touch devices) ── */
 @media (hover: none) {
   html:not(.layout-mobile) body #root .landing-home .sx-props .home-hotel-tile:not(:hover) .home-hotel-copy {
@@ -56,18 +140,19 @@
     height: 34px !important;
     width: auto !important;
   }
-  /* Over hero: crisp white Enquire pill + ivory hamburger ring */
+  /* Over hero: V6 Option 05 Maroon Enquire pill + Ivory text & hairline rim + ivory hamburger ring */
   html:not(.layout-mobile) body #root header.header-over-hero button.bg-black {
-    background: #fff !important;
-    color: var(--p-ink) !important;
-    border: 1px solid #fff !important;
+    background: var(--p-maroon) !important;
+    background-color: var(--p-maroon) !important;
+    color: var(--p-ivory) !important;
+    border: 1px solid rgba(249, 247, 239, 0.36) !important;
     height: 36px !important;
     padding-left: 14px !important;
     padding-right: 12px !important;
     letter-spacing: 0.16em !important;
   }
   html:not(.layout-mobile) body #root header.header-over-hero button.bg-black * {
-    color: var(--p-ink) !important;
+    color: var(--p-ivory) !important;
   }
   html:not(.layout-mobile) body #root header.header-over-hero .mobile-burger {
     border: 1px solid rgba(255, 255, 255, 0.55) !important;
@@ -191,15 +276,20 @@
     padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
     gap: 14px !important;
   }
+  html:not(.layout-mobile) body #root .landing-home section.cine .hi-controls > div > div.flex-1 {
+    justify-content: center !important;
+  }
   html:not(.layout-mobile) body #root .landing-home section.cine .hero-bar {
     flex: 1 1 0% !important;
     width: auto !important;
     max-width: 56px !important;
     min-width: 24px !important;
   }
-  html:not(.layout-mobile) body #root .landing-home section.cine button[aria-label$="splash slide"] {
-    width: 42px !important;
-    height: 42px !important;
+  /* Hide hero prev/next arrows on mobile & tablet — finger-following swipe + timed chapter bars carry navigation */
+  html:not(.layout-mobile) body #root .landing-home section.cine .hi-controls .flex.items-center.gap-2.shrink-0,
+  html:not(.layout-mobile) body #root .landing-home section.cine button[aria-label="Previous splash slide"],
+  html:not(.layout-mobile) body #root .landing-home section.cine button[aria-label="Next splash slide"] {
+    display: none !important;
   }
 
   /* ── 1C. 02 ABOUT US — Stacked editorial copy + overlapping 2-photo collage (all Split Editorial Reveal animations preserved) ── */
@@ -262,6 +352,9 @@
   }
   html:not(.layout-mobile) body #root .landing-home .home-about .ha-cta-row {
     margin-top: 26px !important;
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
   }
   /* Two-photo architectural collage cleanly below copy — zero collision with text */
   html:not(.layout-mobile) body #root .landing-home .home-about .ha-collage {
@@ -301,7 +394,17 @@
     letter-spacing: 0.22em !important;
   }
 
-  /* ── 1D. 03 DISCOVER BY DESTINATION (Choice A: Tall portrait photo + bottom diagonal sand panel, all colour-block & directional slide animations preserved) ── */
+  /* ── 1D. 03 DISCOVER BY DESTINATION (Choice A: Tall portrait photo + bottom diagonal sand panel, progressive reveal & CTA-only click on mobile) ── */
+  html:not(.layout-mobile) body #root .landing-home section#destinations.dest-band {
+    padding-bottom: 28px !important;
+    background-color: var(--p-ivory) !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card {
+    cursor: default !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #destinations .home-dest-card .home-dest-cta {
+    cursor: pointer !important;
+  }
   html:not(.layout-mobile) body #root .landing-home #destinations .dest-band-head {
     padding-top: 52px !important;
     padding-bottom: 28px !important;
@@ -399,14 +502,25 @@
     gap: 8px !important;
   }
 
-  /* ── 1E. 04 IHG PROPERTIES (staggered reveal preserved + peek snap-rail + touch-visible CTA + rail dots) ── */
+  /* ── 1E. 04 IHG PROPERTIES (breathing room below Destinations + centered CTA + peek snap-rail + rail dots) ── */
   html:not(.layout-mobile) body #root .landing-home section#hotels-exploration {
-    padding-top: 56px !important;
+    padding-top: 64px !important;
     padding-bottom: 56px !important;
   }
   html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head {
     margin-bottom: 24px !important;
     gap: 14px !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head > div:first-child {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head > div:last-child {
+    justify-content: center !important;
+    width: 100% !important;
   }
   html:not(.layout-mobile) body #root .landing-home #hotels-exploration .sec-head h2 {
     font-size: clamp(1.85rem, 7.2vw, 2.65rem) !important;
@@ -613,30 +727,57 @@
     white-space: normal !important;
     font-size: 11.5px !important;
   }
-  /* Keep paired fields cleanly side-by-side on >= 360px phones */
-  @media (min-width: 360px) and (max-width: 639px) {
-    html:not(.layout-mobile) body #root #contact form > div.grid.grid-cols-1,
-    html:not(.layout-mobile) body #root .cv-page form > div.grid.grid-cols-1,
-    html:not(.layout-mobile) body .resp-enquiry-sheet form > div.grid.grid-cols-1 {
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      gap: 12px !important;
-    }
-    html:not(.layout-mobile) body #root form .form-field-name,
-    html:not(.layout-mobile) body #root form .form-field-email,
-    html:not(.layout-mobile) body #root form .form-field-destination,
-    html:not(.layout-mobile) body #root .cv-page form > div.grid.grid-cols-1:has(label) > div:only-child,
-    html:not(.layout-mobile) body .resp-enquiry-sheet form .form-field-name,
-    html:not(.layout-mobile) body .resp-enquiry-sheet form .form-field-email,
-    html:not(.layout-mobile) body .resp-enquiry-sheet form > div.grid.grid-cols-1 > div:only-child {
-      grid-column: 1 / -1 !important;
-    }
+  /* Dynamic responsive grid for core form fields: pairs cleanly when space allows, auto-wraps below ~336px, zero iOS date overlap */
+  html:not(.layout-mobile) body #root #contact form > div.grid.grid-cols-1,
+  html:not(.layout-mobile) body #root .cv-page form > div.grid.grid-cols-1,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form > div.grid.grid-cols-1 {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+    gap: 12px !important;
   }
+  html:not(.layout-mobile) body #root form .form-field-name,
+  html:not(.layout-mobile) body #root form .form-field-email,
+  html:not(.layout-mobile) body #root form .form-field-destination,
+  html:not(.layout-mobile) body #root .cv-page form > div.grid.grid-cols-1:has(label) > div:only-child,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form .form-field-name,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form .form-field-email,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form > div.grid.grid-cols-1 > div:only-child {
+    grid-column: 1 / -1 !important;
+  }
+  html:not(.layout-mobile) body #root form .form-field-occasion,
+  html:not(.layout-mobile) body #root form .form-field-guests,
+  html:not(.layout-mobile) body #root form .form-field-date,
+  html:not(.layout-mobile) body #root form .form-field-dateto,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form .form-field-occasion,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form .form-field-guests,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form .form-field-date,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form .form-field-dateto {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+  /* iOS Safari WebKit containment for native <input type="date"> — prevents Date From overflowing into Date To on iPhone 15 */
   html:not(.layout-mobile) body #root form input[type="date"],
   html:not(.layout-mobile) body .resp-enquiry-sheet form input[type="date"] {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    display: block !important;
+    box-sizing: border-box !important;
     min-width: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
-    font-size: 14px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    padding: 10px 8px !important;
+    font-size: clamp(13px, 3.5vw, 15px) !important;
+    line-height: 1.3 !important;
+    overflow: hidden !important;
+    text-align: left !important;
+  }
+  html:not(.layout-mobile) body #root form input[type="date"]::-webkit-date-and-time-value,
+  html:not(.layout-mobile) body .resp-enquiry-sheet form input[type="date"]::-webkit-date-and-time-value {
+    text-align: left !important;
+    min-height: 1.3em !important;
+    margin: 0 !important;
   }
   html:not(.layout-mobile) body #root form input[type="checkbox"],
   html:not(.layout-mobile) body .resp-enquiry-sheet form input[type="checkbox"] {
@@ -1040,22 +1181,97 @@
     letter-spacing: 0.14em !important;
     font-size: 10.5px !important;
   }
-  /* Facts strip: crisp 2-col grid, 5th item centred full width */
+  /* Facts strip: all 5 items (Setting · Rooms · Capacity · No. of Venues · Transit) in ONE single-line strip */
+  html:not(.layout-mobile) body #root .hotel-feature section:has(.hf-facts) > div {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
   html:not(.layout-mobile) body #root .hotel-feature .hf-facts {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    row-gap: 20px !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+    row-gap: 0 !important;
   }
   html:not(.layout-mobile) body #root .hotel-feature .hf-facts > div {
+    grid-column: auto !important;
+    border-top: 0 !important;
+    border-right: 1px solid rgba(137, 56, 74, 0.22) !important;
+    padding: 4px 3px !important;
+    min-width: 0 !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-facts > div:last-child {
     border-right: 0 !important;
-    padding: 10px 10px !important;
   }
-  html:not(.layout-mobile) body #root .hotel-feature .hf-facts > div:nth-child(odd):not(:last-child) {
-    border-right: 1px solid rgba(137, 56, 74, 0.2) !important;
+  html:not(.layout-mobile) body #root .hotel-feature .hf-facts > div > span:first-child {
+    font-size: clamp(6.5px, 1.85vw, 9px) !important;
+    letter-spacing: 0.08em !important;
+    line-height: 1.2 !important;
+    margin-bottom: 6px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
   }
-  html:not(.layout-mobile) body #root .hotel-feature .hf-facts > div:nth-child(5) {
-    grid-column: 1 / -1 !important;
-    border-top: 1px solid rgba(137, 56, 74, 0.2) !important;
-    padding-top: 16px !important;
+  html:not(.layout-mobile) body #root .hotel-feature .hf-facts > div > div {
+    height: auto !important;
+    min-height: clamp(1.6rem, 5.6vw, 2.2rem) !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-facts > div > div > div {
+    font-size: clamp(0.76rem, 2.9vw, 1.28rem) !important;
+    line-height: 1.12 !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    max-width: 100% !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-facts > div > span:last-child {
+    font-size: clamp(7.5px, 2vw, 10px) !important;
+    margin-top: 5px !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
+  }
+  /* Standard Hotel Detail (Hotels 2–10) quick metrics strip: same single-line 5-col layout */
+  html:not(.layout-mobile) body #root main .hotel-metrics {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+    padding: 14px 6px !important;
+  }
+  html:not(.layout-mobile) body #root main .hotel-metrics > div {
+    min-width: 0 !important;
+    padding: 2px 3px !important;
+    border-right: 1px solid rgba(58, 48, 38, 0.14) !important;
+  }
+  html:not(.layout-mobile) body #root main .hotel-metrics > div:last-child {
+    border-right: 0 !important;
+  }
+  html:not(.layout-mobile) body #root main .hotel-metrics > div > span:first-child {
+    font-size: clamp(6.5px, 1.8vw, 8.5px) !important;
+    letter-spacing: 0.06em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  html:not(.layout-mobile) body #root main .hotel-metrics > div > div {
+    font-size: clamp(0.75rem, 2.8vw, 1.05rem) !important;
+    line-height: 1.15 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  html:not(.layout-mobile) body #root main .hotel-metrics > div > div span[aria-hidden="true"] {
+    display: none !important;
+  }
+  html:not(.layout-mobile) body #root main .hotel-metrics > div > span:last-child {
+    font-size: clamp(7.5px, 1.9vw, 9.5px) !important;
+    display: block !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
   html:not(.layout-mobile) body #root .hotel-feature .hf-about-photo {
     aspect-ratio: 4 / 3 !important;
@@ -1078,11 +1294,31 @@
     position: static !important;
     transform: none !important;
     flex-shrink: 0 !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
     padding-right: 16px !important;
+    gap: 4px !important;
     border-right: 1px solid rgba(58, 48, 38, 0.16) !important;
   }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-bar-hotel > span:first-child {
+    font-size: 14px !important;
+  }
+  /* Keep V6 phone + email contact links directly under Crowne Plaza Today on the sticky venue carousel */
   html:not(.layout-mobile) body #root .hotel-feature .hf-bar-contact {
-    display: none !important; /* contact links live in the closing Contact Us band on mobile */
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+    font-size: 10.5px !important;
+    line-height: 1.25 !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-bar-contact a {
+    color: var(--p-ink) !important;
+    opacity: 0.85 !important;
+  }
+  html:not(.layout-mobile) body #root .hotel-feature .hf-bar-contact svg {
+    color: var(--p-maroon) !important;
+    width: 11px !important;
+    height: 11px !important;
   }
   html:not(.layout-mobile) body #root .hotel-feature .hf-venues > div:first-child {
     padding-top: 44px !important;

@@ -3,6 +3,7 @@ import { AboutUsClassic, AboutUsProps } from './AboutUsClassic';
 import { useMobileLayout } from './useMobileLayout';
 import { DUMMY_ABOUT, ABOUT_WIDE } from './landingDummyImages';
 import { PALETTE } from './webMotion';
+import { ProgressiveImg, lqipBgStyle } from './progressiveImages';
 
 /**
  * Chapter I — About Us.
@@ -459,17 +460,19 @@ const StackedAbout: React.FC<AboutUsProps> = ({ onOpenAboutPage }) => {
       {/* WEB: reference-layout collage — large photo bleeding to the right edge + overlapping portrait inset. Go back = tag checkpoint-before-home-ref-layout */}
       {!mobile && (
         <div className="ha-collage" aria-hidden="true">
-          <div className="ha-col-inset"><img src={IMAGES[1].src} alt="" data-real-photo="" className="ha-img" /></div>
+          <div className="ha-col-inset" style={lqipBgStyle(IMAGES[1].src)}>
+            <ProgressiveImg src={IMAGES[1].src} alt="" data-real-photo="" className="ha-img" />
+          </div>
         </div>
       )}
       {/* Visual: one simple 16:9 rectangle; placeholder until client images arrive (mobile) */}
       {mobile && <div className="ha-visual" aria-hidden="true">
         {/* Dummy photo (Unsplash, petal ritual) until client imagery — frame size unchanged */}
-        <div data-wm="curtain" className="ha-frame"><div className="ha-ph ha-ph-photo"><img src={ABOUT_WIDE} alt={IMAGES[0].alt} data-real-photo="" className="ha-img" /></div></div>
+        <div data-wm="curtain" className="ha-frame"><div className="ha-ph ha-ph-photo" style={lqipBgStyle(ABOUT_WIDE)}><ProgressiveImg src={ABOUT_WIDE} alt={IMAGES[0].alt} data-real-photo="" className="ha-img" /></div></div>
         <span data-wm="" style={{ ['--d' as any]: '500ms' }} className="ha-caption"><span className="ha-dot" />@tiara.celebratinglife</span>
       </div>}
      </div>
-      {!mobile && <div className="ha-col-bg" aria-hidden="true"><img src={IMAGES[0].src} alt="" data-real-photo="" className="ha-img" /><span className="ha-col-cap">@tiara.celebratinglife</span></div>}
+      {!mobile && <div className="ha-col-bg" aria-hidden="true" style={lqipBgStyle(IMAGES[0].src)}><ProgressiveImg src={IMAGES[0].src} alt="" data-real-photo="" className="ha-img" /><span className="ha-col-cap">@tiara.celebratinglife</span></div>}
     </section>
   );
 };

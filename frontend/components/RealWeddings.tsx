@@ -4,6 +4,7 @@ import { RealWeddingCase } from '../types';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useWeb, SplitText, PALETTE, useRevealOnce } from './webMotion';
 import { DUMMY_STORIES, pick } from './landingDummyImages';
+import { ProgressiveImg, lqipBgStyle } from './progressiveImages';
 import { RailDots } from './RailDots';
 
 // Story cards use the homepage hero banner photos (client photos, same crop focus as the hero)
@@ -102,10 +103,11 @@ export const RealWeddings: React.FC<RealWeddingsProps> = ({ onSelectStory, onVie
               data-wm={web ? undefined : undefined}
               data-sx={web ? (wi === 1 ? 'centre' : wi === 0 ? 'left' : 'right') : undefined}
               onClick={() => onSelectStory(wedding)}
+              style={lqipBgStyle(STORY_HERO_PHOTOS[wi % STORY_HERO_PHOTOS.length].src, STORY_HERO_PHOTOS[wi % STORY_HERO_PHOTOS.length].focus)}
               className="story-tile group/st relative block w-full aspect-[3/4] overflow-hidden rounded-sm cursor-pointer"
             >
               {/* Same tile as the Hotels page; photos = homepage hero banner photos. Go back = tag checkpoint-before-home-story-tiles */}
-              <img src={STORY_HERO_PHOTOS[wi % STORY_HERO_PHOTOS.length].src} alt={wedding.couple} data-real-photo="" loading="lazy"
+              <ProgressiveImg src={STORY_HERO_PHOTOS[wi % STORY_HERO_PHOTOS.length].src} alt={wedding.couple} data-real-photo=""
                    style={{ objectPosition: STORY_HERO_PHOTOS[wi % STORY_HERO_PHOTOS.length].focus }}
                    className="story-tile-img absolute inset-0 w-full h-full object-cover transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/st:scale-[1.07]" />
               <span className="story-tile-veil absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />

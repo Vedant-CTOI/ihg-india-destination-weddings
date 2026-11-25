@@ -4,6 +4,7 @@ import { HotelProperty } from '../types';
 import { ChevronRight, ChevronLeft, ArrowRight } from 'lucide-react';
 import { useWeb, SplitText, PALETTE, useRevealOnce } from './webMotion';
 import { DUMMY_HOTELS, pick } from './landingDummyImages';
+import { ProgressiveImg, lqipBgStyle } from './progressiveImages';
 import { RailDots } from './RailDots';
 
 interface HotelsExplorationProps {
@@ -118,8 +119,9 @@ export const HotelsExploration: React.FC<HotelsExplorationProps> = ({ onSelectHo
             >
             {/* Same tile as the Hotels page (3:4 photo, text on photo, dark fade, Full Page text link). Go back = tag checkpoint-before-home-hotel-tiles */}
             <button type="button" onClick={() => handleOpenFullPage(hotel)}
+                    style={lqipBgStyle(pick(DUMMY_HOTELS, hi))}
                     className="home-hotel-tile group/ht relative block w-full aspect-[3/4] overflow-hidden rounded-sm text-left cursor-pointer">
-              <img src={pick(DUMMY_HOTELS, hi)} alt={hotel.name} data-real-photo="" loading="lazy"
+              <ProgressiveImg src={pick(DUMMY_HOTELS, hi)} alt={hotel.name} data-real-photo=""
                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/ht:scale-[1.07]" />
               <span className="home-hotel-veil absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
               <span className="on-photo home-hotel-copy absolute inset-x-0 bottom-0 p-4 lg:p-5 text-white">

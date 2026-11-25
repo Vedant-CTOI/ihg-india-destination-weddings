@@ -4,6 +4,7 @@ import { WeddingGenreInfo } from '../types';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useWeb, SplitText, PALETTE } from './webMotion';
 import { DUMMY_DESTINATIONS, pick } from './landingDummyImages';
+import { ProgressiveImg, lqipBgStyle } from './progressiveImages';
 
 const HOME_DEST_NAMES = ['Goa', 'Thailand', 'Jaipur'];
 const HOME_DEST_IMG = ['/destinations/goa.jpg', '/destinations/thailand.jpg', '/destinations/jaipur.jpg', '/destinations/d4.jpg', '/destinations/d5.jpg'];
@@ -64,7 +65,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
     let t = 0;
     const io = new IntersectionObserver(([e]) => {
       if (!e.isIntersecting) return;
-      io.disconnect(); setPhase('run'); t = window.setTimeout(() => setPhase('done'), 3600);
+      io.disconnect(); setPhase('run'); t = window.setTimeout(() => setPhase('done'), 1900);
     }, { threshold: window.innerWidth < 1024 ? 0.15 : 0.3 });
     io.observe(el);
     return () => { io.disconnect(); window.clearTimeout(t); };
@@ -162,6 +163,7 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
     return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', fit); mo.disconnect(); ro?.disconnect(); };
   }, [web, currentIndex, tick]);
   const imgOf = (i: number) => HOME_DEST_IMG[i % HOME_DEST_IMG.length];
+  const focusOf = (i: number) => (i === 0 ? '58% 44%' : 'center');
   const WebInner = (i: number, mode: 'static' | 'in' | 'out') => (
     <div key={`${mode}-${mode === 'static' ? 0 : tick}`} aria-hidden={mode === 'out' ? true : undefined}
          className={`home-dest-inner dd-txt dd-txt-${mode} max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14`}>
@@ -259,27 +261,25 @@ export const DestinationDiscovery: React.FC<DestinationDiscoveryProps> = ({ onOp
           </button>
 
           {/* Full-bleed image with text overlaid — same card style as the Discover by Destination page
-              (dark fade, white type, number + name, eyebrow, one line, white pill CTA). Go back = tag checkpoint-before-dest-cards-palette */}
+              On mobile/tablet (<1024px), only tapping the 'Discover ... Properties' CTA enters the destination (tapping the image itself does not navigate). */}
           <div
-            onClick={() => { if (!swiped.current) handleOpenDetail(); }}
-            className="home-dest-card relative h-full overflow-hidden bg-neutral-800 cursor-pointer group"
+            onClick={() => { if (!swiped.current && window.innerWidth >= 1024) handleOpenDetail(); }}
+            className="home-dest-card relative h-full overflow-hidden cursor-pointer group"
           >
             {web ? (
               <>
                 {/* photo stack inside a parallax layer; outgoing photo stays beneath the incoming one */}
                 <div ref={parRef} className="dd-par absolute inset-x-0 -top-[42px] -bottom-[42px] will-change-transform">
                   {prevIdx !== null && (
-                    <div key={`p-${tick}`} className="dd-photo dd-photo-out absolute inset-0"><img src={imgOf(prevIdx)} alt="" data-real-photo="" className="absolute inset-0 w-full h-full object-cover" /></div>
+                    <div key={`p-${tick}`} style={lqipBgStyle(imgOf(prevIdx), focusOf(prevIdx))} className="dd-photo dd-photo-out absolute inset-0">
+                      <ProgressiveImg src={imgOf(prevIdx)} alt="" data-real-photo="" style={{ objectPosition: focusOf(prevIdx) }} className="absolute inset-0 w-full h-full object-cover" />
+                    </div>
                   )}
-                  <div key={`c-${tick}`} className={`dd-photo ${prevIdx !== null ? 'dd-photo-in' : 'dd-photo-cur'} absolute inset-0`}>
-                    <img src={imgOf(currentIndex)} alt={destName} data-real-photo="" className="dd-img absolute inset-0 w-full h-full object-cover" />
+                  <div key={`c-${tick}`} style={lqipBgStyle(imgOf(currentIndex), focusOf(currentIndex))} className={`dd-photo ${prevIdx !== null ? 'dd-photo-in' : 'dd-photo-cur'} absolute inset-0`}>
+                    <ProgressiveImg src={imgOf(currentIndex)} alt={destName} data-real-photo="" style={{ objectPosition: focusOf(currentIndex) }} className="dd-img absolute inset-0 w-full h-full object-cover" />
                   </div>
                 </div>
                 <div className="home-dest-veil absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/5" />
-                {/* the design's own colour panels (panel sands) — they cover, expand and slide away */}
-                <div className="dd-blk dd-blk-1" aria-hidden="true" />
-                <div className="dd-blk dd-blk-2" aria-hidden="true" />
-                <div className="dd-blk dd-blk-3" aria-hidden="true" />
                 <div ref={fitRoot} className="on-photo dd-panel absolute inset-x-0 bottom-0 text-white">
                   {prevIdx !== null && WebInner(prevIdx, 'out')}
                   {WebInner(currentIndex, prevIdx !== null ? 'in' : 'static')}

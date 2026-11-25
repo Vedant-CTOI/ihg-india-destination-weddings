@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { lqipBgStyle, prefetchHomepageImages } from './progressiveImages';
 import { HeroSectionClassic } from './HeroSectionClassic';
 import { useMobileLayout } from './useMobileLayout';
 
@@ -132,26 +133,75 @@ const HeroSectionCinematic: React.FC = () => {
   const handleNext = () => goTo((currentIndex + 1) % totalSlides, 1);
   const handlePrev = () => goTo((currentIndex - 1 + totalSlides) % totalSlides, -1);
 
-  // Touch swipe (existing behaviour): left -> next, right -> previous
+  // Touch swipe with live damped finger-follow:
+  // Swiping right→left (dx < 0) advances to Next moving R→L (dir = -1);
+  // Swiping left→right (dx > 0) goes to Prev moving L→R (dir = 1).
+  // Auto-swipe (onAnimationEnd -> handleNext) stays unchanged (L→R push-scroll).
   const touchStartX = useRef<number | null>(null);
-  const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
+  const touchStartY = useRef<number | null>(null);
+  const touchAxis = useRef<'h' | 'v' | null>(null);
+  const dragTargetRef = useRef<number>(0);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touchStartX.current = t.clientX;
+    touchStartY.current = t.clientY;
+    touchAxis.current = null;
+    dragTargetRef.current = 0;
+    setIsPaused(true);
+  };
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const t = e.touches[0];
+    const dx = t.clientX - touchStartX.current;
+    const dy = t.clientY - touchStartY.current;
+    if (touchAxis.current === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+      touchAxis.current = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+    }
+    if (touchAxis.current === 'h') {
+      // Subtle damped horizontal follow within the existing 1.06x image overscan (zero edge gap)
+      dragTargetRef.current = Math.max(-56, Math.min(56, dx * 0.28));
+    }
+  };
   const onTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const dx = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(dx) > 40) { if (dx < 0) handleNext(); else handlePrev(); }
+    const startX = touchStartX.current;
+    const axis = touchAxis.current;
     touchStartX.current = null;
+    touchStartY.current = null;
+    touchAxis.current = null;
+    dragTargetRef.current = 0;
+    setIsPaused(false);
+    if (startX === null || axis === 'v') return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) {
+        // Finger swiped right -> left: next slide enters from the right (R->L)
+        goTo((currentIndex + 1) % totalSlides, -1);
+      } else {
+        // Finger swiped left -> right: previous slide enters from the left (L->R)
+        goTo((currentIndex - 1 + totalSlides) % totalSlides, 1);
+      }
+    }
+  };
+  const onTouchCancel = () => {
+    touchStartX.current = null;
+    touchStartY.current = null;
+    touchAxis.current = null;
+    dragTargetRef.current = 0;
+    setIsPaused(false);
   };
 
-  // Preload all slide images so the wipe never reveals a blank frame
+  // Preload all slide images + remaining homepage photos seamlessly in the background
   useEffect(() => {
-    slides.forEach((s) => { const i = new Image(); i.src = s.image; });
+    slides.forEach((s) => { const i = new Image(); i.decoding = 'async'; i.src = s.image; });
+    prefetchHomepageImages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Scroll parallax (image drifts slower than the page, copy lifts & fades) + pointer drift
   useEffect(() => {
     let raf = 0;
-    let pointerX = 0, pointerY = 0, curX = 0, curY = 0;
+    let pointerX = 0, pointerY = 0, curX = 0, curY = 0, curDrag = 0;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const tick = () => {
@@ -162,9 +212,10 @@ const HeroSectionCinematic: React.FC = () => {
         const live = !document.documentElement.classList.contains('hero-intro');
         curX += ((live ? pointerX : 0) - curX) * 0.06;
         curY += ((live ? pointerY : 0) - curY) * 0.06;
+        curDrag += (dragTargetRef.current - curDrag) * 0.22;
         if (imageLayerRef.current) {
           imageLayerRef.current.style.transform =
-            `translate3d(${curX * -14}px, ${y * 0.32 + curY * -10}px, 0) scale(1.06)`;
+            `translate3d(${curX * -14 + curDrag}px, ${y * 0.32 + curY * -10}px, 0) scale(1.06)`;
         }
         if (contentRef.current) {
           const p = y / h;
@@ -196,7 +247,9 @@ const HeroSectionCinematic: React.FC = () => {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
+      onTouchCancel={onTouchCancel}
       className={`cine grain relative overflow-hidden h-[100svh] min-h-[640px] text-white select-none ${intro ? 'hero-intro-run' : ''} ${introGo ? 'hi-go' : ''}`}
       style={{ backgroundColor: '#000' }}
       aria-label="IHG Weddings Splash Screen Carousel"
@@ -216,6 +269,7 @@ const HeroSectionCinematic: React.FC = () => {
           return (
             <div
               key={isActive ? `${slide.id}-in-${cycle}` : `${slide.id}-out-${cycle}`}
+              style={lqipBgStyle(slide.image, slide.focus || 'center')}
               className={`absolute inset-0 overflow-hidden ${slide.realPhoto ? 'hero-real' : ''} ${isActive ? 'z-10' : 'z-0'} ${moveCls} ${
                 isActive && prevIndex === null && cycle === 0 ? 'hi-mask' : ''
               }`}
@@ -223,6 +277,9 @@ const HeroSectionCinematic: React.FC = () => {
               <img
                 src={slide.image}
                 alt={`${slide.tagline} - ${slide.locationLabel}`}
+                loading="eager"
+                decoding="async"
+                fetchPriority={idx === 0 ? 'high' : 'auto'}
                 style={{ objectPosition: slide.focus || 'center' }}
                 className={`w-full h-full object-cover ${slide.trueColour ? '' : 'grayscale contrast-[1.1] brightness-[0.92]'} ${
                   isActive ? (prevIndex === null && cycle === 0 ? 'hi-settle' : 'hero-zoom') : ''

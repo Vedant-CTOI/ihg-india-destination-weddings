@@ -56,7 +56,6 @@ export const StoryDetailPage: React.FC<StoryDetailPageProps> = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
         <div className="on-photo absolute bottom-10 left-0 right-0">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
-            <span className="sd-badge text-[10px] uppercase inline-block mb-3">{wedding.location}</span>
             <h1 className="font-serif font-normal text-white sd-hero-title">{wedding.couple}</h1>
             <p className="sd-hero-sub text-sm font-light">{wedding.culturalConfluence}</p>
           </div>
